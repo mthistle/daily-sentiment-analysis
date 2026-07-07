@@ -12,9 +12,15 @@ The topical focus sits where product management and AI are actually reshaping ho
 
 ## What's here
 
-- `CLAUDE.md` holds the agent's operating instructions: objective, methodology, source weighting, and output structure.
-- `briefings/` holds dated intelligence briefings, rendered as standalone HTML.
+- `agent/instructions.md` holds the agent's operating instructions: objective, methodology, source weighting, and the HTML output format.
+- `agent/` is the Vercel Eve agent — model wiring, tools (web search, archive, Slack), the daily schedule, and the HTTP channel.
+- `briefings/` holds dated intelligence briefings, rendered as standalone HTML and published via GitHub Pages.
+- `CLAUDE.md` is the developer guide for running and deploying the agent.
 - The root-level `.md` and `.html` files are an early briefing kept for longitudinal comparison.
+
+## How it runs
+
+The agent is built on the [Vercel Eve](https://vercel.com) framework and runs autonomously on a daily 6am ET cron. Each run it researches the web with Tavily, drafts the briefing with GLM 5.2 (via Ollama Cloud), commits the styled HTML into `briefings/`, and posts the published GitHub Pages link to Slack for review. Setup and deploy steps are in `CLAUDE.md`.
 
 ## How it reads
 
@@ -22,6 +28,6 @@ Each briefing opens with a short executive summary covering the three-to-five hi
 
 ## Naming the obvious gap
 
-This is a single-operator agent, not a production data pipeline. It does not yet track its own longitudinal accuracy or measure how often a "rapidly emerging" call held up a month later. I am naming that because the whole premise rests on trusting the filter, and a filter that never grades itself is asking for faith it has not earned. That measurement layer is the next thing worth building.
+The automation is now in place — a deployed daily pipeline rather than a person running a prompt. What it still does not do is grade its own longitudinal accuracy: it does not yet measure how often a "rapidly emerging" call held up a month later. I am naming that because the whole premise rests on trusting the filter, and a filter that never grades itself is asking for faith it has not earned. That measurement layer is the next thing worth building.
 
-The methodology is documented in `CLAUDE.md` if you want to see exactly how a topic gets classified, or adapt the weighting to a different domain.
+The methodology is documented in `agent/instructions.md` if you want to see exactly how a topic gets classified, or adapt the weighting to a different domain.
