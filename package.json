@@ -9,10 +9,12 @@
     "build": "eve build",
     "dev": "eve dev",
     "start": "eve start",
+    "eval": "BRIEFING_DRY_RUN=1 eve eval",
     "typecheck": "tsgo"
   },
   "dependencies": {
     "@ai-sdk/openai-compatible": "^3.0.2",
+    "@vercel/blob": "^2.5.0",
     "ai": "7.0.0-beta.178",
     "eve": "^0.11.7",
     "zod": "4.4.3"

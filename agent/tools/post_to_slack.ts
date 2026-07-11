@@ -5,6 +5,8 @@ export default defineTool({
   description: "Post a message to the team's Slack channel via the configured incoming webhook.",
   inputSchema: z.object({ text: z.string().min(1) }),
   async execute({ text }) {
+    // Eval dry-run: don't spam the channel.
+    if (process.env.BRIEFING_DRY_RUN === "1") return { posted: false, dryRun: true };
     const res = await fetch(process.env.SLACK_WEBHOOK_URL!, {
       method: "POST",
       headers: { "content-type": "application/json" },

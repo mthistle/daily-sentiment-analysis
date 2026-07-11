@@ -5,9 +5,10 @@
     "moduleResolution": "NodeNext",
     "types": ["node"],
     "strict": true,
+    "allowImportingTsExtensions": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "noEmit": true
   },
-  "include": ["agent/**/*.ts", ".eve/**/*.d.ts"]
+  "include": ["agent/**/*.ts", "evals/**/*.ts", ".eve/**/*.d.ts"]
 }

@@ -152,6 +152,12 @@ export default defineTool({
 
     const html = renderHtml(docTitle, body, day);
     const htmlPath = `briefings/briefing-${day}.html`;
+
+    // Eval dry-run: render but don't commit, so eval runs don't spam the repo.
+    if (process.env.BRIEFING_DRY_RUN === "1") {
+      return { htmlUrl: `dry-run://${htmlPath}`, date: day, dryRun: true };
+    }
+
     await commitFile(htmlPath, html, `Add briefing ${day}`);
 
     // GitHub Pages (main /root): https://<owner>.github.io/<repo>/<path>
