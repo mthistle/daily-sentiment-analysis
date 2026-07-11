@@ -30,7 +30,7 @@ export default defineEval({
     const { sessionIds } = await t.target.dispatchSchedule("daily-briefing");
     await t.target.attachSession(sessionIds[0]!);
 
-    t.completed();
+    t.succeeded();
     t.toolOrder([
       "get_topic_history",
       "web_search",
