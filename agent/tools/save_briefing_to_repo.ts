@@ -105,7 +105,7 @@ export function upsertBriefingEntry(entries: BriefingEntry[], entry: BriefingEnt
 // Landing page (repo root -> served at the GitHub Pages base URL): today's
 // briefing featured up top, older ones listed below. Regenerated from the
 // manifest on every run, so it never drifts from what's actually archived.
-function renderIndexHtml(entries: BriefingEntry[]): string {
+export function renderIndexHtml(entries: BriefingEntry[]): string {
   const [latest, ...history] = entries;
   const fmt = (d: string) =>
     new Date(`${d}T00:00:00Z`).toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric", timeZone: "UTC" });
