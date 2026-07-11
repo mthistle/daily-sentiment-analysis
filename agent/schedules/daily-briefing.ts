@@ -10,7 +10,8 @@ export default defineSchedule({
     "claim is backed by a real source you retrieved this run. Then write the full briefing as <body> " +
     "HTML per the OUTPUT FORMAT (component classes and badge levels), using the history for the " +
     "Terminology Tracker and Trend Deltas sections. Then call save_briefing_to_repo with that " +
-    "bodyHtml to archive it and get the link. Then call record_topics with today's top topics " +
+    "bodyHtml plus a 1-2 sentence plain-text summary of today's top signal to archive it, update the " +
+    "landing page, and get the link. Then call record_topics with today's top topics " +
     "(definitions for new terms, evolution notes + real-team sources for known ones). Finally call " +
     "post_to_slack once with just that archive URL as the text.",
 });

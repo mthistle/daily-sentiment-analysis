@@ -10,6 +10,7 @@
     "dev": "eve dev",
     "start": "eve start",
     "eval": "BRIEFING_DRY_RUN=1 eve eval",
+    "test": "node --test test/*.test.ts",
     "typecheck": "tsgo"
   },
   "dependencies": {

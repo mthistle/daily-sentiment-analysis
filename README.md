@@ -17,6 +17,7 @@ Two things make it more than a feed:
 - `agent/` is the Vercel Eve agent — model wiring, tools (web search, topic history, archive, Slack), the daily schedule, and the HTTP channel.
 - `evals/` holds the eval suite that grades a full briefing run (structure gates + LLM-judged quality).
 - `briefings/` holds dated intelligence briefings, rendered as standalone HTML and published via GitHub Pages.
+- `index.html` (repo root) is the shareable landing page — today's briefing summary up top, an archive of past ones below. Regenerated from `briefings-index.json` on every run; that's the URL to hand to people, not the daily Slack link.
 - `CLAUDE.md` is the developer guide for running and deploying the agent.
 
 ## How it runs
@@ -57,7 +58,7 @@ cp .env.example .env.local
 | `BLOB_READ_WRITE_TOKEN` | Connect a **Blob store** to the Vercel project (dashboard → Storage → Blob), then `vercel env pull .env.local`. |
 | `ROUTE_AUTH_BASIC_PASSWORD` | Any secret you choose — it protects manual triggers of the deployed agent. |
 
-Then enable **GitHub Pages** on the repo: *Settings → Pages → Source: Deploy from a branch → `main` / `/(root)`*. That's what makes the Slack link resolve.
+Then enable **GitHub Pages** on the repo: *Settings → Pages → Source: Deploy from a branch → `main` / `/(root)`*. That's what makes the Slack link — and the shareable landing page at `https://<owner>.github.io/<repo>/` — resolve.
 
 ### 3. Connect to Vercel
 

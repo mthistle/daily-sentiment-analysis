@@ -35,6 +35,7 @@ no manual registration and no `vercel.json`.
 - `npm run dev` — run locally (`eve dev`); trigger the agent from the REPL to test end-to-end.
 - `npm run build` / `npm start` — `eve build` / `eve start`.
 - `npm run eval` — run the eval suite in dry-run mode (no GitHub commit, no Slack post).
+- `npm test` — unit tests (`node --test`) for pure logic like the landing-page manifest merge.
 - `npm run typecheck` — `tsgo` (TypeScript native preview).
 
 ## Env vars
@@ -61,7 +62,9 @@ with `curl -u $ROUTE_AUTH_BASIC_USER:$ROUTE_AUTH_BASIC_PASSWORD <url>/eve/v1/ses
 - To A/B a different Ollama model, set `EVAL_OLLAMA_MODEL` (e.g. `deepseek-v4-flash:cloud`).
 - `save_briefing_to_repo` commits directly to `GITHUB_BRANCH` — a serverless run can't `git push`,
   so archival goes through the GitHub Contents API.
-- Briefing archives are served via **GitHub Pages** (`main` / root). That Pages URL is what's posted to Slack.
+- Briefing archives are served via **GitHub Pages** (`main` / root). The per-day Pages URL is what's posted
+  to Slack; `index.html` at the repo root is a separate shareable landing page (today's briefing + a
+  history archive), regenerated every run from `briefings-index.json` — see `agent/tools/save_briefing_to_repo.ts`.
 - Blob files: `topic-trends.json` (cumulative term history; merged tool-side in `record_topics`,
   idempotent per-day) and `runs/<date>-context.json` (raw inputs captured per prod run, used as
   eval replay fixtures).
