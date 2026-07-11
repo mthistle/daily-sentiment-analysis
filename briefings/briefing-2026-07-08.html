@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Engineering Intelligence — July 8, 2026</title>
+<style>
+  :root {
+    --bg: #0f1117; --surface: #1a1d27; --surface2: #222536; --border: #2e3148;
+    --accent: #6c63ff; --accent2: #00c2a8; --accent3: #f59e0b; --accent4: #ef4444;
+    --text: #e8eaf0; --text-muted: #8b8fa8; --text-dim: #5a5d75;
+    --green: #22c55e; --yellow: #eab308; --red: #ef4444; --orange: #f97316; --blue: #3b82f6; --purple: #a855f7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.7; max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+  a { color: var(--accent2); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+  a:hover { border-bottom-color: var(--accent2); }
+  .header { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 36px; }
+  .header-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; margin-bottom: 6px; }
+  .header-meta { color: var(--text-muted); font-size: 13px; }
+  .section-title { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 44px 0 18px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .exec-summary { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 24px 26px; margin-bottom: 8px; }
+  .exec-summary h2 { font-size: 15px; font-weight: 700; margin-bottom: 14px; color: var(--text); }
+  .signal-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+  .signal-num { background: var(--accent); color: white; font-size: 11px; font-weight: 700; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .signal-text { color: var(--text); line-height: 1.6; }
+  .sentiment-bar-container { margin-top: 18px; }
+  .sentiment-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+  .sentiment-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .sentiment-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #ef4444 0%, #eab308 40%, #22c55e 75%); width: 64%; }
+  .sentiment-caption { font-size: 11px; color: var(--text-muted); margin-top: 5px; }
+  .trend-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 22px 24px; margin-bottom: 18px; }
+  .trend-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .badge { display: inline-flex; align-items: center; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; white-space: nowrap; }
+  .badge-label { color: var(--text-muted); font-weight: 400; margin-right: 4px; font-size: 9px; }
+  .m-explosive { background: rgba(239,68,68,0.18); color: #f87171; }
+  .m-high { background: rgba(245,158,11,0.18); color: #fbbf24; }
+  .m-medium { background: rgba(59,130,246,0.18); color: #60a5fa; }
+  .m-low { background: rgba(139,143,168,0.18); color: #b6bad0; }
+  .s-positive { background: rgba(34,197,94,0.15); color: #4ade80; }
+  .s-mixed { background: rgba(234,179,8,0.15); color: #fde047; }
+  .s-polarizing { background: rgba(168,85,247,0.15); color: #c084fc; }
+  .s-negative { background: rgba(239,68,68,0.15); color: #f87171; }
+  .er-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .er-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .er-low { background: rgba(139,143,168,0.12); color: #b6bad0; }
+  .hr-high { background: rgba(239,68,68,0.12); color: #f87171; }
+  .hr-medium { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .hr-low { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .cl-low { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .trend-body p { margin-bottom: 10px; }
+  .trend-body strong { font-weight: 600; }
+  .field-label { color: var(--text-muted); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 14px; margin-bottom: 4px; display: block; }
+  .contrarian-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #a855f7; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .contrarian-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .declining-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #f97316; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .declining-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .watchlist-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 12px; }
+  .watchlist-name { font-size: 14px; font-weight: 700; color: var(--accent2); margin-bottom: 6px; }
+  .implication-block { border-left: 2px solid var(--accent3); padding: 10px 0 10px 16px; margin-bottom: 12px; }
+  .implication-type { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent3); font-weight: 700; margin-bottom: 4px; }
+  .long-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+  .long-icon { font-size: 13px; margin-top: 2px; width: 24px; flex-shrink: 0; color: var(--accent2); font-weight: 700; }
+  .sources-section { margin-top: 52px; border-top: 1px solid var(--border); padding-top: 24px; }
+  .sources-section h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 700; margin-bottom: 14px; }
+  .sources-list { list-style: none; }
+  .sources-list li { font-size: 12px; color: var(--text-muted); margin-bottom: 7px; display: flex; gap: 8px; }
+  .sources-list li .src-num { color: var(--text-dim); flex-shrink: 0; width: 24px; }
+  .sources-list li a { font-size: 12px; color: var(--text-muted); }
+  .sources-list li a:hover { color: var(--accent2); }
+  .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text-dim); text-align: center; }
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-label">Daily Intelligence Briefing</div>
+  <h1>AI Engineering Intelligence</h1>
+  <div class="header-meta">Wednesday, July 8, 2026 &middot; 5-minute read &middot; Signal over noise</div>
+</header>
+
+<div class="section-title">Executive Summary</div>
+<div class="exec-summary">
+  <h2>Top 5 Highest-Signal Developments</h2>
+  <div class="signal-row"><div class="signal-num">1</div><div class="signal-text"><strong><a href="https://x.ai/news/grok-4-5">SpaceXAI ships Grok 4.5</a> — the first SpaceXAI-Cursor joint model.</strong> An "Opus-class" coding/agentic model at $2/$6 per million tokens (vs. Opus 4.8's $5/$25) reframes the frontier as cost-and-efficiency, not peak capability.</div></div>
+  <div class="signal-row"><div class="signal-num">2</div><div class="signal-text"><strong><a href="https://huggingface.co/meituan-longcat/LongCat-2.0">Meituan open-sources LongCat-2.0</a>, a 1.6T-parameter MoE agentic-coding model.</strong> It scores 59.5 on SWE-bench Pro — beating Gemini 3.1 Pro (54.2), GPT-5.5 (58.6), and Claude Opus 4.6 (57.3) — with 1M-token context and domestic-chip inference code. A credible self-hostable frontier alternative is now in the open.</div></div>
+  <div class="signal-row"><div class="signal-num">3</div><div class="signal-text"><strong><a href="https://www.anthropic.com/institute/recursive-self-improvement">Anthropic discloses 80% of its production code is Claude-Code-generated</a>.</strong> The recursive-self-improvement blog reveals Claude Code went from <5% (Feb 2025) to 80% (May 2026) of code added to Anthropic's own production codebase — a hard data point on agent-driven SDLC saturation.</div></div>
+  <div class="signal-row"><div class="signal-num">4</div><div class="signal-text"><strong><a href="https://www.forbes.com/sites/janakirammsv/2026/07/05/agent-gateways-are-becoming-the-control-plane-for-enterprise-ai/">Agent gateways consolidate into a product category</a>.</strong> Nutanix (GA), Arcade (Azure/AWS marketplace), and Manufact (MCP hosting) all shipped governed agent-to-model/tool hops within a week — the "control plane for agents" is becoming a buy-not-build layer.</div></div>
+  <div class="signal-row"><div class="signal-num">5</div><div class="signal-text"><strong><a href="https://9to5google.com/2026/07/08/google-updating-android-bench-testing-method/">Google's Android Bench moves to the open Harbor framework</a>.</strong> Claude Fable 5 leads at 84.5 vs. GPT-5.5 at 80.2 and Gemini 3.1 Pro at 73.7 — but cost data (Fable 5: $133, Kimi K2.7 Code: $48) makes cost-per-task the new axis that matters for model selection.</div></div>
+  <div class="sentiment-bar-container">
+    <div class="sentiment-label">Practitioner Sentiment — Cautiously Positive</div>
+    <div class="sentiment-bar"><div class="sentiment-fill" style="width:62%"></div></div>
+    <div class="sentiment-caption">Real production agent deployments and shipped open weights dominate the signal; but cost/efficiency framing and governance gaps temper enthusiasm about frontier capability claims.</div>
+  </div>
+</div>
+
+<div class="section-title">Model Watch</div>
+
+<div class="trend-card">
+  <div class="trend-title">1. Grok 4.5 (SpaceXAI x Cursor)</div>
+  <div class="badges">
+    <span class="badge m-explosive"><span class="badge-label">Momentum</span>Explosive</span>
+    <span class="badge s-mixed"><span class="badge-label">Sentiment</span>Mixed</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>SpaceXAI released <a href="https://x.ai/news/grok-4-5">Grok 4.5</a>, its first model jointly trained with Cursor (acquired for $60B). Musk positioned it as "an <a href="https://x.com/elonmusk/status/2074740539874775163">Opus-class model, but faster, more token-efficient and lower cost</a>," and <a href="https://www.axios.com/2026/07/08/spacexai-grok-new-model">internal assessment</a> pegs it "roughly comparable to Opus 4.7." Available in Grok Build, all Cursor plans, and the SpaceXAI console (not yet EU) per <a href="https://www.forbes.com/sites/antoniopequenoiv/2026/07/08/spacexai-launches-grok-45-heres-whats-new-about-the-companys-strongest-model-ever/">Forbes</a>.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>Priced at <strong>$2/M input, $6/M output</strong> — vs. Opus 4.8 at $5/$25 and OpenAI GPT-5.6 Luna at $1/$6 per <a href="https://techcrunch.com/2026/07/08/spacexai-releases-grok-4-5-which-elon-describes-as-an-opus-class-model/">TechCrunch</a>. SpaceXAI claims ~2× token efficiency. On most public benchmarks Grok 4.5 still trails the top tier (Claude Fable 5, GPT-5.5) and lands around Opus 4.8 per <a href="https://gizmodo.com/new-name-new-grok-spacexai-officially-ties-its-brand-to-the-worlds-most-problematic-chatbot-2000783130">Gizmodo</a>. Pitched for coding, finance, legal, agentic tasks — explicitly not a consumer chatbot play.</p>
+    <span class="field-label">Who is using it</span><p>Default-in for all Cursor plan tiers as of launch; beta-tested at SpaceX and Tesla. No independent production postmortems yet — adoption signal is "default distribution," not "teams reporting wins."</p>
+    <span class="field-label">Engineering implication</span><p>The strategic move is coupling a model to a coding IDE's telemetry at training time. For cost-sensitive agentic loops, Grok 4.5 is now a legitimate Opus-tier alternative worth A/B-ing on your own evals — but treat vendor benchmark charts as marketing until validated. <strong>Verdict: Trial.</strong></p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. Meituan LongCat-2.0 (open-weight, 1.6T MoE)</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Meituan <a href="https://huggingface.co/meituan-longcat/LongCat-2.0">open-sourced LongCat-2.0</a> on July 6: a 1.6T-parameter Mixture-of-Experts model with ~48B average activation, native 1M-token context, purpose-built for agentic coding, with <a href="https://eu.36kr.com/en/p/3884214101324041">inference code optimized for domestic (non-Nvidia) chips</a>. Weights on HuggingFace/ModelScope; inference via SGLang.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>SWE-bench Pro <strong>59.5</strong> (beats Gemini 3.1 Pro 54.2, GPT-5.5 58.6, Claude Opus 4.6 57.3); SWE-bench Multilingual 77.3; Terminal-Bench 2.1 70.8; BrowseComp 79.9. Three engineering novelties: LongCat Sparse Attention (linear-cost for million-token context), N-gram Embedding parameter expansion, and post-training multi-teacher distillation with experts split into Agent/Reasoning/Interaction groups.</p>
+    <span class="field-label">Who is using it</span><p>Meituan is self-hosting for internal agentic-coding workloads; domestic-cluster inference (50,000-card) validated. External adoption not yet evidenced, but the SWE-bench Pro win over closed frontier models is independently reportable.</p>
+    <span class="field-label">Engineering implication</span><p>The first open-weight model to beat multiple closed frontier models on a deep-engineering coding benchmark while shipping domestic-chip inference. For teams with sufficient inference capacity or a sovereignty mandate, this is a credible self-hostable coding-agent backbone. <strong>Verdict: Trial</strong> (where you can run it); <strong>Watch</strong> otherwise for quantized/SaaS hosting.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">3. OpenAI GPT-5.6 (Sol / Terra / Luna tiers)</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-mixed"><span class="badge-label">Sentiment</span>Mixed</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>OpenAI confirmed <a href="https://9to5mac.com/2026/07/08/openai-shares-update-on-gpt-5-6-availability-after-holding-back-release/">GPT-5.6 Sol/Terra/Luna wide release on July 9</a>, after a U.S. government-requested limited release. The Sol/Terra/Luna naming introduces durable capability tiers that advance on independent cadences.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>Pricing tiers: Sol ~$5/$30, Luna $1/$6 per million tokens (from <a href="https://techcrunch.com/2026/07/08/spacexai-releases-grok-4-5-which-elon-describes-as-an-opus-class-model/">TC pricing roundup</a>). On Android Bench, GPT-5.5 sits at 80.2 (behind Fable 5's 84.5) per <a href="https://9to5google.com/2026/07/08/google-updating-android-bench-testing-method/">9to5Google</a> — GPT-5.6 numbers not yet on a public leaderboard.</p>
+    <span class="field-label">Who is using it</span><p>Codex/ChatGPT user base at launch; trusted-partner preview phase just ended. No production case studies yet.</p>
+    <span class="field-label">Engineering implication</span><p>The tier naming lets you pin a model to a cost/capability slot and upgrade within-tier without re-architecting prompts — useful for agent routing logic. Benchmark the new tiers against your own evals before migrating. <strong>Verdict: Trial</strong> the Luna tier for high-volume agent steps; hold Sol for hardest tasks.</p>
+  </div>
+</div>
+
+<div class="section-title">Agent Engineering &amp; AI SDLC</div>
+
+<div class="trend-card">
+  <div class="trend-title">1. Agent Gateways / the agent control-plane layer</div>
+  <div class="badges">
+    <span class="badge m-explosive"><span class="badge-label">Momentum</span>Explosive</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>A new stack layer — the agent gateway — is consolidating fast. <a href="https://www.nutanix.com/blog/introducing-nutanix-agent-gateway">Nutanix Agent Gateway shipped GA</a> in Enterprise AI 2.7 (model routing, failover, MCP tool filtering); <a href="https://www.arcade.dev/blog/arcade-azure-aws-marketplace">Arcade</a> put its agent authorization/tool-execution runtime on Azure &amp; AWS marketplaces (July 3); <a href="https://manufact.com/">Manufact</a> opened an MCP-server hosting cloud (July 2) — per <a href="https://www.forbes.com/sites/janakirammsv/2026/07/05/agent-gateways-are-becoming-the-control-plane-for-enterprise-ai/">Forbes</a>. Vercel's own <a href="https://techcrunch.com/2026/07/06/vercel-ceo-guillermo-rauch-on-the-fight-to-split-off-models-from-agents/">AI gateway</a> now routes >1T tokens/day.</p>
+    <span class="field-label">Why it matters</span><p>Ungoverned agents hitting production systems is the #1 cited blocker to scaling beyond pilots. A governed hop gives you one place for auth, rate limits, tool permissions, cost caps, and audit logs — the precondition for multi-agent production. The category is going from "MCP gateway" toward an "agentic mesh" for agent-to-agent discovery per <a href="https://www.csoonline.com/article/4193274/identity-the-operational-control-plane-for-agentic-ai.html">CSO Online</a>.</p>
+    <span class="field-label">Evidence from real teams</span><p><a href="https://www.itnews.com.au/news/cba-to-take-ai-orchestration-agent-beyond-its-retail-bank-627249">Commonwealth Bank</a> is extending a Copilot-Studio/Dynamics-365/Foundry orchestration agent bank-wide after resolving 84.6% of messaging interactions end-to-end in-channel (May 2026). Rubrik is <a href="https://insider.govtech.com/california/events/securing-claude-playbook-for-governing-coding-agents">productizing real-time governance of Claude Code</a> actions.</p>
+    <span class="field-label">Engineering implication</span><p>Build vs buy is closing toward buy for the gateway layer. Standardize your agents behind one gateway now even if homegrown, so you can swap to a GA vendor without re-plumbing. <strong>Verdict: Adopt</strong> the pattern; <strong>Trial</strong> a vendor (Nutanix for on-prem, Arcade for auth, Vercel for cloud-native).</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. Recursive self-improvement &amp; agent-written production code</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-polarizing"><span class="badge-label">Sentiment</span>Polarizing</span>
+    <span class="badge er-low"><span class="badge-label">Production Ready</span>Low</span>
+    <span class="badge hr-high"><span class="badge-label">Hype Risk</span>High</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p><a href="https://www.anthropic.com/institute/recursive-self-improvement">Anthropic's institute post</a> on recursive self-improvement (RSI) disclosed a concrete data point: 80% of code added to Anthropic's own production codebase in May 2026 was generated by Claude Code (up from <5% at Claude Code's Feb 2025 launch) per <a href="https://theconversation.com/is-recursive-self-improvement-the-dawning-of-ai-superintelligence-287081">The Conversation</a>. Anthropic stresses "we are not there yet" on RSI but warns it "could come sooner than most institutions are prepared for."</p>
+    <span class="field-label">Why it matters</span><p>The 80% figure is the strongest published signal that frontier labs are operating their SDLC inside the regime they're building for customers. Separately, <a href="https://www.wired.com/story/frontier-labs-arent-the-only-ones-pursuing-self-improving-ai/">WIRED documented</a> individual practitioners running self-improvement loops via Karpathy's <a href="https://github.com/karpathy/autoresearch">AutoResearch</a> and Prime Intellect — RSI is no longer lab-only.</p>
+    <span class="field-label">Evidence from real teams</span><p>Anthropic (internal SDLC); <a href="https://www.jpost.com/business-and-innovation/tech-and-start-ups/article-901956">Fiverr data shows 938% global surge</a> in demand for Claude Code freelancers (2,267% in Israel), indicating the workflow skill is commodifying fast. <a href="https://africa.businessinsider.com/news/perplexity-is-quietly-building-an-ai-coding-tool-to-take-on-cursor-and-claude-code/zyv7qs5">Perplexity's internal "Teammate"</a> coding agent (model-agnostic, used since May) signals another entrant in long-horizon engineering agents.</p>
+    <span class="field-label">Engineering implication</span><p>Plan for AI-authored production code as the default, not the exception — invest in review gates, traceability, and reproducible agent action logs. The RSI framing itself is high-hype; the actionable signal is the SDLC-saturation curve. <strong>Verdict: Adopt</strong> agent-in-the-loop code review; <strong>Watch</strong> true RSI claims skeptically.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">3. Cost-per-task as the new model-selection axis</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Google's <a href="https://android-developers.googleblog.com/2026/07/android-bench-llm-measurement.html">Android Bench update</a> (now on the open <a href="https://developer.android.com/bench">Harbor framework</a>) publishes cost alongside accuracy — and the cost spread is extreme. Per <a href="https://9to5google.com/2026/07/08/google-updating-android-bench-testing-method/">9to5Google</a>: Claude Fable 5 scores 84.5 at $133/run; Kimi K2.7 Code scores 70.4 at $48/run; Gemini 3.5 Flash scores 71.1 but costs $165 and takes 28h. CNBC frames the whole race as <a href="https://www.cnbc.com/2026/07/10/the-ai-race-is-shifting-from-bigger-models-to-cheaper-smarter-systems.html">"shifting from bigger models to cheaper, smarter systems."</a></p>
+    <span class="field-label">Why it matters</span><p>For agent workloads, accuracy-per-dollar and latency-per-task dominate raw benchmark scores. The new lineup also brings open weights into the same leaderboard (GLM 5.2, Kimi K2.7 Code, Qwen 3.7 Plus/Max, MiniMax M3) — direct closed-vs-open cost comparison is now standard.</p>
+    <span class="field-label">Evidence from real teams</span><p>Google itself is shifting projects to agentic development and its own models rank 5th — a public admission that cost/efficiency, not brand, drives internal tool choice. <a href="https://techcrunch.com/2026/07/10/hugging-faces-ceo-on-why-companies-are-done-renting-their-ai/">Hugging Face's CEO reports</a> Fortune 500 firms moving off rented APIs to self-hosted open models as usage scales.</p>
+    <span class="field-label">Engineering implication</span><p>Add cost-per-successful-task to your eval harness; route by tier (hardest→Fable/Sol, high-volume→Grok 4.5/GPT-5.6 Luna/Kimi). Harbor is now a reusable open harness — adopt it for your own dev-task benchmarks. <strong>Verdict: Adopt.</strong></p>
+  </div>
+</div>
+
+<div class="section-title">Terminology Tracker</div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.forbes.com/sites/janakirammsv/2026/07/05/agent-gateways-are-becoming-the-control-plane-for-enterprise-ai/">Agent Gateway</a> — EVOLVING (first seen 2026-07-07)</div><p>From an unnamed "layer between agents and tools" to a consolidated product category with GA offerings (Nutanix) and marketplace distribution (Arcade on Azure/AWS). Meaning is narrowing toward "governed model+tool routing with auth, rate-limit, failover, and audit," distinct from a plain MCP server. Real teams: <a href="https://www.nutanix.com/blog/introducing-nutanix-agent-gateway">Nutanix</a>, <a href="https://www.arcade.dev/blog/arcade-azure-aws-marketplace">Arcade</a>, <a href="https://manufact.com/">Manufact</a>, <a href="https://techcrunch.com/2026/07/06/vercel-ceo-guillermo-rauch-on-the-fight-to-split-off-models-from-agents/">Vercel</a>.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.csoonline.com/article/4193274/identity-the-operational-control-plane-for-agentic-ai.html">Agentic Mesh</a> — NEW</div><p><strong>Definition:</strong> A distributed architecture where specialized agents discover, coordinate, and collaborate without a central controller, with intent-based communication rules enforced via certificates and revocable permissions. Positioned as the successor to centralized MCP gateways for agent-to-agent communication. Coined/pressed by identity-security practitioners (CSO Online, July 2026) responding to governance gaps in multi-agent systems. Differs from "agent gateway" (a hop) by being peer-to-peer and controller-less.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.anthropic.com/institute/recursive-self-improvement">Recursive Self-Improvement (RSI)</a> — EVOLVING (first seen 2026-07-07)</div><p>Shifted from abstract safety concept to a concrete, measured engineering regime: Anthropic's 80% AI-authored production code is the first hard SDLC-saturation data point. Practitioner experiments (Karpathy <a href="https://github.com/karpathy/autoresearch">AutoResearch</a>, Prime Intellect per <a href="https://www.wired.com/story/frontier-labs-arent-the-only-ones-pursuing-self-improving-ai/">WIRED</a>) show the loop is now reproducible outside labs. Hype risk rising as the term gets conflated with "superintelligence."</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://techcrunch.com/2026/07/06/vercel-ceo-guillermo-rauch-on-the-fight-to-split-off-models-from-agents/">Agent Sandbox (Vercel Sandbox)</a> — EVOLVING (first seen 2026-07-07)</div><p>Pattern hardening: isolate an agent in a policy-enforced cage that preserves freedom to act while controlling data egress/access. Vercel pairs it with "Eve" (natural-language agent instructions/skills). Real usage: Vercel's own hundreds of internal agents; cited risk is coding IDEs training on full codebases.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://huggingface.co/meituan-longcat/LongCat-2.0">LongCat Sparse Attention (LSA)</a> — NEW</div><p><strong>Definition:</strong> Meituan's attention variant that reduces traditional squared computational overhead to linear complexity for ultra-long (1M-token) contexts, used in LongCat-2.0. Adjacent to existing linear/sub-quadratic attention work but shipped inside a production open-weight agentic-coding model with benchmark evidence.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.csoonline.com/article/4194548/agentic-ai-identity-a-6-stage-maturity-model-for-non-human-identities.html">Non-Human Identity (NHI) maturity model</a> — NEW</div><p><strong>Definition:</strong> A 6-stage maturity framework for governing agent identities, distinguishing them from static service accounts because agent scope is runtime-decided, not design-time-fixed. Driven by real incidents (an LLM deployment agent causing a 4h outage via a malformed config push) and <a href="https://www.gartner.com/en/newsroom/press-releases/2026-02-05-gartner-identifies-the-top-cybersecurity-trends-for-2026">Gartner's 2026 cyber trends</a> naming agent oversight + IAM adaptation as top forces.</p></div>
+
+<div class="section-title">Trend Deltas</div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Agentic Mesh</strong> — first seen today; entered tracking.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>LongCat Sparse Attention</strong> — first seen today; entered tracking.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>NHI maturity model</strong> — first seen today; entered tracking.</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>Agent Gateway</strong> — accelerating vs. prior sightings (first seen 2026-07-07; now GA product + marketplace distribution + trillion-token/day gateway).</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>Recursive Self-Improvement</strong> — accelerating (first seen 2026-07-07; now backed by Anthropic's 80% production-code data point + reproducible practitioner loops).</div></div>
+<div class="long-row"><div class="long-icon">&#8593;</div><div><strong>Cost-per-task model selection</strong> — up; Android Bench now publishes cost, framing shifts industry-wide (CNBC).</div></div>
+<div class="long-row"><div class="long-icon">&#8594;</div><div><strong>MCP</strong> — flat-to-evolving; still the tool-discovery standard but gateway/mesh layers are being built on top of it rather than replacing it.</div></div>
+<div class="long-row"><div class="long-icon">&#8681;</div><div><strong>Peak-capability framing</strong> — going quiet; "biggest model wins" narrative losing to cost/efficiency as Grok 4.5 and LongCat-2.0 compete on price-per-capability.</div></div>
+
+<div class="section-title">Strategic Implications</div>
+<div class="implication-block"><div class="implication-type">Adopt</div><p>Standardize all agents behind a single gateway/control-plane layer (homegrown or vendor) for auth, routing, tool permissions, cost caps, and audit — the pattern is now GA and the risk of ungoverned production agents is documented by real outages. Add cost-per-successful-task and latency to your eval harness using the open Harbor framework. Treat AI-authored code as the default production path: invest in agent-aware review, traceability, and reproducible action logs.</p></div>
+<div class="implication-block"><div class="implication-type">Trial</div><p>Grok 4.5 as an Opus-tier, cost-optimized step in agent loops (validate on your own evals, not vendor charts). GPT-5.6 Luna for high-volume agent steps, Sol reserved for hardest tasks. LongCat-2.0 for self-hostable agentic coding where you have inference capacity or a sovereignty mandate. A GA agent-gateway vendor (Nutanix on-prem, Arcade for auth, Vercel for cloud-native).</p></div>
+<div class="implication-block"><div class="implication-type">Watch</div><p>Agentic mesh as the successor to centralized MCP gateways for multi-agent coordination — still early, certificate/identity standards unsettled. Non-Human Identity maturity models for agent identity governance — frameworks forming but not yet standardized. Perplexity "Teammate" and the broader long-horizon coding-agent field — multiple credible entrants, no production evidence yet.</p></div>
+<div class="implication-block"><div class="implication-type">30-90 Day Watchlist</div><p>Independent production postmortems of Grok 4.5 in Cursor workflows; third-party LongCat-2.0 quantization/hosting that lowers the deployment bar; whether GPT-5.6 Sol/Terra/Luna tiers hold stable on independent benchmarks; agentic-mesh reference implementations from named teams; agent-identity standards convergence (NHI vs service-account treatment).</p></div>
+
+<div class="sources-section"><h2>Sources</h2><ol class="sources-list">
+  <li><span class="src-num">[1]</span><a href="https://x.ai/news/grok-4-5">SpaceXAI — "Grok 4.5"</a></li>
+  <li><span class="src-num">[2]</span><a href="https://www.axios.com/2026/07/08/spacexai-grok-new-model">Axios — "Scoop: SpaceXAI releases new model, Grok 4.5"</a></li>
+  <li><span class="src-num">[3]</span><a href="https://techcrunch.com/2026/07/08/spacexai-releases-grok-4-5-which-elon-describes-as-an-opus-class-model/">TechCrunch — "SpaceXAI releases Grok 4.5"</a></li>
+  <li><span class="src-num">[4]</span><a href="https://www.forbes.com/sites/antoniopequenoiv/2026/07/08/spacexai-launches-grok-45-heres-whats-new-about-the-companys-strongest-model-ever/">Forbes — "SpaceXAI Launches Grok 4.5"</a></li>
+  <li><span class="src-num">[5]</span><a href="https://gizmodo.com/new-name-new-grok-spacexai-officially-ties-its-brand-to-the-worlds-most-problematic-chatbot-2000783130">Gizmodo — "New Name, New Grok"</a></li>
+  <li><span class="src-num">[6]</span><a href="https://huggingface.co/meituan-longcat/LongCat-2.0">Hugging Face — Meituan LongCat-2.0 weights</a></li>
+  <li><span class="src-num">[7]</span><a href="https://eu.36kr.com/en/p/3884214101324041">36Kr — "China's first trillion-parameter open-source model"</a></li>
+  <li><span class="src-num">[8]</span><a href="https://9to5mac.com/2026/07/08/openai-shares-update-on-gpt-5-6-availability-after-holding-back-release/">9to5Mac — "OpenAI shares update on GPT-5.6 availability"</a></li>
+  <li><span class="src-num">[9]</span><a href="https://9to5google.com/2026/07/08/google-updating-android-bench-testing-method/">9to5Google — "Google updating Android Bench testing method"</a></li>
+  <li><span class="src-num">[10]</span><a href="https://arstechnica.com/google/2026/07/google-revamps-android-ai-dev-benchmark-adds-fable-5-and-other-agents/">Ars Technica — "Google updates Android Bench with new LLMs"</a></li>
+  <li><span class="src-num">[11]</span><a href="https://android-developers.googleblog.com/2026/07/android-bench-llm-measurement.html">Google Android Developers Blog — Android Bench update</a></li>
+  <li><span class="src-num">[12]</span><a href="https://www.anthropic.com/institute/recursive-self-improvement">Anthropic Institute — "Recursive self-improvement"</a></li>
+  <li><span class="src-num">[13]</span><a href="https://theconversation.com/is-recursive-self-improvement-the-dawning-of-ai-superintelligence-287081">The Conversation — "Is recursive self-improvement the dawning of AI superintelligence?"</a></li>
+  <li><span class="src-num">[14]</span><a href="https://www.wired.com/story/frontier-labs-arent-the-only-ones-pursuing-self-improving-ai/">WIRED — "I Built a Self-Improving AI, and So Can You"</a></li>
+  <li><span class="src-num">[15]</span><a href="https://github.com/karpathy/autoresearch">GitHub — karpathy/autoresearch</a></li>
+  <li><span class="src-num">[16]</span><a href="https://www.forbes.com/sites/janakirammsv/2026/07/05/agent-gateways-are-becoming-the-control-plane-for-enterprise-ai/">Forbes — "Agent Gateways Are Becoming The Control Plane For Enterprise AI"</a></li>
+  <li><span class="src-num">[17]</span><a href="https://www.nutanix.com/blog/introducing-nutanix-agent-gateway">Nutanix — "Introducing Nutanix Agent Gateway"</a></li>
+  <li><span class="src-num">[18]</span><a href="https://www.arcade.dev/blog/arcade-azure-aws-marketplace">Arcade — Azure &amp; AWS marketplace launch</a></li>
+  <li><span class="src-num">[19]</span><a href="https://manufact.com/">Manufact — MCP hosting cloud</a></li>
+  <li><span class="src-num">[20]</span><a href="https://www.csoonline.com/article/4193274/identity-the-operational-control-plane-for-agentic-ai.html">CSO Online — "Identity: The operational control plane for agentic AI"</a></li>
+  <li><span class="src-num">[21]</span><a href="https://www.csoonline.com/article/4194548/agentic-ai-identity-a-6-stage-maturity-model-for-non-human-identities.html">CSO Online — "Agentic AI identity: A 6-stage maturity model"</a></li>
+  <li><span class="src-num">[22]</span><a href="https://www.gartner.com/en/newsroom/press-releases/2026-02-05-gartner-identifies-the-top-cybersecurity-trends-for-2026">Gartner — Top Cybersecurity Trends 2026</a></li>
+  <li><span class="src-num">[23]</span><a href="https://techcrunch.com/2026/07/06/vercel-ceo-guillermo-rauch-on-the-fight-to-split-off-models-from-agents/">TechCrunch — "Vercel CEO Guillermo Rauch on splitting models from agents"</a></li>
+  <li><span class="src-num">[24]</span><a href="https://www.itnews.com.au/news/cba-to-take-ai-orchestration-agent-beyond-its-retail-bank-627249">iTnews — "CBA to take AI orchestration agent beyond its retail bank"</a></li>
+  <li><span class="src-num">[25]</span><a href="https://insider.govtech.com/california/events/securing-claude-playbook-for-governing-coding-agents">GovTech — "Securing Claude: Playbook for Governing Coding Agents"</a></li>
+  <li><span class="src-num">[26]</span><a href="https://africa.businessinsider.com/news/perplexity-is-quietly-building-an-ai-coding-tool-to-take-on-cursor-and-claude-code/zyv7qs5">Business Insider — "Perplexity is quietly building an AI coding tool"</a></li>
+  <li><span class="src-num">[27]</span><a href="https://www.jpost.com/business-and-innovation/tech-and-start-ups/article-901956">Jerusalem Post — "A 2,267% surge in demand for this profession"</a></li>
+  <li><span class="src-num">[28]</span><a href="https://www.cnbc.com/2026/07/10/the-ai-race-is-shifting-from-bigger-models-to-cheaper-smarter-systems.html">CNBC — "The AI race is shifting from bigger models to cheaper, smarter systems"</a></li>
+  <li><span class="src-num">[29]</span><a href="https://techcrunch.com/2026/07/10/hugging-faces-ceo-on-why-companies-are-done-renting-their-ai/">TechCrunch — "Hugging Face's CEO on why companies are done renting their AI"</a></li>
+  <li><span class="src-num">[30]</span><a href="https://developer.android.com/bench">Google — Android Bench (Harbor framework)</a></li>
+</ol></div>
+<div class="footer">AI Engineering Intelligence &nbsp;&middot;&nbsp; 2026-07-08 &nbsp;&middot;&nbsp; Automated daily run &nbsp;&middot;&nbsp; Signal over noise</div>
+</body>
+</html>
