@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Engineering Intelligence — July 15, 2026</title>
+<style>
+  :root {
+    --bg: #0f1117; --surface: #1a1d27; --surface2: #222536; --border: #2e3148;
+    --accent: #6c63ff; --accent2: #00c2a8; --accent3: #f59e0b; --accent4: #ef4444;
+    --text: #e8eaf0; --text-muted: #8b8fa8; --text-dim: #5a5d75;
+    --green: #22c55e; --yellow: #eab308; --red: #ef4444; --orange: #f97316; --blue: #3b82f6; --purple: #a855f7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.7; max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+  a { color: var(--accent2); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+  a:hover { border-bottom-color: var(--accent2); }
+  .header { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 36px; }
+  .header-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; margin-bottom: 6px; }
+  .header-meta { color: var(--text-muted); font-size: 13px; }
+  .section-title { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 44px 0 18px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .exec-summary { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 24px 26px; margin-bottom: 8px; }
+  .exec-summary h2 { font-size: 15px; font-weight: 700; margin-bottom: 14px; color: var(--text); }
+  .signal-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+  .signal-num { background: var(--accent); color: white; font-size: 11px; font-weight: 700; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .signal-text { color: var(--text); line-height: 1.6; }
+  .sentiment-bar-container { margin-top: 18px; }
+  .sentiment-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+  .sentiment-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .sentiment-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #ef4444 0%, #eab308 40%, #22c55e 75%); width: 64%; }
+  .sentiment-caption { font-size: 11px; color: var(--text-muted); margin-top: 5px; }
+  .trend-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 22px 24px; margin-bottom: 18px; }
+  .trend-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .badge { display: inline-flex; align-items: center; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; white-space: nowrap; }
+  .badge-label { color: var(--text-muted); font-weight: 400; margin-right: 4px; font-size: 9px; }
+  .m-explosive { background: rgba(239,68,68,0.18); color: #f87171; }
+  .m-high { background: rgba(245,158,11,0.18); color: #fbbf24; }
+  .m-medium { background: rgba(59,130,246,0.18); color: #60a5fa; }
+  .m-low { background: rgba(139,143,168,0.18); color: #b6bad0; }
+  .s-positive { background: rgba(34,197,94,0.15); color: #4ade80; }
+  .s-mixed { background: rgba(234,179,8,0.15); color: #fde047; }
+  .s-polarizing { background: rgba(168,85,247,0.15); color: #c084fc; }
+  .s-negative { background: rgba(239,68,68,0.15); color: #f87171; }
+  .er-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .er-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .er-low { background: rgba(139,143,168,0.12); color: #b6bad0; }
+  .hr-high { background: rgba(239,68,68,0.12); color: #f87171; }
+  .hr-medium { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .hr-low { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .cl-low { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .trend-body p { margin-bottom: 10px; }
+  .trend-body strong { font-weight: 600; }
+  .field-label { color: var(--text-muted); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 14px; margin-bottom: 4px; display: block; }
+  .contrarian-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #a855f7; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .contrarian-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .declining-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #f97316; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .declining-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .watchlist-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 12px; }
+  .watchlist-name { font-size: 14px; font-weight: 700; color: var(--accent2); margin-bottom: 6px; }
+  .implication-block { border-left: 2px solid var(--accent3); padding: 10px 0 10px 16px; margin-bottom: 12px; }
+  .implication-type { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent3); font-weight: 700; margin-bottom: 4px; }
+  .long-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+  .long-icon { font-size: 13px; margin-top: 2px; width: 24px; flex-shrink: 0; color: var(--accent2); font-weight: 700; }
+  .sources-section { margin-top: 52px; border-top: 1px solid var(--border); padding-top: 24px; }
+  .sources-section h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 700; margin-bottom: 14px; }
+  .sources-list { list-style: none; }
+  .sources-list li { font-size: 12px; color: var(--text-muted); margin-bottom: 7px; display: flex; gap: 8px; }
+  .sources-list li .src-num { color: var(--text-dim); flex-shrink: 0; width: 24px; }
+  .sources-list li a { font-size: 12px; color: var(--text-muted); }
+  .sources-list li a:hover { color: var(--accent2); }
+  .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text-dim); text-align: center; }
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-label">Daily Intelligence Briefing</div>
+  <h1>AI Engineering Intelligence</h1>
+  <div class="header-meta">Wednesday, July 15, 2026 &middot; 5-minute read &middot; Signal over noise</div>
+</header>
+
+<div class="section-title">Executive Summary</div>
+<div class="exec-summary">
+  <h2>Top 5 Highest-Signal Developments</h2>
+  <div class="signal-row"><div class="signal-num">1</div><div class="signal-text"><strong><a href="https://techcrunch.com/2026/07/09/openai-launches-its-new-family-of-models-with-gpt-5-6/">GPT-5.6 went GA after a government-held limited preview</a>.</strong> OpenAI's first model release under mandatory DoD review sets a new release-governance precedent and lands Sol within one point of Claude Fable 5 on the Artificial Analysis index at ~1/3 the cost.</div></div>
+  <div class="signal-row"><div class="signal-num">2</div><div class="signal-text"><strong><a href="https://www.theatlantic.com/technology/2026/07/glm-5-2-china-cheap-ai-agents/687828/">GLM-5.2 (Zhipu/Z.ai) is the open-weight agentic coding model Western engineers are actually praising</a>.</strong> 744B-MoE / 40B-active, 1M context, near-frontier on coding and cyber benchmarks — a credible free alternative to Claude Code at a moment of enterprise "AI sticker shock."</div></div>
+  <div class="signal-row"><div class="signal-num">3</div><div class="signal-text"><strong><a href="https://www.cnbc.com/2026/07/12/goldman-sachs-picks-its-favorite-chinese-ai-models.html">Goldman Sachs initiated formal coverage ranking Chinese open-weight labs</a>.</strong> Zhipu (GLM), DeepSeek, and ByteDance placed above Alibaba/Tencent on time-to-market and Arena score — sell-side now treating open-weight models as investable infrastructure, not a novelty.</div></div>
+  <div class="signal-row"><div class="signal-num">4</div><div class="signal-text"><strong><a href="https://www.forbes.com/sites/viviantoh/2026/07/13/tencents-hy3-bets-on-ai-agents-over-model-size/">Tencent Hy3 bets the agent-optimized path over raw scale</a>.</strong> 295B-MoE / 21B-active with strong BrowseComp/MCP-Atlas scores and a 5.4% hallucination rate — proof that a deployment-efficiency-first thesis is shipping, distinct from the GLM coding thesis.</div></div>
+  <div class="signal-row"><div class="signal-num">5</div><div class="signal-text"><strong><a href="https://www.darkreading.com/identity-access-management-security/ai-agents-new-kind-identity-most-organizations-not-ready">Non-human identity (NHI) governance for agents is becoming the production gating problem</a>.</strong> A 6-stage maturity model, real K8s-outage postmortems, and "22 agent projects per org" data show IAM adaptation — not model choice — is now the blocker for safe agent rollout.</div></div>
+  <div class="sentiment-bar-container">
+    <div class="sentiment-label">Practitioner Sentiment — Cautiously Positive but Cost-Anxious</div>
+    <div class="sentiment-bar"><div class="sentiment-fill" style="width:62%"></div></div>
+    <div class="sentiment-caption">Model quality is genuinely advancing and open-weights are competitive, but enterprise bill shock (Uber, Citi, Meta throttling) is reshaping every adoption decision around cost-per-task.</div>
+  </div>
+</div>
+
+<div class="section-title">Model Watch</div>
+
+<div class="trend-card">
+  <div class="trend-title">1. OpenAI GPT-5.6 (Sol / Terra / Luna)</div>
+  <div class="badges">
+    <span class="badge m-explosive"><span class="badge-label">Momentum</span>Explosive</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>GPT-5.6 reached general availability on July 9 after a U.S. Department of Commerce review held the model to a government-approved limited preview for two weeks. This is the first frontier release under Trump's June 2 executive order requiring voluntary pre-release sharing with the DoD's <a href="https://www.axios.com/2026/07/08/openai-gpt-trump-ban-lifted">Center for AI Standards and Innovation</a>, establishing a new (currently voluntary) release-governance norm. The family introduces a new naming scheme: a generation number plus durable capability tiers — <strong>Sol</strong> (flagship), <strong>Terra</strong> (balanced), <strong>Luna</strong> (fast/cheap) — that can advance on independent cadences (<a href="https://9to5mac.com/2026/07/08/openai-shares-update-on-gpt-5-6-availability-after-holding-back-release/">9to5Mac</a>).</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>On the <a href="https://artificialanalysis.ai/evaluations/artificial-analysis-intelligence-index">Artificial Analysis Intelligence Index</a>, Sol scores 59 vs Claude Fable 5's 59.9, while Sol leads the Coding Agent Index at 80 and posts 91.9% on Terminal-Bench 2.1 (<a href="https://www.forbes.com/sites/anishasircar/2026/07/10/openais-gpt-56-lands-with-work-agents-and-a-desktop-pivot/">Forbes</a>). Altman claims Sol is <a href="https://www.cnbc.com/video/2026/07/09/openais-newest-ai-model-is-54-percent-more-efficient-on-agentic-tasks-than-anthropics-latest-altman-tells-cnbc.html">54% more token-efficient on agentic coding</a> than Anthropic's latest. New reasoning modes: <strong>Max</strong> (extra compute) and <strong>Ultra</strong> (four parallel sub-agents). Pricing: Sol $5/$30, Terra $2.50/$15, Luna $1/$6 per 1M in/out tokens. OpenAI also calls it its "strongest cybersecurity model yet" (blue-teaming, patching, code review).</p>
+    <span class="field-label">Who is using it</span><p>OpenAI reports ~100% of internal teams now run on the new <a href="https://openai.com/chatgpt-work/">ChatGPT Work</a> agent (ChatGPT + Codex merged into a desktop "superapp" with browser and computer control), with finance teams compressing month-end close from days to hours (<a href="https://www.forbes.com/sites/anishasircar/2026/07/10/openais-gpt-56-lands-with-work-agents-and-a-desktop-pivot/">Forbes</a>). Independent early testers (MagicPath CEO Pietro Schirano, T3 Chat's Theo Browne) praise computer-use and speed; contrarian note from investor Matt Shumer: "for almost every task I tested, <a href="https://x.com/mattshumer_/status/2074720356510609788">Fable was quite a bit better</a>."</p>
+    <span class="field-label">Engineering implication</span><p>The Sol/Terra/Luna tiering is the real structural change — it lets teams route by cost tier instead of model version, and the durable-tier framing means you can build routing logic that survives future generations. Run a real cost-per-completed-task eval against your current Claude/OpenAI split before migrating; Sol's token-efficiency claim, if it holds on your workloads, is the strongest migration argument. <strong>Verdict: Adopt Sol for coding/computer-use workloads; Trial the tiered-routing pattern; Watch Ultra mode economics.</strong></p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. GLM-5.2 (Zhipu / Z.ai) — the open-weight agentic coding contender</div>
+  <div class="badges">
+    <span class="badge m-explosive"><span class="badge-label">Momentum</span>Explosive</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Beijing-based Zhipu (Z.ai) released GLM-5.2 as an open-weight model that Western practitioners are treating as the first Chinese model to credibly match — and on coding sometimes beat — top U.S. frontier models. Guillermo Rauch (Vercel) said he was "genuinely impressed, almost shocked" by its coding; Marc Andreessen called it "the first Chinese AI model to match and often beat" top public U.S. models (<a href="https://www.theatlantic.com/technology/2026/07/glm-5-2-china-cheap-ai-agents/687828/">The Atlantic</a>). It arrives exactly as enterprises throttle expensive model spend.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>744B-MoE with ~40B active parameters, 1M-token context window, free/open-weight. On coding it posts SWE-bench Verified 84.2%, Terminal-Bench 2.1 81%, DeepSWE 46.2% — leading Tencent Hy3 and competitive with Opus 4.8 / GPT-5.5 (<a href="https://www.forbes.com/sites/viviantoh/2026/07/13/tencents-hy3-bets-on-ai-agents-over-model-size/">Forbes</a>). Security firms <a href="https://semgrep.dev/blog/2026/we-have-mythos-at-home-glm-52-beats-claude-in-our-cyber-benchmarks/">Semgrep</a> ("We Have Mythos at Home") and <a href="https://www.graphistry.com/blog/glm-5-2-cybersecurity-open-model">Graphistry</a> found it proficient at vulnerability identification, beating Claude on their internal cyber benchmarks. Graphistry suggests it may be distilled from GPT-5.5/Opus 4.8.</p>
+    <span class="field-label">Who is using it</span><p>Goldman Sachs analysts initiated coverage of Hong Kong-listed Zhipu with a HK$1,880 target, citing "significant ramp-up in domestic enterprise &amp; global SME adoption" and coder usage driving frequent upgrades — ranking GLM above Alibaba, Tencent, and Minimax on time-to-market and Arena score (<a href="https://www.cnbc.com/2026/07/12/goldman-sachs-picks-its-favorite-chinese-ai-models.html">CNBC</a>). Caveat from <a href="https://www.businessinsider.com/chinese-glm-52-ai-model-test-2026-7">Business Insider's hands-on test</a>: noticeably slower and capacity-constrained on the public endpoint.</p>
+    <span class="field-label">Engineering implication</span><p>GLM-5.2 is the first open-weight model worth a serious self-hosted coding-agent eval for cost-constrained teams — its 1M context and cyber capability make it a credible fallback or fine-tuning base. Treat the distillation-suspicion and the lack of safety guardrails when self-hosted as a governance line item, not a blocker. <strong>Verdict: Trial for cost-pressured coding/cyber workloads; validate self-host latency before production.</strong></p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">3. SpaceXAI Grok 4.5 — the price-disruptor entry</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-mixed"><span class="badge-label">Sentiment</span>Mixed</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Grok 4.5 is the first model from SpaceXAI (post-IPO, post-Cursor acquisition), trained alongside Cursor and pitched at coding/agentic/office work. Musk frames it as "an Opus-class model, but faster, more token-efficient and lower cost," roughly comparable to Claude Opus 4.7 (<a href="https://techcrunch.com/2026/07/08/spacexai-releases-grok-4-5-which-elon-describes-as-an-opus-class-model/">TechCrunch</a>, <a href="https://www.axios.com/2026/07/08/spacexai-grok-new-model">Axios</a>). Notably it was not caught in the government review that held GPT-5.6 and Fable/Mythos.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>Priced at $2/$6 per 1M in/out tokens — vs Opus 4.8 $5/$25 and Fable 5 $10/$50 — claiming ~2× token efficiency over leading models. Available in Grok Build, all Cursor plans, and the SpaceXAI console (not yet EU). It trails Fable 5 and GPT-5.5/5.6 on most benchmarks and lands around Opus 4.8, which is now a couple generations back (<a href="https://gizmodo.com/new-name-new-grok-spacexai-officially-ties-its-brand-to-the-world-s-most-problematic-chatbot-2000783130">Gizmodo</a>).</p>
+    <span class="field-label">Who is using it</span><p>Shipped directly into Cursor across all plans, giving it immediate distribution to a large coding population — the most concrete production-channel evidence of the week. SpaceXAI is simultaneously leasing compute to Anthropic and Google ($26B/yr), creating an internal capacity-allocation tension worth watching (<a href="https://www.axios.com/2026/07/08/spacexai-grok-new-model">Axios</a>).</p>
+    <span class="field-label">Engineering implication</span><p>Grok 4.5's value proposition is unit economics, not capability leadership — relevant for high-volume, latency-sensitive coding tasks where Opus-class quality at a fraction of the cost matters. Benchmark on your own workloads before trusting vendor charts. <strong>Verdict: Trial as a cost-tier routing option in Cursor/agentic coding; Skip as a frontier-quality pick.</strong></p>
+  </div>
+</div>
+
+<div class="trend-title" style="margin-top:24px;font-size:1.15rem;font-weight:700;">Also shipping this week</div>
+<p style="margin:8px 0 0 0;"><strong>Meta Muse Spark 1.1</strong> — Meta Superintelligence Labs' closed agentic coding model, $1.25/$4.25 per 1M tokens, positioned on tool-use/computer-use and large code migrations (<a href="https://techcrunch.com/2026/07/09/meta-enters-the-crowded-ai-coding-battle-with-muse-spark-1-1/">TechCrunch</a>). SemiAnalysis notes Muse Spark lagged DeepSeek v4 Pro and Kimi K2.6 at debut but argues MSL's <a href="https://newsletter.semianalysis.com/p/the-future-of-meta-superintelligence">slope, not intercept</a>, matters — Meta may pass Google within six months on data+talent+compute. <strong>Verdict: Watch.</strong></p>
+
+<div class="section-title">Agent Engineering &amp; AI SDLC</div>
+
+<div class="trend-card">
+  <div class="trend-title">1. Non-Human Identity (NHI) governance for agents</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-low"><span class="badge-label">Production Ready</span>Low</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>A 6-stage NHI maturity model and repeated real-world incident postmortems crystallize the idea that agents are a new identity class that conventional IAM (service accounts, API tokens) cannot govern. Gartner named both <em>agentic AI oversight</em> (Trend 1) and <em>IAM adaptation to AI agents</em> (Trend 4) as 2026's defining cyber-risk shifts (<a href="https://www.csoonline.com/article/4194548/agentic-ai-identity-a-6-stage-maturity-model-for-non-human-identities.html">CSO Online</a>). Dark Reading reports an average of <a href="https://www.darkreading.com/identity-access-management-security/ai-agents-new-kind-identity-most-organizations-not-ready">22 distinct agent projects per organization</a>, with the SDLC/dev environment the most ungoverned.</p>
+    <span class="field-label">Why it matters</span><p>A documented case: an LLM deployment agent with standing K8s access pushed a malformed config and caused a 4-hour outage, yet incident review could not identify which human authorized the agent's last action. Agents act at machine speed, adapt, and run unattended — breaking both the human-speed and deterministic-behavior assumptions underpinning existing governance.</p>
+    <span class="field-label">Evidence from real teams</span><p>Cloudflare data shows agentic bots now generate 57.4% of all web requests (<a href="https://www.accountingtoday.com/opinion/when-agents-outnumber-accountants-building-a-new-operating-model-for-cpa-firms">Accounting Today</a>); AvePoint finds ~9 in 10 orgs have AI visibility gaps that have nearly tripled as agents scale; Rubrik is productizing real-time agent-action governance (Agent Cloud) for Claude Code (<a href="https://insider.govtech.com/california/events/securing-claude-playbook-for-governing-coding-agents">GovTech webinar</a>).</p>
+    <span class="field-label">Engineering implication</span><p>This is the gating control for any agent touching production systems. Treat each agent as a first-class identity with scoped, revocable credentials, per-action audit, and a human authorization owner before rollout — not as a service account. <strong>Verdict: Adopt the NHI model now as a design requirement; it is cheaper to build in than to retrofit after an incident.</strong></p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. Custom agentic alignment — the 3Ps (Purpose, Principles, Practices)</div>
+  <div class="badges">
+    <span class="badge m-medium"><span class="badge-label">Momentum</span>Medium</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Gadi Singer proposes "custom agentic alignment" as a tailored layer beyond generic safety: an organizational intent stack across <strong>purpose, principles, and practices</strong> (the 3Ps), crossed with three levels — universal, domain, custom. The thesis is that onboarding an agent should resemble onboarding an employee (culture, policies, workflows, reporting) rather than installing a tool (<a href="https://towardsdatascience.com/the-three-dimensions-of-custom-agentic-alignment-purpose-principles-and-practices/">Towards Data Science</a>).</p>
+    <span class="field-label">Why it matters</span><p>It names a concrete, recurring gap: generic refusal/safety norms are insufficient for agents operating under domain-specific regulatory and operational constraints. The 3Ps give a vocabulary for the guardrails engineers already hand-build into system prompts and policy files — turning ad hoc prompt-engineering into a reviewable alignment artifact.</p>
+    <span class="field-label">Evidence from real teams</span><p>Still primarily a framework/concept piece rather than shipped-tooling evidence; corroboration comes from the parallel NHI and AISec discourse converging on the same "agent-as-insider-threat" framing. No named production team has published a 3Ps case study yet.</p>
+    <span class="field-label">Engineering implication</span><p>Use the 3Ps as a structuring checklist for your system-prompt and policy design — purpose (what the agent is for), principles (decision rules), practices (procedures/escalation). Low overhead, real organizational payoff. <strong>Verdict: Adopt as a design vocabulary; Watch for tooling that enforces it.</strong></p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">3. AI Software Security (AISec) &amp; AI-driven SDLC hardening</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-polarizing"><span class="badge-label">Sentiment</span>Polarizing</span>
+    <span class="badge er-low"><span class="badge-label">Production Ready</span>Low</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Forbes argues for "AISec" as a new discipline because the protected object has changed: software is increasingly generated, tested, and operated by AI, so appsec assumptions (human-authored code, deterministic tools) no longer hold (<a href="https://www.forbes.com/sites/timbajarin/2026/07/13/aisec-the-new-security-imperative-for-the-ai-driven-enterprise/">Forbes</a>). Monash University's app-security lead reports AI has made vulnerability detection faster but remediation lag persists — "AI is a force multiplier for delivering digital products, while the security aspects are still catching up" (<a href="https://www.itnews.com.au/news/how-monash-university-is-tackling-the-ai-driven-app-security-gap-625805">iTnews</a>). Anthropic disclosed that <a href="https://www.anthropic.com/institute/recursive-self-improvement">80% of code added to its production codebase in May 2026 was Claude-Code-generated</a> (under human supervision), up from <5% at Claude Code's Feb 2025 launch.</p>
+    <span class="field-label">Why it matters</span><p>The 80%-AI-authored-code figure is the single most consequential SDLC datapoint this week: it means review pipelines, supply-chain controls, and remediation tooling must be re-architected for machine-generated, machine-operated code at scale.</p>
+    <span class="field-label">Evidence from real teams</span><p>Anthropic (recursive self-improvement disclosure), Monash (40 dev teams, 500K IP addresses), and the Rubrik/GovTech coding-agent governance work all point to a real, shipped problem — though "AISec" as a named discipline is currently more framing than mature tooling.</p>
+    <span class="field-label">Engineering implication</span><p>Invest in AI-aware code review and remediation gating now; assume a rapidly rising share of your diff will be model-authored. <strong>Verdict: Adopt AI-generated-code review controls; Watch the AISec tooling category as it formalizes.</strong></p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">4. "Claude-ification" of enterprise agentic assistants</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-mixed"><span class="badge-label">Sentiment</span>Mixed</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Moor Insights identifies a "Claude-ification" wave: look-alike desktop agents modeled on Claude Cowork (the agentic Claude Code architecture in a desktop app with local-file access, skills, and custom MCP connectors) now shipping from Microsoft (Copilot Cowork) and Amazon (Quick), aimed at non-power-user employees (<a href="https://www.forbes.com/sites/moorinsights/2026/07/08/sizing-up-the-first-generation-of-enterprise-agentic-assistants/">Forbes</a>).</p>
+    <span class="field-label">Why it matters</span><p>It defines what enterprise-capable now means: centralized provisioning, robust memory/personal-context stores, model/connector flexibility, and data protection — capabilities Claude Cowork trades configurability for, and that the enterprise entrants still lack (limited agent mobility, superficial governance, interoperability gaps).</p>
+    <span class="field-label">Evidence from real teams</span><p>The assessment is vendor-analyst testing rather than a named customer case study; signals converge with OpenAI's ChatGPT Work (same Cowork-competitor pattern) and the broader desktop-superapp consolidation.</p>
+    <span class="field-label">Engineering implication</span><p>For enterprise rollout, the differentiator is the agentic control plane (provisioning, governance, connectors), not the model. Pick the assistant whose governance/provisioning model fits your org, not the one with the best demo. <strong>Verdict: Trial enterprise assistants against a control-plane checklist; power users stay on Claude Cowork.</strong></p>
+  </div>
+</div>
+
+<div class="section-title">Terminology Tracker</div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://9to5mac.com/2026/07/08/openai-shares-update-on-gpt-5-6-availability-after-holding-back-release/">GPT-5.6 Sol/Terra/Luna tiering</a> — NEW</div><p><strong>Definition:</strong> OpenAI's new naming scheme where the number is the generation and Sol/Terra/Luna are durable capability tiers (flagship / balanced / fast-cheap) that advance on independent cadences. Differs from prior version-number-only naming by making cost/latency tiers a stable routing dimension — engineers can route by tier across future generations.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.theatlantic.com/technology/2026/07/glm-5-2-china-cheap-ai-agents/687828/">GLM-5.2</a> — NEW</div><p><strong>Definition:</strong> Zhipu/Z.ai's open-weight 744B-MoE (~40B active) model with 1M-token context, the first Chinese open model praised by Western engineers as near-frontier on agentic coding and cybersecurity tasks. Its significance is cost disruption (free/self-hostable) intersecting enterprise AI bill shock.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.forbes.com/sites/viviantoh/2026/07/13/tencents-hy3-bets-on-ai-agents-over-model-size/">Tencent Hy3</a> — NEW</div><p><strong>Definition:</strong> Tencent's 295B-MoE / 21B-active, 256K-context model explicitly optimized for real-world agents and enterprise productivity over benchmark supremacy — strong on BrowseComp/MCP-Atlas and hallucination (5.4%) but trailing on heavy coding. Names a distinct "agent-optimized, efficiency-first" thesis from China vs GLM's coding-thesis.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.csoonline.com/article/4194548/agentic-ai-identity-a-6-stage-maturity-model-for-non-human-identities.html">Non-Human Identity (NHI) governance</a> — NEW</div><p><strong>Definition:</strong> The discipline of provisioning, monitoring, governing, and deprovisioning AI agents as a new identity class — distinct from service accounts/API tokens because agents act adaptively, at machine speed, and unattended. A 6-stage maturity model and scoped-revocation/per-action-audit requirements are emerging as the production gating control for agents.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://towardsdatascience.com/the-three-dimensions-of-custom-agentic-alignment-purpose-principles-and-practices/">Custom agentic alignment (3Ps)</a> — NEW</div><p><strong>Definition:</strong> Gadi Singer's framework for an organizational alignment layer beyond generic safety: Purpose (what the agent is for), Principles (decision rules), Practices (procedures/escalation), across universal/domain/Custom levels. Treats agent onboarding like employee onboarding; differs from prompt engineering by making guardrails a reviewable artifact.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.forbes.com/sites/timbajarin/2026/07/13/aisec-the-new-security-imperative-for-the-ai-driven-enterprise/">AISec (AI Software Security)</a> — NEW</div><p><strong>Definition:</strong> A proposed security discipline for software that is AI-generated, AI-tested, and AI-operated, where appsec assumptions (human-authored, deterministic tooling) no longer hold. Names the gap between AI-accelerated vulnerability detection and lagging remediation in an AI-driven SDLC.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.forbes.com/sites/moorinsights/2026/07/08/sizing-up-the-first-generation-of-enterprise-agentic-assistants/">Claude-ification</a> — NEW</div><p><strong>Definition:</strong> The wave of enterprise desktop agents (Microsoft Copilot Cowork, Amazon Quick, OpenAI ChatGPT Work) modeled on Anthropic's Claude Cowork — agentic architecture with local-file access, skills, and MCP connectors — competing on governance/provisioning over configurability.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.anthropic.com/institute/recursive-self-improvement">Recursive self-improvement</a> — NEW (engineering lens)</div><p><strong>Definition:</strong> AI systems improving themselves by editing their own code. Engineering-relevant signal: Anthropic reports Claude Code now authors 80% of its production codebase (May 2026, under supervision), making AI-driven SDLC and its governance controls operationally real rather than theoretical.</p></div>
+
+<div class="section-title">Trend Deltas</div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>GPT-5.6 Sol/Terra/Luna</strong> — first seen today; entered tracking as the new tier-based model-routing pattern.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>GLM-5.2</strong> — first seen today; entered tracking as the open-weight agentic-coding disruptor.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Tencent Hy3</strong> — first seen today; entered tracking as the agent-optimized, efficiency-first model thesis.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Non-Human Identity (NHI) governance</strong> — first seen today; entered tracking as the production gating control for agents.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Custom agentic alignment (3Ps)</strong> — first seen today; entered tracking as an alignment-design vocabulary.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>AISec</strong> — first seen today; entered tracking as the security-discipline framing for AI-driven SDLC.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Claude-ification</strong> — first seen today; entered tracking as the enterprise-assistant convergence pattern.</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>Open-weight Chinese models</strong> — accelerating: GLM-5.2, Hy3, and Goldman's sell-side coverage mark a structural shift from novelty to investable infra this week.</div></div>
+<div class="long-row"><div class="long-icon">&#8593;</div><div><strong>Grok 4.5</strong> — up: first post-IPO/post-Cursor release, aggressive price positioning, but trails frontier quality.</div></div>
+<div class="long-row"><div class="long-icon">&#8681;</div><div><strong>Meta Muse Spark</strong> — going quiet-ish: closed model lagging open peers at debut, though SemiAnalysis flags a strong 6-month slope.</div></div>
+
+<div class="section-title">Strategic Implications</div>
+<div class="implication-block"><div class="implication-type">Adopt</div><p>NHI governance as a hard design requirement for any production agent — scoped/revocable credentials, per-action audit, named human owner. Cost-tier routing using Sol/Terra/Luna-style durable tiers. AI-generated-code review controls ahead of the rising model-authored diff share (Anthropic's 80% datapoint is the canary).</p></div>
+<div class="implication-block"><div class="implication-type">Trial</div><p>GLM-5.2 for cost-pressured coding/cyber workloads (validate self-host latency and distillation/guardrail governance). Grok 4.5 as a cost-tier option in Cursor/agentic coding. Enterprise agentic assistants (Copilot Cowork, Amazon Quick, ChatGPT Work) scored against a control-plane checklist.</p></div>
+<div class="implication-block"><div class="implication-type">Watch</div><p>The new voluntary DoD pre-release review process — if it formalizes, it changes frontier release cadence and availability. SpaceXAI's compute-allocation tension (own models vs leasing to rivals). Meta MSL's 6-month slope per SemiAnalysis. The AISec tooling category as it formalizes beyond framing.</p></div>
+<div class="implication-block"><div class="implication-type">30-90 Day Watchlist</div><p>Whether GLM-5.2/Hy3 open-weight momentum translates to self-hosted production deployments at named Western teams (not just praise). Whether GPT-5.6 Ultra (4 parallel sub-agents) economics hold at scale. Whether NHI tooling (Rubrik Agent Cloud, others) gets a de-facto standard. Whether enterprise AI bill shock drives a measurable migration toward open-weight or cheaper-tier models.</p></div>
+
+<div class="sources-section"><h2>Sources</h2><ol class="sources-list">
+  <li><span class="src-num">[1]</span><a href="https://techcrunch.com/2026/07/09/openai-launches-its-new-family-of-models-with-gpt-5-6/">TechCrunch — "OpenAI launches its new family of models with GPT-5.6"</a></li>
+  <li><span class="src-num">[2]</span><a href="https://www.theverge.com/ai-artificial-intelligence/963464/openai-gpt-5-6-codex-chatgpt-work">The Verge — "OpenAI rolls out GPT-5.6 after government greenlight"</a></li>
+  <li><span class="src-num">[3]</span><a href="https://www.axios.com/2026/07/08/openai-gpt-trump-ban-lifted">Axios — "Trump administration lifts restrictions on OpenAI's GPT 5.6"</a></li>
+  <li><span class="src-num">[4]</span><a href="https://9to5mac.com/2026/07/08/openai-shares-update-on-gpt-5-6-availability-after-holding-back-release/">9to5Mac — "OpenAI shares update on GPT-5.6 availability"</a></li>
+  <li><span class="src-num">[5]</span><a href="https://www.forbes.com/sites/anishasircar/2026/07/10/openais-gpt-56-lands-with-work-agents-and-a-desktop-pivot/">Forbes — "OpenAI's GPT-5.6 Lands With Work Agents And A Desktop Pivot"</a></li>
+  <li><span class="src-num">[6]</span><a href="https://www.cnbc.com/video/2026/07/09/openais-newest-ai-model-is-54-percent-more-efficient-on-agentic-tasks-than-anthropics-latest-altman-tells-cnbc.html">CNBC — Altman: GPT-5.6 Sol 54% more token-efficient on agentic tasks</a></li>
+  <li><span class="src-num">[7]</span><a href="https://www.theatlantic.com/technology/2026/07/glm-5-2-china-cheap-ai-agents/687828/">The Atlantic — "China's Answer to AI Sticker Shock"</a></li>
+  <li><span class="src-num">[8]</span><a href="https://www.cnbc.com/2026/07/12/goldman-sachs-picks-its-favorite-chinese-ai-models.html">CNBC — "Goldman Sachs picks its favorite Chinese AI models"</a></li>
+  <li><span class="src-num">[9]</span><a href="https://www.forbes.com/sites/viviantoh/2026/07/13/tencents-hy3-bets-on-ai-agents-over-model-size/">Forbes — "Tencent's Hy3 Bets On AI Agents Over Model Size"</a></li>
+  <li><span class="src-num">[10]</span><a href="https://semgrep.dev/blog/2026/we-have-mythos-at-home-glm-52-beats-claude-in-our-cyber-benchmarks/">Semgrep — "We Have Mythos at Home" (GLM-5.2 cyber benchmarks)</a></li>
+  <li><span class="src-num">[11]</span><a href="https://futurism.com/artificial-intelligence/open-source-ai-model-scary-mythos">Futurism — "Experts Say There's Now an Open Source AI Model as Scary as Mythos"</a></li>
+  <li><span class="src-num">[12]</span><a href="https://www.businessinsider.com/chinese-glm-52-ai-model-test-2026-7">Business Insider — "China's free AI model is giving DeepSeek déjà vu"</a></li>
+  <li><span class="src-num">[13]</span><a href="https://techcrunch.com/2026/07/08/spacexai-releases-grok-4-5-which-elon-describes-as-an-opus-class-model/">TechCrunch — "SpaceXAI releases Grok 4.5"</a></li>
+  <li><span class="src-num">[14]</span><a href="https://www.axios.com/2026/07/08/spacexai-grok-new-model">Axios — "Musk's SpaceXAI releases new model, Grok 4.5"</a></li>
+  <li><span class="src-num">[15]</span><a href="https://gizmodo.com/new-name-new-grok-spacexai-officially-ties-its-brand-to-the-world-s-most-problematic-chatbot-2000783130">Gizmodo — "New Name, New Grok"</a></li>
+  <li><span class="src-num">[16]</span><a href="https://techcrunch.com/2026/07/09/meta-enters-the-crowded-ai-coding-battle-with-muse-spark-1-1/">TechCrunch — "Meta enters the crowded AI coding battle with Muse Spark 1.1"</a></li>
+  <li><span class="src-num">[17]</span><a href="https://newsletter.semianalysis.com/p/the-future-of-meta-superintelligence">SemiAnalysis — "The Future of Meta Superintelligence: A 1 Year Progress Update"</a></li>
+  <li><span class="src-num">[18]</span><a href="https://www.csoonline.com/article/4194548/agentic-ai-identity-a-6-stage-maturity-model-for-non-human-identities.html">CSO Online — "Agentic AI identity: A 6-stage maturity model for non-human identities"</a></li>
+  <li><span class="src-num">[19]</span><a href="https://www.darkreading.com/identity-access-management-security/ai-agents-new-kind-identity-most-organizations-not-ready">Dark Reading — "AI Agents Are a New Kind of Identity &amp; Most Orgs Aren't Ready"</a></li>
+  <li><span class="src-num">[20]</span><a href="https://towardsdatascience.com/the-three-dimensions-of-custom-agentic-alignment-purpose-principles-and-practices/">Towards Data Science — "The Three Dimensions of Custom Agentic Alignment"</a></li>
+  <li><span class="src-num">[21]</span><a href="https://www.forbes.com/sites/timbajarin/2026/07/13/aisec-the-new-security-imperative-for-the-ai-driven-enterprise/">Forbes — "AISec: The New Security Imperative For The AI-Driven Enterprise"</a></li>
+  <li><span class="src-num">[22]</span><a href="https://www.itnews.com.au/news/how-monash-university-is-tackling-the-ai-driven-app-security-gap-625805">iTnews — "How Monash University is tackling the AI-driven app security gap"</a></li>
+  <li><span class="src-num">[23]</span><a href="https://www.anthropic.com/institute/recursive-self-improvement">Anthropic — "Recursive self-improvement" (80% Claude-Code-authored production code)</a></li>
+  <li><span class="src-num">[24]</span><a href="https://www.forbes.com/sites/moorinsights/2026/07/08/sizing-up-the-first-generation-of-enterprise-agentic-assistants/">Forbes/Moor Insights — "Sizing Up The First Generation Of Enterprise Agentic Assistants"</a></li>
+  <li><span class="src-num">[25]</span><a href="https://insider.govtech.com/california/events/securing-claude-playbook-for-governing-coding-agents">GovTech — "Securing Claude: Playbook for Governing Coding Agents"</a></li>
+  <li><span class="src-num">[26]</span><a href="https://www.accountingtoday.com/opinion/when-agents-outnumber-accountants-building-a-new-operating-model-for-cpa-firms">Accounting Today — "When agents outnumber accountants"</a></li>
+  <li><span class="src-num">[27]</span><a href="https://artificialanalysis.ai/evaluations/artificial-analysis-intelligence-index">Artificial Analysis — Intelligence Index</a></li>
+  <li><span class="src-num">[28]</span><a href="https://www.axios.com/2026/07/09/ai-openai-gpt-release">Axios — "OpenAI releases GPT-5.6 and ChatGPT Work tool"</a></li>
+</ol></div>
+<div class="footer">PM &amp; AI Intelligence Briefing &nbsp;&middot;&nbsp; 2026-07-15 &nbsp;&middot;&nbsp; Automated daily run &nbsp;&middot;&nbsp; Signal over noise</div>
+</body>
+</html>
