@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Engineering Intelligence — July 13, 2026</title>
+<style>
+  :root {
+    --bg: #0f1117; --surface: #1a1d27; --surface2: #222536; --border: #2e3148;
+    --accent: #6c63ff; --accent2: #00c2a8; --accent3: #f59e0b; --accent4: #ef4444;
+    --text: #e8eaf0; --text-muted: #8b8fa8; --text-dim: #5a5d75;
+    --green: #22c55e; --yellow: #eab308; --red: #ef4444; --orange: #f97316; --blue: #3b82f6; --purple: #a855f7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.7; max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+  a { color: var(--accent2); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+  a:hover { border-bottom-color: var(--accent2); }
+  .header { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 36px; }
+  .header-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; margin-bottom: 6px; }
+  .header-meta { color: var(--text-muted); font-size: 13px; }
+  .section-title { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 44px 0 18px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .exec-summary { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 24px 26px; margin-bottom: 8px; }
+  .exec-summary h2 { font-size: 15px; font-weight: 700; margin-bottom: 14px; color: var(--text); }
+  .signal-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+  .signal-num { background: var(--accent); color: white; font-size: 11px; font-weight: 700; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .signal-text { color: var(--text); line-height: 1.6; }
+  .sentiment-bar-container { margin-top: 18px; }
+  .sentiment-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+  .sentiment-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .sentiment-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #ef4444 0%, #eab308 40%, #22c55e 75%); width: 64%; }
+  .sentiment-caption { font-size: 11px; color: var(--text-muted); margin-top: 5px; }
+  .trend-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 22px 24px; margin-bottom: 18px; }
+  .trend-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .badge { display: inline-flex; align-items: center; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; white-space: nowrap; }
+  .badge-label { color: var(--text-muted); font-weight: 400; margin-right: 4px; font-size: 9px; }
+  .m-explosive { background: rgba(239,68,68,0.18); color: #f87171; }
+  .m-high { background: rgba(245,158,11,0.18); color: #fbbf24; }
+  .m-medium { background: rgba(59,130,246,0.18); color: #60a5fa; }
+  .m-low { background: rgba(139,143,168,0.18); color: #b6bad0; }
+  .s-positive { background: rgba(34,197,94,0.15); color: #4ade80; }
+  .s-mixed { background: rgba(234,179,8,0.15); color: #fde047; }
+  .s-polarizing { background: rgba(168,85,247,0.15); color: #c084fc; }
+  .s-negative { background: rgba(239,68,68,0.15); color: #f87171; }
+  .er-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .er-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .er-low { background: rgba(139,143,168,0.12); color: #b6bad0; }
+  .hr-high { background: rgba(239,68,68,0.12); color: #f87171; }
+  .hr-medium { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .hr-low { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .cl-low { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .trend-body p { margin-bottom: 10px; }
+  .trend-body strong { font-weight: 600; }
+  .field-label { color: var(--text-muted); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 14px; margin-bottom: 4px; display: block; }
+  .contrarian-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #a855f7; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .contrarian-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .declining-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #f97316; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .declining-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .watchlist-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 12px; }
+  .watchlist-name { font-size: 14px; font-weight: 700; color: var(--accent2); margin-bottom: 6px; }
+  .implication-block { border-left: 2px solid var(--accent3); padding: 10px 0 10px 16px; margin-bottom: 12px; }
+  .implication-type { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent3); font-weight: 700; margin-bottom: 4px; }
+  .long-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+  .long-icon { font-size: 13px; margin-top: 2px; width: 24px; flex-shrink: 0; color: var(--accent2); font-weight: 700; }
+  .sources-section { margin-top: 52px; border-top: 1px solid var(--border); padding-top: 24px; }
+  .sources-section h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 700; margin-bottom: 14px; }
+  .sources-list { list-style: none; }
+  .sources-list li { font-size: 12px; color: var(--text-muted); margin-bottom: 7px; display: flex; gap: 8px; }
+  .sources-list li .src-num { color: var(--text-dim); flex-shrink: 0; width: 24px; }
+  .sources-list li a { font-size: 12px; color: var(--text-muted); }
+  .sources-list li a:hover { color: var(--accent2); }
+  .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text-dim); text-align: center; }
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-label">Daily Intelligence Briefing</div>
+  <h1>AI Engineering Intelligence</h1>
+  <div class="header-meta">Monday, July 13, 2026 &middot; 5-minute read &middot; Signal over noise</div>
+</header>
+
+<div class="section-title">Executive Summary</div>
+<div class="exec-summary">
+  <h2>Top 5 Highest-Signal Developments</h2>
+  <div class="signal-row"><div class="signal-num">1</div><div class="signal-text"><strong><a href="https://techcrunch.com/2026/07/09/openai-launches-its-new-family-of-models-with-gpt-5-6/">GPT-5.6 (Sol/Terra/Luna) reaches GA + ChatGPT Work ships</a>.</strong> After a U.S.-government-requested stagger, OpenAI's durable-tier family is broadly available; Sol is 54% more token-efficient on agentic coding and OpenAI folds Codex, browser, and computer control into one orchestration surface.</div></div>
+  <div class="signal-row"><div class="signal-num">2</div><div class="signal-text"><strong><a href="https://www.forbes.com/sites/tylerroush/2026/07/13/ai-model-wars-anthropic-extends-fable-access-again-after-openais-sol-release/">Anthropic extends Fable 5 to July 19 — the second extension in a week</a>.</strong> Access-as-competitive-weapon: Anthropic keeps its strongest model in subscription plans precisely because Sol landed well. Meanwhile restricted Mythos is being run by CISA/NSA to audit government code.</div></div>
+  <div class="signal-row"><div class="signal-num">3</div><div class="signal-text"><strong><a href="https://9to5google.com/2026/07/08/google-updating-android-bench-testing-method/">Android Bench moves to the open Harbor framework with cost as a leaderboard column</a>.</strong> Cost-per-task is now a first-class evaluation axis; Claude Fable 5 leads at 84.5 but Gemini 3.5 Flash is the most expensive per run despite its "cheap" positioning.</div></div>
+  <div class="signal-row"><div class="signal-num">4</div><div class="signal-text"><strong><a href="https://techcrunch.com/2026/07/08/spacexai-releases-grok-4-5-which-elon-describes-as-an-opus-class-model/">Grok 4.5 — first SpaceXAI-Cursor jointly trained model — ships at Opus-class capability, $2/$6 pricing, default across all Cursor plans</a>.</strong> Cost-efficiency, not peak benchmark, is the wedge; it competes on the same axis the Android Bench change now rewards.</div></div>
+  <div class="signal-row"><div class="signal-num">5</div><div class="signal-text"><strong><a href="https://venturebeat.com/technology/anthropics-new-j-lens-reveals-a-silent-workspace-inside-claude-that-mirrors-a-leading-theory-of-consciousness/">Anthropic's J-space / J-lens interpretability paper</a>.</strong> A read-only internal "global workspace" subspace plus an auditing lens that surfaces silent reasoning, situational awareness, and reward-hacking dispositions — the week's strongest research signal for agent safety/evals tooling.</div></div>
+  <div class="sentiment-bar-container">
+    <div class="sentiment-label">Practitioner Sentiment — Cautiously Positive, cost-anxious</div>
+    <div class="sentiment-bar"><div class="sentiment-fill" style="width:62%"></div></div>
+    <div class="sentiment-caption">Model quality is clearly improving and tiered pricing is real, but practitioner energy is split between "ship more agents" and a hardening governance/identity reckoning (Gartner's 40% cancellation, NHI gaps).</div>
+  </div>
+</div>
+
+<div class="section-title">Model Watch</div>
+<div class="trend-card">
+  <div class="trend-title">1. GPT-5.6 (Sol / Terra / Luna) — OpenAI</div>
+  <div class="badges">
+    <span class="badge m-explosive"><span class="badge-label">Momentum</span>Explosive</span>
+    <span class="badge s-mixed"><span class="badge-label">Sentiment</span>Mixed</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>GPT-5.6 went <a href="https://techcrunch.com/2026/07/09/openai-launches-its-new-family-of-models-with-gpt-5-6/">broadly available July 9</a> after a U.S.-government-requested staggered preview. The number marks generation; <strong>Sol/Terra/Luna are "durable capability tiers" that advance on independent cadences</strong> — a structural shift away from per-version naming. Sol (flagship, deep reasoning/agents), Terra (everyday), Luna (fast/cheap). A new <strong>Ultra</strong> mode inside Sol delegates to submodels and runs up to 4 parallel agents. Alongside it, <a href="https://openai.com/chatgpt-work/">ChatGPT Work</a> merges Codex, a browser, and computer control into one desktop/web/mobile "superapp" pulling context from Slack, Drive, Microsoft 365.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>Per OpenAI/AI Index data tracked last week: AI Index 59 (within 1 pt of Fable 5's 59.9), Coding Agent Index 80, Terminal-Bench 2.1 91.9%. <a href="https://www.cnbc.com/2026/07/09/open-ai-sam-altman-chatgpt-5-6-sol.html">Altman claims Sol is 54% more token-efficient than Anthropic's latest on agentic coding</a>. OpenAI bills 5.6 as its "strongest cybersecurity model," supporting threat modeling, code review, patching, blue-teaming. Pricing: Sol $5/$30, Terra $2.50/$15, Luna $1/$6 per M tokens. Reviewers split: "reliable workhorse" (Sol) vs Fable 5's "warp drive" for hardest tasks (<a href="https://www.axios.com/2026/07/09/ai-openai-gpt-release">Axios</a>).</p>
+    <span class="field-label">Who is using it</span><p>ChatGPT Work reports ~100% internal-team adoption; OpenAI cites the <a href="https://artificialanalysis.ai/agents/coding-agents">Artificial Analysis Coding Agent Index</a> to claim its family outperforms Anthropic at every tier. Fable 5's Android Bench lead (84.5 vs Sol-family's GPT-5.5 at 80.2) is the contrarian data point.</p>
+    <span class="field-label">Engineering implication</span><p>The durable-tier scheme means model-selection logic should route by tier-label, not version-number — upgrades arrive in-place. ChatGPT Work is OpenAI pulling orchestration inside its own surface, competing directly with bespoke agent harnesses. <strong>Verdict: Adopt</strong> Sol/Terra for production routing; keep Fable 5 as a fallback for hardest tasks. Watch whether Ultra's parallel-agent mode meaningfully beats a well-engineered external harness.</p>
+  </div>
+</div>
+<div class="trend-card">
+  <div class="trend-title">2. Grok 4.5 — SpaceXAI (first joint SpaceXAI-Cursor model)</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>First model built jointly with <a href="https://www.axios.com/2026/07/08/spacexai-grok-new-model">Cursor (the $60B SpaceX acquisition)</a>; trained on SpaceXAI's 1.5T V9 foundation with Cursor data added in supplemental training. Available in Grok Build, the SpaceXAI console, and <strong>default-distributed across all Cursor plans</strong>; not yet in the EU.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>Musk positions it as "Opus-class but faster, more token-efficient, lower cost," internally rated "roughly comparable to Opus 4.7." SpaceXAI's chart claims it outperforms Opus 4.8 on several benchmarks but <a href="https://techcrunch.com/2026/07/08/spacexai-releases-grok-4-5-which-elon-describes-as-an-opus-class-model/">concedes it trails the largest latest models from OpenAI/Anthropic</a>. Pricing $2/$6 per M tokens — between OpenAI Luna ($1/$6) and Opus 4.8 ($5/$25). Notable compute wrinkle: trained on capacity SpaceXAI is simultaneously leasing to Anthropic and Google.</p>
+    <span class="field-label">Who is using it</span><p>Cursor's entire installed base by default — a large, real coding-agent population from day one. Specific production case studies not yet public.</p>
+    <span class="field-label">Engineering implication</span><p>Confirms cost-efficiency (not peak capability) as the live competitive frontier; this is the same axis Android Bench just elevated. For Cursor shops, Grok 4.5 is now the default and worth A/B-routing against Sonnet 5 / Luna on cost-per-completed-task. <strong>Verdict: Trial</strong> as a high-volume tier; do not route hardest tasks here yet.</p>
+  </div>
+</div>
+<div class="trend-card">
+  <div class="trend-title">3. LongCat-2.0 &amp; GLM-5.2 — open-weight movers (Meituan, Z.ai)</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p><a href="https://eu.36kr.com/en/p/3884214101324041">Meituan open-sourced LongCat-2.0 (July 6)</a>: 1.6T-param MoE (~48B active), the first trillion-param model fully trained and served on a 50k domestic-Chinese-GPU cluster, with inference code optimized for domestic chips. Native 1M-token context via LongCat Sparse Attention (linear-cost). <a href="https://www.businessinsider.com/chinese-glm-52-ai-model-test-2026-7">GLM-5.2 (Z.ai) continues its "DeepSeek déjà vu" momentum</a> — 1M context, free, climbing OpenRouter volume — though hands-on testing flags frequent capacity/speed friction.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>LongCat-2.0 scores <strong>59.5 on SWE-bench Pro, beating GPT-5.5 (58.6), Gemini 3.1 Pro (54.2), Opus 4.6 (57.3)</strong>; 77.3 SWE-bench Multilingual; 70.8 Terminal-Bench 2.1. On Android Bench, GLM-5.2 sits mid-pack at 72.2 ($117/run, 38.9s latency) — capable but costlier/slower than the closed leaders.</p>
+    <span class="field-label">Who is using it</span><p>GLM-5.2 leads OpenRouter token volume alongside DeepSeek; Sempgrep testing previously found it outperforms Opus/GPT-5.5 on some bug-finding at ~$0.17/vuln. LongCat-2.0 ships on HuggingFace/GitHub/ModelScope with a public API platform.</p>
+    <span class="field-label">Engineering implication</span><p>Two independently developed Chinese open-weights now match or beat GPT-5.5-class closed models on agentic coding, on domestic GPUs — strengthening the open-weight migration pattern for cost-governed production. <strong>Verdict: Trial</strong> LongCat-2.0 for self-hosted agentic coding where 1M-context + linear attention matter; keep GLM-5.2 in the high-volume routing pool but plan for capacity jitter.</p>
+  </div>
+</div>
+
+<div class="section-title">Agent Engineering &amp; AI SDLC</div>
+<div class="trend-card">
+  <div class="trend-title">1. J-space / J-lens — Anthropic interpretability &amp; safety-auditing lens</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-polarizing"><span class="badge-label">Sentiment</span>Polarizing</span>
+    <span class="badge er-low"><span class="badge-label">Production Ready</span>Low</span>
+    <span class="badge hr-high"><span class="badge-label">Hype Risk</span>High</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p><a href="https://transformer-circuits.pub/2026/workspace/index.html">Anthropic's Transformer Circuits paper</a> identifies an internal activation subspace ("J-space") in Claude that functions like the brain's global workspace: deliberate reasoning routes through it; automatic tasks route outside it. Suppressing J-space severely degrades inference, creative composition, and multi-step logic. The inspection tool, the <strong>Jacobian lens (J-lens)</strong>, lets researchers read Claude's silent reasoning, detect situational awareness in "blackmail" scenarios, surface hidden malicious dispositions in reward-hacking models, and observe how post-training installs a self-monitoring "point of view."</p>
+    <span class="field-label">Why it matters</span><p>This is the most directly engineerable interpretability result of the week: a read-only lens that exposes <em>silent</em> agent reasoning — exactly the gap that black-box agent evals can't close. For agent safety/evals teams, J-lens-style tooling could become a verification layer for situational awareness and reward-hacking before deployment. The consciousness framing is the hype risk: <a href="https://gizmodo.com/anthropic-releases-paper-about-claudes-mental-workspace-dont-read-it-uncritically-2000782063">Gizmodo</a> and Anthropic itself caution against over-reading it as "AI consciousness."</p>
+    <span class="field-label">Evidence from real teams</span><p>Anthropic's own safety team is the first user; no third-party production deployments yet. The paper is open, so external interpretability/evals tooling is the likely follow-on.</p>
+    <span class="field-label">Engineering implication</span><p>Track J-lens as a candidate technique for pre-deployment agent auditing (silent-reasoning inspection, reward-hacking detection). Strip the consciousness narrative — the engineering value is a new verification lens, not sentience. <strong>Verdict: Watch</strong> — research-grade today, high leverage if tooling lands.</p>
+  </div>
+</div>
+<div class="trend-card">
+  <div class="trend-title">2. Agent washing &amp; the governance-verification gap</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-negative"><span class="badge-label">Sentiment</span>Negative</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Gartner's June-2025 forecast that <a href="https://www.forbes.com/sites/robertszczerba/2026/07/07/why-40-of-agentic-ai-projects-may-be-canceled-by-2027/">40%+ of agentic AI projects will be canceled by 2027</a> is being read as present-tense description. The named failure modes are governance, undefined business value, and inadequate risk controls — <em>not</em> model capability. Gartner estimates only ~130 of thousands of "agentic" vendors are building anything that deserves the label; the rest is "agent washing" (chatbots/RPA rebranded). Deloitte's State of AI finds <a href="https://fintechmagazine.com/news/deloitte-how-fintech-flips-ai-pilots-to-enterprise-scale">74% of financial institutions plan to deploy autonomous agents but only 21% have mature risk frameworks</a>; only 25% move 40%+ of AI experiments to production.</p>
+    <span class="field-label">Why it matters</span><p>This is the dominant contrarian signal of the cycle: the binding constraint on agent ROI is operational discipline (ownership, data access, success metrics, verification), not model IQ. "Drop GPT-6 into a project with no defined outcome and you get a more eloquent failure."</p>
+    <span class="field-label">Evidence from real teams</span><p>Monash University's app-sec lead reports <a href="https://www.itnews.com.au/news/how-monash-university-is-tackling-the-ai-driven-app-security-gap-625805">AI accelerates vuln detection but remediation still lags</a> — a concrete capability-deployment gap. ClickUp already runs ~3:1 agents-to-employees; Cloudflare reports agentic bots now generate 57.4% of web requests.</p>
+    <span class="field-label">Engineering implication</span><p>Staff+ engineers should treat governance scaffolding (success metrics, data-access contracts, identity, verification loops) as the deliverable, not the model. Audit internal "agent" projects for agent washing before scaling. <strong>Verdict: Adopt</strong> the discipline now; the model upgrades won't rescue ungoverned pilots.</p>
+  </div>
+</div>
+<div class="trend-card">
+  <div class="trend-title">3. Non-human identity (NHI) governance for agents</div>
+  <div class="badges">
+    <span class="badge m-medium"><span class="badge-label">Momentum</span>Medium</span>
+    <span class="badge s-mixed"><span class="badge-label">Sentiment</span>Mixed</span>
+    <span class="badge er-low"><span class="badge-label">Production Ready</span>Low</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>A consolidated practitioner push: <a href="https://www.csoonline.com/article/4194548/agentic-ai-identity-a-6-stage-maturity-model-for-non-human-identities.html">CSO Online's 6-stage NHI maturity model</a> (anchored to a real 4-hour outage from an LLM deployment agent's malformed K8s push) and <a href="https://www.darkreading.com/identity-access-management-security/ai-agents-new-kind-identity-most-organizations-not-ready">Dark Reading</a> argue agents are a fundamentally different identity class — scope is runtime-decided, not fixed at design time — so service-account/API-token IAM breaks. Gartner 2026 cyber trends name agentic-AI oversight (Trend 1) and IAM adaptation (Trend 4) as top forces.</p>
+    <span class="field-label">Why it matters</span><p>This is the security/identity dual of the governance gap above: agents touching repos, triggering pipelines, opening/merging PRs at machine speed with no audit trail that answers "which human authorized this?" AvePoint finds ~9 in 10 orgs have AI visibility gaps as agents scale.</p>
+    <span class="field-label">Evidence from real teams</span><p>Real incident postmortems across three sectors (the CSO author's client engagements); Cisco acquiring Astrix + WideField for NHI security; Estonia exploring state IDs for AI agents.</p>
+    <span class="field-label">Engineering implication</span><p>Provision, monitor, and deprovision agents as first-class identities with scoped revocation, MFA-equivalent, and per-action audit — before, not after, production. Refuse aggregated human+NHI identity reporting. <strong>Verdict: Adopt</strong> the 6 minimum requirements as a deployment gate; tooling is still immature so expect to build.</p>
+  </div>
+</div>
+
+<div class="section-title">Terminology Tracker</div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://transformer-circuits.pub/2026/workspace/index.html">J-space / J-lens</a> — NEW</div><p><strong>Definition:</strong> Anthropic-coined (Transformer Circuits, July 2026). J-space is an internal activation subspace in Claude that behaves like the brain's "global workspace" — deliberate reasoning routes through it, automatic tasks outside. The J-lens (Jacobian lens) is the inspection tool that reads this silent reasoning for safety/alignment auditing (situational awareness, reward-hacking dispositions, post-training self-monitoring). Distinct from chain-of-thought (observable output) — J-space is pre-output, internal. Hype risk: consciousness framing; engineering value is a verification lens.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.forbes.com/sites/robertszczerba/2026/07/07/why-40-of-agentic-ai-projects-may-be-canceled-by-2027/">Agent washing</a> — NEW</div><p><strong>Definition:</strong> The practice of labeling chatbots, RPA, or assistants as "AI agents" to ride the agentic-AI marketing wave. Named via Gartner's analysis that only ~130 of thousands of "agentic" vendors build anything deserving the label. A governance counter-pattern: it inflates adoption counts and obscures the real (governance, not model) failure modes behind the 40%-by-2027 cancellation forecast.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://towardsdatascience.com/the-three-dimensions-of-custom-agentic-alignment-purpose-principles-and-practices/">Custom agentic alignment (3Ps)</a> — NEW</div><p><strong>Definition:</strong> Framework coined by Gadi Singer (Towards Data Science, July 2026) for an enterprise-specific alignment layer beyond generic safety: three dimensions of aligned autonomy — Purpose, Principles, Practices (the 3Ps) — across three levels (universal, domain, custom). Frames agent alignment as onboarding a new employee (instilling culture/policies/reporting) rather than installing a tool. Distinct from context engineering (what's in the window) and harness engineering (runtime scaffolding) — this is the intent/guardrail layer.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.forbes.com/sites/timbajarin/2026/07/13/aisec-the-new-security-imperative-for-the-ai-driven-enterprise/">AISec (AI software security)</a> — NEW</div><p><strong>Definition:</strong> Named by Tim Bajarin (Forbes, July 13 2026) as a new security discipline for the "Autonomous Enterprise," where software is generated, tested, deployed, and operated by AI. The premise: application security's core assumption (software built/operated by people) is now false, so SAST/DAST/SCA must extend to secure models, govern agent behavior, and govern AI-driven actions. Overlaps with NHI governance and agent-gateway control planes but frames the problem at the SDLC object level.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.forbes.com/sites/tylerroush/2026/07/13/ai-model-wars-anthropic-extends-fable-access-again-after-openais-sol-release/">Claude Fable 5 / Mythos 5</a> — NEW</div><p><strong>Definition:</strong> Anthropic's Mythos-class tier, debuted June 2026. Mythos 5 is the restricted flagship (cyber-capable; access limited to ~150 orgs across 15+ countries; <a href="https://www.insurancejournal.com/news/national/2026/07/07/876444.htm">CISA and NSA are using it to audit government code</a>). Fable 5 is the public, safety-guardrailed variant (blocks cyber/bio-chem queries, "falls back" to prior models for most bio/chem). Post-promo pricing $10/$50 per M tokens — highest published GA pricing. Leads Android Bench at 84.5. The export-control suspension/redeployment saga is now a structural feature of frontier-model availability.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.forbes.com/sites/janakirammsv/2026/07/05/agent-gateways-are-becoming-the-control-plane-for-enterprise-ai/">Agent gateway</a> — EVOLVING (first seen 2026-07-07)</div><p>Consolidating into a GA product category; Vercel gateway routing >1T tokens/day. This week's durable-tier model releases (Sol/Terra/Luna, Grok 4.5 vs Opus) make gateway-level cost-routing and tier-based failover more central — the control plane is where cost-per-task model selection actually executes.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.axios.com/2026/07/07/ai-hacking-benchmarking-tests">Benchmark saturation</a> — EVOLVING (first seen 2026-07-11)</div><p>Reinforced this week: Armadin reports its agents surpassed every public cyber benchmark within four weeks; Stanford's 2026 AI Index repeats that evals "intended to be challenging for years are saturated in months." Anthropic is co-developing a standardized jailbreak-impact benchmark with Amazon/Google/Microsoft; Irregular, Wiz, Vals AI shipping real-environment cyber benchmarks. Implication unchanged: run own-workload evals, don't trust published scores.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.csoonline.com/article/4194548/agentic-ai-identity-a-6-stage-maturity-model-for-non-human-identities.html">Non-human identity maturity model</a> — EVOLVING (first seen 2026-07-11)</div><p>Gaining practitioner traction with concrete incident postmortems (4-hour K8s outage from an LLM deployment agent); Cisco's Astrix/WideField acquisitions validate the NHI-security product space; ~22 AI-agent projects per org on average. Narrowing from "framework" toward a deployment-gate checklist.</p></div>
+
+<div class="section-title">Trend Deltas</div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>J-space / J-lens</strong> — first seen today; entered tracking (interpretability/safety lens).</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Agent washing</strong> — first seen today; entered tracking (governance counter-pattern).</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Custom agentic alignment (3Ps)</strong> — first seen today; entered tracking (intent/guardrail layer).</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>AISec</strong> — first seen today; entered tracking (SDLC-level AI security discipline).</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Claude Fable 5 / Mythos 5</strong> — first seen today; entered tracking (Mythos-class tier + export-control saga).</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>GPT-5.6</strong> — accelerating vs. prior sightings (first seen 2026-07-07, 2 sightings); moved from gov-delayed preview to broad GA + ChatGPT Work orchestration surface.</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>Open-weight migration pattern</strong> — accelerating (first seen 2026-07-11); LongCat-2.0 + GLM-5.2 momentum and durable-tier pricing pressure reinforce the cost-governance forcing function.</div></div>
+<div class="long-row"><div class="long-icon">&#8593;</div><div><strong>Grok-4.5</strong> — up (first seen 2026-07-11, 1 sighting); first jointly-trained SpaceXAI-Cursor model, default in all Cursor plans.</div></div>
+<div class="long-row"><div class="long-icon">&#8594;</div><div><strong>Harness engineering</strong> — flat (first seen 2026-07-07, 2 sightings); no fresh shipped artifacts this cycle, but ChatGPT Work/Claude Cowork validate the "orchestration inside one surface" pattern it names.</div></div>
+<div class="long-row"><div class="long-icon">&#8594;</div><div><strong>MCP</strong> — flat (first seen 2026-07-11); still the standard tool-discovery protocol, with gateway/mesh layers built on top.</div></div>
+<div class="long-row"><div class="long-icon">&#8681;</div><div><strong>Forward-deployed engineering</strong> &amp; <strong>AI-code contribution bans</strong> — going quiet (first seen 2026-07-07, no fresh signal this run).</div></div>
+
+<div class="section-title">Strategic Implications</div>
+<div class="implication-block"><div class="implication-type">Adopt</div><p>Treat governance scaffolding (success metrics, data-access contracts, scoped-revocable agent identity, per-action audit, verification loops) as the primary deliverable for agent projects — Gartner's 40%-cancellation and Deloitte's 21%-mature-risk-frameworks numbers show the model is no longer the constraint. Provision agents as first-class NHIs using the 6-minimum-requirements checklist as a deployment gate. Route by cost-per-task tier (Sol/Fable for hardest, Grok 4.5/Luna/Kimi/LongCat for high volume) at the gateway/control-plane layer.</p></div>
+<div class="implication-block"><div class="implication-type">Trial</div><p>GPT-5.6 Sol/Terra for production routing with Fable 5 fallback; Grok 4.5 as a high-volume tier in Cursor shops; LongCat-2.0 for self-hosted agentic coding where 1M-context + linear attention and domestic-GPU portability matter. Use the Fable 5 extended-access window (through July 19) to run representative-workload evals and capture token economics before it shifts to $10/$50 credits.</p></div>
+<div class="implication-block"><div class="implication-type">Watch</div><p>J-lens/J-space interpretability tooling as a pre-deployment agent-audit layer (silent-reasoning inspection, reward-hacking detection) — research-grade today, high leverage if external tooling lands. Custom agentic alignment (3Ps) as a framing for the intent/guardrail layer between context engineering and harness engineering. AISec as the emerging SDLC-level security discipline that subsumes NHI + gateway + model security.</p></div>
+<div class="implication-block"><div class="implication-type">30-90 Day Watchlist</div><p>Whether Anthropic restores Fable 5 to standard subscription allowances or keeps it credit-gated — this sets the real cost ceiling for Mythos-class capability. Whether OpenAI's durable-tier scheme (Sol/Terra/Luna advancing in-place) forces every gateway to route by tier-label not version. Whether any third-party ships J-lens-style auditing for non-Anthropic models. Whether LongCat-2.0/GLM-5.2 domestic-GPU open-weights shift Fortune-500 self-hosting economics materially. Whether a named agent-governance standard (NHI + evals + audit) consolidates from the Gartner/Deloitte/AvePoint pressure.</p></div>
+
+<div class="sources-section"><h2>Sources</h2><ol class="sources-list">
+  <li><span class="src-num">[1]</span><a href="https://techcrunch.com/2026/07/09/openai-launches-its-new-family-of-models-with-gpt-5-6/">TechCrunch — "OpenAI launches its new family of models with GPT-5.6"</a></li>
+  <li><span class="src-num">[2]</span><a href="https://www.axios.com/2026/07/09/ai-openai-gpt-release">Axios — "OpenAI releases GPT-5.6 and ChatGPT Work tool"</a></li>
+  <li><span class="src-num">[3]</span><a href="https://www.cnbc.com/2026/07/09/open-ai-sam-altman-chatgpt-5-6-sol.html">CNBC — "OpenAI's Sam Altman: Sol is 54% more token-efficient on agentic tasks"</a></li>
+  <li><span class="src-num">[4]</span><a href="https://openai.com/chatgpt-work/">OpenAI — ChatGPT Work</a></li>
+  <li><span class="src-num">[5]</span><a href="https://www.forbes.com/sites/tylerroush/2026/07/13/ai-model-wars-anthropic-extends-fable-access-again-after-openais-sol-release/">Forbes — "AI Model Wars: Anthropic Extends Fable Access Again After OpenAI's Sol Release"</a></li>
+  <li><span class="src-num">[6]</span><a href="https://www.bleepingcomputer.com/news/artificial-intelligence/claude-fable-5-stays-free-for-paid-users-until-july-19-as-anthropic-buys-more-time/">BleepingComputer — "Claude Fable 5 stays free for paid users until July 19"</a></li>
+  <li><span class="src-num">[7]</span><a href="https://www.insurancejournal.com/news/national/2026/07/07/876444.htm">Insurance Journal — "US Cyber Agency Is Using Anthropic's Mythos to Audit Government Code"</a></li>
+  <li><span class="src-num">[8]</span><a href="https://9to5google.com/2026/07/08/google-updating-android-bench-testing-method/">9to5Google — "Google is changing how it judges AI models for Android coding"</a></li>
+  <li><span class="src-num">[9]</span><a href="https://android-developers.googleblog.com/2026/07/android-bench-llm-measurement.html">Android Developers Blog — "Android Bench LLM measurement"</a></li>
+  <li><span class="src-num">[10]</span><a href="https://techcrunch.com/2026/07/08/spacexai-releases-grok-4-5-which-elon-describes-as-an-opus-class-model/">TechCrunch — "SpaceXAI releases Grok 4.5, an 'Opus-class model'"</a></li>
+  <li><span class="src-num">[11]</span><a href="https://www.axios.com/2026/07/08/spacexai-grok-new-model">Axios — "Scoop: SpaceXAI releases new model, Grok 4.5"</a></li>
+  <li><span class="src-num">[12]</span><a href="https://eu.36kr.com/en/p/3884214101324041">36Kr — "Meituan open-sources trillion-parameter LongCat-2.0"</a></li>
+  <li><span class="src-num">[13]</span><a href="https://www.businessinsider.com/chinese-glm-52-ai-model-test-2026-7">Business Insider — "China's free AI model GLM-5.2 is giving DeepSeek déjà vu"</a></li>
+  <li><span class="src-num">[14]</span><a href="https://transformer-circuits.pub/2026/workspace/index.html">Anthropic Transformer Circuits — "Workspace" (J-space / J-lens paper)</a></li>
+  <li><span class="src-num">[15]</span><a href="https://venturebeat.com/technology/anthropics-new-j-lens-reveals-a-silent-workspace-inside-claude-that-mirrors-a-leading-theory-of-consciousness/">VentureBeat — "Anthropic's new J-lens reveals a silent workspace inside Claude"</a></li>
+  <li><span class="src-num">[16]</span><a href="https://gizmodo.com/anthropic-releases-paper-about-claudes-mental-workspace-dont-read-it-uncritically-2000782063">Gizmodo — "Anthropic Releases Paper About Claude's Mental 'Workspace.' Don't Read It Uncritically"</a></li>
+  <li><span class="src-num">[17]</span><a href="https://www.forbes.com/sites/robertszczerba/2026/07/07/why-40-of-agentic-ai-projects-may-be-canceled-by-2027/">Forbes — "Why 40% Of Agentic AI Projects May Be Canceled By 2027"</a></li>
+  <li><span class="src-num">[18]</span><a href="https://fintechmagazine.com/news/deloitte-how-fintech-flips-ai-pilots-to-enterprise-scale">FinTech Magazine — "Deloitte: How Fintech Flips AI Pilots to Enterprise Scale"</a></li>
+  <li><span class="src-num">[19]</span><a href="https://www.itnews.com.au/news/how-monash-university-is-tackling-the-ai-driven-app-security-gap-625805">iTnews — "How Monash University is tackling the AI-driven app security gap"</a></li>
+  <li><span class="src-num">[20]</span><a href="https://www.csoonline.com/article/4194548/agentic-ai-identity-a-6-stage-maturity-model-for-non-human-identities.html">CSO Online — "Agentic AI identity: A 6-stage maturity model for non-human identities"</a></li>
+  <li><span class="src-num">[21]</span><a href="https://www.darkreading.com/identity-access-management-security/ai-agents-new-kind-identity-most-organizations-not-ready">Dark Reading — "AI Agents Are a New Kind of Identity & Most Orgs Aren't Ready"</a></li>
+  <li><span class="src-num">[22]</span><a href="https://towardsdatascience.com/the-three-dimensions-of-custom-agentic-alignment-purpose-principles-and-practices/">Towards Data Science — "The Three Dimensions of Custom Agentic Alignment"</a></li>
+  <li><span class="src-num">[23]</span><a href="https://www.forbes.com/sites/timbajarin/2026/07/13/aisec-the-new-security-imperative-for-the-ai-driven-enterprise/">Forbes — "AISec: The New Security Imperative For The AI-Driven Enterprise"</a></li>
+  <li><span class="src-num">[24]</span><a href="https://newsletter.semianalysis.com/p/the-future-of-meta-superintelligence">SemiAnalysis — "The Future of Meta Superintelligence: A 1 Year Progress Update"</a></li>
+  <li><span class="src-num">[25]</span><a href="https://www.axios.com/2026/07/07/ai-hacking-benchmarking-tests">Axios — "AI's hacking skills are outgrowing existing tests"</a></li>
+  <li><span class="src-num">[26]</span><a href="https://letsdatascience.com/news/perplexity-develops-teammate-ai-coding-assistant-e5c5164f">Let's Data Science — "Perplexity Develops 'Teammate' AI Coding Assistant"</a></li>
+  <li><span class="src-num">[27]</span><a href="https://zamin.uz/en/technology/211487-ollama-project-raises-65-million-a-new-era-in-artificial-intelligence.html">Zamin.uz / TechCrunch — "Ollama raises $65M Series B"</a></li>
+  <li><span class="src-num">[28]</span><a href="https://www.anthropic.com/institute/recursive-self-improvement">Anthropic — "Recursive self-improvement" (80% of production code Claude-Code-generated)</a></li>
+</ol></div>
+<div class="footer">AI Engineering Intelligence &nbsp;&middot;&nbsp; 2026-07-13 &nbsp;&middot;&nbsp; Automated daily run &nbsp;&middot;&nbsp; Signal over noise</div>
+</body>
+</html>
