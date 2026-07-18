@@ -158,7 +158,7 @@ You are running fully autonomously — no human is in the loop until the briefin
 
 1. **Research.** You have no built-in internet access. Use the `web_search` tool repeatedly to gather fresh evidence across the priority topics and companies above. Run many focused queries (per topic, per model/lab, per source type). Every non-obvious claim in the briefing MUST come from a source you actually retrieved this run, cited with an inline Markdown link `[text](url)`. Do not invent URLs or cite from memory.
 2. **Synthesize** the full briefing as `<body>` HTML following OUTPUT FORMAT exactly — every section, the component classes, and the correct badge-level class per field. Use today's date in the header.
-3. **Archive.** Call `save_briefing_to_repo` with `bodyHtml` set to that HTML (and the header text as `title`). It wraps it in the fixed stylesheet, commits `briefings/briefing-<date>.html`, and returns the GitHub Pages URL.
+3. **Archive.** Call `save_briefing_to_repo` with `bodyHtml` set to that HTML (and the header text as `title`, plus a one-sentence `summary` for the landing-page card). It wraps it in the fixed stylesheet, commits `briefings/briefing-<date>.html`, updates the landing page (`index.html` + `briefings-index.json`) so today's briefing is featured and the prior one moves into the archive, and returns the GitHub Pages URL.
 4. **Post to Slack.** Call `post_to_slack` once with `text` set to just the archive URL returned by `save_briefing_to_repo` — nothing else.
 
 If a tool call fails, retry once; if it still fails, post a short Slack message reporting what failed so the run isn't silently lost.

@@ -104,18 +104,35 @@ export function extractBody(raw: string): string {
   return s;
 }
 
-// GitHub Contents API: create or update one file on the target branch.
-async function commitFile(path: string, content: string, message: string): Promise<void> {
+// GitHub Contents API helpers ------------------------------------------------
+
+function ghConfig() {
   const repo = process.env.GITHUB_REPO!; // owner/repo
   const branch = process.env.GITHUB_BRANCH ?? "main";
   const token = process.env.GITHUB_TOKEN!;
-  const api = `https://api.github.com/repos/${repo}/contents/${path}`;
   const headers = {
     authorization: `Bearer ${token}`,
     accept: "application/vnd.github+json",
     "content-type": "application/json",
     "user-agent": "daily-sentiment-analysis-agent",
   };
+  return { repo, branch, headers };
+}
+
+// Fetch a file's decoded text content (or null if it does not exist yet).
+async function getFile(path: string): Promise<string | null> {
+  const { repo, branch, headers } = ghConfig();
+  const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}?ref=${branch}`, { headers });
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`GitHub GET failed: ${res.status} ${await res.text()}`);
+  const json = (await res.json()) as { content?: string };
+  return json.content ? Buffer.from(json.content, "base64").toString("utf8") : "";
+}
+
+// Create or update one file on the target branch.
+async function commitFile(path: string, content: string, message: string): Promise<void> {
+  const { repo, branch, headers } = ghConfig();
+  const api = `https://api.github.com/repos/${repo}/contents/${path}`;
 
   // Need the existing blob SHA to update a file that already exists (e.g. same-day re-run).
   let sha: string | undefined;
@@ -136,19 +153,147 @@ async function commitFile(path: string, content: string, message: string): Promi
   if (!res.ok) throw new Error(`GitHub PUT failed: ${res.status} ${await res.text()}`);
 }
 
+// Index (landing page) ---------------------------------------------------------
+
+export type IndexEntry = { date: string; title: string; summary: string; url: string };
+
+// Format a YYYY-MM-DD as e.g. "Saturday, July 18, 2026". Noon-UTC + UTC output
+// avoids timezone rollover and gives a stable weekday.
+function formatLongDate(day: string): string {
+  return new Intl.DateTimeFormat("en-US", {
+    weekday: "long", year: "numeric", month: "long", day: "numeric", timeZone: "UTC",
+  }).format(new Date(`${day}T12:00:00Z`));
+}
+
+// One-line summary for the index card: prefer an explicit summary, else the top
+// exec-summary signal, else the sentiment caption. Tags are stripped but HTML
+// entities are preserved so the text renders correctly on the page.
+export function extractSummary(body: string, provided?: string): string {
+  if (provided && provided.trim()) return provided.trim();
+  const strip = (s: string) => s.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+  const signal = body.match(/<div class="signal-text">([\s\S]*?)<\/div>/i)?.[1];
+  if (signal) return strip(signal);
+  const caption = body.match(/<div class="sentiment-caption">([\s\S]*?)<\/div>/i)?.[1];
+  if (caption) return strip(caption);
+  return "";
+}
+
+// Rebuild the landing page from the index entries (newest first: latest card + archive).
+export function renderIndex(entries: IndexEntry[]): string {
+  const sorted = [...entries].sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
+  const [latest, ...rest] = sorted;
+
+  const latestBlock = latest
+    ? `<div class="latest-card">
+  <div class="latest-label">Latest Briefing</div>
+  <h2><a href="${latest.url}">${latest.title}</a></h2>
+  <div class="latest-date">${formatLongDate(latest.date)}</div>
+  <p class="latest-summary">${latest.summary}</p>
+  <a class="read-link" href="${latest.url}">Read the full briefing &rarr;</a>
+</div>`
+    : `<p class="empty">No briefings yet.</p>`;
+
+  const archiveRows =
+    rest.length > 0
+      ? rest
+          .map(
+            (e) =>
+              `<li class="history-row"><span class="history-date">${formatLongDate(e.date)}</span><a href="${e.url}">${e.title}</a></li>`,
+          )
+          .join("\n")
+      : `<li class="empty">No earlier briefings yet.</li>`;
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Engineering Intelligence</title>
+<style>
+  :root {
+    --bg: #0f1117; --surface: #1a1d27; --border: #2e3148;
+    --accent: #6c63ff; --accent2: #00c2a8;
+    --text: #e8eaf0; --text-muted: #8b8fa8; --text-dim: #5a5d75;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.7; max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+  a { color: var(--accent2); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+  a:hover { border-bottom-color: var(--accent2); }
+  .page-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+  h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.3px; margin-bottom: 10px; }
+  .tagline { color: var(--text-muted); font-size: 14px; margin-bottom: 44px; max-width: 46em; }
+  .latest-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 28px 30px; margin-bottom: 52px; }
+  .latest-label { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-bottom: 10px; }
+  .latest-card h2 { font-size: 19px; font-weight: 700; margin-bottom: 6px; }
+  .latest-date { color: var(--text-muted); font-size: 12px; margin-bottom: 16px; }
+  .latest-summary { color: var(--text); margin-bottom: 20px; }
+  .read-link { display: inline-block; font-size: 13px; font-weight: 600; }
+  .section-title { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-bottom: 18px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .history-list { list-style: none; }
+  .history-row { display: flex; gap: 16px; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .history-date { color: var(--text-dim); font-size: 12px; width: 200px; flex-shrink: 0; }
+  .history-row a { color: var(--text); font-size: 13px; }
+  .history-row a:hover { color: var(--accent2); }
+  .empty { color: var(--text-dim); font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="page-label">Daily Intelligence</div>
+<h1>AI Engineering Intelligence</h1>
+<p class="tagline">A daily briefing for AI engineering leads: upcoming and open-weight models, agent development techniques, AI SDLC, and emerging practices &mdash; tracked over time, signal over noise.</p>
+
+${latestBlock}
+
+<div class="section-title">Archive</div>
+<ul class="history-list">
+${archiveRows}
+</ul>
+</body>
+</html>
+`;
+}
+
+// Upsert today's briefing into briefings-index.json and regenerate index.html.
+// Both live at the repo root and are committed alongside the briefing.
+async function updateIndex(entry: IndexEntry): Promise<void> {
+  let entries: IndexEntry[] = [];
+  const raw = await getFile("briefings-index.json");
+  if (raw) {
+    try {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) entries = parsed as IndexEntry[];
+    } catch {
+      // Corrupt/empty index — start fresh rather than lose today's run.
+      entries = [];
+    }
+  }
+
+  // Replace any existing entry for the same date (same-day re-run), then sort newest-first.
+  entries = entries.filter((e) => e.date !== entry.date);
+  entries.push(entry);
+  entries.sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
+
+  await commitFile("briefings-index.json", JSON.stringify(entries, null, 2) + "\n", `Update index for ${entry.date}`);
+  await commitFile("index.html", renderIndex(entries), `Update landing page for ${entry.date}`);
+}
+
 export default defineTool({
   description:
     "Archive the finished briefing to the repo. Wraps the HTML <body> content you produced (using the " +
-    "briefing component classes) in the fixed stylesheet, commits briefings/briefing-<date>.html, and " +
-    "returns the GitHub Pages URL to link in Slack.",
+    "briefing component classes) in the fixed stylesheet, commits briefings/briefing-<date>.html, folds " +
+    "the briefing into the landing page (updates briefings-index.json and regenerates index.html so the " +
+    "newest briefing is featured and the prior one moves into the archive), and returns the GitHub Pages " +
+    "URL to link in Slack. Pass an optional one-sentence `summary` for the landing-page card.",
   inputSchema: z.object({
     // The <body> content only — header, section blocks, and sources — using the component classes.
     bodyHtml: z.string().min(1),
     title: z.string().optional(),
+    // One-sentence synthesis for the landing-page card. If omitted, the top exec-summary signal is used.
+    summary: z.string().optional(),
     // ponytail: defaults to today's UTC date (run fires ~10:00 UTC = same ET calendar day)
     date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
   }),
-  async execute({ bodyHtml, title, date }) {
+  async execute({ bodyHtml, title, summary, date }) {
     const day = date ?? new Date().toISOString().slice(0, 10);
     const body = extractBody(bodyHtml);
     const h1 = body.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i)?.[1].replace(/<[^>]+>/g, "").trim();
@@ -157,6 +302,16 @@ export default defineTool({
     const html = renderHtml(docTitle, body, day);
     const htmlPath = `briefings/briefing-${day}.html`;
     await commitFile(htmlPath, html, `Add briefing ${day}`);
+
+    // Fold today's briefing into the landing page: newest becomes the "Latest"
+    // card and the prior latest drops into the archive list. The index title is
+    // the base name (h1) — the formatted date is rendered separately.
+    await updateIndex({
+      date: day,
+      title: h1 ?? "AI Engineering Intelligence",
+      summary: extractSummary(body, summary),
+      url: htmlPath,
+    });
 
     // GitHub Pages (main /root): https://<owner>.github.io/<repo>/<path>
     // ponytail: Pages redeploys after the commit, so the link may 404 for ~1 min.
