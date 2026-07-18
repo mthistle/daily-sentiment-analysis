@@ -1,0 +1,44 @@
+[
+  {
+    "date": "2026-07-13",
+    "title": "AI Engineering Intelligence — July 13, 2026",
+    "summary": "China flagged Claude Code for a \"backdoor\" and Alibaba banned it internally, making coding-agent egress a supply-chain governance decision; meanwhile Anthropic extended Fable 5 free access a second time to July 19 in direct response to GPT-5.6 Sol's launch, and \"AISec\" emerged as a named security discipline for AI-operated software.",
+    "url": "briefings/briefing-2026-07-13.html"
+  },
+  {
+    "date": "2026-07-11",
+    "title": "AI Engineering Intelligence",
+    "summary": "GPT-5.6 (Sol/Terra/Luna) ships broadly, with flagship Sol landing within a point of Claude Fable 5 on the AI Index at roughly a third of the cost and topping the Coding Agent Index — resetting the price/performance frontier for agentic coding.",
+    "url": "briefings/briefing-2026-07-11.html"
+  },
+  {
+    "date": "2026-07-08",
+    "title": "AI Engineering Intelligence — July 8, 2026",
+    "summary": "SpaceXAI's first post-Cursor model Grok 4.5 ships at Opus-class capability at a fraction of the cost, while Meituan open-sources LongCat-2.0, a 1.6T-parameter MoE that beats closed frontier models on SWE-bench Pro — signaling that the competitive frontier is shifting from bigger models to cheaper, agent-optimized systems and self-hostable coding models.",
+    "url": "briefings/briefing-2026-07-08.html"
+  },
+  {
+    "date": "2026-07-07",
+    "title": "AI Engineering Intelligence",
+    "summary": "Harness engineering becomes the phrase du jour — Google's own playbook reportedly attributes ~90% of an agentic system's value to context/harness design and only ~10% to the model itself.",
+    "url": "briefings/briefing-2026-07-07.html"
+  },
+  {
+    "date": "2026-06-11",
+    "title": "PM & AI Strategic Intelligence",
+    "summary": "Anthropic files a confidential IPO S-1 at a ~$965B post-money valuation and $47B+ annualized revenue, while its enterprise market share flips ahead of OpenAI among paid business users for the first time.",
+    "url": "briefings/briefing-2026-06-11.html"
+  },
+  {
+    "date": "2026-06-09",
+    "title": "Product Management & AI Intelligence Briefing",
+    "summary": "Agentic AI crosses from pilot into early production in enterprise product orgs, with Gartner and Deloitte both flagging the gap between the 38% piloting and the 11% actually in production.",
+    "url": "briefings/briefing-2026-06-09.html"
+  },
+  {
+    "date": "2026-06-08",
+    "title": "Daily Intelligence Briefing",
+    "summary": "Microsoft unveils MAI-Thinking-1, its first in-house reasoning model built without OpenAI data, and restructures the OpenAI partnership to a non-exclusive license — a structural decoupling with long-term implications across enterprise AI tooling.",
+    "url": "briefings/2026-06-08-daily-intelligence-briefing.html"
+  }
+]
