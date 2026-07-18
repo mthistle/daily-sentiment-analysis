@@ -1,5 +1,29 @@
 [
   {
+    "date": "2026-07-18",
+    "title": "AI Engineering Intelligence",
+    "summary": "Moonshot's Kimi K3 (2.8T params, open weights landing July 27) beat Claude Fable 5 on Arena's frontend-coding board: the first open-weight model to take #1 on a major coding arena over every US proprietary model. The open-weight frontier gap narrative collapsed from months-behind to ahead on a real workload.",
+    "url": "briefings/briefing-2026-07-18.html"
+  },
+  {
+    "date": "2026-07-17",
+    "title": "AI Engineering Intelligence",
+    "summary": "Kimi K3 tops Code Arena over Fable 5 and Sol, the first open-weight model to beat both US frontier coding leaders on a standardized leaderboard. The strongest open-vs-closed and US-vs-China gap-closing signal for coding workloads in tracking, though weights don't land until July 27.",
+    "url": "briefings/briefing-2026-07-17.html"
+  },
+  {
+    "date": "2026-07-16",
+    "title": "AI Engineering Intelligence",
+    "summary": "Thinking Machines Lab ships Inkling, its first open-weight model: a 975B-MoE / 41B-active multimodal model from Mira Murati's lab that self-fine-tunes and whose chain-of-thought compresses over training. A US open-weight entrant that concedes it trails the Chinese leaders.",
+    "url": "briefings/briefing-2026-07-16.html"
+  },
+  {
+    "date": "2026-07-15",
+    "title": "AI Engineering Intelligence",
+    "summary": "JADEPUFFER is the first documented end-to-end agentic ransomware: Sysdig captured an LLM orchestrating the full kill chain (recon, credential theft, lateral movement, encryption, ransom note), self-narrating and self-correcting. Agents are now attack tools, not just attack surfaces.",
+    "url": "briefings/briefing-2026-07-15.html"
+  },
+  {
     "date": "2026-07-13",
     "title": "AI Engineering Intelligence — July 13, 2026",
     "summary": "China flagged Claude Code for a \"backdoor\" and Alibaba banned it internally, making coding-agent egress a supply-chain governance decision; meanwhile Anthropic extended Fable 5 free access a second time to July 19 in direct response to GPT-5.6 Sol's launch, and \"AISec\" emerged as a named security discipline for AI-operated software.",
@@ -25,13 +49,13 @@
   },
   {
     "date": "2026-06-11",
-    "title": "PM & AI Strategic Intelligence",
+    "title": "AI Engineering Intelligence",
     "summary": "Anthropic files a confidential IPO S-1 at a ~$965B post-money valuation and $47B+ annualized revenue, while its enterprise market share flips ahead of OpenAI among paid business users for the first time.",
     "url": "briefings/briefing-2026-06-11.html"
   },
   {
     "date": "2026-06-09",
-    "title": "Product Management & AI Intelligence Briefing",
+    "title": "AI Engineering Intelligence",
     "summary": "Agentic AI crosses from pilot into early production in enterprise product orgs, with Gartner and Deloitte both flagging the gap between the 38% piloting and the 11% actually in production.",
     "url": "briefings/briefing-2026-06-09.html"
   },

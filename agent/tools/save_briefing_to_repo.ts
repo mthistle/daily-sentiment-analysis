@@ -80,11 +80,15 @@ function renderHtml(title: string, bodyHtml: string, day: string): string {
   .sources-list li a { font-size: 12px; color: var(--text-muted); }
   .sources-list li a:hover { color: var(--accent2); }
   .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text-dim); text-align: center; }
+  .footer a { color: var(--text-muted); }
+  .back-link { display: inline-block; font-size: 12px; color: var(--text-muted); margin-bottom: 24px; }
+  .back-link:hover { color: var(--accent2); border-bottom-color: transparent; }
 </style>
 </head>
 <body>
+<a class="back-link" href="../index.html">&larr; All briefings</a>
 ${bodyHtml}
-<div class="footer">AI Engineering Intelligence &nbsp;&middot;&nbsp; ${day} &nbsp;&middot;&nbsp; Automated daily run &nbsp;&middot;&nbsp; Signal over noise</div>
+<div class="footer"><a href="../index.html">AI Engineering Intelligence</a> &nbsp;&middot;&nbsp; ${day} &nbsp;&middot;&nbsp; Automated daily run &nbsp;&middot;&nbsp; Signal over noise</div>
 </body>
 </html>
 `;
