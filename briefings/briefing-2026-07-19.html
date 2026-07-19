@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Engineering Intelligence — Sunday, July 19, 2026</title>
+<style>
+  :root {
+    --bg: #0f1117; --surface: #1a1d27; --surface2: #222536; --border: #2e3148;
+    --accent: #6c63ff; --accent2: #00c2a8; --accent3: #f59e0b; --accent4: #ef4444;
+    --text: #e8eaf0; --text-muted: #8b8fa8; --text-dim: #5a5d75;
+    --green: #22c55e; --yellow: #eab308; --red: #ef4444; --orange: #f97316; --blue: #3b82f6; --purple: #a855f7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.7; max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+  a { color: var(--accent2); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+  a:hover { border-bottom-color: var(--accent2); }
+  .header { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 36px; }
+  .header-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; margin-bottom: 6px; }
+  .header-meta { color: var(--text-muted); font-size: 13px; }
+  .section-title { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 44px 0 18px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .exec-summary { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 24px 26px; margin-bottom: 8px; }
+  .exec-summary h2 { font-size: 15px; font-weight: 700; margin-bottom: 14px; color: var(--text); }
+  .signal-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+  .signal-num { background: var(--accent); color: white; font-size: 11px; font-weight: 700; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .signal-text { color: var(--text); line-height: 1.6; }
+  .sentiment-bar-container { margin-top: 18px; }
+  .sentiment-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+  .sentiment-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .sentiment-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #ef4444 0%, #eab308 40%, #22c55e 75%); width: 64%; }
+  .sentiment-caption { font-size: 11px; color: var(--text-muted); margin-top: 5px; }
+  .trend-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 22px 24px; margin-bottom: 18px; }
+  .trend-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .badge { display: inline-flex; align-items: center; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; white-space: nowrap; }
+  .badge-label { color: var(--text-muted); font-weight: 400; margin-right: 4px; font-size: 9px; }
+  .m-explosive { background: rgba(239,68,68,0.18); color: #f87171; }
+  .m-high { background: rgba(245,158,11,0.18); color: #fbbf24; }
+  .m-medium { background: rgba(59,130,246,0.18); color: #60a5fa; }
+  .m-low { background: rgba(139,143,168,0.18); color: #b6bad0; }
+  .s-positive { background: rgba(34,197,94,0.15); color: #4ade80; }
+  .s-mixed { background: rgba(234,179,8,0.15); color: #fde047; }
+  .s-polarizing { background: rgba(168,85,247,0.15); color: #c084fc; }
+  .s-negative { background: rgba(239,68,68,0.15); color: #f87171; }
+  .er-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .er-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .er-low { background: rgba(139,143,168,0.12); color: #b6bad0; }
+  .hr-high { background: rgba(239,68,68,0.12); color: #f87171; }
+  .hr-medium { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .hr-low { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .cl-low { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .trend-body p { margin-bottom: 10px; }
+  .trend-body strong { font-weight: 600; }
+  .field-label { color: var(--text-muted); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 14px; margin-bottom: 4px; display: block; }
+  .contrarian-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #a855f7; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .contrarian-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .declining-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #f97316; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .declining-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .watchlist-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 12px; }
+  .watchlist-name { font-size: 14px; font-weight: 700; color: var(--accent2); margin-bottom: 6px; }
+  .implication-block { border-left: 2px solid var(--accent3); padding: 10px 0 10px 16px; margin-bottom: 12px; }
+  .implication-type { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent3); font-weight: 700; margin-bottom: 4px; }
+  .long-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+  .long-icon { font-size: 13px; margin-top: 2px; width: 24px; flex-shrink: 0; color: var(--accent2); font-weight: 700; }
+  .sources-section { margin-top: 52px; border-top: 1px solid var(--border); padding-top: 24px; }
+  .sources-section h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 700; margin-bottom: 14px; }
+  .sources-list { list-style: none; }
+  .sources-list li { font-size: 12px; color: var(--text-muted); margin-bottom: 7px; display: flex; gap: 8px; }
+  .sources-list li .src-num { color: var(--text-dim); flex-shrink: 0; width: 24px; }
+  .sources-list li a { font-size: 12px; color: var(--text-muted); }
+  .sources-list li a:hover { color: var(--accent2); }
+  .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text-dim); text-align: center; }
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-label">Daily Intelligence Briefing</div>
+  <h1>AI Engineering Intelligence</h1>
+  <div class="header-meta">Sunday, July 19, 2026 &middot; 5-minute read &middot; Signal over noise</div>
+</header>
+
+<div class="section-title">Executive Summary</div>
+<div class="exec-summary">
+  <h2>Top 5 Highest-Signal Developments</h2>
+  <div class="signal-row"><div class="signal-num">1</div><div class="signal-text"><strong><a href="https://www.axios.com/2026/07/16/moonshot-kimi-ai-china-model-openai-anthropic">Kimi K3 tops Arena frontend-coding, beating Fable 5 and GPT-5.6 Sol</a>.</strong> Moonshot's 2.8T-param open-weight model is the first Chinese/open model to lead a major US coding arena — weights land July 27, priced ~$12/M tokens, fundamentally re-pricing near-frontier coding capability.</div></div>
+  <div class="signal-row"><div class="signal-num">2</div><div class="signal-text"><strong><a href="https://9to5mac.com/2026/07/16/1password-now-lets-claude-sign-in-to-websites-without-seeing-your-passwords/">1Password ships "Agentic Mode" — credentials brokered to Claude without entering model context</a>.</strong> The first production implementation of zero-standing-privilege for browser agents: secrets are injected into the page, scoped to the task, wiped on failure — a reusable pattern for any agent that touches authenticated web workflows.</div></div>
+  <div class="signal-row"><div class="signal-num">3</div><div class="signal-text"><strong><a href="https://venturebeat.com/data/we-have-maybe-20-months-to-rebuild-for-ai-agents-metas-infrastructure-vp-tells-vb-transform-2026">Meta: agentic data queries grew 30x in one half, 63% of dashboards now agent-built</a>.</strong> Meta's infra VP names a ~20-month window to rebuild capacity, identity and velocity for agent-not-human consumers — the strongest production datapoint yet for "agent-aware infrastructure."</div></div>
+  <div class="signal-row"><div class="signal-num">4</div><div class="signal-text"><strong><a href="https://techcrunch.com/2026/07/14/deepseek-reportedly-in-talks-to-raise-1-5b-then-ipo/">DeepSeek prepping IPO at ~$71-74B; ~23% of Vercel enterprise tokens in June</a>.</strong> The open-weight lab that kicked off the price war is institutionalizing — a signal that open-weight inference is becoming a durable enterprise supply chain, not a discount gimmick.</div></div>
+  <div class="signal-row"><div class="signal-num">5</div><div class="signal-text"><strong><a href="https://www.darkreading.com/cybersecurity-operations/yellow-teams-defining-future-ai-security">"Yellow teams" emerge as the build layer for AI-security harnesses</a>.</strong> Netskope's Project Red Horizon built a harness around GPT-5.5 for exploit work; the red/blue/yellow triad is consolidating as the operating model for safely running frontier security models.</div></div>
+  <div class="sentiment-bar-container">
+    <div class="sentiment-label">Practitioner Sentiment — Cautiously Positive</div>
+    <div class="sentiment-bar"><div class="sentiment-fill" style="width:63%"></div></div>
+    <div class="sentiment-caption">Buyers welcome open-weight frontier parity and cheaper tokens, but the Fable 5 subscription cliff (today), Mythos cyber-risk warnings from regulators, and unsolved agent-identity/privilege sprawl temper enthusiasm.</div>
+  </div>
+</div>
+
+<div class="section-title">Model Watch</div>
+
+<div class="trend-card">
+  <div class="trend-title">1. Kimi K3 (Moonshot AI) — open-weight</div>
+  <div class="badges">
+    <span class="badge m-explosive"><span class="badge-label">Momentum</span>Explosive</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Released July 16; a 2.8T-parameter mixture-of-experts model with a 1M-token context window, multimodal (text+images), explicitly built for "minimal human supervision" on long-horizon engineering/coding. Weights ship <a href="https://www.bbc.com/news/articles/cy9w4q8pgp0o">July 27</a>. API is live now at roughly <a href="https://www.axios.com/2026/07/16/moonshot-kimi-ai-china-model-openai-anthropic">$12/M tokens</a> — closer to Anthropic mid-tier than to the deep discounts of earlier Kimi releases.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>On <a href="https://x.com/arena/status/2077824029126504525">Arena's frontend-coding leaderboard</a> it beat Claude Fable 5 and GPT-5.6 Sol in blind human preference — a 17-place jump from Kimi K2.6 — and ranked third on <a href="https://www.businessinsider.com/smart-people-saying-chinas-hot-new-kimi-k3-ai-model-2026-7">Artificial Analysis's Intelligence Index</a>, ahead of Opus 4.8. Moonshot itself concedes it still trails Fable 5 and Sol overall; <a href="https://gizmodo.com/china-just-dropped-another-bomb-on-americas-frontier-ai-companies-2000786670">Arena's CEO called it "the moment OSS Chinese models have surpassed US models."</a> Caveat: only days of real-world usage; weights not yet independently inspectable.</p>
+    <span class="field-label">Who is using it</span><p>Too early for named production deployments, but early adopter signal is strong: <a href="https://www.businessinsider.com/kimi-k3-ai-model-moonshot-china-open-weights-benchmarks-pricing-2026-7">Vercel CEO Guillermo Rauch</a> called it the first open model ahead of all proprietary ones on the web-engineering benchmark, and Wharton's Ethan Mollick called it "closest to the frontier yet" — both cautioning against benchmark-only judgment. Domestic rivals Zhipu and MiniMax fell 28% and 16% on the news.</p>
+    <span class="field-label">Engineering implication</span><p>Re-prices the make-vs-buy decision for coding agents: a near-frontier, downloadable, 1M-context model at ~40% below Opus/Sol cost changes the economics of self-hosted coding workflows once weights drop. Treat the Arena #1 as a leading indicator, not proof — wait for July 27 weights and independent SWE-bench-style evals before committing. Distillation allegations (<a href="https://www.anthropic.com/news/detecting-and-preventing-distillation-attacks">Anthropic has accused Moonshot</a>) are a licensing/supply-chain risk to flag for legal. <strong>Verdict: Trial</strong> — set up an A/B against your current coding model on weights release; do not migrate critical paths on benchmark headlines alone.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. Grok 4.5 (xAI) — frontier efficiency &amp; the compute-plus-traces thesis</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-mixed"><span class="badge-label">Sentiment</span>Mixed</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Released July 8, built on xAI's 1.5T-param V9 foundation and <a href="https://fourweekmba.com/ai-xai-grok-4-5-cursor-traces-agentic-frontier-model/">trained on real Cursor developer-session traces</a> — the actual navigation/edit/reasoning paths of developers in long sessions. Musk's "Opus-class" framing is a price/efficiency claim, not a raw-capability claim.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>Artificial Analysis Intelligence Index score 54, rank #4 overall (behind Fable 5, GPT-5.5, Opus 4.8) but <strong>#1 on agentic tool use</strong>. Priced at <a href="https://techcrunch.com/2026/07/08/spacexai-releases-grok-4-5-which-elon-describes-as-an-opus-class-model/">$2/$6 per M tokens</a> vs Opus 4.8's $5/$25, with ~14K output tokens/task vs ~67K for Opus — so per-task cost is roughly an order of magnitude lower on agentic workloads. 500K context, per-call reasoning-effort dial.</p>
+    <span class="field-label">Who is using it</span><p>Positioned against Cursor/Codex coding workflows; xAI claims coding parity with GPT-5.5 in Codex at ~half the per-task cost (xAI's own characterization, not independently verified). It is the proof case for the <em>compute-plus-traces</em> thesis: frontier agentic capability now needs compute AND harness-generated traces together.</p>
+    <span class="field-label">Engineering implication</span><p>The decision-relevant signal is not "which model is #1" but that <strong>trace-informed training is now a frontier lever</strong>. Teams sitting on proprietary agent-session logs (support, IDE, ops) hold a training-data asset that general-purpose scaling underweights. Start instrumenting your agent harness to emit reusable traces. <strong>Verdict: Trial</strong> for cost-sensitive agentic workloads where tool-use quality matters more than peak reasoning; benchmark on your own tasks, not the index.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">3. DeepSeek — open-weight as enterprise supply chain</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p><a href="https://www.bloomberg.com/news/articles/2026-07-14/deepseek-mulls-new-funding-weeks-after-7-billion-round-ft-says">Bloomberg/FT report</a> DeepSeek is raising ~$1.5B at a ~$71-74B valuation (up from $50B in June) and may file for a mainland IPO as soon as this year, debuting 2027. It runs its cloud on Huawei chips, sidestepping Nvidia export controls.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>Not a new model this week, but the most concrete enterprise-adoption datapoint yet: in June DeepSeek accounted for <a href="https://techcrunch.com/2026/07/14/deepseek-reportedly-in-talks-to-raise-1-5b-then-ipo/">~23% of all tokens processed through Vercel's enterprise AI gateway</a> — vs Anthropic at 32%. That is real production traffic, not benchmarks. DeepSeek also made a <a href="https://www.infoworld.com/article/4176709/deepseeks-steep-v4-pro-price-cut-escalates-ai-pricing-war.html">75% V4-Pro price cut permanent</a> in late May.</p>
+    <span class="field-label">Who is using it</span><p>Vercel's enterprise gateway customers are routing roughly a quarter of token volume to DeepSeek — the clearest evidence that open-weight/cheap-inference providers are now load-bearing in production stacks, not experimental.</p>
+    <span class="field-label">Engineering implication</span><p>Open-weight inference is institutionalizing (IPO, durable enterprise share). Treat DeepSeek-class models as a permanent tier in your model-routing strategy, with the usual caveats: data-residency, distillation-licensing exposure, and single-vendor sovereign-chip dependency. <strong>Verdict: Adopt</strong> as a routable tier behind a gateway; keep a US-hosted fallback for regulated workloads.</p>
+  </div>
+</div>
+
+<div class="section-title">Agent Engineering &amp; AI SDLC</div>
+
+<div class="trend-card">
+  <div class="trend-title">1. Secret-brokering / "Agentic Mode" for browser agents</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p><a href="https://1password.com/blog/1password-for-claude">1Password for Claude</a> (shipped July 16, Mac) lets Claude complete authenticated browser tasks where credentials are delivered through a secure channel and <strong>injected directly into the destination page</strong> — the password, OTP, and other secrets never enter Claude's context, memory, or Anthropic's systems. A new "Agentic Mode" in the browser extension auto-locks the vault when any compatible AI agent takes control of the browser, exposing only task-approved items, and wipes filled values if a form submission fails.</p>
+    <span class="field-label">Why it matters</span><p>This is the first shipped, named implementation of <em>zero standing privilege for agents</em> applied to the browser surface — the highest-risk place agents operate. It demonstrates the pattern: the agent never holds the secret; a broker does, scoped to the current task, revoked on completion. It generalizes beyond 1Password/Claude to any agent that touches login-gated workflows.</p>
+    <span class="field-label">Evidence from real teams</span><p>1Password is a shipping product with business/family/individual availability; Anthropic partnership was <a href="https://9to5mac.com/2026/07/16/1password-now-lets-claude-sign-in-to-websites-without-seeing-your-passwords/">first outlined in March</a> and is now a released feature. The vault-lockdown-on-agent-takeover behavior is the novel control — it protects against agents even when no integration is configured.</p>
+    <span class="field-label">Engineering implication</span><p>Adopt the broker pattern for any agent that authenticates: credentials live in a secrets manager, are scoped per-task, injected out-of-band from the model context, and revoked on task end/failure. Never paste tokens into prompts. If you build browser agents, mirror 1Password's "lock the vault when an agent drives the browser" control. <strong>Verdict: Adopt</strong> — this is now the reference design for agent credential handling.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. Agent-aware infrastructure</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>At VB Transform 2026, Meta VP Barak Yagour reported <a href="https://venturebeat.com/data/we-have-maybe-20-months-to-rebuild-for-ai-agents-metas-infrastructure-vp-tells-vb-transform-2026">agentic queries on Meta's data systems grew 30x in one half</a>, and within three months of shipping "agentic data apps" in February, 63% of dashboards published across Meta were built with the new tooling. He framed a ~20-month window to rebuild three breaking assumptions: capacity (1 engineer now spawns 10 agents × subagents), identity (an agent is neither user nor service nor badge-carrier), and velocity (CI/CD doesn't speed up just because the machine authors the code).</p>
+    <span class="field-label">Why it matters</span><p>This is the strongest production datapoint that infrastructure must be redesigned for agent-not-human consumers: dynamic controls that understand agent hierarchies, cost attribution tracing consumption to the spawning use case, priority-based throttling, and an identity model for non-human autonomous actors.</p>
+    <span class="field-label">Evidence from real teams</span><p>Meta (Yagour's data-infrastructure org) is the named team, with the 30x/63% figures as internal production metrics. Corroborated externally by <a href="https://www.imperva.com/resources/resource-library/reports/2025-bad-bot-report/">Imperva's 2025 Bad Bot Report</a> (automated traffic = 51% of internet) and <a href="https://www.humansecurity.com/2026-state-of-ai-traffic-cyberthreat-benchmark-report/">HUMAN Security's 2026 State of AI Traffic report</a> (agent traffic growing ~8x faster than human).</p>
+    <span class="field-label">Engineering implication</span><p>Start instrumenting per-agent cost attribution and an agent identity tier in your IAM now — before load inversion hits. The capacity math (1 engineer ≈ 100 effective users) means quota/throttling must be agent-hierarchy-aware, not per-account. <strong>Verdict: Trial</strong> — pilot agent-aware throttling and cost attribution on one high-agent-volume internal service; treat the 20-month clock as real.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">3. Yellow-team harness engineering for frontier security models</div>
+  <div class="badges">
+    <span class="badge m-medium"><span class="badge-label">Momentum</span>Medium</span>
+    <span class="badge s-mixed"><span class="badge-label">Sentiment</span>Mixed</span>
+    <span class="badge er-low"><span class="badge-label">Production Ready</span>Low</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>With Anthropic's Project Glasswing (Mythos preview) and OpenAI's Daybreak (GPT-5.5 preview), a "yellow team" practice is consolidating: build teams that construct the <a href="https://www.darkreading.com/cybersecurity-operations/yellow-teams-defining-future-ai-security">harness around a frontier security model</a> — defining permissions, guardrails, policies — and supply tooling to both red (attack) and blue (defense) teams. <a href="https://www.darkreading.com/cybersecurity-operations/agentic-ai-untamable-ask-the-right-security-questions">Zenity's Ben Hanson argues</a> agentic security is hard not because it's new but because agents violate the 40-year-old predictability assumption underlying all security controls.</p>
+    <span class="field-label">Why it matters</span><p>It reframes harness engineering from a coding-agent concern into a security-discipline concern: the harness is now the primary control surface for unpredictable, adaptive agents, and "you can't patch a mental model" is becoming the framing for agentic security re-architecture (Hanson's Black Hat USA talk).</p>
+    <span class="field-label">Evidence from real teams</span><p><a href="https://www.darkreading.com/cybersecurity-operations/yellow-teams-defining-future-ai-security">Netskope's Project Red Horizon</a> built a harness around GPT-5.5 under OpenAI's Daybreak program; Zscaler, as a Glasswing partner, is articulating the yellow-team role. Anthropic and OpenAI are both running structured preview programs feeding real enterprise security teams.</p>
+    <span class="field-label">Engineering implication</span><p>If you run offensive/defensive security with frontier models, stand up a yellow-team function that owns the harness (permissions, guardrails, scope) as a first-class deliverable alongside red and blue. Expect Mythos-class models to "compress the timeframe for effective risk mitigation" — <a href="https://www.insurancejournal.com/news/international/2026/07/14/877455.htm">Canada's OSFI regulator is already warning banks</a>. <strong>Verdict: Watch</strong> for most teams; <strong>Trial</strong> for security orgs with existing red/blue programs and access to Glasswing/Daybreak.</p>
+  </div>
+</div>
+
+<div class="section-title">Terminology Tracker</div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.forbes.com/sites/timbajarin/2026/07/13/aisec-the-new-security-imperative-for-the-ai-driven-enterprise/">AISec (AI Software Security)</a> — NEW</div><p><strong>Definition:</strong> Coined by Tim Bajarin (Forbes, July 13, 2026) for a new security discipline necessitated by the "Autonomous Enterprise" — software now generated, tested, deployed and operated by AI rather than people. AISec extends beyond AppSec (which assumes human-authored software) to secure models, guide agent behavior, and govern AI-driven actions across the lifecycle. Distinct from generic "AI safety" in that it targets the software-engineering substrate, not model alignment in the abstract.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.darkreading.com/cybersecurity-operations/yellow-teams-defining-future-ai-security">Yellow Teams</a> — NEW</div><p><strong>Definition:</strong> The build layer of the red/blue/yellow security triad (term first introduced at Black Hat 2017, now being repurposed for AI). Yellow teams construct the harness around frontier security AI models — defining permissions, guardrails, policies — and supply tooling to both red (offense) and blue (defense). Differs from red/blue by owning the <em>engineering</em> of the control surface rather than attacking or defending it. Netskope's Project Red Horizon is the named reference build.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://1password.com/blog/1password-for-claude">Agentic Mode (1Password) / secret-brokering for agents</a> — NEW</div><p><strong>Definition:</strong> A shipped access pattern (1Password, July 16, 2026) in which a secrets broker injects credentials directly into a destination page on behalf of an AI agent, scoped to the current task; secrets never enter the model's context, memory, or the model vendor's systems, and the vault auto-locks when any agent takes control of the browser. The first production implementation of zero-standing-privilege applied to the browser-agent surface.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.forbes.com/sites/johnkoetsier/2026/07/17/agentic-id-vint-cerf-joins-project-to-give-every-ai-agent-a-durable-identifier/">DNSid / Agentic ID</a> — NEW</div><p><strong>Definition:</strong> An open framework (Innovation Labs, with Vint Cerf joining July 15, 2026) to give every AI agent a durable identifier via the existing Domain Name System — an "accountability anchor" acting as a "license plate" that establishes who is responsible for an agent's actions, without itself attesting to trustworthiness. Targets the problem that millions of web-roaming agents are anonymous except by IP. A foundational identity-infrastructure layer for cross-org agent transactions (e.g., DoorDash's new agent-ordering CLI).</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.axios.com/2026/07/16/moonshot-kimi-ai-china-model-openai-anthropic">Kimi K3</a> — EVOLVING (first seen 2026-07-18)</div><p>Since first sighting (pre-release rumor), K3 has now shipped and exceeded expectations: it is the first open-weight model to top a major US coding arena (Arena frontend, above Fable 5/Sol), ranked #3 on Artificial Analysis, and is priced at ~$12/M tokens — near Anthropic mid-tier rather than the deep discounts of earlier Kimi. The "minimal human supervision" long-horizon engineering framing from its definition is now backed by a 1M-context multimodal release; weights due July 27. Real-world usage still nascent; benchmark-first caution from <a href="https://www.businessinsider.com/kimi-k3-ai-model-moonshot-china-open-weights-benchmarks-pricing-2026-7">Vercel's Rauch and Wharton's Mollick</a>.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://fourweekmba.com/ai-xai-grok-4-5-cursor-traces-agentic-frontier-model/">Compute-plus-traces</a> — EVOLVING (first seen 2026-07-18)</div><p>The thesis is gaining corroboration: Grok 4.5's #1 agentic-tool-use ranking on Artificial Analysis, achieved via Cursor-session-trace training, is being read as evidence that harness-generated traces are now a frontier training lever on par with raw compute. Adjacent evidence: <a href="https://www.darkreading.com/cybersecurity-operations/yellow-teams-defining-future-ai-security">Netskope building a harness around GPT-5.5</a> shows the same harness-first thinking migrating into security workflows.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://venturebeat.com/data/we-have-maybe-20-months-to-rebuild-for-ai-agents-metas-infrastructure-vp-tells-vb-transform-2026">Agent-aware infrastructure</a> — EVOLVING (first seen 2026-07-18)</div><p>Since first sighting (named by Meta's Yagour at VB Transform), the term now has hard production metrics behind it: 30x agentic-query growth in one half, 63% of Meta dashboards built via agentic data apps within three months. The 20-month rebuild window and the capacity/identity/velocity triad are now the most-cited framing for agent-era infra re-architecture.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.darkreading.com/identity-access-management-security/the-agentic-enterprise-has-a-privilege-problem">Zero standing privilege for agents</a> — EVOLVING (first seen 2026-07-18)</div><p>Originally a Dark Reading/CrowdStrike principle, it now has a shipped production implementation: <a href="https://1password.com/blog/1password-for-claude">1Password's Agentic Mode</a> brokers credentials to Claude task-scoped, revoked on completion, never in model context — moving the principle from advocacy to reference design.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.forbes.com/sites/sandycarter/2026/07/13/claude-fable-5-extends-to-july-19-7-days-7-power-moves/">Claude Fable 5</a> — EVOLVING (first seen 2026-07-18)</div><p>The twice-extended free-subscriber access (with 50% Claude Code rate-limit boost) expires today, July 19, after which Fable 5 moves to credit-based usage. Anthropic says it will restore subscription inclusion "when it has enough compute" — read as continued compute-constrained supply and a competitive response to GPT-5.6 Sol. Today is the cliff day for teams that built workflows around included Fable access.</p></div>
+
+<div class="section-title">Trend Deltas</div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>AISec</strong> — first seen today; entered tracking as a named security discipline for AI-authored software.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Yellow Teams</strong> — first seen today; entered tracking as the build/harness layer for AI-security red/blue work.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Agentic Mode / secret-brokering</strong> — first seen today; entered tracking as a shipped production pattern for agent credential handling.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>DNSid / Agentic ID</strong> — first seen today; entered tracking as an identity-infrastructure layer for cross-org agents.</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>Kimi K3</strong> — accelerating vs. prior sighting (first seen 2026-07-18, 2 sightings); went from pre-release rumor to Arena #1 in one day.</div></div>
+<div class="long-row"><div class="long-icon">&#8593;</div><div><strong>Compute-plus-traces</strong> — up (first seen 2026-07-18); Grok 4.5's #1 agentic-tool-use ranking corroborates the thesis.</div></div>
+<div class="long-row"><div class="long-icon">&#8593;</div><div><strong>Agent-aware infrastructure</strong> — up (first seen 2026-07-18); now backed by Meta's 30x/63% production metrics.</div></div>
+<div class="long-row"><div class="long-icon">&#8593;</div><div><strong>Zero standing privilege for agents</strong> — up (first seen 2026-07-18); gained its first shipped reference implementation (1Password).</div></div>
+<div class="long-row"><div class="long-icon">&#8594;</div><div><strong>Claude Fable 5</strong> — flat (first seen 2026-07-18); subscription cliff lands today, no new capability signal.</div></div>
+<div class="long-row"><div class="long-icon">&#8681;</div><div><strong>Custom agentic alignment / confidence-scored multi-agent supervision</strong> — going quiet (first seen 2026-07-18); no fresh real-team signal this run.</div></div>
+
+<div class="section-title">Strategic Implications</div>
+<div class="implication-block"><div class="implication-type">Adopt</div><p>The secret-broker pattern for agent credentials (1Password Agentic Mode). Make "the agent never holds the secret; a task-scoped broker does" a hard standard for any agent touching authenticated web workflows — it is now a shipped, named reference design, not theory. Also adopt DeepSeek-class models as a permanent routable tier behind a gateway, with a US-hosted fallback for regulated workloads.</p></div>
+<div class="implication-block"><div class="implication-type">Trial</div><p>Kimi K3 on weights release (July 27) as an A/B against your current coding model on your own tasks — not on Arena headlines. Grok 4.5 for cost-sensitive agentic/tool-use workloads where its #1 tool-use rank and ~10x lower per-task cost matter. Agent-aware throttling and per-agent cost attribution on one high-volume internal service, treating Meta's 20-month clock as real.</p></div>
+<div class="implication-block"><div class="implication-type">Watch</div><p>Yellow-team harness engineering for frontier security models (Glasswing/Daybreak) — relevant once you have red/blue programs and preview access. AISec as an organizing discipline for AI-authored software security. DNSid/Agentic ID as the cross-org agent-identity layer — early, but Vint Cerf's involvement gives it longevity odds. The Fable 5 subscription cliff today: audit which production workflows assumed included Fable access and budget for credit-based usage or a cheaper-model fallback.</p></div>
+<div class="implication-block"><div class="implication-type">30-90 Day Watchlist</div><p>Kimi K3 weights (July 27) and independent SWE-bench-style evals — the real make-or-break for the open-weight coding claim. DeepSeek IPO filing timing and any new model drop (its V4-Pro price cut presaged competitive moves). Anthropic's promised Fable 5 subscription restoration "when compute allows" — a leading indicator of frontier supply constraints. New US state frontier-AI disclosure laws (IL SB315, NY RAISE, CA TFAIA) taking effect Jan 2027 — they will shape what you must document about frontier-model deployments. Xi's WAICO (29-country AI-governance bloc) as a standards-setting vector for open-weight adoption abroad.</p></div>
+
+<div class="sources-section"><h2>Sources</h2><ol class="sources-list">
+<li><span class="src-num">[1]</span><a href="https://www.axios.com/2026/07/16/moonshot-kimi-ai-china-model-openai-anthropic">Axios — "China's open-weight Kimi model stuns AI world with frontier-level results"</a></li>
+<li><span class="src-num">[2]</span><a href="https://www.axios.com/2026/07/17/china-ai-kimi-k3-open-source-anthropic-opus">Axios — "China just erased America's AI lead"</a></li>
+<li><span class="src-num">[3]</span><a href="https://www.bbc.com/news/articles/cy9w4q8pgp0o">BBC — "China's Moonshot AI claims Kimi K3 can rival OpenAI and Anthropic"</a></li>
+<li><span class="src-num">[4]</span><a href="https://www.businessinsider.com/kimi-k3-ai-model-moonshot-china-open-weights-benchmarks-pricing-2026-7">Business Insider — "3 reasons China's Kimi K3 is turning heads in Silicon Valley"</a></li>
+<li><span class="src-num">[5]</span><a href="https://gizmodo.com/china-just-dropped-another-bomb-on-americas-frontier-ai-companies-2000786670">Gizmodo — "China Just Dropped Another Bomb on America's Frontier AI Companies"</a></li>
+<li><span class="src-num">[6]</span><a href="https://www.bloomberg.com/news/articles/2026-07-17/china-s-powerful-new-moonshot-ai-model-closes-gap-with-us-rivals">Bloomberg — "China's Moonshot Unveils AI Model That Narrows Gap With US Firms"</a></li>
+<li><span class="src-num">[7]</span><a href="https://techcrunch.com/2026/07/16/moonshots-upcoming-kimi-3-is-expected-to-close-the-gap-with-anthropics-opus-4-8/">TechCrunch — "Moonshot's upcoming Kimi 3 is expected to close the gap with Anthropic's Opus 4.8"</a></li>
+<li><span class="src-num">[8]</span><a href="https://www.cnbc.com/2026/07/17/moonshot-ai-kimi-k3-model-openai-anthropic-china.html">CNBC — "Chinese startup Moonshot AI unveils Kimi model it says rivals OpenAI, Anthropic"</a></li>
+<li><span class="src-num">[9]</span><a href="https://www.forbes.com/sites/tylerroush/2026/07/17/chinese-ai-startup-moonshot-unveils-kimi-k3-model-will-it-challenge-openai-and-anthropic/">Forbes — "Chinese AI Startup Moonshot Unveils Kimi K3 Model"</a></li>
+<li><span class="src-num">[10]</span><a href="https://www.axios.com/2026/07/17/sacks-kimi-open-source-weights-trump">Axios — "Kimi K3's performance bolsters Sacks' case against AI regulation"</a></li>
+<li><span class="src-num">[11]</span><a href="https://fourweekmba.com/ai-xai-grok-4-5-cursor-traces-agentic-frontier-model/">FourWeekMBA — "Grok 4.5 and the Compute-Plus-Traces Paradigm"</a></li>
+<li><span class="src-num">[12]</span><a href="https://techcrunch.com/2026/07/08/spacexai-releases-grok-4-5-which-elon-describes-as-an-opus-class-model/">TechCrunch — "xAI releases Grok 4.5, which Elon describes as an Opus-class model"</a></li>
+<li><span class="src-num">[13]</span><a href="https://techcrunch.com/2026/07/14/deepseek-reportedly-in-talks-to-raise-1-5b-then-ipo/">TechCrunch — "DeepSeek reportedly in talks to raise $1.5B, then IPO"</a></li>
+<li><span class="src-num">[14]</span><a href="https://www.bloomberg.com/news/articles/2026-07-14/deepseek-mulls-new-funding-weeks-after-7-billion-round-ft-says">Bloomberg — "DeepSeek Is Preparing For IPO Filing as Soon as This Year"</a></li>
+<li><span class="src-num">[15]</span><a href="https://www.reuters.com/legal/transactional/chinas-deepseek-raise-fresh-capital-74-billion-valuation-ahead-onshore-ipo-2026-07-15/">Reuters — "China's DeepSeek to raise fresh capital at $74 billion valuation ahead of onshore IPO"</a></li>
+<li><span class="src-num">[16]</span><a href="https://www.infoworld.com/article/4176709/deepseeks-steep-v4-pro-price-cut-escalates-ai-pricing-war.html">InfoWorld — "DeepSeek's steep V4-Pro price cut escalates AI pricing war"</a></li>
+<li><span class="src-num">[17]</span><a href="https://1password.com/blog/1password-for-claude">1Password — "1Password for Claude"</a></li>
+<li><span class="src-num">[18]</span><a href="https://9to5mac.com/2026/07/16/1password-now-lets-claude-sign-in-to-websites-without-seeing-your-passwords/">9to5Mac — "1Password now lets Claude sign in to websites without seeing your passwords"</a></li>
+<li><span class="src-num">[19]</span><a href="https://www.macrumors.com/2026/07/16/1password-claude-integration/">MacRumors — "1Password for Claude Lets AI Log In Without Seeing Your Passwords"</a></li>
+<li><span class="src-num">[20]</span><a href="https://venturebeat.com/data/we-have-maybe-20-months-to-rebuild-for-ai-agents-metas-infrastructure-vp-tells-vb-transform-2026">VentureBeat — "'We have maybe 20 months' to rebuild for AI agents, Meta's infrastructure VP tells VB Transform 2026"</a></li>
+<li><span class="src-num">[21]</span><a href="https://www.darkreading.com/cybersecurity-operations/yellow-teams-defining-future-ai-security">Dark Reading — "'Yellow Teams' Are Defining the Future of AI Security"</a></li>
+<li><span class="src-num">[22]</span><a href="https://www.darkreading.com/cybersecurity-operations/agentic-ai-untamable-ask-the-right-security-questions">Dark Reading — "Agentic AI Is Untamable: Ask the Right Security Questions"</a></li>
+<li><span class="src-num">[23]</span><a href="https://www.darkreading.com/identity-access-management-security/the-agentic-enterprise-has-a-privilege-problem">Dark Reading — "The Agentic Enterprise Has a Privilege Problem"</a></li>
+<li><span class="src-num">[24]</span><a href="https://www.forbes.com/sites/timbajarin/2026/07/13/aisec-the-new-security-imperative-for-the-ai-driven-enterprise/">Forbes — "AISec: The New Security Imperative For The AI-Driven Enterprise"</a></li>
+<li><span class="src-num">[25]</span><a href="https://www.forbes.com/sites/johnkoetsier/2026/07/17/agentic-id-vint-cerf-joins-project-to-give-every-ai-agent-a-durable-identifier/">Forbes — "Agentic ID? Vint Cerf Joins Project To Give Every AI Agent A Durable Identifier"</a></li>
+<li><span class="src-num">[26]</span><a href="https://www.forbes.com/sites/sandycarter/2026/07/13/claude-fable-5-extends-to-july-19-7-days-7-power-moves/">Forbes — "Claude Fable 5 Extends To July 19. 7 Days, 7 Power Moves"</a></li>
+<li><span class="src-num">[27]</span><a href="https://www.bleepingcomputer.com/news/artificial-intelligence/claude-fable-5-stays-free-for-paid-users-until-july-19-as-anthropic-buys-more-time/">BleepingComputer — "Claude Fable 5 stays free for paid users until July 19 as Anthropic buys more time"</a></li>
+<li><span class="src-num">[28]</span><a href="https://www.insurancejournal.com/news/international/2026/07/14/877455.htm">Insurance Journal — "Canada Regulator Warns Banks About Cyber Risks of Anthropic's Claude Mythos"</a></li>
+<li><span class="src-num">[29]</span><a href="https://www.forbes.com/sites/janakirammsv/2026/07/13/cheaper-ai-tokens-do-not-guarantee-cheaper-enterprise-agents/">Forbes — "Cheaper AI Tokens Do Not Guarantee Cheaper Enterprise Agents"</a></li>
+<li><span class="src-num">[30]</span><a href="https://fortune.com/2026/07/17/xi-jinping-ai-cooperation-organization-shanghai/">Fortune — "Xi offers AI olive branch to the world, calling for 'symphony of global cooperation'"</a></li>
+<li><span class="src-num">[31]</span><a href="https://www.cnn.com/2026/07/17/china/china-ai-conference-analysis-intl-hnk">CNN — "As Trump accuses China of stealing voter data, Xi pitches China as a responsible tech leader"</a></li>
+<li><span class="src-num">[32]</span><a href="https://towardsdatascience.com/the-three-dimensions-of-custom-agentic-alignment-purpose-principles-and-practices/">Towards Data Science — "The Three Dimensions of Custom Agentic Alignment: Purpose, Principles and Practices"</a></li>
+<li><span class="src-num">[33]</span><a href="https://www.anthropic.com/news/detecting-and-preventing-distillation-attacks">Anthropic — "Detecting and Preventing Distillation Attacks"</a></li>
+</ol></div>
+<div class="footer">AI Engineering Intelligence &nbsp;&middot;&nbsp; 2026-07-19 &nbsp;&middot;&nbsp; Automated daily run &nbsp;&middot;&nbsp; Signal over noise</div>
+</body>
+</html>
