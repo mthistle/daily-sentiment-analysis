@@ -2,7 +2,7 @@
   {
     "date": "2026-07-19",
     "title": "AI Engineering Intelligence — Sunday, July 19, 2026",
-    "summary": "Moonshot's open-weight Kimi K3 topped Arena's frontend-coding leaderboard above Claude Fable 5 and GPT-5.6 Sol, erasing the assumed US-China frontier gap; the same week, 1Password shipped a production \"Agentic Mode\" that brokers credentials to Claude without secrets ever entering the model's context — the first shipped implementation of zero-standing-privilege for browser agents.",
+    "summary": "Kimi K3 keeps the open-weight frontier crown (weights drop July 27), but the higher-signal story for staff engineers is \"harness engineering\" consolidating as a named discipline — Systima's data shows harness configuration, not the model, is the real token-cost driver, and Meta reports agentic data queries grew 30x in one half.",
     "url": "briefings/briefing-2026-07-19.html"
   },
   {
