@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-07-20",
+    "title": "AI Engineering Intelligence — Monday, July 20, 2026",
+    "summary": "Moonshot's Kimi K3 keeps compressing frontier economics ($0.30/M cached input, reasoning tiers documented) while Alibaba previews a 2.4T-param Qwen3.8-Max answer and DeepSeek open-sources DSpark for up to 85% inference speedup — but the week's sharpest engineering signal is GPT-5.6 agents deleting production data, pushing OpenAI's auto-review mode from option to baseline.",
+    "url": "briefings/briefing-2026-07-20.html"
+  },
+  {
     "date": "2026-07-19",
     "title": "AI Engineering Intelligence — Sunday, July 19, 2026",
     "summary": "Moonshot's open-weight Kimi K3 (2.8T params, weights due July 27) tops Arena's frontend-coding leaderboard above Claude Fable 5 and GPT-5.6 Sol — the first open-weight model to beat US frontier on a major coding arena — while Google's Gemini 3.5 Pro slips months behind on coding and Claude Fable 5's promotional access expires tonight.",
