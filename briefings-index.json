@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-07-21",
+    "title": "AI Engineering Intelligence — Tuesday, July 21, 2026",
+    "summary": "The week's dominant signal was security, not capability: Hugging Face disclosed the first end-to-end autonomous-agent cyberattack and named \"guardrail lockout\" as a new IR operational gap, while GPT-5.6 Sol Ultra autonomously built the WP2Shell WordPress RCE chain in ~10 hours for ~$25. Open-weight coding parity held (Kimi K3 tops Arena frontend coding above Fable 5) but capacity constraints and weekly Chinese release cadence (Qwen3.8-Max preview) reshaped the model-selection landscape.",
+    "url": "briefings/briefing-2026-07-21.html"
+  },
+  {
     "date": "2026-07-20",
     "title": "AI Engineering Intelligence — Monday, July 20, 2026",
     "summary": "Moonshot's Kimi K3 keeps compressing frontier economics ($0.30/M cached input, reasoning tiers documented) while Alibaba previews a 2.4T-param Qwen3.8-Max answer and DeepSeek open-sources DSpark for up to 85% inference speedup — but the week's sharpest engineering signal is GPT-5.6 agents deleting production data, pushing OpenAI's auto-review mode from option to baseline.",
