@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Engineering Intelligence — Thursday, July 24, 2026</title>
+<style>
+  :root {
+    --bg: #0f1117; --surface: #1a1d27; --surface2: #222536; --border: #2e3148;
+    --accent: #6c63ff; --accent2: #00c2a8; --accent3: #f59e0b; --accent4: #ef4444;
+    --text: #e8eaf0; --text-muted: #8b8fa8; --text-dim: #5a5d75;
+    --green: #22c55e; --yellow: #eab308; --red: #ef4444; --orange: #f97316; --blue: #3b82f6; --purple: #a855f7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.7; max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+  a { color: var(--accent2); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+  a:hover { border-bottom-color: var(--accent2); }
+  .header { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 36px; }
+  .header-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; margin-bottom: 6px; }
+  .header-meta { color: var(--text-muted); font-size: 13px; }
+  .section-title { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 44px 0 18px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .exec-summary { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 24px 26px; margin-bottom: 8px; }
+  .exec-summary h2 { font-size: 15px; font-weight: 700; margin-bottom: 14px; color: var(--text); }
+  .signal-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+  .signal-num { background: var(--accent); color: white; font-size: 11px; font-weight: 700; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .signal-text { color: var(--text); line-height: 1.6; }
+  .sentiment-bar-container { margin-top: 18px; }
+  .sentiment-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+  .sentiment-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .sentiment-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #ef4444 0%, #eab308 40%, #22c55e 75%); width: 64%; }
+  .sentiment-caption { font-size: 11px; color: var(--text-muted); margin-top: 5px; }
+  .trend-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 22px 24px; margin-bottom: 18px; }
+  .trend-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .badge { display: inline-flex; align-items: center; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; white-space: nowrap; }
+  .badge-label { color: var(--text-muted); font-weight: 400; margin-right: 4px; font-size: 9px; }
+  .m-explosive { background: rgba(239,68,68,0.18); color: #f87171; }
+  .m-high { background: rgba(245,158,11,0.18); color: #fbbf24; }
+  .m-medium { background: rgba(59,130,246,0.18); color: #60a5fa; }
+  .m-low { background: rgba(139,143,168,0.18); color: #b6bad0; }
+  .s-positive { background: rgba(34,197,94,0.15); color: #4ade80; }
+  .s-mixed { background: rgba(234,179,8,0.15); color: #fde047; }
+  .s-polarizing { background: rgba(168,85,247,0.15); color: #c084fc; }
+  .s-negative { background: rgba(239,68,68,0.15); color: #f87171; }
+  .er-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .er-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .er-low { background: rgba(139,143,168,0.12); color: #b6bad0; }
+  .hr-high { background: rgba(239,68,68,0.12); color: #f87171; }
+  .hr-medium { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .hr-low { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .cl-low { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .trend-body p { margin-bottom: 10px; }
+  .trend-body strong { font-weight: 600; }
+  .field-label { color: var(--text-muted); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 14px; margin-bottom: 4px; display: block; }
+  .contrarian-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #a855f7; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .contrarian-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .declining-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #f97316; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .declining-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .watchlist-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 12px; }
+  .watchlist-name { font-size: 14px; font-weight: 700; color: var(--accent2); margin-bottom: 6px; }
+  .implication-block { border-left: 2px solid var(--accent3); padding: 10px 0 10px 16px; margin-bottom: 12px; }
+  .implication-type { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent3); font-weight: 700; margin-bottom: 4px; }
+  .long-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+  .long-icon { font-size: 13px; margin-top: 2px; width: 24px; flex-shrink: 0; color: var(--accent2); font-weight: 700; }
+  .sources-section { margin-top: 52px; border-top: 1px solid var(--border); padding-top: 24px; }
+  .sources-section h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 700; margin-bottom: 14px; }
+  .sources-list { list-style: none; }
+  .sources-list li { font-size: 12px; color: var(--text-muted); margin-bottom: 7px; display: flex; gap: 8px; }
+  .sources-list li .src-num { color: var(--text-dim); flex-shrink: 0; width: 24px; }
+  .sources-list li a { font-size: 12px; color: var(--text-muted); }
+  .sources-list li a:hover { color: var(--accent2); }
+  .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text-dim); text-align: center; }
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-label">Daily Intelligence Briefing</div>
+  <h1>AI Engineering Intelligence</h1>
+  <div class="header-meta">Thursday, July 24, 2026 &middot; 5-minute read &middot; Signal over noise</div>
+</header>
+
+<div class="section-title">Executive Summary</div>
+<div class="exec-summary">
+  <h2>Top 5 Highest-Signal Developments</h2>
+  <div class="signal-row"><div class="signal-num">1</div><div class="signal-text"><strong><a href="https://blog.modelcontextprotocol.io/posts/2026-07-28-release-candidate/">MCP goes stateless on July 28</a>.</strong> The largest Model Context Protocol rewrite since launch removes protocol-level sessions and the <code>initialize</code> handshake — a breaking change that scales cloud deployments but forces rework for homebrew MCP engines.</div></div>
+  <div class="signal-row"><div class="signal-num">2</div><div class="signal-text"><strong><a href="https://www.interconnects.ai/p/kimi-k3-the-open-weights-escalation">Moonshot's Kimi K3 is the strongest open-weight model ever released</a>.</strong> 2.8T-param MoE hits #3 on Artificial Analysis and #1 on Frontend Code Arena; Microsoft is evaluating it for Copilot to cut up to $600M in inference costs — open weights drop July 27.</div></div>
+  <div class="signal-row"><div class="signal-num">3</div><div class="signal-text"><strong><a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-6-flash-3-5-flash-lite-3-5-flash-cyber/">Gemini 3.6 Flash ships a token-efficiency inflection</a>.</strong> Up to 65% fewer output tokens on DeepSWE and a 12-point DeepSWE jump (37%→49%); the flagship 3.5 Pro stays delayed while Google competes on cost-per-task.</div></div>
+  <div class="signal-row"><div class="signal-num">4</div><div class="signal-text"><strong><a href="https://www.darkreading.com/application-security/choose-wisely-ai-generated-coding-risk-varies">Secure Code Warrior's AI Trust Index quantifies per-model code-vuln fingerprints</a>.</strong> 15 confirmed vulnerabilities per codebase on average, and a model's security profile swings wildly by framework — Claude Opus 4.8 scores 100 on Django but 28.5 on C#-Basic.</div></div>
+  <div class="signal-row"><div class="signal-num">5</div><div class="signal-text"><strong><a href="https://www.securityweek.com/nuclear-sabotage-malware-benchmark-trips-up-most-frontier-ai-models/amp/">SentinelOne's Fast16 benchmark isolates "project-scale recovery"</a>.</strong> Only GPT-5.6 Sol sustains an 8-stage malware investigation; the new failure mode is not skill but inability to retract a disproven conclusion and propagate the fix downstream.</div></div>
+  <div class="sentiment-bar-container">
+    <div class="sentiment-label">Practitioner Sentiment — Cautiously-Positive (with cost-shock undercurrent)</div>
+    <div class="sentiment-bar"><div class="sentiment-fill" style="width:62%"></div></div>
+    <div class="sentiment-caption">Open-weights and token efficiency are rewriting unit economics faster than governance can react; engineers are excited, security teams are behind.</div>
+  </div>
+</div>
+
+<div class="section-title">Model Watch</div>
+
+<div class="trend-card">
+  <div class="trend-title">1. Kimi K3 (Moonshot AI) — open-weight frontier</div>
+  <div class="badges">
+    <span class="badge m-explosive"><span class="badge-label">Momentum</span>Explosive</span>
+    <span class="badge s-polarizing"><span class="badge-label">Sentiment</span>Polarizing</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-high"><span class="badge-label">Hype Risk</span>High</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>2.8T-parameter MoE model announced July 16; open weights promised <a href="https://www.businessinsider.com/kimi-k3-ai-model-moonshot-china-open-weights-benchmarks-pricing-2026-7">July 27</a>. ~1M-token context. Available via Kimi.com and Moonshot's API now; self-hosting opens next week. Ranked <a href="https://www.thelec.net/news/articleView.html?idxno=12361">#3 on Artificial Analysis' Intelligence Index</a> (behind only Claude Fable 5 and GPT-5.6), <a href="https://x.com/arena/status/2077824029126504525">#1 on Frontend Code Arena</a>, and <a href="https://www.interconnects.ai/p/kimi-k3-the-open-weights-escalation">#2 on the Vals AI index</a>.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>Strong on agentic coding: 84% on Terminal-Bench v2, 64% on DeepSWE (beating Claude Opus 4.8 and Grok 4.5), but only 23% on SWE-Atlas-QnA drags its Coding Agent Index to #4. Notable for low refusal rate — <a href="https://theinnermostloop.substack.com/p/welcome-to-july-17-2026">"least constrained frontier-class model"</a> per practitioner reports. Per-task cost ~$0.94 on the AA Intelligence Index (half of Opus, triple its K2 predecessor). KV-cache optimizations make it efficient on data-center-scale GPU fleets despite the 896-expert MoE.</p>
+    <span class="field-label">Who is using it</span><p>Microsoft is <a href="https://wccftech.com/microsoft-looking-to-save-as-much-as-600-million-by-swapping-gpt-and-claude-for-chinas-kimi-k3-in-copilot-risking-a-rap-on-the-knuckles-from-the-trump-administration/">working to offer K3 via Azure and evaluating it for Copilot</a>, projecting up to $600M in inference savings vs. GPT/Claude. Independent security lab Arcee assessed Chinese open-weights as <a href="https://techcrunch.com/2026/07/22/arcee-a-us-open-source-ai-lab-says-chinese-models-are-not-inherently-dangerous/">no more dangerous than any other open-source software</a> when self-hosted. Vercel CEO Guillermo Rauch called it the <a href="https://www.businessinsider.com/kimi-k3-ai-model-moonshot-china-open-weights-benchmarks-pricing-2026-7">first open model ahead of all proprietary ones on web-engineering benchmarks</a>.</p>
+    <span class="field-label">Engineering implication</span><p>The open-to-closed and US-to-China capability gap has compressed from 6–9 months toward 3–5 months. For teams with self-hosting capacity, K3 makes frontier-class coding agents economically viable outside hyperscaler pricing. Governance/procurement friction (potential US restrictions) is the real blocker, not capability. <strong>Verdict: Trial</strong> — benchmark on your own workloads and prepare a procurement/political-risk decision framework before the weights land July 27.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. Gemini 3.6 Flash / 3.5 Flash-Lite / 3.5 Flash Cyber (Google)</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Google shipped three Gemini tiers on July 21: 3.6 Flash (mid-tier workhorse), 3.5 Flash-Lite (cost tier, now powering Google Search's agentic experiences), and a narrow 3.5 Flash Cyber security variant. All live now across AI Studio, Android Studio, the consumer app, and the Gemini Enterprise Agent Platform. <a href="https://tech-insider.org/gemini-3-6-flash-launch-2026">Gemini 3.5 Pro remains in partner testing</a> — Google shipped cheap/fast first.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>Per <a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-6-flash-3-5-flash-lite-3-5-flash-cyber/">Google's disclosure</a>, 3.6 Flash cuts output tokens ~17% vs. 3.5 Flash (up to 65% on DeepSWE), DeepSWE 37%→49%, MLE-Bench 49.7%→63.9%, OSWorld-Verified 78.4%→83%, GDPval-AA 1349→1421. Knowledge cutoff moved forward 14 months to March 2026. The token-efficiency gain, tracked by the <a href="https://artificialanalysis.ai/models/gemini-3-6-flash">Artificial Analysis Index</a>, is the real story for high-volume agent traffic.</p>
+    <span class="field-label">Who is using it</span><p>Immediate distribution across Google Search (3.5 Flash-Lite), Android Studio, and the consumer Gemini app — a deployment push rather than a preview. Mid-tier refreshes from OpenAI, Anthropic, and xAI make this the price-sensitive segment where cost-per-token wins contracts.</p>
+    <span class="field-label">Engineering implication</span><p>Token efficiency is now the primary competitive axis for agent workloads, overtaking raw benchmark scores. For coding-agent and support-bot workloads, 3.6 Flash materially lowers per-task cost without quality regression. <strong>Verdict: Adopt</strong> for high-volume agent tiers; keep 3.5 Pro on the watchlist until GA.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">3. GPT-5.6 Sol (OpenAI) — sustained-investigation edge</div>
+  <div class="badges">
+    <span class="badge m-medium"><span class="badge-label">Momentum</span>Medium</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Released July 9 as the ChatGPT default, replacing GPT-5.5; sits atop GPQA Diamond. The new signal this week is the <a href="https://www.securityweek.com/nuclear-sabotage-malware-benchmark-trips-up-most-frontier-ai-models/amp/">SentinelOne Fast16 benchmark</a>, the first long-horizon reverse-engineering benchmark — GPT-5.6 Sol was the only model (of GPT-5.5, GLM-5.2, Opus 4.7/4.8) to complete all eight investigation stages across multiple reasoning-effort settings.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>Per the AA index, GPT-5.6 Sol ~$1.04 per Intelligence Index task vs. K3's $0.94 and GPT-5.6 Terra's $0.55. The Fast16 differentiator was not technical insight but "project-scale recovery" — retracting a disproven conclusion and propagating the correction. Opus models tended to declare work finished before defects resolved; GPT-5.5 stalled at stage one.</p>
+    <span class="field-label">Who is using it</span><p><a href="https://www.darkreading.com/cybersecurity-operations/remediating-vulnerabilities-llms-ivanti-automation">Ivanti</a> is using frontier models (direct Anthropic licenses plus OpenAI) to both find and remediate vulnerabilities; an LLM discovered max-severity CVE-2026-10520. SentinelLabs positions the best current use of GPT-5.6 Sol as "supervised investigative agency" — humans define objectives, expose blind spots, retain publication authority.</p>
+    <span class="field-label">Engineering implication</span><p>For long-horizon agent tasks (security analysis, multi-file refactors, open-ended investigations), the model's self-correction discipline now matters more than single-task scores. Build evals that stress retraction-and-propagation, not just per-step accuracy. <strong>Verdict: Adopt</strong> for agentic investigations where reasoning depth and self-correction are load-bearing.</p>
+  </div>
+</div>
+
+<div class="section-title">Agent Engineering &amp; AI SDLC</div>
+
+<div class="trend-card">
+  <div class="trend-title">1. MCP stateless revision (2026-07-28) — breaking spec change</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-mixed"><span class="badge-label">Sentiment</span>Mixed</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>The 2026-07-28 release candidate becomes final on July 28 — <a href="https://www.theregister.com/devops/2026/07/23/model-context-protocol-prepares-to-break-with-its-stateful-past/5276722">the largest MCP revision since launch</a>. It removes the <code>initialize</code> handshake, <code>notifications/initialized</code>, and the <code>Mcp-Session-Id</code> HTTP header. Protocol version and client capabilities now ride in <code>_meta</code> per request; server capabilities move to a new <code>server/discover</code> call. <a href="https://github.blog/changelog/2026-07-23-github-mcp-server-supports-the-next-mcp-specification">GitHub MCP Server already supports it ahead of release</a> (removed Redis sessions, dropped deep-packet inspection). MCP was donated to the AAIF Linux Foundation fund; 97M+ monthly SDK downloads, 10,000+ public servers.</p>
+    <span class="field-label">Why it matters</span><p>Stateless core means requests are self-contained and routable to any instance behind a normal load balancer — no sticky sessions, no shared session store. This is the unlock that lets MCP servers behave like ordinary cloud-native web services. State (shopping carts, browser sessions, transactions) is not gone; it becomes the implementer's responsibility, surfaced as tool arguments (<code>basket_id</code>, <code>browser_id</code>) the model threads explicitly. The data-transfer mechanism is fully rebuilt and "more complicated on the wire."</p>
+    <span class="field-label">Evidence from real teams</span><p>GitHub shipped support (Go SDK) with concrete wins: snappier calls, no DB reads per request. <a href="https://cryptobriefing.com/model-context-protocol-ai-crypto-interoperability">Enhanced authorization capabilities</a> land in the same revision, addressing the persistent concern of who controls what an agent can do in financial systems. Tier-1 SDKs preserved backwards compatibility and already shipped beta support — so teams on official SDKs face minimal churn.</p>
+    <span class="field-label">Engineering implication</span><p>For teams on official SDKs: upgrade is low-friction; plan to surface state as explicit tool arguments and audit authorization scopes. For teams with homebrew MCP engines: Anthropic's own David Soria Parra warned of "a lot of uplift" to conform. Migrate before July 28 or pin to the old spec deliberately. <strong>Verdict: Adopt</strong> the new spec; budget rework time for any bespoke MCP implementation.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. AI Trust Index — per-model code-vulnerability fingerprints</div>
+  <div class="badges">
+    <span class="badge m-medium"><span class="badge-label">Momentum</span>Medium</span>
+    <span class="badge s-mixed"><span class="badge-label">Sentiment</span>Mixed</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Secure Code Warrior launched the <a href="https://aitrustindex.securecodewarrior.com/">AI Trust Index</a> (methodology co-developed with RMIT University), evaluating 1,760 complete codebases generated by 16 frontier models. Average: <a href="https://www.darkreading.com/application-security/choose-wisely-ai-generated-coding-risk-varies">15 confirmed vulnerabilities per codebase</a>, 4.3 of them critical/high; 27,000+ vulnerabilities total.</p>
+    <span class="field-label">Why it matters</span><p>The headline finding is "security fingerprints": each model produces a repeatable mix of OWASP vulnerability categories rather than random failures — so you can anticipate where weaknesses cluster. The decisive nuance is framework-dependence: Claude Opus 4.8 scored 100 on Django but 28.5 on C#-Basic and 57.3 on C-Basic. Overall trust scores (Sonnet 5 = 80.4, Fable 5 = 76.4 best; GPT-5 Mini = 21.6 worst) matter less than the per-framework profile for your stack.</p>
+    <span class="field-label">Evidence from real teams</span><p>This is a governance vendor's dataset, not a single shipping team, but it operationalizes a question every AI-coding team is already asking. It reframes model selection for code generation from "which model is best" to "which model is safest for <em>this</em> framework."</p>
+    <span class="field-label">Engineering implication</span><p>Stop benchmarking coding models only on correctness; benchmark them on the vulnerability classes they introduce in your specific frameworks. Build a per-model, per-framework security regression gate into CI for AI-generated code. <strong>Verdict: Trial</strong> — adopt the fingerprint methodology internally even before integrating SCW's product.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">3. Three-Tiered Trust Strategy — intelligent judges for healthcare AI</div>
+  <div class="badges">
+    <span class="badge m-medium"><span class="badge-label">Momentum</span>Medium</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-low"><span class="badge-label">Production Ready</span>Low</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p><a href="https://hitconsultant.net/2026/07/20/zus-health-three-tiered-trust-strategy-healthcare-ai/">Zus Health's Marc Light published the Three-Tiered Trust Strategy</a> for healthcare AI: take the classic dev-testing → regression-testing → continuous-monitoring triad and add an "intelligence twist" — because AI tasks resist mechanistic tests and are stochastic, each tier needs an intelligent judge (human or LLM) to evaluate.</p>
+    <span class="field-label">Why it matters</span><p>This is a named, portable eval architecture for any domain where output quality is subjective and the system can be wrong in multiple ways — i.e. most agentic workloads. Tier 1 (deep dev testing) covers long-tail edge cases; Tier 2 (regression testing) catches model-update regressions via automated LLM juries; Tier 3 (continuous monitoring) catches production drift. The pattern generalizes beyond healthcare to any agent pipeline with non-binary correctness.</p>
+    <span class="field-label">Evidence from real teams</span><p>Zus Health is a real health-tech company shipping this in production for clinical-safety gating. The "LLM-as-judge juries" approach is corroborated across the agentic-evals space, but this is one of the clearest end-to-end descriptions tied to a deployment.</p>
+    <span class="field-label">Engineering implication</span><p>For any agent system where you cannot write a deterministic oracle, structure evals as three tiers each with an explicit judge and explicit rubric. Don't collapse monitoring into regression testing — model drift needs its own layer. <strong>Verdict: Trial</strong> the three-tier frame; borrow the automated-jury pattern for your regression gate.</p>
+  </div>
+</div>
+
+<div class="section-title">Terminology Tracker</div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.securityweek.com/nuclear-sabotage-malware-benchmark-trips-up-most-frontier-ai-models/amp/">Project-scale recovery</a> — NEW</div><p><strong>Definition:</strong> Coined by SentinelOne SentinelLabs in the Fast16 benchmark writeup. A model's ability to withdraw a disproven conclusion, trace everything downstream that depended on it, fix the root cause, and carry that correction through the rest of a long investigation — rather than patching the immediate error. Differs from per-task accuracy: it is a sustained, multi-step self-correction property. Only GPT-5.6 Sol demonstrated it across all eight Fast16 stages; Opus models "declared work finished before defects were resolved."</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://aitrustindex.securecodewarrior.com/">AI Trust Index</a> — NEW</div><p><strong>Definition:</strong> Secure Code Warrior's per-model, per-framework scoring of code-vuln risk, built with RMIT University across 1,760 codebases and 16 frontier models. Key concept: "security fingerprint" — each model produces a repeatable mix of OWASP vulnerability categories, and performance varies by framework more than by model. Reframes AI-codegen governance from "which model is best" to "which model is safest for this stack."</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://hitconsultant.net/2026/07/20/zus-health-three-tiered-trust-strategy-healthcare-ai/">Three-Tiered Trust Strategy</a> — NEW</div><p><strong>Definition:</strong> Zus Health's extension of dev testing → regression testing → continuous monitoring for AI systems, where each tier is evaluated by an intelligent judge (human or automated LLM jury) rather than deterministic assertions, because AI outputs resist mechanistic tests and fail stochastically. A portable eval architecture for subjective-correctness agent pipelines.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://blog.modelcontextprotocol.io/posts/2026-07-28-release-candidate/">MCP stateless core</a> — NEW</div><p><strong>Definition:</strong> The 2026-07-28 MCP revision removing protocol-level sessions, the <code>initialize</code> handshake, and <code>Mcp-Session-Id</code>, so each request is self-contained (version/capabilities in <code>_meta</code> and HTTP headers) and routable to any server instance. Application state is surfaced as explicit tool arguments (<code>basket_id</code>, <code>browser_id</code>) the model threads directly — not hidden behind the connection. The largest breaking change since MCP's 2024 launch.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.csoonline.com/article/4200895/4-ways-ai-driven-defense-is-rewriting-the-cybersecurity-playbook-2.html">Agentic Endpoint Security (AES)</a> — NEW</div><p><strong>Definition:</strong> Palo Alto Networks-coined term (via Cortex XDR) for endpoint security architected as an active autonomous participant rather than a passive monitor, providing visibility and automated guardrails to govern AI agents and agentic tools. Reflects the defensive framing that SOC teams must "fight AI with AI" as autonomous agents execute multi-stage attacks at machine speed.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://wccftech.com/an-openai-exec-thinks-kimi-k3-and-other-open-weight-models-are-bringing-on-ai-communism/">"AI communism"</a> — NEW</div><p><strong>Definition:</strong> Pejorative framing attributed to an OpenAI executive characterizing the commoditization pressure from open-weight models like Kimi K3 and DeepSeek. Signals the political-economic anxiety inside closed labs as open inference costs collapse to a fraction of proprietary pricing — useful as a sentiment marker, not an engineering term.</p></div>
+
+<div class="section-title">Trend Deltas</div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Project-scale recovery</strong> — first seen today; entered tracking. A new eval dimension (sustained self-correction) that separates frontier models on long-horizon tasks.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>AI Trust Index</strong> — first seen today; entered tracking. Per-model, per-framework security fingerprints for AI-generated code.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Three-Tiered Trust Strategy</strong> — first seen today; entered tracking. Intelligent-judge eval architecture for stochastic AI systems.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>MCP stateless core</strong> — first seen today; entered tracking. Breaking 2026-07-28 spec change; cloud-native scaling for agent tooling.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Agentic Endpoint Security (AES)</strong> — first seen today; entered tracking. Defensive counterpart to offensive agent capability.</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>Kimi K3 / open-weight frontier</strong> — accelerating this week; open weights land July 27, Microsoft evaluating for Copilot ($600M savings projection). The open-vs-closed and US-vs-China gap narrative is the dominant market signal.</div></div>
+<div class="long-row"><div class="long-icon">&#8593;</div><div><strong>Token efficiency as primary competitive axis</strong> — up; Gemini 3.6 Flash's up-to-65% DeepSWE token reduction confirms cost-per-task is overtaking raw benchmark scores as the agent-workload battleground.</div></div>
+<div class="long-row"><div class="long-icon">&#8593;</div><div><strong>LLM-driven vulnerability discovery &amp; remediation</strong> — up; Ivanti's LLM-found max-severity CVE and Project Glasswing/Mythos show offensive-capable AI moving from demo to deployed security workflow.</div></div>
+
+<div class="section-title">Strategic Implications</div>
+<div class="implication-block"><div class="implication-type">Adopt</div><p>The MCP 2026-07-28 stateless spec on official SDKs (upgrade path is low-friction; backwards-compatible betas already shipped); token-efficiency-tier models like Gemini 3.6 Flash for high-volume agent traffic; per-step self-correction evals (project-scale recovery) for any long-horizon agent task.</p></div>
+<div class="implication-block"><div class="implication-type">Trial</div><p>Kimi K3 on your own workloads once weights land July 27, with a procurement/political-risk decision framework pre-written; the AI Trust Index fingerprint methodology — benchmark coding models on the vulnerability classes they introduce per-framework, not just correctness; the Three-Tiered Trust Strategy's intelligent-judge eval architecture for subjective-correctness agent pipelines.</p></div>
+<div class="implication-block"><div class="implication-type">Watch</div><p>US regulatory response to Chinese open-weights (potential restrictions could reshape availability); Gemini 3.5 Pro GA timing (still in partner testing, reportedly months behind); the consolidation of offensive-AI security tooling (Glasswing/Mythos, Cisco Antares open-weight code-security models, Patch the Planet) into standard SDLC practice.</p></div>
+<div class="implication-block"><div class="implication-type">30-90 Day Watchlist</div><p>Whether Kimi K3 self-hosting economics hold at scale outside Microsoft's controlled evaluation; whether MCP stateless migration surfaces a wave of broken homebrew servers (and a conformance-test tooling market around it); whether "project-scale recovery" becomes a standardized benchmark component or stays a SentinelOne framing; the next frontier-model moves (rumored Fable 5.1 and GPT-6 within ~6 weeks) and whether they shift the open/closed gap back.</p></div>
+
+<div class="sources-section"><h2>Sources</h2><ol class="sources-list">
+  <li><span class="src-num">[1]</span><a href="https://blog.modelcontextprotocol.io/posts/2026-07-28-release-candidate/">Model Context Protocol — "2026-07-28 Release Candidate"</a></li>
+  <li><span class="src-num">[2]</span><a href="https://github.blog/changelog/2026-07-23-github-mcp-server-supports-the-next-mcp-specification">GitHub Blog — "GitHub MCP Server supports the next MCP specification"</a></li>
+  <li><span class="src-num">[3]</span><a href="https://www.theregister.com/devops/2026/07/23/model-context-protocol-prepares-to-break-with-its-stateful-past/5276722">The Register — "Model Context Protocol prepares to break with its stateful past"</a></li>
+  <li><span class="src-num">[4]</span><a href="https://www.interconnects.ai/p/kimi-k3-the-open-weights-escalation">Interconnects (Nathan Lambert) — "Kimi K3: The open-weights escalation"</a></li>
+  <li><span class="src-num">[5]</span><a href="https://www.businessinsider.com/kimi-k3-ai-model-moonshot-china-open-weights-benchmarks-pricing-2026-7">Business Insider — "3 reasons China's Kimi K3 is turning heads in Silicon Valley"</a></li>
+  <li><span class="src-num">[6]</span><a href="https://www.thelec.net/news/articleView.html?idxno=12361">The Elec — "Chinese AI Models Close in on OpenAI as Google Delays Gemini 3.5 Pro"</a></li>
+  <li><span class="src-num">[7]</span><a href="https://wccftech.com/microsoft-looking-to-save-as-much-as-600-million-by-swapping-gpt-and-claude-for-chinas-kimi-k3-in-copilot-risking-a-rap-on-the-knuckles-from-the-trump-administration/">Wccftech — "Microsoft Looking To Save As Much As $600 Million By Swapping GPT And Claude For China's Kimi K3 In Copilot"</a></li>
+  <li><span class="src-num">[8]</span><a href="https://techcrunch.com/2026/07/22/arcee-a-us-open-source-ai-lab-says-chinese-models-are-not-inherently-dangerous/">TechCrunch — "Arcee, a US open source AI lab, says Chinese models are not inherently dangerous"</a></li>
+  <li><span class="src-num">[9]</span><a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-6-flash-3-5-flash-lite-3-5-flash-cyber/">Google — "Introducing Gemini 3.6 Flash, 3.5 Flash-Lite, and 3.5 Flash Cyber"</a></li>
+  <li><span class="src-num">[10]</span><a href="https://tech-insider.org/gemini-3-6-flash-launch-2026">Tech Insider — "Gemini 3.6 Flash Debuts: 17% Cheaper, 12-Point Gain"</a></li>
+  <li><span class="src-num">[11]</span><a href="https://artificialanalysis.ai/models/gemini-3-6-flash">Artificial Analysis — Gemini 3.6 Flash model page</a></li>
+  <li><span class="src-num">[12]</span><a href="https://www.securityweek.com/nuclear-sabotage-malware-benchmark-trips-up-most-frontier-ai-models/amp/">SecurityWeek — "Nuclear-Sabotage Malware Benchmark Trips Up Most Frontier AI Models"</a></li>
+  <li><span class="src-num">[13]</span><a href="https://www.darkreading.com/application-security/choose-wisely-ai-generated-coding-risk-varies">Dark Reading — "Choose Wisely: AI-Generated Coding Risk Varies, A Lot"</a></li>
+  <li><span class="src-num">[14]</span><a href="https://aitrustindex.securecodewarrior.com/">Secure Code Warrior — "AI Trust Index"</a></li>
+  <li><span class="src-num">[15]</span><a href="https://hitconsultant.net/2026/07/20/zus-health-three-tiered-trust-strategy-healthcare-ai/">HIT Consultant — "The Three-Tiered Trust Strategy" (Zus Health)</a></li>
+  <li><span class="src-num">[16]</span><a href="https://www.darkreading.com/cybersecurity-operations/remediating-vulnerabilities-llms-ivanti-automation">Dark Reading — "Remediating Vulns With LLMs: Inside Ivanti's Automation Push"</a></li>
+  <li><span class="src-num">[17]</span><a href="https://theinnermostloop.substack.com/p/welcome-to-july-17-2026">The Innermost Loop (Alex Wissner-Gross) — "Welcome to July 17, 2026"</a></li>
+  <li><span class="src-num">[18]</span><a href="https://www.securityweek.com/cisco-launches-low-cost-ai-models-for-source-code-security/">SecurityWeek — "Cisco Launches Low-Cost AI Models for Source Code Security"</a></li>
+  <li><span class="src-num">[19]</span><a href="https://cryptobriefing.com/model-context-protocol-ai-crypto-interoperability">Crypto Briefing — "Model Context Protocol is quietly becoming the backbone of AI and crypto integration"</a></li>
+  <li><span class="src-num">[20]</span><a href="https://www.csoonline.com/article/4200895/4-ways-ai-driven-defense-is-rewriting-the-cybersecurity-playbook-2.html">CSO Online — "4 ways AI-driven defense is rewriting the cybersecurity playbook"</a></li>
+  <li><span class="src-num">[21]</span><a href="https://wccftech.com/an-openai-exec-thinks-kimi-k3-and-other-open-weight-models-are-bringing-on-ai-communism/">Wccftech — "An OpenAI Exec Thinks Kimi K3 And Other Open-Weight Models Are Bringing On AI Communism"</a></li>
+</ol></div>
+<div class="footer">AI Engineering Intelligence &nbsp;&middot;&nbsp; 2026-07-24 &nbsp;&middot;&nbsp; Automated daily run &nbsp;&middot;&nbsp; Signal over noise</div>
+</body>
+</html>
