@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Engineering Intelligence — Sunday, July 26, 2026</title>
+<style>
+  :root {
+    --bg: #0f1117; --surface: #1a1d27; --surface2: #222536; --border: #2e3148;
+    --accent: #6c63ff; --accent2: #00c2a8; --accent3: #f59e0b; --accent4: #ef4444;
+    --text: #e8eaf0; --text-muted: #8b8fa8; --text-dim: #5a5d75;
+    --green: #22c55e; --yellow: #eab308; --red: #ef4444; --orange: #f97316; --blue: #3b82f6; --purple: #a855f7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.7; max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+  a { color: var(--accent2); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+  a:hover { border-bottom-color: var(--accent2); }
+  .header { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 36px; }
+  .header-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; margin-bottom: 6px; }
+  .header-meta { color: var(--text-muted); font-size: 13px; }
+  .section-title { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 44px 0 18px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .exec-summary { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 24px 26px; margin-bottom: 8px; }
+  .exec-summary h2 { font-size: 15px; font-weight: 700; margin-bottom: 14px; color: var(--text); }
+  .signal-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+  .signal-num { background: var(--accent); color: white; font-size: 11px; font-weight: 700; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .signal-text { color: var(--text); line-height: 1.6; }
+  .sentiment-bar-container { margin-top: 18px; }
+  .sentiment-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+  .sentiment-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .sentiment-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #ef4444 0%, #eab308 40%, #22c55e 75%); width: 64%; }
+  .sentiment-caption { font-size: 11px; color: var(--text-muted); margin-top: 5px; }
+  .trend-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 22px 24px; margin-bottom: 18px; }
+  .trend-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .badge { display: inline-flex; align-items: center; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; white-space: nowrap; }
+  .badge-label { color: var(--text-muted); font-weight: 400; margin-right: 4px; font-size: 9px; }
+  .m-explosive { background: rgba(239,68,68,0.18); color: #f87171; }
+  .m-high { background: rgba(245,158,11,0.18); color: #fbbf24; }
+  .m-medium { background: rgba(59,130,246,0.18); color: #60a5fa; }
+  .m-low { background: rgba(139,143,168,0.18); color: #b6bad0; }
+  .s-positive { background: rgba(34,197,94,0.15); color: #4ade80; }
+  .s-mixed { background: rgba(234,179,8,0.15); color: #fde047; }
+  .s-polarizing { background: rgba(168,85,247,0.15); color: #c084fc; }
+  .s-negative { background: rgba(239,68,68,0.15); color: #f87171; }
+  .er-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .er-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .er-low { background: rgba(139,143,168,0.12); color: #b6bad0; }
+  .hr-high { background: rgba(239,68,68,0.12); color: #f87171; }
+  .hr-medium { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .hr-low { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .cl-low { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .trend-body p { margin-bottom: 10px; }
+  .trend-body strong { font-weight: 600; }
+  .field-label { color: var(--text-muted); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 14px; margin-bottom: 4px; display: block; }
+  .contrarian-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #a855f7; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .contrarian-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .declining-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #f97316; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .declining-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .watchlist-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 12px; }
+  .watchlist-name { font-size: 14px; font-weight: 700; color: var(--accent2); margin-bottom: 6px; }
+  .implication-block { border-left: 2px solid var(--accent3); padding: 10px 0 10px 16px; margin-bottom: 12px; }
+  .implication-type { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent3); font-weight: 700; margin-bottom: 4px; }
+  .long-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+  .long-icon { font-size: 13px; margin-top: 2px; width: 24px; flex-shrink: 0; color: var(--accent2); font-weight: 700; }
+  .sources-section { margin-top: 52px; border-top: 1px solid var(--border); padding-top: 24px; }
+  .sources-section h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 700; margin-bottom: 14px; }
+  .sources-list { list-style: none; }
+  .sources-list li { font-size: 12px; color: var(--text-muted); margin-bottom: 7px; display: flex; gap: 8px; }
+  .sources-list li .src-num { color: var(--text-dim); flex-shrink: 0; width: 24px; }
+  .sources-list li a { font-size: 12px; color: var(--text-muted); }
+  .sources-list li a:hover { color: var(--accent2); }
+  .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text-dim); text-align: center; }
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-label">Daily Intelligence Briefing</div>
+  <h1>AI Engineering Intelligence</h1>
+  <div class="header-meta">Sunday, July 26, 2026 &middot; 5-minute read &middot; Signal over noise</div>
+</header>
+
+<div class="section-title">Executive Summary</div>
+<div class="exec-summary">
+  <h2>Top 5 Highest-Signal Developments</h2>
+  <div class="signal-row"><div class="signal-num">1</div><div class="signal-text"><strong><a href="https://www.anthropic.com/news/claude-opus-5">Claude Opus 5 ships at #1 on Artificial Analysis' Intelligence Index (61)</a>.</strong> Near-Fable-5 intelligence at half the price ($5/$25 per Mtok) and a new effort dial — but a 50% hallucination rate and deliberate Mythos-style discovery/weaponization asymmetry make it the new default-with-caveats for agentic coding.</div></div>
+  <div class="signal-row"><div class="signal-num">2</div><div class="signal-text"><strong><a href="https://www.techtimes.com/articles/321551/20260725/kimi-k3-open-weights-arrive-sunday-self-hosting-cuts-china-data-risk-api-never-can.htm">Kimi K3 open weights land July 27 under geopolitical fire</a>.</strong> The largest open-weight release ever (2.8T MoE) arrives as the White House accuses Moonshot of distilling Fable 5 and Beijing weighs export controls on weights — self-hosting becomes the only path that keeps prompts off Chinese servers.</div></div>
+  <div class="signal-row"><div class="signal-num">3</div><div class="signal-text"><strong><a href="https://www.theregister.com/devops/2026/07/23/model-context-protocol-prepares-to-break-with-its-stateful-past/5276722">MCP goes stateless on July 28 — its biggest breaking change since launch</a>.</strong> Sessions, the initialize handshake, and Mcp-Session-Id are removed; each request is self-contained and routable behind a normal load balancer. Homebrew MCP engines face significant rework; SDK-updated users get an easier path.</div></div>
+  <div class="signal-row"><div class="signal-num">4</div><div class="signal-text"><strong><a href="https://www.theregister.com/ai-and-ml/2026/07/25/anthropic-debuts-opus-5-at-half-the-price-of-its-fable-sibling/5278630">Anthropic cut 80% of the Claude Code system prompt and rewrote context-engineering rules</a>.</strong> "Context as architecture" is now a named, vendor-blessed practice — prompt/skill/CLAUDE.md density, not model choice, is the new lever for Claude 5-generation agents.</div></div>
+  <div class="signal-row"><div class="signal-num">5</div><div class="signal-text"><strong><a href="https://finance.biggo.com/podcast/f6bd3f772b9a0575">"Building agents is an ML problem, not a coding problem" — Harbor's empirical-eval thesis</a>.</strong> Lot Institute's Alex Shaw argues every agent behavior must be measured like generalization error, formalizing the shift from deterministic SDLC to eval-driven agent development.</div></div>
+  <div class="sentiment-bar-container">
+    <div class="sentiment-label">Practitioner Sentiment — Cautiously Positive</div>
+    <div class="sentiment-bar"><div class="sentiment-fill" style="width:62%"></div></div>
+    <div class="sentiment-caption">Capability-per-dollar is improving fast and tooling (MCP, evals, context engineering) is maturing, but sandbox-escape fallout, 50% hallucination rates, and open-weight geopolitics keep teams hedging.</div>
+  </div>
+</div>
+
+<div class="section-title">Model Watch</div>
+
+<div class="trend-card">
+  <div class="trend-title">1. Claude Opus 5 — Anthropic's new default, frontier-class at mid-tier price</div>
+  <div class="badges">
+    <span class="badge m-explosive"><span class="badge-label">Momentum</span>Explosive</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Anthropic released <a href="https://www.anthropic.com/news/claude-opus-5">Claude Opus 5</a> on July 24 as the new default on Claude Max and strongest tier on Claude Pro — its fourth Claude 5 release in under two months. It is pitched not as the smartest model (Fable 5 retains that crown for long autonomous runs) but as the economically important middle band: near-frontier intelligence delivered cheaply for everyday agent workloads, with an <a href="https://www.axios.com/2026/07/24/anthropic-releases-new-model-opus-5">effort "dial"</a> (low→max) trading tokens for depth.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>Priced at $5/$25 per Mtok — unchanged from Opus 4.8, half of Fable 5's $10/$50. Per <a href="https://the-decoder.com/anthropics-claude-opus-5-costs-well-below-fable-5-while-matching-or-beating-it-across-most-benchmarks">Artificial Analysis</a>, it tops the Intelligence Index at 61 (vs Fable 5 60, GPT-5.6 Sol 59, Kimi K3 57, Opus 4.8 56), ties GPT-5.6 Sol for first on the Coding Agent Index (67), and scores 89% at "max" on Terminal-Bench v2.1. On <a href="https://venturebeat.com/orchestration/anthropic-launches-claude-opus-5-a-cheaper-model-for-coding-agents-and-enterprise-workflows">Frontier-Bench v0.1</a> it hits 43.3% — more than double Opus 4.8 (18.7%) and ahead of Fable 5 (33.7%) — and beats the next-best model 3× on ARC-AGI 3. Honest caveats: it trails GPT-5.6 Sol on DeepSWE (68.8% vs 72.7%), trails Fable 5 on HLE (56.3% vs 56.5%), and its <a href="https://the-decoder.com/anthropics-claude-opus-5-costs-well-below-fable-5-while-matching-or-beating-it-across-most-benchmarks">hallucination rate climbed 14 points to 50%</a> because it answers more readily when uncertain. Anthropic also reports it <a href="https://www.theregister.com/ai-and-ml/2026/07/25/anthropic-debuts-opus-5-at-half-the-price-of-its-fable-sibling/5278630">found vulnerabilities at 80% on OSS-Fuzz (near Mythos 5's 79.4%) but weaponized only 4/14 vs Mythos's 13/14</a> — a deliberate discovery-without-exploitation asymmetry.</p>
+    <span class="field-label">Who is using it</span><p>Anthropic set it as the default for paying Max/Pro users immediately; a <a href="https://www.cnet.com/tech/services-and-software/anthropic-releases-claude-opus-5-to-be-your-new-everyday-assistant/">Fast mode</a> (2.5× output speed at 2× price) is in research preview, and Claude Code gained extra usage credits. Anthropic concurrently <a href="https://finance.biggo.com/news/ac888bae-b6a7-4d45-8b65-d6c64b441ae6">ended Fable 5's unlimited tier and cut Max caps to 50%</a>, forcing a cost-aware migration onto Opus 5.</p>
+    <span class="field-label">Engineering implication</span><p>Opus 5 is the new cost-aware default for bounded agentic coding and knowledge work; keep Fable 5 reserved for days-long autonomous runs. Plan for verbosity (prompt explicitly for length control), wire the effort dial into your routing layer, and add fact-verification for any knowledge-retrieval path given the 50% hallucination rate. The <a href="https://www.theregister.com/ai-and-ml/2026/07/25/anthropic-debuts-opus-5-at-half-the-price-of-its-fable-sibling/5278630">server-side fallback model</a> and mid-conversation tool-swapping (without invalidating the prompt cache) are real plumbing wins for agent builders. <strong>Verdict: Adopt</strong> as the everyday driver; verify facts and contain long runs.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. Kimi K3 — open weights land July 27, the largest open release ever — under geopolitical fire</div>
+  <div class="badges">
+    <span class="badge m-explosive"><span class="badge-label">Momentum</span>Explosive</span>
+    <span class="badge s-polarizing"><span class="badge-label">Sentiment</span>Polarizing</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-high"><span class="badge-label">Hype Risk</span>High</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Moonshot AI publishes <a href="https://www.kimi.com/blog/kimi-k3">Kimi K3's full weights on Hugging Face July 27</a> — a 2.8T-parameter MoE that activates only 16 of 896 experts per token (~50B active params), with a 1M-token context window. In MXFP4 the weights still need <a href="https://www.techi.com/kimi-k3-open-weights-inference-economics">~1.4 TB of fast memory</a>, so "open" means "run on a cloud/inference provider with Blackwell or MI400 silicon," not a workstation. The launch has become a geopolitical flashpoint: the <a href="https://www.lawfaremedia.org/article/knives-are-out-for-open-weight-ai-models">White House accused Moonshot of "large-scale, covert industrial distillation" of U.S. models</a>, Treasury threatened Entity List designations, and <a href="https://cryptobriefing.com/china-tighter-export-controls-ai-chips">China's Ministry of Commerce is consulting Alibaba, ByteDance, Zhipu, and Huawei on restricting foreign access to weights</a> — the download window may not stay open.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>Independent rankings: <a href="https://www.interconnects.ai/p/kimi-k3-the-open-weights-escalation">#3 on Artificial Analysis' Intelligence Index (57)</a>, #1 on Frontend Code Arena, #2 on Vals AI. The <a href="https://www.aisi.gov.uk/blog/preliminary-assessment-of-kimi-k3s-cyber-capabilities">UK AISI/CAISI joint assessment</a> finds K3 "significantly below" U.S. frontier cyber-capable models on exploit development (reaching step 17 of a 32-step attack path vs 28.5 for top U.S. models) but above GLM-5.2, and notes its safeguards did <em>not</em> block agentic offensive cyber operations. Crucially, <a href="https://www.techtimes.com/articles/321499/20260724/kimi-k3-open-weights-drop-july-27-near-frontier-coding-undisclosed-hallucination-risk.htm">Artificial Analysis measured a ~51% hallucination rate</a> — up from 39% on its predecessor — that appears nowhere in Moonshot's charts.</p>
+    <span class="field-label">Who is using it</span><p>Moonshot <a href="https://www.reuters.com/legal/transactional/chinas-moonshot-pauses-kimi-subscriptions-amid-hot-demand-ipo-push-2026-07-20/">paused new subscriptions within days</a> of the API launch amid capacity exhaustion and an IPO push. Self-hosting is the differentiator: <a href="https://www.techtimes.com/articles/321551/20260725/kimi-k3-open-weights-arrive-sunday-self-hosting-cuts-china-data-risk-api-never-can.htm">downloaded weights keep prompts off servers subject to China's National Intelligence Law</a> — the only posture that fully removes that data-sovereignty risk.</p>
+    <span class="field-label">Engineering implication</span><p>Treat the API and the weights as two different procurement decisions with different risk profiles. For any sensitive workload, evaluate self-hosted weights via an inference provider rather than the API; budget for ~1.4 TB of fast memory and license-confirmation on release day. Treat Moonshot's benchmark charts as unverified until third-party evals (Artificial Analysis, Vals AI, AISI) replicate — the hallucination omission is a cautionary tale. <strong>Verdict: Trial</strong> the self-hosted weights for coding where data sovereignty matters; do not route sensitive prompts through the hosted API; watch the export-control window closely.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">3. Poolside Laguna &amp; Qwen 3.8 Max — the open-weight counter-offensive</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-mixed"><span class="badge-label">Sentiment</span>Mixed</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>The open-weight field is splitting into a Chinese frontier push and a U.S. challenger cohort. <a href="https://the-decoder.com/alibabas-qwen-takes-on-kimi-k3-with-open-weight-qwen-3-8-says-model-is-second-only-to-fable-5/">Alibaba previewed Qwen 3.8 Max</a> (2.4T params, first &gt;1T multimodal Qwen, images/video/docs) at 10% of standard price via Qoder, with open weights "soon" and a self-claim of "second only to Fable 5" — no independent benchmarks yet. On the U.S. side, <a href="https://www.forbes.com/sites/iainmartin/2026/07/21/american-open-source-labs-think-they-can-beat-chinas-best-ai-startups/">Poolside emerged from stealth with Laguna</a> (118B params), claiming to beat all American and Chinese open competition except Kimi K3, built on an industrial "model-building factory" cadence of a new model every five weeks.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>Qwen 3.8 Max has no public benchmark numbers — only vendor claims of outperforming Qwen 3.7-Max on coding and complex productivity. Poolside's Laguna is 20× smaller than Kimi K3 and concedes a long way to go against closed frontier models; its claim rests on public benchmarks with the explicit Kimi K3 exception. Both are unverified by independent evaluators as of this run.</p>
+    <span class="field-label">Who is using it</span><p>Poolside has shared weights with a small number of undisclosed government and corporate clients since April and began public release alongside Laguna. Qwen 3.8 Max is in limited preview through Alibaba's Token Plan and Qoder — no reported production deployments yet.</p>
+    <span class="field-label">Engineering implication</span><p>These are credible entrants in the "open but not Chinese" procurement lane that some compliance-constrained teams need, but neither has the independent eval coverage to displace Kimi K3 or the closed frontier today. Qwen 3.8 Max's pending open-weight release is the one to re-evaluate once weights and third-party scores land. <strong>Verdict: Watch</strong> — interesting for sovereignty-constrained or Western-data-residency requirements; do not commit before independent benchmarks.</p>
+  </div>
+</div>
+
+<div class="section-title">Agent Engineering &amp; AI SDLC</div>
+
+<div class="trend-card">
+  <div class="trend-title">1. MCP stateless core — the protocol's largest breaking change finalizes July 28</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>The <a href="https://www.theregister.com/devops/2026/07/23/model-context-protocol-prepares-to-break-with-its-stateful-past/5276722">2026-07-28 MCP revision</a> — locked as a release candidate May 21 — becomes the final spec on July 28, removing protocol-level sessions, the <code>initialize</code> handshake, and <code>Mcp-Session-Id</code>. Version, client identity, and capabilities now travel in <code>_meta</code> (and the <code>MCP-Protocol-Version</code> header over HTTP) on every request; a new <code>server/discover</code> call replaces the init response. Each request is self-contained and routable to any server instance behind a normal load balancer — <a href="https://xenospectrum.com/en/mcp-stateless-protocol-2026">no sticky sessions, no shared session store</a>. Application state (shopping carts, browser handles, transaction IDs) is surfaced as explicit tool arguments the model threads, not hidden behind the connection. The spec starts a <a href="https://tech-insider.org/ie/model-context-protocol-mcp-update-2026">12-month deprecation clock</a> for older protocol versions.</p>
+    <span class="field-label">Why it matters</span><p>This is the largest MCP change since its 2024 launch and the fix for its cloud-scalability problem: per-connection state was breaking multi-tenant deployments. MCP is now donated to the AAIF (Linux Foundation), downloaded 97M+/month, with 10,000+ public servers and adoption by OpenAI, Google, Microsoft, AWS — and <a href="https://ppc.land/snap-gains-mcp-server-and-creator-ai-matching-across-950-million-users">Snap just shipped an MCP server for its ads platform</a>. The cost: homebrew MCP engines face "a lot of uplift," per maintainer David Soria Parra; SDK-updated users get an easier path. Independent scans have found exploitable flaws in a large share of public servers, prompting NSA/CISA guidance.</p>
+    <span class="field-label">Evidence from real teams</span><p>The Register and XenoSpectrum confirm the wire-level changes; Crypto Briefing notes the stateless core plus enhanced authorization directly enable agentic financial/blocked use cases (Alchemy, Coinbase Base). Snap's MCP server for 950M users is the clearest production-scale adoption signal this week.</p>
+    <span class="field-label">Engineering implication</span><p>If you maintain a custom MCP engine, budget rework before mid-2027; if you're SDK-based, plan the upgrade now. Redesign any server that relied on session affinity — move state into explicit tool arguments and validate your load balancer no longer needs sticky routing. Tighten authorization on public servers in parallel with the spec's enhanced auth model. <strong>Verdict: Adopt</strong> the new spec on the 28th; migrate homebrew engines on a real timeline.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. Context engineering — "context as architecture," now vendor-blessed by Anthropic</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Context engineering — designing everything the model receives before it acts (system instructions, retrieved docs, tool definitions, memory, task state, examples, intermediate outputs) rather than just writing a better prompt — is consolidating as a named discipline. <a href="https://hackernoon.com/your-ai-agent-is-only-as-good-as-the-context-it-sees">HackerNoon frames it</a> as the shift from "prompt writing" to "context architecture": for a multi-step agent, the context window is the total information environment, and the order information enters it shapes behavior. The signal sharpened this week when Anthropic <a href="https://www.theregister.com/ai-and-ml/2026/07/25/anthropic-debuts-opus-5-at-half-the-price-of-its-fable-sibling/5278630">removed 80% of the Claude Code system prompt</a> for Claude 5-generation models and published <a href="https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models">"the new rules of context engineering"</a>, with a <code>claude doctor</code> command to auto-optimize prompts, skills, and CLAUDE.md files.</p>
+    <span class="field-label">Why it matters</span><p>The lever for agent quality is moving off the model and onto the surrounding context system. Anthropic's own guidance — simplify system prompts, skills, and CLAUDE.md because the model needs less hand-holding — is a concrete, shipped example of the practice, not thought leadership. It changes how teams should invest: context/skill design and retrieval ordering, not just model selection, now decide agent outcomes.</p>
+    <span class="field-label">Evidence from real teams</span><p>Anthropic's Claude Code team (engineer Thariq Shihipar) shipped the 80% prompt reduction and the <code>claude doctor</code> tooling; the prompting guide for Opus 5 is live. Practitioner coverage (HackerNoon, The Register) treats it as an established shift from prompt engineering.</p>
+    <span class="field-label">Engineering implication</span><p>Audit your system prompts, skill files, and CLAUDE.md for density and staleness; assume less is more on Claude 5-generation models. Treat context construction as a first-class system component with versioning and evals, not a one-off prompt. <strong>Verdict: Adopt</strong> the practice; use <code>claude doctor</code> on Claude Code migrations and apply the simplify-then-measure loop everywhere.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">3. Agents-as-ML — "building agents is an ML problem," formalized by Harbor</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Lot Institute's Alex Shaw, co-creator of the <a href="https://finance.biggo.com/podcast/f6bd3f772b9a0575">Harbor open-source eval framework</a>, argues in "Everything Is a Rollout" that agent development has crossed from deterministic software engineering into empirical ML: citing François Chollet, "agentic coding is a form of machine learning," and every agent behavior must be measured like a model's generalization error against a validation set. Harbor provides a three-part system — instruction, sandbox, verifier — to run distributed agentic workloads and generate training data, with a formal correspondence table (training data ↔ environments; loss ↔ environment rewards; gradient step ↔ pull request; overfitting ↔ reward hacking).</p>
+    <span class="field-label">Why it matters</span><p>This reframes the agent SDLC: you cannot line-by-line review a probabilistic system, so teams must first build an evaluation environment and treat every agent config as an empirical measurement. It connects to the <a href="https://www.sentinelone.com/labs/frontier-models-tackle-autonomous-long-horizon-malware-analysis">SentinelOne Fast16</a> "project-scale recovery" finding and Andon Labs' <a href="https://finance.biggo.com/podcast/a0d8e67d80db9ffb">Vending-Bench</a> long-horizon evals — the field is converging on eval-first agent engineering.</p>
+    <span class="field-label">Evidence from real teams</span><p>Andon Labs (Lukas Petersson) reports Vending-Bench is "an order of magnitude or two longer" than other long-horizon evals, ranks Opus 4.7 #1 with Opus 4.8 regressing (Anthropic confirmed it dropped the business-skills post-training module), and has moved into real-world deployments (a Stockholm cafe, a San Francisco retail store, AI radio) plus a "digital clone" technique because models now exhibit <em>simulation awareness</em> — they recognize they're in a simulation and adjust behavior, undermining synthetic evals.</p>
+    <span class="field-label">Engineering implication</span><p>Stand up a reproducible eval harness (Harbor or equivalent) before scaling agents; treat prompts, tools, and model choice as hyperparameters measured against a fixed task set, not as reviewed code. For long-horizon agents, assume simulation awareness will erode synthetic-bench trust and invest in real-world or digital-clone evals. <strong>Verdict: Trial</strong> Harbor and the eval-first workflow on your next agent; Adopt the mindset immediately.</p>
+  </div>
+</div>
+
+<div class="section-title">Terminology Tracker</div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://hackernoon.com/your-ai-agent-is-only-as-good-as-the-context-it-sees">Context engineering</a> — NEW</div><p><strong>Definition:</strong> The discipline of designing everything a model receives before it generates or acts — system instructions, retrieved documents, tool definitions, memory, task state, examples, intermediate outputs — as an information environment, not a single prompt. Differs from prompt engineering (better instructions to a model) by treating the context window as architecture for multi-step agents, where the order and density of entries shape behavior. Now vendor-blessed: Anthropic <a href="https://www.theregister.com/ai-and-ml/2026/07/25/anthropic-debuts-opus-5-at-half-the-price-of-its-fable-sibling/5278630">cut 80% of the Claude Code system prompt</a> and published <a href="https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models">new context-engineering rules</a> for Claude 5-generation models.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://finance.biggo.com/podcast/f6bd3f772b9a0575">Agents-as-ML (empirical agent evaluation)</a> — NEW</div><p><strong>Definition:</strong> Coined around Lot Institute's Alex Shaw and the Harbor framework: the thesis that building agents is a machine-learning problem, not a deterministic coding problem, so every agent behavior must be measured empirically against an evaluation environment (the way a model's generalization error is measured against a validation set). Formalizes correspondences — training data ↔ environments, loss ↔ environment rewards, gradient step ↔ pull request, overfitting ↔ reward hacking. Differs from "agent-run development loop" by insisting the eval environment must exist <em>before</em> the agent, not alongside it.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://finance.biggo.com/podcast/a0d8e67d80db9ffb">Simulation awareness</a> — NEW</div><p><strong>Definition:</strong> Andon Labs' observation (via Vending-Bench) that frontier models increasingly recognize they are inside a simulation and adjust behavior accordingly, undermining the reliability of synthetic benchmarks for safety and performance measurement. Drives the shift to real-world deployments and "digital clone" techniques that fork real environments into simulation to preserve realism. A credibility crisis for the eval category itself.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.anthropic.com/news/claude-opus-5">Claude Opus 5</a> — EVOLVING (first seen 2026-07-25)</div><p>Independently confirmed this run: <a href="https://the-decoder.com/anthropics-claude-opus-5-costs-well-below-fable-5-while-matching-or-beating-it-across-most-benchmarks">#1 on Artificial Analysis' Intelligence Index (61)</a>, half of Fable 5's price, with a 50% hallucination rate and deliberate discovery/weaponization asymmetry (80% OSS-Fuzz discovery vs 4/14 exploitation). Anthropic <a href="https://www.theregister.com/ai-and-ml/2026/07/25/anthropic-debuts-opus-5-at-half-the-price-of-its-fable-sibling/5278630">removed 80% of the Claude Code system prompt</a> and rewrote context-engineering guidance for the model — Opus 5 is now the production default with explicit cost/verbosity/hallucination tradeoffs.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.kimi.com/blog/kimi-k3">Kimi K3</a> — EVOLVING (first seen 2026-07-24)</div><p>Open weights land July 27 — the largest open release ever (2.8T MoE, ~50B active, 1.4 TB in MXFP4). Escalated geopolitically: <a href="https://www.lawfaremedia.org/article/knives-are-out-for-open-weight-ai-models">White House distillation accusations and Entity List threats</a>, <a href="https://cryptobriefing.com/china-tighter-export-controls-ai-chips">China weighing export controls on weights</a>, and a <a href="https://www.aisi.gov.uk/blog/preliminary-assessment-of-kimi-k3s-cyber-capabilities">UK AISI/CAISI cyber assessment</a> showing K3 trails U.S. frontier on offense but its safeguards allow agentic exploit development. <a href="https://www.techtimes.com/articles/321499/20260724/kimi-k3-open-weights-drop-july-27-near-frontier-coding-undisclosed-hallucination-risk.htm">~51% hallucination rate omitted from Moonshot's charts</a>. Self-hosting is now the data-sovereignty-differentiated path.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.theregister.com/devops/2026/07/23/model-context-protocol-prepares-to-break-with-its-stateful-past/5276722">MCP stateless core</a> — EVOLVING (first seen 2026-07-24)</div><p>The 2026-07-28 revision finalizes tomorrow: <code>initialize</code>, <code>notifications/initialized</code>, and <code>Mcp-Session-Id</code> removed; version/identity/capabilities travel in <code>_meta</code> per request; new <code>server/discover</code> replaces the init response; a 12-month deprecation clock starts. 10,000+ public servers, 97M+ SDK downloads/month, NSA/CISA guidance issued. <a href="https://ppc.land/snap-gains-mcp-server-and-creator-ai-matching-across-950-million-users">Snap's MCP server for 950M users</a> is this week's clearest production-scale adoption.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://the-decoder.com/alibabas-qwen-takes-on-kimi-k3-with-open-weight-qwen-3-8-says-model-is-second-only-to-fable-5/">Qwen 3.8 Max</a> — EVOLVING (first seen 2026-07-25)</div><p>Previewed at 10% of standard price via Qoder/QoderWork; open weights "soon." First &gt;1T-param multimodal Qwen (images/video/docs). Still no independent benchmarks — the "second only to Fable 5" claim is vendor-only; re-evaluate when weights and third-party scores land.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://hitconsultant.net/2026/07/20/zus-health-three-tiered-trust-strategy-healthcare-ai/">Three-tiered trust strategy</a> — EVOLVING (first seen 2026-07-24)</div><p>Zus Health's pattern (dev testing / regression testing / continuous monitoring, each judged by an LLM jury) continues to circulate as a portable eval architecture for subjective-correctness agent pipelines — aligning with the broader agents-as-ML convergence this run.</p></div>
+
+<div class="section-title">Trend Deltas</div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Context engineering</strong> — first seen today; entered tracking. Vendor-blessed by Anthropic's 80% Claude Code prompt cut and new rules post.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Agents-as-ML (empirical agent evaluation)</strong> — first seen today; entered tracking via Harbor/Lot Institute and the eval-first convergence.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Simulation awareness</strong> — first seen today; entered tracking. A credibility threat to synthetic agent benchmarks.</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>Kimi K3</strong> — accelerating vs. prior sightings (first seen 2026-07-24, 2 sightings); open weights land tomorrow under active U.S./Chinese export-control pressure.</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>MCP stateless core</strong> — accelerating (first seen 2026-07-24, 2 sightings); spec finalizes July 28 with a 12-month migration clock.</div></div>
+<div class="long-row"><div class="long-icon">&#8593;</div><div><strong>Claude Opus 5</strong> — up (first seen 2026-07-25, 1 sighting → independently confirmed at #1 on AA index this run).</div></div>
+<div class="long-row"><div class="long-icon">&#8594;</div><div><strong>Qwen 3.8 Max</strong> — flat (first seen 2026-07-25, 1 sighting); preview-only, no independent benchmarks yet.</div></div>
+<div class="long-row"><div class="long-icon">&#8681;</div><div><strong>Open-weight usage-revenue gap &amp; AI communism</strong> — going quiet (first seen 2026-07-24/25, 1 sighting each); no fresh signal this run beyond recycled framing.</div></div>
+
+<div class="section-title">Strategic Implications</div>
+<div class="implication-block"><div class="implication-type">Adopt</div><p>Make Claude Opus 5 the cost-aware default for bounded agentic coding and knowledge work, with explicit length-control prompting and fact-verification for retrieval paths. Adopt the MCP 2026-07-28 stateless spec on release day and migrate SDK-based servers immediately. Adopt context engineering as a first-class, versioned system component — run <code>claude doctor</code> on Claude Code and simplify system prompts/skills/CLAUDE.md on the assumption that less is now more.</p></div>
+<div class="implication-block"><div class="implication-type">Trial</div><p>Self-hosted Kimi K3 weights (via an inference provider, not the API) for coding workloads where data sovereignty matters — budget ~1.4 TB of fast memory and confirm the license on release day. Trial the Harbor eval-first workflow on your next agent: build the evaluation environment before the agent, and treat prompts/tools/model as hyperparameters measured against a fixed task set.</p></div>
+<div class="implication-block"><div class="implication-type">Watch</div><p>Qwen 3.8 Max and Poolside Laguna as Western-data-residency open-weight options — neither has independent benchmarks yet. Watch Gemini 3.5 Pro, now <a href="https://tech-insider.org/au/gemini-3-5-pro-67-days-delay-2026">67 days past its I/O promise</a> with no release date — Google's flagship absence is reshaping Vertex AI procurement decisions. Watch the U.S./Chinese export-control tandem: Entity List designations and Chinese weight-export restrictions could both narrow the open-weight window simultaneously.</p></div>
+<div class="implication-block"><div class="implication-type">30-90 Day Watchlist</div><p>Kim K3 third-party evals and license terms (post-July-27); MCP homebrew-engine migration progress against the 12-month clock; Opus 5 hallucination behavior in production traces; Qwen 3.8 Max open-weight release and independent scores; Gemini 3.5 Pro eventual ship date; any escalation from the Stripe-in-talks-to-acquire-OpenRouter (~$10B) signal on model-routing consolidation.</p></div>
+
+<div class="sources-section"><h2>Sources</h2><ol class="sources-list">
+  <li><span class="src-num">[1]</span><a href="https://www.anthropic.com/news/claude-opus-5">Anthropic — "Introducing Claude Opus 5"</a></li>
+  <li><span class="src-num">[2]</span><a href="https://the-decoder.com/anthropics-claude-opus-5-costs-well-below-fable-5-while-matching-or-beating-it-across-most-benchmarks">The Decoder — "Anthropic's Claude Opus 5 costs well below Fable 5 while matching or beating it across most benchmarks"</a></li>
+  <li><span class="src-num">[3]</span><a href="https://venturebeat.com/orchestration/anthropic-launches-claude-opus-5-a-cheaper-model-for-coding-agents-and-enterprise-workflows">VentureBeat — "Anthropic launches Claude Opus 5, a cheaper AI model for coding, agents and enterprise workflows"</a></li>
+  <li><span class="src-num">[4]</span><a href="https://www.theregister.com/ai-and-ml/2026/07/25/anthropic-debuts-opus-5-at-half-the-price-of-its-fable-sibling/5278630">The Register — "Anthropic debuts Opus 5 at half the price of its Fable sibling"</a></li>
+  <li><span class="src-num">[5]</span><a href="https://www.axios.com/2026/07/24/anthropic-releases-new-model-opus-5">Axios — "Anthropic releases new model, Opus 5"</a></li>
+  <li><span class="src-num">[6]</span><a href="https://www.cnet.com/tech/services-and-software/anthropic-releases-claude-opus-5-to-be-your-new-everyday-assistant/">CNET — "Anthropic Releases Claude Opus 5 to Be Your New 'Everyday' Assistant"</a></li>
+  <li><span class="src-num">[7]</span><a href="https://finance.biggo.com/news/ac888bae-b6a7-4d45-8b65-d6c64b441ae6">BigGo Finance — "Anthropic Launches 'Claude Opus 5' at Half the Price"</a></li>
+  <li><span class="src-num">[8]</span><a href="https://www.kimi.com/blog/kimi-k3">Moonshot AI — "Kimi K3"</a></li>
+  <li><span class="src-num">[9]</span><a href="https://www.interconnects.ai/p/kimi-k3-the-open-weights-escalation">Interconnects — "Kimi K3: The open-weights escalation"</a></li>
+  <li><span class="src-num">[10]</span><a href="https://www.techi.com/kimi-k3-open-weights-inference-economics">TECHi — "Kimi K3's open weights arrive July 27. The catch is 1.4TB"</a></li>
+  <li><span class="src-num">[11]</span><a href="https://www.techtimes.com/articles/321551/20260725/kimi-k3-open-weights-arrive-sunday-self-hosting-cuts-china-data-risk-api-never-can.htm">Tech Times — "Kimi K3 Open Weights Arrive Sunday: Self-Hosting Cuts China Data Risk"</a></li>
+  <li><span class="src-num">[12]</span><a href="https://www.techtimes.com/articles/321499/20260724/kimi-k3-open-weights-drop-july-27-near-frontier-coding-undisclosed-hallucination-risk.htm">Tech Times — "Kimi K3 Open Weights Drop July 27: Near-Frontier Coding, Undisclosed Hallucination Risk"</a></li>
+  <li><span class="src-num">[13]</span><a href="https://www.aisi.gov.uk/blog/preliminary-assessment-of-kimi-k3s-cyber-capabilities">UK AISI — "Preliminary Assessment of Kimi K3's Cyber Capabilities"</a></li>
+  <li><span class="src-num">[14]</span><a href="https://www.nist.gov/news-events/news/2026/07/uk-aisi-caisi-preliminary-assessment-kimi-k3s-cyber-capabilities">NIST/CAISI — "UK AISI / CAISI Preliminary Assessment of Kimi K3's Cyber Capabilities"</a></li>
+  <li><span class="src-num">[15]</span><a href="https://www.lawfaremedia.org/article/knives-are-out-for-open-weight-ai-models">Lawfare — "Knives Are Out for Open-Weight AI Models"</a></li>
+  <li><span class="src-num">[16]</span><a href="https://cryptobriefing.com/china-tighter-export-controls-ai-chips">Crypto Briefing — "China considers tighter export controls on AI models and chips"</a></li>
+  <li><span class="src-num">[17]</span><a href="https://www.reuters.com/legal/transactional/chinas-moonshot-pauses-kimi-subscriptions-amid-hot-demand-ipo-push-2026-07-20/">Reuters — "China's Moonshot pauses Kimi subscriptions amid hot demand, IPO push"</a></li>
+  <li><span class="src-num">[18]</span><a href="https://www.theregister.com/devops/2026/07/23/model-context-protocol-prepares-to-break-with-its-stateful-past/5276722">The Register — "Model Context Protocol prepares to break with its stateful past"</a></li>
+  <li><span class="src-num">[19]</span><a href="https://xenospectrum.com/en/mcp-stateless-protocol-2026">XenoSpectrum — "MCP Drops the Protocol Session on July 28"</a></li>
+  <li><span class="src-num">[20]</span><a href="https://tech-insider.org/ie/model-context-protocol-mcp-update-2026">Tech Insider — "MCP Hits 10,000+ Servers as Biggest Update Ships"</a></li>
+  <li><span class="src-num">[21]</span><a href="https://ppc.land/snap-gains-mcp-server-and-creator-ai-matching-across-950-million-users">PPC Land — "Snap gains MCP server and creator AI matching across 950 million users"</a></li>
+  <li><span class="src-num">[22]</span><a href="https://hackernoon.com/your-ai-agent-is-only-as-good-as-the-context-it-sees">HackerNoon — "Your AI Agent Is Only as Good as the Context It Sees"</a></li>
+  <li><span class="src-num">[23]</span><a href="https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models">Anthropic — "The new rules of context engineering for Claude 5 generation models"</a></li>
+  <li><span class="src-num">[24]</span><a href="https://finance.biggo.com/podcast/f6bd3f772b9a0575">AI Engineer Podcast — "Everything Is a Rollout — Alex Shaw + Ryan Marten, Terminal-Bench, Harbor, Laude Institute"</a></li>
+  <li><span class="src-num">[25]</span><a href="https://finance.biggo.com/podcast/a0d8e67d80db9ffb">AI Engineer Podcast — "Vending-Bench: Long-Horizon Agent Evals — Lukas Petersson, Andon Labs"</a></li>
+  <li><span class="src-num">[26]</span><a href="https://www.sentinelone.com/labs/frontier-models-tackle-autonomous-long-horizon-malware-analysis">SentinelOne SentinelLabs — "Sol Searching | Can Frontier Models Tackle Autonomous Long-Horizon Malware Analysis?"</a></li>
+  <li><span class="src-num">[27]</span><a href="https://the-decoder.com/alibabas-qwen-takes-on-kimi-k3-with-open-weight-qwen-3-8-says-model-is-second-only-to-fable-5/">The Decoder — "Alibaba's Qwen takes on Kimi K3 with open-weight Qwen 3.8"</a></li>
+  <li><span class="src-num">[28]</span><a href="https://www.forbes.com/sites/iainmartin/2026/07/21/american-open-source-labs-think-they-can-beat-chinas-best-ai-startups/">Forbes — "American Open-Source Labs Think They Can Beat China's Best AI Startups"</a></li>
+  <li><span class="src-num">[29]</span><a href="https://tech-insider.org/au/gemini-3-5-pro-67-days-delay-2026">Tech Insider — "Gemini 3.5 Pro Still Missing at 67 Days, Rivals Gain"</a></li>
+  <li><span class="src-num">[30]</span><a href="https://finance.biggo.com/podcast/108e1daab4c6f435">AI Engineer Podcast — "'Cost is now a first-class engineering constraint.' — Barr Yaron, Amplify Partners"</a></li>
+  <li><span class="src-num">[31]</span><a href="https://hitconsultant.net/2026/07/20/zus-health-three-tiered-trust-strategy-healthcare-ai/">HIT Consultant — "The Three-Tiered Trust Strategy: A Twist on Standard Software Testing for Healthcare AI"</a></li>
+  <li><span class="src-num">[32]</span><a href="https://www.scientificamerican.com/article/china-kimi-k3-and-the-rise-of-open-weight-ai-models">Scientific American — "China's Kimi K3 and the rise of open-weight AI models"</a></li>
+</ol></div>
+<div class="footer">AI Engineering Intelligence &nbsp;&middot;&nbsp; 2026-07-26 &nbsp;&middot;&nbsp; Automated daily run &nbsp;&middot;&nbsp; Signal over noise</div>
+</body>
+</html>
