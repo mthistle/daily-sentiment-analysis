@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-07-29",
+    "title": "AI Engineering Intelligence — Wednesday, July 29, 2026",
+    "summary": "1,178 rival-lab employees (OpenAI, Anthropic, Google, Meta) signed a \"Pacing the Frontier\" letter asking the U.S. government to build tools to deliberately slow automated AI research — the biggest cross-lab governance signal to date, landing alongside the AgentForger agent-as-insider attack and Ant's execution-node Ling-3.0-Flash open-weight model.",
+    "url": "briefings/briefing-2026-07-29.html"
+  },
+  {
     "date": "2026-07-28",
     "title": "AI Engineering Intelligence — July 28, 2026",
     "summary": "MCP goes stateless today in its largest-ever spec break (GitHub ships same-day support), Amazon winds down most Nova flagship models to refocus on frontier research, and Microsoft's Project Perception makes the \"harness-not-model\" thesis production-grade at half the cost.",
