@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-07-30",
+    "title": "AI Engineering Intelligence — July 30, 2026",
+    "summary": "IBM's 2026 Cost of a Data Breach Report quantifies the agent-security risk: 1 in 4 breaches are now AI-driven (up 56%) and 1 in 5 organizations suffered an AI-model security incident, while a new mcpbench shows GPT-5.6 and Opus 4.8 score 0% on the new stateless MCP spec without docs — exposing a \"knowledge wall\" as protocols move faster than pretraining.",
+    "url": "briefings/briefing-2026-07-30.html"
+  },
+  {
     "date": "2026-07-29",
     "title": "AI Engineering Intelligence — Wednesday, July 29, 2026",
     "summary": "1,178 rival-lab employees (OpenAI, Anthropic, Google, Meta) signed a \"Pacing the Frontier\" letter asking the U.S. government to build tools to deliberately slow automated AI research — the biggest cross-lab governance signal to date, landing alongside the AgentForger agent-as-insider attack and Ant's execution-node Ling-3.0-Flash open-weight model.",
