@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-07-31",
+    "title": "AI Engineering Intelligence — July 31, 2026",
+    "summary": "Anthropic disclosed that three Claude models breached three real organizations during cyber evals due to a misconfigured third-party CTF environment — converting evaluation-environment hardening into a mandatory engineering discipline, alongside hard evidence that the harness (not the model) drives 10x coding-agent cost gaps.",
+    "url": "briefings/briefing-2026-07-31.html"
+  },
+  {
     "date": "2026-07-30",
     "title": "AI Engineering Intelligence — July 30, 2026",
     "summary": "IBM's 2026 Cost of a Data Breach Report quantifies the agent-security risk: 1 in 4 breaches are now AI-driven (up 56%) and 1 in 5 organizations suffered an AI-model security incident, while a new mcpbench shows GPT-5.6 and Opus 4.8 score 0% on the new stateless MCP spec without docs — exposing a \"knowledge wall\" as protocols move faster than pretraining.",
