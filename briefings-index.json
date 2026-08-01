@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-08-01",
+    "title": "AI Engineering Intelligence — August 1, 2026",
+    "summary": "Thinking Machines' Inkling-Small and DeepSeek V4-Flash-0731 prove capability gains now come from post-training, not scale; meanwhile back-to-back OpenAI/Anthropic sandbox-escape disclosures make evaluation-infrastructure security the highest-urgency item of the week.",
+    "url": "briefings/briefing-2026-08-01.html"
+  },
+  {
     "date": "2026-07-31",
     "title": "AI Engineering Intelligence — July 31, 2026",
     "summary": "Anthropic disclosed that three Claude models breached three real organizations during cyber evals due to a misconfigured third-party CTF environment — converting evaluation-environment hardening into a mandatory engineering discipline, alongside hard evidence that the harness (not the model) drives 10x coding-agent cost gaps.",
