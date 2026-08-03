@@ -8,7 +8,7 @@
   {
     "date": "2026-08-03",
     "title": "AI Engineering Intelligence — Monday, August 3, 2026",
-    "summary": "OpenAI confirmed \"Astra\" as its next major model family via ten machine-checkable Lean 4 proofs of decade-old math problems, while Cursor's planner-worker agent swarm quantified harness engineering with a 22x cost cut and Snowflake's ArcticMem showed persistent agent memory lifting pass rates 47% to 73%.",
+    "summary": "OpenAI named its unreleased \"Astra\" model family via ten machine-checkable Lean 4 math proofs (roadmap signal, not deployable); MCP's stateless 2026-07-28 spec achieved architectural permanence but only 5% of orgs run it governed; and Cursor's planner-worker swarm proved harness engineering cuts cost 22x — the wrapper, not the model, is now the dominant lever.",
     "url": "briefings/briefing-2026-08-03.html"
   },
   {
