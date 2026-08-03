@@ -6,6 +6,12 @@
     "url": "briefings/briefing-2026-08-04.html"
   },
   {
+    "date": "2026-08-03",
+    "title": "AI Engineering Intelligence — Monday, August 3, 2026",
+    "summary": "OpenAI confirmed \"Astra\" as its next major model family via ten machine-checkable Lean 4 proofs of decade-old math problems, while Cursor's planner-worker agent swarm quantified harness engineering with a 22x cost cut and Snowflake's ArcticMem showed persistent agent memory lifting pass rates 47% to 73%.",
+    "url": "briefings/briefing-2026-08-03.html"
+  },
+  {
     "date": "2026-08-01",
     "title": "AI Engineering Intelligence — August 1, 2026",
     "summary": "Thinking Machines' Inkling-Small and DeepSeek V4-Flash-0731 prove capability gains now come from post-training, not scale; meanwhile back-to-back OpenAI/Anthropic sandbox-escape disclosures make evaluation-infrastructure security the highest-urgency item of the week.",
