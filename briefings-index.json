@@ -1,8 +1,8 @@
 [
   {
     "date": "2026-08-04",
-    "title": "AI Engineering Intelligence — Tuesday, August 4, 2026",
-    "summary": "Alibaba's Qwen3.8-Max (2.4T MoE, OSWorld 86.1) became the first Max-class Qwen slated for open weights next week while DeepSeek V4-Flash officially landed as the cheapest major model (~100x cheaper per test than Fable 5), and OpenAI's own ARC-AGI-3 demo vendor-proved that harness engineering — not raw scale — now drives capability (two API settings tripled score, cut tokens 6x).",
+    "title": "AI Engineering Intelligence — August 4, 2026",
+    "summary": "Alibaba's Qwen3.8-Max (2.4T MoE, first open-weight Max-class Qwen, tops OSWorld-Verified at 86.1 with a 16-day self-evolving coding harness) headlines a week where harness engineering converged across Alibaba, Microsoft Orchard, and IBM's new Agentic Context Engineering — while DeepSeek V4-Flash's independently measured 100x cost-per-task advantage and an unsettled CFAA-liability regime for rogue agents reshape model selection and agent security.",
     "url": "briefings/briefing-2026-08-04.html"
   },
   {
