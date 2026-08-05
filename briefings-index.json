@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-08-05",
+    "title": "AI Engineering Intelligence — August 5, 2026",
+    "summary": "The White House reviewed its classified frontier-model pre-release framework with OpenAI, Anthropic, Google, Meta, Microsoft and Nvidia on Aug 4 but will not publish it, gating Astra's release behind a secret 30-day process; meanwhile \"benchmaxxing\" emerged as the named eval-legitimacy crisis (Karpathy + Surge AI's Nick Heiner), YC open-sourced the org-wide agent harness it runs internally, and DeepSeek V4-Flash was independently validated at ~100x cheaper per task than Fable 5.",
+    "url": "briefings/briefing-2026-08-05.html"
+  },
+  {
     "date": "2026-08-04",
     "title": "AI Engineering Intelligence — August 4, 2026",
     "summary": "Alibaba's Qwen3.8-Max (2.4T MoE, first open-weight Max-class Qwen, tops OSWorld-Verified at 86.1 with a 16-day self-evolving coding harness) headlines a week where harness engineering converged across Alibaba, Microsoft Orchard, and IBM's new Agentic Context Engineering — while DeepSeek V4-Flash's independently measured 100x cost-per-task advantage and an unsettled CFAA-liability regime for rogue agents reshape model selection and agent security.",
