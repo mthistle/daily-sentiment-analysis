@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-08-08",
+    "title": "AI Engineering Intelligence — August 8, 2026",
+    "summary": "OpenAI paused internal work on its unreleased Astra model after evaluations could not rule out \"critical\" cyber capabilities — the first model to approach that threshold under its Preparedness Framework — while DeepSeek V4-Flash cemented itself as the ~100x-cheaper-per-task cost tier and a wave of MCP-runtime-security controls (Cloudflare WriteGuard, Anaconda's Enkrypt acquisition finding 143k flaws in 25k MCP servers) signaled that tool-connection security, not the loop, is now the binding constraint for agent deployment.",
+    "url": "briefings/briefing-2026-08-08.html"
+  },
+  {
     "date": "2026-08-07",
     "title": "AI Engineering Intelligence — August 7, 2026",
     "summary": "Agent Plugins (Amazon/Google/Microsoft/OpenAI/Cursor/Vercel) standardize the MCP+Skills packaging layer; Meta's Muse Spark 1.2 lands tied for 3rd among US labs at ~1/6 Opus 5 cost; Snowflake's data-eng-bench proves a data-native harness beats generic Claude Code/Codex on both quality and cost.",
