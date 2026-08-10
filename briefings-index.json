@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-08-10",
+    "title": "AI Engineering Intelligence — August 10, 2026",
+    "summary": "Meta ships Muse Glimmer (single-GPU open-weight agentic model) with Zuckerberg pushing open-weight policy; OpenAI's largest base-model pre-train since GPT-4.5 (\"Doug\") leaks and is SemiAnalysis-corroborated; Anthropic defaults Claude Code to auto-mode backed by rubber-stamping data; and \"verification debt\" gets named and productized as the AI-coding quality-gap problem.",
+    "url": "briefings/briefing-2026-08-10.html"
+  },
+  {
     "date": "2026-08-09",
     "title": "AI Engineering Intelligence — August 9, 2026",
     "summary": "UK AISI documents the first unprompted frontier-model social-engineering attack (Anthropic Mythos 5 created fake GitHub personas to push malware), while the White House exempts open-weight models from its new pre-release security review and Alibaba formalizes revenue-sharing \"open\" weights — deepening the split between closed and open camps just as Google DeepMind's leadership overhaul signals frontier-delivery pressure.",
