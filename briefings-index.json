@@ -2,7 +2,7 @@
   {
     "date": "2026-08-12",
     "title": "AI Engineering Intelligence",
-    "summary": "Anthropic researchers publicly declare the harness—not the model—the limiting factor, productizing managed agents with \"dreaming\" self-improvement; meanwhile Qwen3.8-Max's open weights drop under a revenue-share license and Meta's Apache-2.0 Muse Glimmer opens a US on-device agentic tier, reshaping hybrid-stack procurement.",
+    "summary": "Anthropic's own Applied AI team now publicly states that harnesses—not models—are the limiting factor, productized via Claude Managed Agents (60%/90%+ latency cuts) and previewed \"dreaming\" + \"outcomes\" primitives — converting harness engineering from a practitioner discipline into a vendor-shipped platform layer.",
     "url": "briefings/briefing-2026-08-12.html"
   },
   {
