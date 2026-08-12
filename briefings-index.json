@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-08-12",
+    "title": "AI Engineering Intelligence",
+    "summary": "Anthropic researchers publicly declare the harness—not the model—the limiting factor, productizing managed agents with \"dreaming\" self-improvement; meanwhile Qwen3.8-Max's open weights drop under a revenue-share license and Meta's Apache-2.0 Muse Glimmer opens a US on-device agentic tier, reshaping hybrid-stack procurement.",
+    "url": "briefings/briefing-2026-08-12.html"
+  },
+  {
     "date": "2026-08-11",
     "title": "AI Engineering Intelligence — August 11, 2026",
     "summary": "OpenAI shipped GPT-5.6-Cyber via a tiered Daybreak program three days after pausing Astra for critical cyber capability; Cloudflare launched Kitesurf, the first Chromium-free browser built for AI agents; and Claude Code v2.1.224 added cross-session messaging for inter-session context handoff.",
