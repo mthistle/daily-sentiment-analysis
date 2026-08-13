@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Engineering Intelligence — Thursday, August 13, 2026</title>
+<style>
+  :root {
+    --bg: #0f1117; --surface: #1a1d27; --surface2: #222536; --border: #2e3148;
+    --accent: #6c63ff; --accent2: #00c2a8; --accent3: #f59e0b; --accent4: #ef4444;
+    --text: #e8eaf0; --text-muted: #8b8fa8; --text-dim: #5a5d75;
+    --green: #22c55e; --yellow: #eab308; --red: #ef4444; --orange: #f97316; --blue: #3b82f6; --purple: #a855f7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.7; max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+  a { color: var(--accent2); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+  a:hover { border-bottom-color: var(--accent2); }
+  .header { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 36px; }
+  .header-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; margin-bottom: 6px; }
+  .header-meta { color: var(--text-muted); font-size: 13px; }
+  .section-title { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 44px 0 18px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .exec-summary { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 24px 26px; margin-bottom: 8px; }
+  .exec-summary h2 { font-size: 15px; font-weight: 700; margin-bottom: 14px; color: var(--text); }
+  .signal-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+  .signal-num { background: var(--accent); color: white; font-size: 11px; font-weight: 700; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .signal-text { color: var(--text); line-height: 1.6; }
+  .sentiment-bar-container { margin-top: 18px; }
+  .sentiment-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+  .sentiment-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .sentiment-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #ef4444 0%, #eab308 40%, #22c55e 75%); width: 64%; }
+  .sentiment-caption { font-size: 11px; color: var(--text-muted); margin-top: 5px; }
+  .trend-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 22px 24px; margin-bottom: 18px; }
+  .trend-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .badge { display: inline-flex; align-items: center; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; white-space: nowrap; }
+  .badge-label { color: var(--text-muted); font-weight: 400; margin-right: 4px; font-size: 9px; }
+  .m-explosive { background: rgba(239,68,68,0.18); color: #f87171; }
+  .m-high { background: rgba(245,158,11,0.18); color: #fbbf24; }
+  .m-medium { background: rgba(59,130,246,0.18); color: #60a5fa; }
+  .m-low { background: rgba(139,143,168,0.18); color: #b6bad0; }
+  .s-positive { background: rgba(34,197,94,0.15); color: #4ade80; }
+  .s-mixed { background: rgba(234,179,8,0.15); color: #fde047; }
+  .s-polarizing { background: rgba(168,85,247,0.15); color: #c084fc; }
+  .s-negative { background: rgba(239,68,68,0.15); color: #f87171; }
+  .er-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .er-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .er-low { background: rgba(139,143,168,0.12); color: #b6bad0; }
+  .hr-high { background: rgba(239,68,68,0.12); color: #f87171; }
+  .hr-medium { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .hr-low { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .cl-low { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .trend-body p { margin-bottom: 10px; }
+  .trend-body strong { font-weight: 600; }
+  .field-label { color: var(--text-muted); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 14px; margin-bottom: 4px; display: block; }
+  .contrarian-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #a855f7; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .contrarian-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .declining-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #f97316; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .declining-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .watchlist-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 12px; }
+  .watchlist-name { font-size: 14px; font-weight: 700; color: var(--accent2); margin-bottom: 6px; }
+  .implication-block { border-left: 2px solid var(--accent3); padding: 10px 0 10px 16px; margin-bottom: 12px; }
+  .implication-type { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent3); font-weight: 700; margin-bottom: 4px; }
+  .long-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+  .long-icon { font-size: 13px; margin-top: 2px; width: 24px; flex-shrink: 0; color: var(--accent2); font-weight: 700; }
+  .sources-section { margin-top: 52px; border-top: 1px solid var(--border); padding-top: 24px; }
+  .sources-section h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 700; margin-bottom: 14px; }
+  .sources-list { list-style: none; }
+  .sources-list li { font-size: 12px; color: var(--text-muted); margin-bottom: 7px; display: flex; gap: 8px; }
+  .sources-list li .src-num { color: var(--text-dim); flex-shrink: 0; width: 24px; }
+  .sources-list li a { font-size: 12px; color: var(--text-muted); }
+  .sources-list li a:hover { color: var(--accent2); }
+  .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text-dim); text-align: center; }
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-label">Daily Intelligence Briefing</div>
+  <h1>AI Engineering Intelligence</h1>
+  <div class="header-meta">Thursday, August 13, 2026 &middot; 5-minute read &middot; Signal over noise</div>
+</header>
+
+<div class="section-title">Executive Summary</div>
+<div class="exec-summary">
+  <h2>Top 5 Highest-Signal Developments</h2>
+  <div class="signal-row"><div class="signal-num">1</div><div class="signal-text"><strong><a href="https://eu.36kr.com/en/p/3937236905344390">DeepSeek V4-Pro-0813 left preview</a></strong> scoring 87.9 on Terminal-Bench 2.1 — 0.1 behind Anthropic's Fable 5 — at roughly 45x lower token cost, the clearest evidence yet that the open-weight frontier has effectively closed the agentic gap.</div></div>
+  <div class="signal-row"><div class="signal-num">2</div><div class="signal-text"><strong><a href="https://x.ai/news/grok-4-6">SpaceXAI shipped Grok 4.6</a></strong> tying GPT-5.6 Sol on the Artificial Analysis Intelligence Index (61) and claiming #1 on the Databricks leaderboard at half the price of frontier peers, reframing xAI as a cost-tier competitor rather than a laggard.</div></div>
+  <div class="signal-row"><div class="signal-num">3</div><div class="signal-text"><strong><a href="https://eu.36kr.com/en/p/3936187229142153">Composio's same-model harness test</a></strong> showed DeepSeek V4 Flash's success rate swings from 46.7% to 66.7% (a 20-point gap) purely by swapping the harness, with Pi completing tasks ~7x cheaper than Claude Code — the sharpest shipped proof that the harness, not the model, is now the unit of optimization.</div></div>
+  <div class="signal-row"><div class="signal-num">4</div><div class="signal-text"><strong><a href="https://www.bloomberg.com/news/articles/2026-08-12/deepseek-publicizes-efforts-to-challenge-anthropic-s-claude-code">DeepSeek formally registered a Harness Team</a></strong> and is targeting Anthropic's Claude Code directly — the first Chinese lab to explicitly staff "Model + Harness = Agent" as a product line, confirming harness engineering is now a named, staffed discipline across three continents.</div></div>
+  <div class="signal-row"><div class="signal-num">5</div><div class="signal-text"><strong><a href="https://finance.biggo.com/news/12c612072f4caad8">Raindrop's "floor raising" eval thesis</a></strong> (Ben Hylak, serving Vercel/Speak/Framer/Fortune 100s) argues agent evals are stuck in the chatbot era and the prompt is now the entire harness — the production-side corollary to benchmaxxing, with 17M AI PRs/month on GitHub and an estimated ~1-in-10 genuinely useful.</div></div>
+  <div class="sentiment-bar-container">
+    <div class="sentiment-label">Practitioner Sentiment — Cautiously-Positive</div>
+    <div class="sentiment-bar"><div class="sentiment-fill" style="width:62%"></div></div>
+    <div class="sentiment-caption">Cost-tier competition is delivering real value and the harness thesis is now consensus, but benchmark-legitimacy doubts (benchmaxxing, vendor-sourced scores) and DeepSeek's announced price hike temper enthusiasm.</div>
+  </div>
+</div>
+
+<div class="section-title">Model Watch</div>
+
+<div class="trend-card">
+  <div class="trend-title">1. DeepSeek V4-Pro-0813 (flagship leaves preview)</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-mixed"><span class="badge-label">Sentiment</span>Mixed</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>DeepSeek quietly flipped its API from the V4-Pro preview to "DeepSeek-V4-Pro-0813" on the night of Aug 12, with a brief note on "significantly enhanced agent capabilities" that was later removed. A leaked evaluation table from DeepSeek's official community shows Terminal-Bench 2.1 at <strong>87.9</strong> (vs Fable 5's 88.0 — a 0.1 gap, +15.8 over the 72.1 preview), Cybergym 83.3 (edging Fable 5's 83.1), AutomationBench 31.8 vs 29.1, and DeepSWE jumping 12.8→62.7 (~5x, surpassing Opus 4.8's 58.0). The model ships a 1M context / 384K max output and is <a href="https://eu.36kr.com/en/p/3935871461916035">dual OpenAI/Anthropic API-format compatible</a>.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>The agentic-specific scores are near-frontier, but the composite Artificial Analysis Intelligence Index is only <strong>53</strong> (per Vals AI, on par with GLM-5.2, four points behind GPT-5.6 Terra, seven behind Kimi K3) — and <a href="https://amp.scmp.com/tech/big-tech/article/3363895/deepseeks-updated-v4-pro-ai-model-struggles-benchmarks-shines-cybersecurity">independent Vals AI testing</a> shows it struggling on sandboxed-terminal tasks and Excel financial modeling. API pricing is ~$0.43/$0.87 per Mtok (vs Fable 5's $10/$50 — ~45x cheaper), but DeepSeek has separately <a href="https://www.pymnts.com/news/artificial-intelligence/2026/deepseek-resumes-funding-round-to-raise-8-billion/">announced a "significant" upcoming API price increase</a> as it raises ~$8B at a ~$74B valuation. License terms for a full open-weight drop are not yet disclosed.</p>
+    <span class="field-label">Who is using it</span><p>DeepSeek V4 Flash is already the de-facto cost tier in hybrid stacks (tracked since Aug 2); V4-Pro-0813's dual API compatibility means teams on Claude/OpenAI formats can swap with near-zero code change. No named V4-Pro production case study yet — adoption is developer-community driven, with the leaked eval table spreading through official channels.</p>
+    <span class="field-label">Engineering implication</span><p>The agentic-vs-composite split is the procurement signal: V4-Pro is near-frontier on the agent workloads that matter for coding/task execution but mid-tier on general reasoning. Treat the leaked vendor-community scores with the benchmaxxing caveat until independent Artificial Analysis replication. The announced price hike reframes the "race-to-zero" narrative — DeepSeek is signaling it will monetize, not subsidize, its frontier. <strong>Verdict: Trial</strong> for cost-tier agentic workloads behind a hybrid stack; keep V4 Flash as the execution tier and route hardest tasks to Fable/Opus pending independent index confirmation.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. SpaceXAI Grok 4.6 (post-training refinement, half-frontier price)</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-mixed"><span class="badge-label">Sentiment</span>Mixed</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-high"><span class="badge-label">Hype Risk</span>High</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p><a href="https://x.ai/news/grok-4-6">xAI released Grok 4.6 on Aug 12</a> as a post-training refinement over the 1.5T Grok 4.5 (same V9 foundation, longer supplemental training, regenerated SFT trajectories from Grok 4.5, agentic RL across kernel/CAD/web-dev environments). Available in Cursor, Grok Build, the xAI API, and via OpenRouter/Vercel/Cloudflare at <strong>$2/$6 per Mtok</strong> — roughly half the frontier price. Musk claims #1 on the <a href="https://www.basenor.com/blogs/news/xai-launches-grok-4-6-1753-elo-half-the-price-of-rival-frontier-models">Databricks leaderboard</a> and a 1753 ELO on LMSYS.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>Vendor-sourced: Artificial Analysis Intelligence Index <strong>61</strong> (tying GPT-5.6 Sol, one behind Fable 5 Max's 62), GDPval-AA v2 <strong>1753</strong> (#1, ahead of Fable 5 Max 1741 and GPT-5.6 Sol 1728), CursorBench v3.2 69.9% (Fable 5 Max 70.5%), DeepSWE v1.1 65.9% (behind GPT-5.6 Sol 73%), Terminal-Bench v3.0 26% (behind ~34% for both rivals). All scores are xAI's own with no independent verification. A real-world demo showed 22 minutes of autonomous work from a single prompt producing custom shaders, a minimap, and time-change features.</p>
+    <span class="field-label">Who is using it</span><p>Shipping in Cursor day-one (xAI's reported ~$60B acquisition target) and Grok Bot (the persistent always-on agent released in beta earlier this week). OpenRouter/Vercel/Cloudflare distribution gives broad developer access. No named enterprise production case study yet.</p>
+    <span class="field-label">Engineering implication</span><p>Grok 4.6 is a credible cost-tier agentic competitor at half the frontier price, but the benchmark numbers are entirely vendor-sourced and Musk's "#1" framing overstates a tie. The Cursor-data training pipeline is the structural differentiator (real-world agentic usage data). Hype risk is high given Musk's framing. <strong>Verdict: Trial</strong> for long-running agentic coding if already in the Cursor/Grok ecosystem; <strong>Skip</strong> as a sole-source frontier procurement pending independent evals.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">3. OpenAI Astra (still pre-release, dual-gated)</div>
+  <div class="badges">
+    <span class="badge m-low"><span class="badge-label">Momentum</span>Low</span>
+    <span class="badge s-polarizing"><span class="badge-label">Sentiment</span>Polarizing</span>
+    <span class="badge er-low"><span class="badge-label">Production Ready</span>Low</span>
+    <span class="badge hr-high"><span class="badge-label">Hype Risk</span>High</span>
+    <span class="badge cl-low"><span class="badge-label">Confidence</span>Low</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>No fresh capability signal this run — Astra remains pre-release with no API, model card, or date, <a href="https://www.axios.com/2026/08/07/openai-astra-model-delay-cybersecurity-risks">paused since Aug 7</a> after OpenAI disclosed it "cannot rule out" the Critical cybersecurity threshold of its Preparedness Framework. Release is mediated by BOTH the classified White House 30-day pre-release review AND OpenAI's own Critical-cyber safeguards. Kalshi pricing (Aug 12) puts a public GPT-6-or-greater release at <a href="https://www.stokastic.com/articles/prediction-markets/gpt-6-release-date-odds">~59% before Nov 1, ~13% before Sep 1</a>.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>The only capability signal remains the ten machine-checkable Lean 4 proofs (Aug 1) and the Critical-cyber disclosure (Aug 7). The adjacent GPT-5.6-Cyber Daybreak (Aug 10, 95% advanced-cyber completion, found two real Chrome V8 bugs, gated to vetted defenders) is the deliberately-permissive sibling — capability and access are now decoupled under the same framework.</p>
+    <span class="field-label">Who is using it</span><p>Nobody — internal dogfood only ("mewfour", reportedly OpenAI's largest pretrain since GPT-4.5). The <a href="https://www.americanprogress.org/article/the-trump-administration-has-created-a-de-facto-licensing-system-for-frontier-ai-models">de-facto licensing framing</a> (Center for American Progress) confirms open-weight models are exempt from the gate, splitting the market by openness not capability.</p>
+    <span class="field-label">Engineering implication</span><p>No action for staff engineers beyond roadmap awareness. The 10T-parameter / Doug / Vera-Rubin-silicon leaks remain unverified and "ridiculous" per secondary coverage. <strong>Verdict: Watch</strong> as roadmap signal only; do not bank procurement or architecture decisions on an unreleased, dual-gated model.</p>
+  </div>
+</div>
+
+<div class="section-title">Agent Engineering &amp; AI SDLC</div>
+
+<div class="trend-card">
+  <div class="trend-title">1. Harness engineering — the harness multiplier, now measured</div>
+  <div class="badges">
+    <span class="badge m-explosive"><span class="badge-label">Momentum</span>Explosive</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Composio ran the same model (DeepSeek V4 Flash) across 8 agent harnesses on 30 hard agent tasks: <a href="https://eu.36kr.com/en/p/3936187229142153">success swung 46.7%→66.7% (Pi Agent #1)</a>, with Pi completing tasks at ~$0.028 vs Claude Code's $0.195 (~7x cheaper) — a 20-point swing with the model held constant. Separately, Anthropic's own Applied AI team (Bhat &amp; He, Aug 11) publicly stated <a href="https://finance.biggo.com/news/9149a49293cafcf7">"harnesses have become the limiting factor to what models can achieve"</a>, productized via Claude Managed Agents (60% median / 90%+ tail latency cuts). DeepSeek formally registered its <a href="https://www.bloomberg.com/news/articles/2026-08-12/deepseek-publicizes-efforts-to-challenge-anthropic-s-claude-code">Harness Team</a> to challenge Claude Code directly ("Model + Harness = Agent").</p>
+    <span class="field-label">Why it matters</span><p>The Composio test is the cleanest same-model proof of the "harness multiplier effect" — tools built around AI amplify or weaken the model's actual performance, and an agent leaderboard that lists only the model name (not the harness) is incomplete. This converges with Anthropic's own internal diagnosis and DeepSeek staffing a dedicated harness team. The harness is no longer implicit; it is the named, staffed, benchmarked unit of cost optimization and vertical specialization.</p>
+    <span class="field-label">Evidence from real teams</span><p>Anthropic (Claude Managed Agents, Bhat &amp; He), DeepSeek (Harness Team, Cui Tianyi), Composio/Pi (Mario Zechner — 99.93% cache hit rate, ~1B input tokens for $2.65), <a href="https://finance.biggo.com/news/b009cfcc60b901a6">Amazon AGI Lab</a> (Khandelwal: adoption is a leadership/harness problem, not a tool problem), and the existing productizations tracked since Aug 2 (Cursor swarm, Microsoft MDASH, Qwen self-evolving harness, QM, HiddenLayer, Snowflake CoCo).</p>
+    <span class="field-label">Engineering implication</span><p>Stop evaluating models in isolation. Any agent procurement or benchmark must specify the harness. Build (or rent) a harness as a first-class engineering artifact, route by task difficulty, and own a domain-specific harness for your highest-value vertical. <strong>Verdict: Adopt</strong> the harness-as-unit discipline; <strong>Trial</strong> managed-harness surfaces (Claude Managed Agents, DeepSeek Harness beta) where you don't want to own the loop.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. "Floor raising" agent evals (evals-as-code)</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Ben Hylak (Raindrop, <a href="https://finance.biggo.com/podcast/12c612072f4caad8">AI Engineer podcast, Aug 12</a>) argues agent evals are "still stuck in the chatbot era": the 1,000-question dataset + string-containment playbook collapses on a model or harness swap ("switch to Claude Code CLI and now 80% of your evals suck"). His thesis: the prompt is no longer a string but the entire harness, so evals must become code (unit/e2e tests against the real harness), and teams should optimize the floor (the worst thing an agent does, where trust breaks) rather than the ceiling (what labs sell). Production context: ~17M AI PRs/month on GitHub, an estimated ~1-in-10 genuinely useful.</p>
+    <span class="field-label">Why it matters</span><p>This is the production-side corollary of benchmaxxing: lab evals measure general capability; company evals must measure company-specific domain behavior, and borrowing lab language produces a meaningless "eval" word. The three tactical lessons (trace clusters ≠ issues; code-mode classifiers beat clustering; agents are bad at finding anomalies but good at investigating ones you've found) are practitioner-consensus from a vendor serving Vercel, Speak, Framer, and Fortune 100s.</p>
+    <span class="field-label">Evidence from real teams</span><p>Raindrop (Vercel, Speak, Framer, Fortune 100s); converges with a16z's verifier-design discipline (Yoko Li), UK AISI's runtime-cheating findings, and the AI-DLC methodology (IBM/Raja SP).</p>
+    <span class="field-label">Engineering implication</span><p>Treat evaluation as a software-engineering problem, not a dataset problem. Write evals as code tests against your real harness, instrument trace analysis with code-mode classifiers, and stop chasing leaderboard ceilings. <strong>Verdict: Adopt</strong> evals-as-code for any agent in production; <strong>Trial</strong> the "Sentry-for-agents" monitoring category (Raindrop-class tooling).</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">3. AI code review &amp; deterministic gating market</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>The AI-code-review market matured further with a clear architectural split: CodeRabbit (line-by-line PR), Greptile (whole-repo AST graph), SonarQube AI (deterministic SAST + LLM), GitHub Copilot Autofix (instant patch). <a href="https://hackernoon.com/the-problem-with-using-ai-to-review-ai-written-code">Whole-repo graph indexers cut API-hallucination rates ~60%</a> vs diff-only reviewers; PR turnaround dropped ~14h→&lt;45min with 35% more edge-case bugs caught. The consensus hardening: stochastic agent self-review cannot serve as a merge gate, so a hybrid AI-reviewer + deterministic-gate (Semgrep/SonarQube) is the production pattern. Reinforced by CMU/Wharton data (AI-tool productivity gains reverse after ~3 months; human reviewers follow confidently-wrong AI advice ~80% of the time) behind Sonar's "verification debt" framing.</p>
+    <span class="field-label">Why it matters</span><p>Agentic authorship breaks both SDLC assumptions at once (accountable human identity; human-paced change) — <a href="https://www.augmentcode.com/guides/secure-sdlc-agent-authored-code">Augment's secure-SDLC guide</a> notes programmatic commits bypass client hooks and arrive faster than review queues can absorb. The deterministic gate is the only control that scales with agent velocity.</p>
+    <span class="field-label">Evidence from real teams</span><p>Sonar (Vortex + remediation agent), Augment Code (Cosmos), GitHub (Copilot Autofix, usage-based billing since June 1 — a market-maturity signal), Harness AI Evals gating CD, Google Gemini Enterprise Agent Platform evals GA.</p>
+    <span class="field-label">Engineering implication</span><p>Wire a deterministic static-analysis gate (Semgrep/SonarQube) as a mandatory step between agent and PR for every human and every agent; use AI review for triage and edge-case discovery, never as the merge authority. <strong>Verdict: Adopt</strong> the hybrid AI-reviewer + deterministic-gate pattern.</p>
+  </div>
+</div>
+
+<div class="section-title">Terminology Tracker</div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://eu.36kr.com/en/p/3936187229142153">Harness multiplier effect</a> — NEW</div><p><strong>Definition:</strong> Coined/operationalized via Composio's same-model test (Aug 12, 2026): the observation that tools built around an AI model amplify or weaken its actual performance, so an agent leaderboard listing only the model name (not the harness) is incomplete. The Composio test showed a 20-point success-rate swing (46.7%→66.7%) and ~7x cost difference with the model held constant. Distinct from "harness engineering" (the discipline of building the wrapper) — the multiplier effect is the measured consequence that makes harness choice a procurement-level decision, not a developer-preference.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://finance.biggo.com/podcast/12c612072f4caad8">Floor raising</a> — NEW</div><p><strong>Definition:</strong> Ben Hylak (Raindrop, Aug 12 2026): the practitioner thesis that agent teams should systematically discover, date, and size user-impacting issues (the "floor" — the worst thing an agent does, where trust breaks) rather than chase benchmark ceilings (what labs sell). Paired tactics: evals as code tests against the real harness, optimization strategy dictated by user scale, and code-mode classifiers over trace clustering. The production-side counterpart to benchmaxxing.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.bloomberg.com/news/articles/2026-08-12/deepseek-publicizes-efforts-to-challenge-anthropic-s-claude-code">DeepSeek Harness Team</a> — EVOLVING (harness engineering, first seen 2026-08-02)</div><p>DeepSeek formally registered its Harness Team WeChat account (certified July 6, Beijing DeepSeek subsidiary) and is publicly <a href="https://www.pymnts.com/news/artificial-intelligence/2026/deepseek-targets-agentic-coding-market-with-new-team">targeting Anthropic's Claude Code</a>. Head Cui Tianyi called for global beta testers Aug 1. Internal logic: "Model + Harness = Agent." This is the first Chinese lab to staff harness engineering as an explicit product line — the practice is now named and staffed across Anthropic, OpenAI (Codex), DeepSeek, Microsoft, Snowflake, and Cursor.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://amp.scmp.com/tech/big-tech/article/3363895/deepseeks-updated-v4-pro-ai-model-struggles-benchmarks-shines-cybersecurity">DeepSeek V4-Pro-0813</a> — EVOLVING (deepseek v4-flash-0731, first seen 2026-08-02)</div><p>The V4 family's flagship left preview Aug 12 with near-frontier agentic scores (Terminal-Bench 2.1 87.9, 0.1 behind Fable 5) but a mid-tier composite index (53). Critically, DeepSeek also announced a "significant" upcoming API price increase — the cost-tier leader is signaling monetization, ending the pure race-to-zero. Real teams routing V4 Flash as the execution tier; V4-Pro pending independent Artificial Analysis replication.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://x.ai/news/grok-4-6">Grok 4.6</a> — NEW</div><p><strong>Definition:</strong> SpaceXAI's Aug 12 2026 post-training refinement of the 1.5T Grok 4.5 (same V9 foundation, longer supplemental training, regenerated SFT trajectories, agentic RL). Intelligence Index 61 (tying GPT-5.6 Sol), GDPval-AA v2 1753 (#1 vendor-claimed), $2/$6 per Mtok (half frontier). The structural differentiator is training on Cursor's real-world agentic usage data following xAI's reported ~$60B Cursor acquisition. Long-running-agent focus; all scores vendor-sourced.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.aisi.gov.uk/blog/cheating-behaviour-in-frontier-model-evaluations">Benchmaxxing</a> — EVOLVING (first seen 2026-08-05)</div><p>Reinforced this run by the V4-Pro-0813 leaked vendor-community scores (pending independent replication) and Grok 4.6's entirely vendor-sourced benchmarks. The procurement takeaway hardens: stop trusting leaderboard rankings; build private evals on your own workload and measure cost-per-successful-task. Floor raising (Raindrop) is the production-side extension of the same critique.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://finance.biggo.com/news/9149a49293cafcf7">Claude Managed Agents</a> — EVOLVING (harness engineering, first seen 2026-08-02)</div><p>Anthropic's third agentic surface (Messages API → Agent SDK → Managed Agents) is now fully described: moves the entire production stack (loop, sandboxing, session management, observability, credentials via Vaults) into Anthropic-managed infra, decoupling the agent "brain" from "hands." Cuts time-to-first-token 60% median / 90%+ tail. Previewed with "dreaming" (offline org-memory batch) and "outcomes" (grader-verified task completion). The managed-harness productization of the harness-as-limiting-factor thesis.</p></div>
+
+<div class="section-title">Trend Deltas</div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Harness multiplier effect</strong> — first seen today; entered tracking as the measured consequence of harness engineering.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Floor raising</strong> — first seen today; the production-side corollary of benchmaxxing.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Grok 4.6</strong> — first seen today; SpaceXAI's cost-tier agentic entrant.</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>Harness engineering</strong> — accelerating (first seen 2026-08-02, now 9+ sightings); DeepSeek's formal Harness Team registration and the Composio same-model test make it the dominant enterprise signal.</div></div>
+<div class="long-row"><div class="long-icon">&#8593;</div><div><strong>Deterministic AI-code gating</strong> — up (first seen 2026-08-05, 4 sightings); whole-repo graph indexers and the hybrid AI-reviewer + deterministic-gate pattern are now consensus.</div></div>
+<div class="long-row"><div class="long-icon">&#8594;</div><div><strong>Astra</strong> — flat (first seen 2026-08-03, 10 sightings); still pre-release, dual-gated, no fresh capability signal; Kalshi ~59% by Nov 1.</div></div>
+<div class="long-row"><div class="long-icon">&#8595;</div><div><strong>Open weights &amp; American AI leadership (77-firm letter)</strong> — going quiet (first seen 2026-08-03); the policy ask was largely won via the open-weight exemption.</div></div>
+<div class="long-row"><div class="long-icon">&#8681;</div><div><strong>Anthropic Fable 5.1</strong> — going quiet (first seen 2026-08-02); still entirely leak-based, no fresh signal, may be absorbed by Opus 5/Fable 5 positioning.</div></div>
+
+<div class="section-title">Strategic Implications</div>
+<div class="implication-block"><div class="implication-type">Adopt</div><p>The harness-as-unit discipline: evaluate models only with a specified harness, route by task difficulty, and own a domain-specific harness for your highest-value vertical. The deterministic AI-code-gate (Semgrep/SonarQube) as a mandatory step between agent and PR. Evals-as-code against the real harness instead of curated datasets.</p></div>
+<div class="implication-block"><div class="implication-type">Trial</div><p>DeepSeek V4-Pro-0813 as a cost-tier agentic model behind a hybrid stack (pending independent Artificial Analysis replication; mind the announced price hike). Grok 4.6 for long-running agentic coding if already in the Cursor/Grok ecosystem. Managed-harness surfaces (Claude Managed Agents, DeepSeek Harness beta) where you don't want to own the loop. The "Sentry-for-agents" monitoring category (Raindrop-class tooling).</p></div>
+<div class="implication-block"><div class="implication-type">Watch</div><p>OpenAI Astra as roadmap signal only (dual-gated, no API/date). The DeepSeek price increase — the cost-tier leader monetizing signals the "race-to-zero" is ending at both ends of the spectrum. TencentDB Agent Memory's Team Memory (20k GitHub stars in 90 days) as a multi-agent collaboration memory pattern. xAI's Grok 4.7 (the genuine 2.1T architecture jump, expected late Aug/early Sep).</p></div>
+<div class="implication-block"><div class="implication-type">30-90 Day Watchlist</div><p>Independent Artificial Analysis replication of V4-Pro-0813's Terminal-Bench 87.9. Astra's release gating (Kalshi ~59% by Nov 1). DeepSeek's API price hike magnitude and its effect on hybrid-stack cost arithmetic. Anthropic's "dreaming" and "outcomes" features moving from preview to GA. The Grok 4.7 architecture jump and whether xAI's Cursor-data pipeline sustains a frontier position. Gemini 4 under Koray Kavukcuoglu (no date, treat as uncertain).</p></div>
+
+<div class="sources-section"><h2>Sources</h2><ol class="sources-list">
+  <li><span class="src-num">[1]</span><a href="https://eu.36kr.com/en/p/3937236905344390">36Kr (凤凰网科技) — "Liang Wenfeng goes head-to-head with Elon Musk, DeepSeek V4 Pro"</a></li>
+  <li><span class="src-num">[2]</span><a href="https://eu.36kr.com/en/p/3935871461916035">36Kr — "Harness has officially stepped into the limelight, DeepSeek no longer solely model development"</a></li>
+  <li><span class="src-num">[3]</span><a href="https://eu.36kr.com/en/p/3936187229142153">36Kr (InfoQ) — "DeepSeek + Pi outperforms Claude Code? Composio harness horizontal test"</a></li>
+  <li><span class="src-num">[4]</span><a href="https://www.bloomberg.com/news/articles/2026-08-12/deepseek-publicizes-efforts-to-challenge-anthropic-s-claude-code">Bloomberg — "DeepSeek publicizes efforts to challenge Anthropic's Claude Code"</a></li>
+  <li><span class="src-num">[5]</span><a href="https://www.pymnts.com/news/artificial-intelligence/2026/deepseek-targets-agentic-coding-market-with-new-team">PYMNTS — "DeepSeek targets agentic coding market with new team"</a></li>
+  <li><span class="src-num">[6]</span><a href="https://amp.scmp.com/tech/big-tech/article/3363895/deepseeks-updated-v4-pro-ai-model-struggles-benchmarks-shines-cybersecurity">SCMP — "DeepSeek's updated V4 Pro struggles on benchmarks, shines in cybersecurity"</a></li>
+  <li><span class="src-num">[7]</span><a href="https://x.ai/news/grok-4-6">SpaceXAI — "Introducing Grok 4.6"</a></li>
+  <li><span class="src-num">[8]</span><a href="https://www.basenor.com/blogs/news/xai-launches-grok-4-6-1753-elo-half-the-price-of-rival-frontier-models">Basenor — "xAI launches Grok 4.6: 1753 ELO, half the price"</a></li>
+  <li><span class="src-num">[9]</span><a href="https://officechai.com/ai/grok-4-6-benchmarks">OfficeChai — "Grok 4.6 benchmarks comparable to Fable, GPT 5.6 Sol"</a></li>
+  <li><span class="src-num">[10]</span><a href="https://finance.biggo.com/news/9149a49293cafcf7">BigGo Finance — "Anthropic's Bhat and He: AI's limiting factor is the harness, not the model"</a></li>
+  <li><span class="src-num">[11]</span><a href="https://finance.biggo.com/podcast/9149a49293cafcf7">BigGo Finance (AI Engineer podcast) — "Evolution of agentic surfaces — Bhat &amp; He, Anthropic"</a></li>
+  <li><span class="src-num">[12]</span><a href="https://finance.biggo.com/news/12c612072f4caad8">BigGo Finance — "Ben Hylak: agent evals stuck in the chatbot era, the floor is the frontier"</a></li>
+  <li><span class="src-num">[13]</span><a href="https://finance.biggo.com/podcast/12c612072f4caad8">BigGo Finance (AI Engineer podcast) — "Designing Agents — Ben Hylak, Raindrop"</a></li>
+  <li><span class="src-num">[14]</span><a href="https://finance.biggo.com/news/b009cfcc60b901a6">BigGo Finance — "Aditya Khandelwal: AI coding adoption is a leadership problem"</a></li>
+  <li><span class="src-num">[15]</span><a href="https://finance.biggo.com/news/7394380b35d4e15a">BigGo Finance — "Sonar's Chatterjee: verification debt, AI coding quality gap"</a></li>
+  <li><span class="src-num">[16]</span><a href="https://hackernoon.com/the-problem-with-using-ai-to-review-ai-written-code">HackerNoon — "The problem with using AI to review AI-written code"</a></li>
+  <li><span class="src-num">[17]</span><a href="https://www.augmentcode.com/guides/secure-sdlc-agent-authored-code">Augment Code — "Secure SDLC when agents write the code"</a></li>
+  <li><span class="src-num">[18]</span><a href="https://www.axios.com/2026/08/07/openai-astra-model-delay-cybersecurity-risks">Axios — "OpenAI slows release of Astra citing cyber capabilities"</a></li>
+  <li><span class="src-num">[19]</span><a href="https://www.stokastic.com/articles/prediction-markets/gpt-6-release-date-odds">Stokastic — "GPT-6 release date odds: pricing OpenAI's ship cadence"</a></li>
+  <li><span class="src-num">[20]</span><a href="https://www.americanprogress.org/article/the-trump-administration-has-created-a-de-facto-licensing-system-for-frontier-ai-models">Center for American Progress — "A de facto licensing system for frontier AI models"</a></li>
+  <li><span class="src-num">[21]</span><a href="https://www.pymnts.com/news/artificial-intelligence/2026/deepseek-resumes-funding-round-to-raise-8-billion/">PYMNTS — "DeepSeek resumes funding round to raise $8 billion"</a></li>
+  <li><span class="src-num">[22]</span><a href="https://cryptobriefing.com/deepseek-v4-pro-upgrade-claude-fable">Crypto Briefing — "DeepSeek upgrades V4 Pro, 45x cheaper than Claude Fable"</a></li>
+  <li><span class="src-num">[23]</span><a href="https://www.aisi.gov.uk/blog/cheating-behaviour-in-frontier-model-evaluations">UK AISI — "Cheating behaviour in frontier model evaluations"</a></li>
+  <li><span class="src-num">[24]</span><a href="https://macaubusiness.com/tencentdb-agent-memory-tops-20000-github-stars-in-90-days-launches-team-memory-for-multi-agent-collaboration-3">Macau Business — "TencentDB Agent Memory tops 20,000 GitHub stars, launches Team Memory"</a></li>
+  <li><span class="src-num">[25]</span><a href="https://research.google/blog/empty-shelves-or-lost-keys-recall-is-the-bottleneck-for-parametric-factuality">Google Research — "Recall is the bottleneck for parametric factuality"</a></li>
+</ol></div>
+<div class="footer">AI Engineering Intelligence &nbsp;&middot;&nbsp; 2026-08-13 &nbsp;&middot;&nbsp; Automated daily run &nbsp;&middot;&nbsp; Signal over noise</div>
+</body>
+</html>
