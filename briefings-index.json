@@ -2,7 +2,7 @@
   {
     "date": "2026-08-13",
     "title": "AI Engineering Intelligence — Thursday, August 13, 2026",
-    "summary": "SpaceXAI's Grok 4.6 ties GPT-5.6 Sol on the Artificial Analysis Intelligence Index (61) at half the frontier price and claims a Databricks leaderboard #1; meanwhile Tenet Security's \"Ghostjacking\" disclosure at DEFCON shows AI agents' trusted access bypassing firewalls 9/10 times against Claude Code, and NVIDIA's Nemotron 3.5 Lightning + NeMo Switchyard productize the planner/executor cost-split with real-team adoption from CrowdStrike, Ramp, and LangChain.",
+    "summary": "SpaceXAI shipped Grok 4.6 tying GPT-5.6 Sol on composite intelligence with no model card, while Fastino's fully-autonomous fine-tuning agent post-trained domain models in under 10 hours and the LiteLLM supply-chain breach exposed 434,000 CI/CD pipelines — the harness, not the model, is now the unit of both capability and risk.",
     "url": "briefings/briefing-2026-08-13.html"
   },
   {
