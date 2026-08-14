@@ -1,8 +1,8 @@
 [
   {
     "date": "2026-08-14",
-    "title": "AI Engineering Intelligence — August 14, 2026",
-    "summary": "Claude Code auto-mode flips to default-on today (89% vs 14% dangerous-command block rate), Gemini 3.7 Flash ships at half price while the 3.5 Pro flagship stays missing, and DeepSeek open-sources an MIT-licensed agent harness targeting Claude Code — plus Grok 4.6 reaches the frontier via post-training alone.",
+    "title": "AI Engineering Intelligence — Friday, August 14, 2026",
+    "summary": "Claude Code flips to auto-mode-by-default today on data showing a classifier beats fatigued humans 89% to 13.6%; DeepSeek open-sources its Harness under MIT as it GA's V4-Pro and raises API prices; GLM-5.3 ships with unplanned cyber capability that found 1,097 critical bugs.",
     "url": "briefings/briefing-2026-08-14.html"
   },
   {
