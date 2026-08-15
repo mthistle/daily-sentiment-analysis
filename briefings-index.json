@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-08-15",
+    "title": "AI Engineering Intelligence — Saturday, August 15, 2026",
+    "summary": "Qwen3.8-Max open weights dropped (first Max-class Qwen ever opened, with Unsloth's 91% compression), GPT-5.6 Sol Ultrafast on Cerebras hit 750 tok/s breaking the speed-intelligence tradeoff, and the Stealing Reasoning Traces paper showed encrypted CoT blocks are replayable across all three frontier labs leaking 182 credentials from public logs.",
+    "url": "briefings/briefing-2026-08-15.html"
+  },
+  {
     "date": "2026-08-14",
     "title": "AI Engineering Intelligence — Friday, August 14, 2026",
     "summary": "Claude Code flips to auto-mode-by-default today on data showing a classifier beats fatigued humans 89% to 13.6%; DeepSeek open-sources its Harness under MIT as it GA's V4-Pro and raises API prices; GLM-5.3 ships with unplanned cyber capability that found 1,097 critical bugs.",
