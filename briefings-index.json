@@ -2,7 +2,7 @@
   {
     "date": "2026-08-15",
     "title": "AI Engineering Intelligence — Saturday, August 15, 2026",
-    "summary": "Qwen3.8-Max open weights dropped (first Max-class Qwen ever opened, with Unsloth's 91% compression), GPT-5.6 Sol Ultrafast on Cerebras hit 750 tok/s breaking the speed-intelligence tradeoff, and the Stealing Reasoning Traces paper showed encrypted CoT blocks are replayable across all three frontier labs leaking 182 credentials from public logs.",
+    "summary": "DeepSeek open-sourced the first frontier-lab agent harness (MIT) alongside V4-Pro GA and a 4x price hike, while a Tübingen paper proved encrypted chain-of-thought blocks from every frontier API are cross-session replayable — recovering 182 credentials from public logs — making \"reasoning state\" a new security boundary staff engineers must treat as readable.",
     "url": "briefings/briefing-2026-08-15.html"
   },
   {
