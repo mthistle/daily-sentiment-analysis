@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Engineering Intelligence — August 16, 2026</title>
+<style>
+  :root {
+    --bg: #0f1117; --surface: #1a1d27; --surface2: #222536; --border: #2e3148;
+    --accent: #6c63ff; --accent2: #00c2a8; --accent3: #f59e0b; --accent4: #ef4444;
+    --text: #e8eaf0; --text-muted: #8b8fa8; --text-dim: #5a5d75;
+    --green: #22c55e; --yellow: #eab308; --red: #ef4444; --orange: #f97316; --blue: #3b82f6; --purple: #a855f7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.7; max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+  a { color: var(--accent2); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+  a:hover { border-bottom-color: var(--accent2); }
+  .header { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 36px; }
+  .header-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; margin-bottom: 6px; }
+  .header-meta { color: var(--text-muted); font-size: 13px; }
+  .section-title { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 44px 0 18px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .exec-summary { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 24px 26px; margin-bottom: 8px; }
+  .exec-summary h2 { font-size: 15px; font-weight: 700; margin-bottom: 14px; color: var(--text); }
+  .signal-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+  .signal-num { background: var(--accent); color: white; font-size: 11px; font-weight: 700; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .signal-text { color: var(--text); line-height: 1.6; }
+  .sentiment-bar-container { margin-top: 18px; }
+  .sentiment-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+  .sentiment-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .sentiment-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #ef4444 0%, #eab308 40%, #22c55e 75%); width: 64%; }
+  .sentiment-caption { font-size: 11px; color: var(--text-muted); margin-top: 5px; }
+  .trend-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 22px 24px; margin-bottom: 18px; }
+  .trend-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .badge { display: inline-flex; align-items: center; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; white-space: nowrap; }
+  .badge-label { color: var(--text-muted); font-weight: 400; margin-right: 4px; font-size: 9px; }
+  .m-explosive { background: rgba(239,68,68,0.18); color: #f87171; }
+  .m-high { background: rgba(245,158,11,0.18); color: #fbbf24; }
+  .m-medium { background: rgba(59,130,246,0.18); color: #60a5fa; }
+  .m-low { background: rgba(139,143,168,0.18); color: #b6bad0; }
+  .s-positive { background: rgba(34,197,94,0.15); color: #4ade80; }
+  .s-mixed { background: rgba(234,179,8,0.15); color: #fde047; }
+  .s-polarizing { background: rgba(168,85,247,0.15); color: #c084fc; }
+  .s-negative { background: rgba(239,68,68,0.15); color: #f87171; }
+  .er-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .er-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .er-low { background: rgba(139,143,168,0.12); color: #b6bad0; }
+  .hr-high { background: rgba(239,68,68,0.12); color: #f87171; }
+  .hr-medium { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .hr-low { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .cl-low { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .trend-body p { margin-bottom: 10px; }
+  .trend-body strong { font-weight: 600; }
+  .field-label { color: var(--text-muted); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 14px; margin-bottom: 4px; display: block; }
+  .contrarian-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #a855f7; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .contrarian-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .declining-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #f97316; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .declining-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .watchlist-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 12px; }
+  .watchlist-name { font-size: 14px; font-weight: 700; color: var(--accent2); margin-bottom: 6px; }
+  .implication-block { border-left: 2px solid var(--accent3); padding: 10px 0 10px 16px; margin-bottom: 12px; }
+  .implication-type { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent3); font-weight: 700; margin-bottom: 4px; }
+  .long-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+  .long-icon { font-size: 13px; margin-top: 2px; width: 24px; flex-shrink: 0; color: var(--accent2); font-weight: 700; }
+  .sources-section { margin-top: 52px; border-top: 1px solid var(--border); padding-top: 24px; }
+  .sources-section h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 700; margin-bottom: 14px; }
+  .sources-list { list-style: none; }
+  .sources-list li { font-size: 12px; color: var(--text-muted); margin-bottom: 7px; display: flex; gap: 8px; }
+  .sources-list li .src-num { color: var(--text-dim); flex-shrink: 0; width: 24px; }
+  .sources-list li a { font-size: 12px; color: var(--text-muted); }
+  .sources-list li a:hover { color: var(--accent2); }
+  .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text-dim); text-align: center; }
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-label">Daily Intelligence Briefing</div>
+  <h1>AI Engineering Intelligence</h1>
+  <div class="header-meta">Sunday, August 16, 2026 &middot; 5-minute read &middot; Signal over noise</div>
+</header>
+
+<div class="section-title">Executive Summary</div>
+<div class="exec-summary">
+  <h2>Top 5 Highest-Signal Developments</h2>
+  <div class="signal-row"><div class="signal-num">1</div><div class="signal-text"><strong><a href="https://www.infoworld.com/article/4209439/deepseek-raises-some-v4-prices-by-more-than-10x-as-ai-demand-strains-capacity.html">DeepSeek's peak/off-peak pricing takes effect today</a>.</strong> V4-Pro output jumps from $0.87 to $3.96/Mtok at peak (4.5x) and V4-Flash to $1.32 (4.7x) — the promotional discount that underwrote hybrid-stack agent economics ends at 16:00 UTC, though off-peak rates, cache hits, and multi-model routing hand most of the advantage back to attentive buyers.</div></div>
+  <div class="signal-row"><div class="signal-num">2</div><div class="signal-text"><strong><a href="https://openai.com/index/previewing-ultrafast/">GPT-5.6 Sol Ultrafast (Cerebras) dissolves the speed-intelligence tradeoff</a>.</strong> Up to 750 output tokens/sec (14x Standard, 5x Opus 4.8 Fast, 11x Fable 5) with unchanged model intelligence via 44GB on-chip SRAM — the first credible frontier-tier instance of "more useful work per second" rather than a smaller/faster model, but waitlist-only with no published price or date.</div></div>
+  <div class="signal-row"><div class="signal-num">3</div><div class="signal-text"><strong><a href="https://www.techtimes.com/articles/324426/20260814/glm-53-post-training-produced-exploit-chains-zai-never-planned-finds-1097-critical-bugs.htm">GLM-5.3's unplanned cyber capability triggers the first open-weight safety holdback</a>.</strong> Zhipu's post-training produced multi-step exploit-chain reasoning it never targeted (1,097 Critical/High findings across 269 projects); open weights delayed ~2 weeks for safety review — the cleanest 2026 evidence that offensive capability can emerge as a byproduct of capability post-training, not just targeted training.</div></div>
+  <div class="signal-row"><div class="signal-num">4</div><div class="signal-text"><strong><a href="https://venturebeat.com/technology/deepseek-harness-launches-as-open-source-rival-to-claude-code-alongside-v4-pro-on-api-with-higher-prices">DeepSeek Harness (MIT) extends the open-source boundary from weights to the agent runtime</a>.</strong> The first open-source agent harness from a frontier model lab — "everything is a plugin" — ships as a developer preview the same day as V4-Pro GA, directly competing with Claude Code and signaling that the open-vs-closed frontier is now the orchestration layer, not just the model.</div></div>
+  <div class="signal-row"><div class="signal-num">5</div><div class="signal-text"><strong><a href="https://venturebeat.com/technology/meta-returns-to-open-source-with-muse-glimmer-an-apache-2-0-licensed-30b-parameter-ai-model-optimized-for-agents-available-now">Muse Glimmer (Apache 2.0, 30B) puts agentic workloads on a single consumer GPU</a>.</strong> Meta reverses four months of closed Muse Spark policy with a more-permissive-than-Llama license, 4-bit K-Quant to 17GB (fits a 24GB RTX 3090), and DFlash speculative decoding at 233 TPS — a US-lab on-device agentic answer to the Chinese open-weight cost tier, though no independent intelligence-index score yet.</div></div>
+  <div class="sentiment-bar-container">
+    <div class="sentiment-label">Practitioner Sentiment — Cautiously-Positive / Cost-Anxious</div>
+    <div class="sentiment-bar"><div class="sentiment-fill" style="width:58%"></div></div>
+    <div class="sentiment-caption">Capability and tooling keep improving, but DeepSeek's price reset and the unresolved MCP security surface are forcing teams to re-justify hybrid-stack economics and harden agent runtimes rather than ride a discount.</div>
+  </div>
+</div>
+
+<div class="section-title">Model Watch</div>
+<div class="trend-card">
+  <div class="trend-title">1. DeepSeek V4-Pro-0813 (GA) &amp; the peak/off-peak price reset</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-mixed"><span class="badge-label">Sentiment</span>Mixed</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>V4-Pro left preview and reached <a href="https://pandaily.com/deepseek-v4-pro-goes-live-closes-in-on-frontier-tier">general availability on Aug 12/13</a> as DeepSeek-V4-Pro-0813 — agent-focused, native OpenAI Responses API + Codex support, three thinking-effort levels. The same day, DeepSeek <a href="https://www.engadget.com/2236912/deepseek-ai-models-get-four-times-pricier">abandoned its flat promotional pricing</a> for peak/off-peak rates that take effect at 16:00 UTC today (Aug 16): Pro peaks at $3.96/Mtok output (from $0.87, 4.5x) and $1.32 input (from $0.435); Flash peaks at $1.32 output (from $0.28, 4.7x). Off-peak is half of peak; cache-hit pricing rises even more sharply (52%–1,100%).</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>Same 1.6T-parameter / 49B-active MoE, 1M context, 384K output. Vendor-reported jumps: Terminal-Bench 2.1 72.1→87.9, DeepSWE 12.8→62.7, NL2Repo 61.5 — a 49.9-point aggregate leap that <a href="https://www.techtimes.com/articles/324241/20260813/deepseek-v4-pro-0813-goes-ga-benchmark-claims-await-independent-proof.htm">awaits independent replication</a> (benchmaxxing caveat). SCMP's read: "underwhelms except in cybersecurity." Concurrency is split — Flash 2,500 concurrent, Pro capped at 500 — reinforcing the two-track product structure.</p>
+    <span class="field-label">Who is using it</span><p>Teams routing RAG/classification/batch-coding to V4-Flash in hybrid stacks remain the dominant adoption pattern, though the <a href="https://www.infoworld.com/article/4209439/deepseek-raises-some-v4-prices-by-more-than-10x-as-ai-demand-strains-capacity.html">cost advantage narrows at peak</a>: Greyhound Research notes "on paper, at peak, against the right comparator, DeepSeek's price advantage does disappear, and in places inverts — but the schedule's own clock and cache hand most of it back to any buyer paying attention." GPT-5.6 Luna at $1.20 output now undercuts V4-Flash at peak.</p>
+    <span class="field-label">Engineering implication</span><p>The promotional floor that made V4-Flash the de-facto cost tier (~$0.03/task vs Fable 5's $3.15) is gone. Re-model cost projections on peak rates, not the discount, and build peak/off-peak scheduling and cache-hit maximization into the harness — the same discipline the thrift-maxxing hybrid stack already demands. <strong>Verdict: Adopt (Flash for high-volume), Trial (Pro for agent workloads pending independent evals), but re-baseline your cost-per-successful-task math on peak pricing today.</strong></p>
+  </div>
+</div>
+<div class="trend-card">
+  <div class="trend-title">2. GPT-5.6 Sol Ultrafast (Cerebras) — speed-intelligence frontier</div>
+  <div class="badges">
+    <span class="badge m-explosive"><span class="badge-label">Momentum</span>Explosive</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-low"><span class="badge-label">Production Ready</span>Low</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>On Aug 13, OpenAI and <a href="https://www.globenewswire.com/news-release/2026/08/13/3344804/0/en/cerebras-powers-ultrafast-mode-for-openai-s-gpt-5-6-sol.html">Cerebras previewed Ultrafast</a> — a new API tier running the existing GPT-5.6 Sol on Cerebras Wafer-Scale Engine at up to 750 output tokens/sec (14x Standard's ~53 tok/s), with no change to model intelligence, context window, or output quality. The mechanism: 44GB of on-chip SRAM per wafer-sized chip keeps weights on-chip, eliminating the memory-bandwidth bottleneck that constrains GPU-based frontier inference. <a href="https://www.techtimes.com/articles/324514/20260814/gpt-56-sol-now-runs-real-time-speed-openais-ultrafast-preview-offers-no-price-date.htm">Limited preview only</a> — no published price, no GA date, no separate model ID; all numbers are vendor-reported.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>Humanity's Last Exam (2,500 questions): 11h11m vs 78h27m for Fable 5 at comparable accuracy (~7x). GDP-Val: 5.6x end-to-end speedup with no quality loss. Claims 5x faster than Opus 4.8 Fast and 11x faster than Fable 5 on output speed. OpenAI dogfoods internally for log/trace analysis during incidents. Standard GPT-5.6 Sol remains $5/$30 per Mtok.</p>
+    <span class="field-label">Who is using it</span><p>Invite-only cohort across coding, financial research, voice AI, and e-commerce — no production case studies yet. Cerebras' own limited capacity gates expansion; the CEO frames speed (not capability) as "the next constraint on adoption."</p>
+    <span class="field-label">Engineering implication</span><p>The speed-intelligence tradeoff — smaller/faster model vs larger/smarter — has been the default procurement tension for years. Ultrafast is the first credible frontier-tier instance of dissolving it, which reframes "more useful work per second" as the new axis. But no price and no GA date means it is an architectural signal, not a build-target today. Watch whether the premium over Standard's $5/$30 makes the per-task economics work for latency-bound agent loops (incident response, live research). <strong>Verdict: Watch — architect for a speed-tier option in your model-router config, but do not block on it.</strong></p>
+  </div>
+</div>
+<div class="trend-card">
+  <div class="trend-title">3. Meta Muse Glimmer (Apache 2.0, 30B on-device agentic)</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Meta shipped <a href="https://venturebeat.com/technology/meta-returns-to-open-source-with-muse-glimmer-an-apache-2-0-licensed-30b-parameter-ai-model-optimized-for-agents-available-now">Muse Glimmer on Aug 10</a> — a 29.6B dense model distilled from Muse Spark via logit distillation + agent RL, designed for "always-on" agent workflows on a single consumer GPU/Mac. Apache 2.0 (no Llama-style 700M-MAU cutoff — more permissive than anything Meta has released), reversing four months of closed Muse Spark policy. <a href="https://huggingface.co/meta-models/Muse-Glimmer-30B">Weights on Hugging Face</a>; day-zero Ollama/vLLM/SGLang/Together/Fireworks/OpenRouter/Unsloth.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>131K context, 1.8B vision encoder, 100+ languages, knowledge cutoff Jan 4 2026. 4-bit K-Quant to 17GB fits a single 24GB RTX 3090/4090 (~1.0% avg score loss across 15 tests; 0.2% at 32GB). DFlash speculative decoding delivers 3.1x throughput (233 TPS on RTX 5090). Meta benchmarks only against same-size-class models (Gemma4-31B, Qwen3.6-27B) — <a href="https://www.trendingtopics.eu/metas-new-open-ai-model-muse-glimmer-runs-on-your-computer-of-course-with-trade-offs">no comparison to cloud frontier models</a>. No independent Artificial Analysis Intelligence Index score yet.</p>
+    <span class="field-label">Who is using it</span><p>Early local-runtime community; AMD published local benchmarks (24 TPS Ryzen AI Max+, 53 TPS Radeon AI PRO R9700); Qualcomm edge-board vision prototype in 24h. Use cases named by Meta: local agents/function-calling, local coding, LLM-as-a-judge.</p>
+    <span class="field-label">Engineering implication</span><p>The strategic signal is the form factor + license, not the benchmark rank: a US-lab, Apache-2.0, on-device agentic tier is a sovereignty- and privacy-sensitive alternative to the Chinese open-weight cost tier (Kimi K3, Qwen3.8-Max, DeepSeek V4-Flash) for agents that need deep access to personal context without sending it to a cloud. The Register's read — "too small to reclaim American open-weight superiority" but well-positioned for SMEs/enthusiasts — is fair. Zuckerberg promised Muse Spark 1.2 weights "soon." <strong>Verdict: Trial for on-device agent pilots where data residency or offline operation is the requirement; Watch for the Spark 1.2 weight drop before betting on the Muse stack.</strong></p>
+  </div>
+</div>
+
+<div class="section-title">Agent Engineering &amp; AI SDLC</div>
+<div class="trend-card">
+  <div class="trend-title">1. DeepSeek Harness (dsh) — open-source agent runtime from a frontier lab</div>
+  <div class="badges">
+    <span class="badge m-explosive"><span class="badge-label">Momentum</span>Explosive</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-low"><span class="badge-label">Production Ready</span>Low</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Alongside V4-Pro GA on Aug 13, DeepSeek <a href="https://venturebeat.com/technology/deepseek-harness-launches-as-open-source-rival-to-claude-code-alongside-v4-pro-on-api-with-higher-prices">launched DeepSeek Harness (dsh)</a> — an open-source (MIT) agent harness built on the Cordis plugin system. Its guiding principle, "everything is a plugin," extends to models, tools, skills, sessions, sandboxes, filesystems, loops, orchestration, and UI. Run via <code>npx @deepseek-ai/dsh web</code>. Explicitly a developer preview with breaking-change warnings — not a stable drop-in. Led by Cui Tianyi (ex-Jane Street).</p>
+    <span class="field-label">Why it matters</span><p>This is the first open-source agent harness from a frontier model lab, explicitly positioned against Claude Code. It extends DeepSeek's open-source boundary from model weights (MIT) to the agent engineering system — the orchestration layer that harness-engineering tracking has established as the unit of cost optimization and vertical specialization. It sits at a moment when the open-vs-closed frontier is shifting from the model to the harness: Databricks' Omnigent (meta-harness), NVIDIA NeMo Switchyard (model router), and Anthropic's Claude Managed Agents all productized the same week. DeepSeek's MIT license is strategically loaded (same as React/Node.js).</p>
+    <span class="field-label">Evidence from real teams</span><p>DeepSeek's own harness team ("Model + Harness = Agent," 712-project beta in 4 days) is the dogfooding evidence; broader adoption awaits the preview maturing. Pairs with the broader harness-engineering evidence base: Cursor swarm (22x cost cut), Microsoft MDASH, Snowflake data-native harness, Anthropic Applied AI team publicly stating "harnesses — not models — are the limiting factor."</p>
+    <span class="field-label">Engineering implication</span><p>The harness is now a named, staffed, benchmarked, and increasingly open unit — staff engineers should treat it as a first-class architectural layer with its own evaluation and ownership, not an afterthought to model selection. Trial dsh for plugin-based extensibility and MIT-licensed portability, but treat the breaking-change warning seriously for production. <strong>Verdict: Trial for greenfield agent projects needing plugin extensibility; standardize on one harness (Claude Code, dsh, or a meta-harness like Omnigent) with a clear ownership boundary.</strong></p>
+  </div>
+</div>
+<div class="trend-card">
+  <div class="trend-title">2. MCP reaches a security inflection point (Dev Summit Seoul)</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-polarizing"><span class="badge-label">Sentiment</span>Polarizing</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-high"><span class="badge-label">Hype Risk</span>High</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>The <a href="https://forkast.news/the-model-context-protocol-reaches-a-security-inflection-point">MCP Dev Summit in Seoul (Aug 13–14)</a> surfaced a systemic security reality: 21,000+ internet-facing MCP servers exposed, 91.8% of 640 audited production servers lack OAuth, 687 have unrestricted shell-tool access, 10+ critical/high CVEs catalogued, and the <a href="https://owasp.org/www-project-mcp-top-10/">OWASP MCP Top 10</a> formalized. OX Security flagged a systemic STDIO-transport vulnerability (Anthropic calls it "by design"); the NSA AISC published security design considerations in June. Governance moved to the Linux Foundation's Agentic AI Foundation (AAIF) in December 2025, providing a neutral venue for the architectural debate.</p>
+    <span class="field-label">Why it matters</span><p>The conversation decisively moved from transport (settled by the July 28 stateless spec) to runtime security — the gap between "MCP in production" (41%) and "governed enterprise-wide" (5%) is now the binding constraint. This is the procurement-relevant risk: MCP's architectural permanence as the tool-connection standard is not in question, but ungoverned deployments are now demonstrably exploitable at scale. Fresh enterprise launches this week (Getty Images, Nutanix, IBM watsonx/D&B Commercial Graph) show adoption continues despite the security debt.</p>
+    <span class="field-label">Evidence from real teams</span><p>Bloomberg (weeks→minutes config), JPMorgan Chase (450+ agent use cases), GitHub MCP Server (100K installs), Figma (75% QoQ growth in MCP Write-to-Figma usage, over 50% of >$10K-ARR customers using the Figma agent weekly) — adoption is real and measurable, but governed deployment is the minority pattern.</p>
+    <span class="field-label">Engineering implication</span><p>Treat MCP as the default tool-connection standard (it has won), but treat every MCP server as an untrusted runtime surface: enforce OAuth, scope shell-tool access, run egress controls, and audit per-tool write paths (Cloudflare WriteGuard, object-capability patterns from Cloudflare OS). Do not ship an MCP server to production without the OWASP MCP Top 10 as a checklist. <strong>Verdict: Adopt MCP as the standard; Skip ungoverned deployments — the security debt is now a systemic, named, and actively exploited class.</strong></p>
+  </div>
+</div>
+<div class="trend-card">
+  <div class="trend-title">3. Efficiency frontier &amp; peak/off-peak pricing — the cost-discipline layer hardens</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Databricks formalized the <a href="https://www.databricks.com/blog/managing-ai-coding-costs-scale">efficiency frontier</a> — "the set of models that have the best price point for a given level of intelligence," distinct from the intelligence frontier — and shipped it as product: the open Unity AI Gateway, the Omnigent meta-harness, and the cost-per-successful-task procurement metric. DeepSeek's peak/off-peak pricing (live today) operationalizes the same discipline: capacity-constrained demand now forces attentive scheduling. VB Pulse Research (107 enterprises): 3.1 orchestration platforms/org, model-flexibility is the #1 driver (29%), 21% have no real-time spend kill-switch; EY created a "Head of Agent Economics" role.</p>
+    <span class="field-label">Why it matters</span><p>The procurement question has shifted from "which model is smartest" to "smartest at what, measured how, and does the price gap matter for my workload." DeepSeek's price reset is the clearest signal that the promotional cost floor is over — hybrid-stack economics now require active peak/off-peak scheduling, cache-hit maximization, and multi-model routing (NeMo Switchyard, Omnigent) rather than a default route to the cheapest model. Gemini 3.7 Flash at half its 3.6 price (23-day stable cycle) and GPT-5.6 Luna at $1.20 output are the competitive counter-pressure.</p>
+    <span class="field-label">Evidence from real teams</span><p>Ramp (-58% cost, -33% runtime matching frontier quality via NeMo Switchyard), LangChain (-74% cost routing 7% to frontier at 6% accuracy tradeoff), Stripe/Coinbase/Uber/Ramp surveyed by Databricks, Rippling's AI Spend Console (correlating spend to outcomes), Microsoft (default to GPT-5.6 Sol for staff + division token budgets).</p>
+    <span class="field-label">Engineering implication</span><p>Adopt cost-per-successful-task as the procurement metric, not leaderboard rank or headline token price. Build peak/off-peak scheduling and a real-time spend kill-switch into the harness today — 21% of orgs lack one. Re-baseline hybrid-stack cost models on DeepSeek peak pricing, not the discount. <strong>Verdict: Adopt the efficiency-frontier framing and a model router; the thrift-maxxing hybrid stack is now mainstream, non-optional practice.</strong></p>
+  </div>
+</div>
+
+<div class="section-title">Terminology Tracker</div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://openai.com/index/previewing-ultrafast/">GPT-5.6 Sol Ultrafast</a> — NEW (first seen 2026-08-15)</div><p><strong>Definition:</strong> OpenAI's API service tier (Aug 13, limited preview) running the existing GPT-5.6 Sol on Cerebras Wafer-Scale Engine at up to 750 output tok/sec (14x Standard). Not a new model — same intelligence, only faster token delivery via 44GB on-chip SRAM eliminating the memory-bandwidth bottleneck. The first credible frontier-tier dissolution of the speed-intelligence tradeoff. Distinct from a smaller/faster model (Luna, Flash tiers): it preserves frontier intelligence. Waitlist-only; no price, no GA date, no separate model ID; all numbers vendor-reported.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://venturebeat.com/technology/deepseek-harness-launches-as-open-source-rival-to-claude-code-alongside-v4-pro-on-api-with-higher-prices">DeepSeek Harness (dsh)</a> — EVOLVING (first seen 2026-08-14)</div><p>DeepSeek's open-source (MIT) agent runtime on the Cordis plugin system — the first open-source agent harness from a frontier model lab, explicitly positioned against Claude Code. "Everything is a plugin" (models, tools, skills, sessions, sandboxes, filesystems, loops, orchestration, UI). Extends the open-source boundary from weights to the agent engineering system. Launched alongside V4-Pro GA as a developer preview with breaking-change warnings; led by Cui Tianyi (ex-Jane Street). <a href="https://thenewstack.io/deepseek-harness-open-source-plugins">Real teams</a>: DeepSeek's own dogfooding (712-project beta in 4 days); broader adoption awaits preview maturation.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.techtimes.com/articles/324426/20260814/glm-53-post-training-produced-exploit-chains-zai-never-planned-finds-1097-critical-bugs.htm">GLM-5.3</a> — EVOLVING (first seen 2026-08-14)</div><p>Zhipu/Z.ai's coding-and-security model on the same 743B/40B-active MoE base as GLM-5.2 — all gains from post-training. Notable for an unplanned capability: multi-step exploit-chain reasoning Zhipu says it never targeted (1,097 Critical/High findings across 269 projects). First GLM open-weight release held back (~2 weeks, ~Aug 28) for safety review — the cleanest 2026 evidence that offensive capability can emerge as a byproduct of capability post-training. CyberGym 84.5% (#1, above Mythos 5 and GPT-5.6 Sol). GLM-6 (new architecture, doubled params, targeting Fable 5) teased.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.databricks.com/blog/managing-ai-coding-costs-scale">Efficiency frontier</a> — EVOLVING (first seen 2026-08-14)</div><p>Databricks' named framing — "the set of models with the best price point for a given level of intelligence," distinct from the intelligence frontier (peak capability). The claim: the efficiency frontier advances faster than the intelligence frontier, with weekly releases improving intelligence-per-dollar. DeepSeek's peak/off-peak pricing (live today) operationalizes it. Pairs with the open Unity AI Gateway and Omnigent meta-harness. The structural argument that procurement should track cost-per-successful-task at the quality bar, not leaderboard rank.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://forkast.news/the-model-context-protocol-reaches-a-security-inflection-point">MCP runtime security</a> — EVOLVING (first seen 2026-08-02, governance/history)</div><p>The MCP conversation decisively moved from transport (settled by the July 28 stateless spec) to runtime security this week: 21,000+ internet-facing servers exposed, 91.8% of audited production servers lack OAuth, OWASP MCP Top 10 formalized. Surfacing at the MCP Dev Summit (Seoul, Aug 13–14). Governance under Linux Foundation AAIF. Real-team usage holds (Bloomberg, JPMorgan Chase 450+ use cases, GitHub 100K installs, Figma 75% QoQ growth); the gap between "in production" (41%) and "governed enterprise-wide" (5%) is the binding constraint.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-3-7-flash">Gemini 3.7 Flash</a> — NEW (first seen 2026-08-14)</div><p><strong>Definition:</strong> Google's Aug 13 Flash-tier release, 23 days after 3.6 Flash — algorithmic refinements to the reasoning component on the same base. AA Intelligence Index 56 (comparable to GPT-5.6 Terra), FrontierCode 1.1 Main 43.6% (leading, above Sonnet 5 42.7% and GPT-5.6 Terra 41.3%), DeepSWE 65.3%. 1M context, 64K output. Half the 3.6 launch price through year-end. Ships as Stable while the flagship Gemini 3.5 Pro (promised at I/O May) remains absent — reportedly scrapped over tool-calling failures. Flash is the model Google can actually ship; the practical embodiment of the efficiency-frontier thesis.</p></div>
+
+<div class="section-title">Trend Deltas</div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>GPT-5.6 Sol Ultrafast</strong> — first seen 2026-08-15; entered tracking. The speed-intelligence tradeoff dissolved at the frontier tier (Cerebras, 750 tok/s).</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Reasoning-state security boundary</strong> — first seen 2026-08-15; entered tracking. The encrypted CoT object is itself the security vector (single shared per-provider AEAD key, replayable across sessions/users/models).</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>Harness engineering</strong> — accelerating vs. prior sightings (first seen 2026-08-02, 15+ sightings). Now productized at three layers: model-lab open runtime (DeepSeek Harness MIT), cloud meta-harness (Databricks Omnigent), model router (NVIDIA NeMo Switchyard).</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>Thrift-maxxing</strong> — accelerating (first seen 2026-08-02, 4 sightings). DeepSeek's peak/off-peak pricing forces attentive scheduling; the hybrid-stack cost tier now has named architectural support (meta-harness + router) and a named procurement metric (cost-per-successful-task).</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>Evaluation-infrastructure security</strong> — accelerating (first seen 2026-08-02, 10+ sightings). GLM-5.3's unplanned cyber capability and the reasoning-state leak add two new rungs to the failure-mode ladder.</div></div>
+<div class="long-row"><div class="long-icon">&#8593;</div><div><strong>Revenue-sharing open weights</strong> — up (first seen 2026-08-08, 5 sightings). Now a two-vendor pattern (Kimi K3 + Qwen3.8-Max); three-tier licensing structural: royalty-free (DeepSeek MIT), conditional-free (Meta Llama/Muse Glimmer Apache 2.0), revenue-share (Kimi K3, Qwen3.8-Max).</div></div>
+<div class="long-row"><div class="long-icon">&#8681;</div><div><strong>Open weights and American AI leadership</strong> — going quiet (first seen 2026-08-03). The 77-firm letter's policy ask was largely won via the White House open-weight exemption from the pre-release review; campaign energy fading as the regulatory split-by-openness formalizes.</div></div>
+
+<div class="section-title">Strategic Implications</div>
+<div class="implication-block"><div class="implication-type">Adopt</div><p>The efficiency-frontier procurement metric (cost-per-successful-task at the quality bar) over leaderboard rank — it is now mainstream, non-optional, and DeepSeek's peak/off-peak reset (live today) makes active scheduling and a real-time spend kill-switch a requirement, not an option. Adopt MCP as the default tool-connection standard, but treat every MCP server as an untrusted runtime surface against the OWASP MCP Top 10. Adopt deterministic static-analysis gating (Semgrep/SonarQube) between agent and merge — stochastic agent self-review cannot serve as a merge gate.</p></div>
+<div class="implication-block"><div class="implication-type">Trial</div><p>Muse Glimmer for on-device agent pilots where data residency or offline operation is the requirement (Apache 2.0, 17GB at 4-bit, single consumer GPU) — but benchmark on your own workload, not Meta's same-size-class comparison. Trial DeepSeek Harness (dsh) for greenfield agent projects needing plugin extensibility and MIT-licensed portability, treating the breaking-change warning seriously. Trial Gemini 3.7 Flash as a premium-execution-tier option in hybrid stacks at half the 3.6 price, pending independent intelligence-index validation. Trial Qwen3.8-Max open weights under the revenue-share license only if your deployment is below the $20M threshold or you've negotiated terms.</p></div>
+<div class="implication-block"><div class="implication-type">Watch</div><p>GPT-5.6 Sol Ultrafast — architect for a speed-tier option in your model-router config, but do not block on it (no price, no GA date, waitlist-only). GLM-5.3 open weights (held back ~2 weeks for safety review after unplanned cyber capability) — wait for the hardened release and the independent security review before deploying in security-sensitive environments. Astra and Doug (OpenAI) — still pre-release, gated by both the classified White House 30-day review and OpenAI's Critical-cyber safeguards; treat as roadmap signal only. Gemini 3.5 Pro — reportedly scrapped over tool-calling failures; treat a Google flagship this quarter as uncertain for procurement roadmaps.</p></div>
+<div class="implication-block"><div class="implication-type">30-90 Day Watchlist</div><p>DeepSeek V4-Pro independent benchmark replication (the 49.9-point aggregate jump awaits third-party validation — benchmaxxing caveat). The GLM-5.3 open-weight drop (~Aug 28) and whether the unplanned-cyber finding reshapes open-weight safety-review norms. Muse Spark 1.2 weight release (Zuckerberg "soon") and whether Meta sustains the Apache-2.0 reversal. The Ultrafast price/GA and whether the speed-tier premium makes per-task economics work for latency-bound agent loops. The Astra release (prediction markets ~62% by Sep 30) and whether the classified pre-release review becomes a de-facto licensing gate.</p></div>
+
+<div class="sources-section"><h2>Sources</h2><ol class="sources-list">
+  <li><span class="src-num">[1]</span><a href="https://www.infoworld.com/article/4209439/deepseek-raises-some-v4-prices-by-more-than-10x-as-ai-demand-strains-capacity.html">InfoWorld — "DeepSeek raises some V4 prices by more than 10x as AI demand strains capacity"</a></li>
+  <li><span class="src-num">[2]</span><a href="https://www.engadget.com/2236912/deepseek-ai-models-get-four-times-pricier">Engadget — "DeepSeek's AI models are about to cost four times more"</a></li>
+  <li><span class="src-num">[3]</span><a href="https://pandaily.com/deepseek-v4-pro-goes-live-closes-in-on-frontier-tier">Pandaily — "DeepSeek V4 Pro Goes Live, Closes In on Frontier Tier"</a></li>
+  <li><span class="src-num">[4]</span><a href="https://www.techtimes.com/articles/324241/20260813/deepseek-v4-pro-0813-goes-ga-benchmark-claims-await-independent-proof.htm">TechTimes — "DeepSeek V4-Pro-0813 goes GA; benchmark claims await independent proof"</a></li>
+  <li><span class="src-num">[5]</span><a href="https://startupfortune.com/deepseek-ships-v4-pro-rivaling-claude-and-gpt-5-for-a-fraction-of-the-cost">Startup Fortune — "DeepSeek Ships V4 Pro, Rivaling Claude and GPT-5"</a></li>
+  <li><span class="src-num">[6]</span><a href="https://openai.com/index/previewing-ultrafast/">OpenAI — "Previewing Ultrafast mode: GPT-5.6 Sol at up to 14X the speed"</a></li>
+  <li><span class="src-num">[7]</span><a href="https://www.globenewswire.com/news-release/2026/08/13/3344804/0/en/cerebras-powers-ultrafast-mode-for-openai-s-gpt-5-6-sol.html">GlobeNewswire — "Cerebras Powers Ultrafast Mode for OpenAI's GPT-5.6 Sol"</a></li>
+  <li><span class="src-num">[8]</span><a href="https://www.techtimes.com/articles/324514/20260814/gpt-56-sol-now-runs-real-time-speed-openais-ultrafast-preview-offers-no-price-date.htm">TechTimes — "GPT-5.6 Sol Now Runs at Real-Time Speed: OpenAI's Ultrafast Preview Offers No Price or Date"</a></li>
+  <li><span class="src-num">[9]</span><a href="https://www.techtimes.com/articles/324426/20260814/glm-53-post-training-produced-exploit-chains-zai-never-planned-finds-1097-critical-bugs.htm">TechTimes — "GLM-5.3 post-training produced exploit chains Z.ai never planned; finds 1,097 critical bugs"</a></li>
+  <li><span class="src-num">[10]</span><a href="https://venturebeat.com/technology/deepseek-harness-launches-as-open-source-rival-to-claude-code-alongside-v4-pro-on-api-with-higher-prices">VentureBeat — "DeepSeek Harness launches as open source rival to Claude Code"</a></li>
+  <li><span class="src-num">[11]</span><a href="https://venturebeat.com/technology/meta-returns-to-open-source-with-muse-glimmer-an-apache-2-0-licensed-30b-parameter-ai-model-optimized-for-agents-available-now">VentureBeat — "Meta returns to open source with Muse Glimmer, an Apache 2.0 licensed 30B parameter AI model optimized for agents"</a></li>
+  <li><span class="src-num">[12]</span><a href="https://www.trendingtopics.eu/metas-new-open-ai-model-muse-glimmer-runs-on-your-computer-of-course-with-trade-offs">Trending Topics — "Meta's New Open AI Model 'Muse Glimmer' Runs on Your Computer, Of Course With Trade-offs"</a></li>
+  <li><span class="src-num">[13]</span><a href="https://forkast.news/the-model-context-protocol-reaches-a-security-inflection-point">Forkast — "The Model Context Protocol Reaches a Security Inflection Point"</a></li>
+  <li><span class="src-num">[14]</span><a href="https://owasp.org/www-project-mcp-top-10/">OWASP — "MCP Top 10"</a></li>
+  <li><span class="src-num">[15]</span><a href="https://www.databricks.com/blog/managing-ai-coding-costs-scale">Databricks — "Managing AI coding costs at scale"</a></li>
+  <li><span class="src-num">[16]</span><a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-3-7-flash">Google — "Introducing Gemini 3.7 Flash"</a></li>
+  <li><span class="src-num">[17]</span><a href="https://artificialanalysis.ai/articles/grok-4-6-benchmarks-and-analysis">Artificial Analysis — "Grok 4.6: benchmarks and analysis"</a></li>
+  <li><span class="src-num">[18]</span><a href="https://tech-insider.org/au/claude-opus-5-vs-gpt-5-6-benchmark-split-2026">Tech Insider — "Claude Opus 5 vs GPT-5.6: 1.8-Point Split Decision"</a></li>
+  <li><span class="src-num">[19]</span><a href="https://newsroom.gettyimages.com/en/getty-images/getty-images-launches-mcp-server-to-connect-creative-and-editorial-content-to-ai-workflows-and-products">Getty Images — "Getty Images Launches MCP Server"</a></li>
+  <li><span class="src-num">[20]</span><a href="https://www.aol.com/articles/figma-fig-q2-2026-earnings-010248000.html">Figma Q2 2026 Earnings Call Transcript (AOL/Motley Fool)</a></li>
+  <li><span class="src-num">[21]</span><a href="https://www.ibm.com/new/announcements/dun-bradstreet-commercial-graph-is-now-available-in-watsonx-orchestrate-agent-catalog-via-mcp-server">IBM — "D&B Commercial Graph is now available in watsonx Orchestrate Agent Catalog via MCP server"</a></li>
+  <li><span class="src-num">[22]</span><a href="https://qz.com/deepseek-v4-pro-official-launch-081326">Quartz — "DeepSeek V4-Pro official launch"</a></li>
+  <li><span class="src-num">[23]</span><a href="https://www.scmp.com/tech/big-tech/article/3363895/deepseeks-updated-v4-pro-ai-model-struggles-benchmarks-shines-cybersecurity">SCMP — "DeepSeek's updated V4-Pro AI model struggles on benchmarks, shines in cybersecurity"</a></li>
+  <li><span class="src-num">[24]</span><a href="https://venturebeat.com/technology/spacexai-debuts-grok-4-6-overtaking-kimi-k3s-performance-and-matching-gpt-5-6-sol-for-worlds-third-best-on-artificial-analysis">VentureBeat — "SpaceXAI debuts Grok 4.6"</a></li>
+  <li><span class="src-num">[25]</span><a href="https://huggingface.co/meta-models/Muse-Glimmer-30B">Hugging Face — "Muse-Glimmer-30B"</a></li>
+  <li><span class="src-num">[26]</span><a href="https://www.amd.com/en/blogs/2026/run-meta-muse-glimmer-30b-on-amd-ryzen-ai-max-and-radeon-gpus.html">AMD — "Run Meta Muse Glimmer 30B on AMD Ryzen AI Max and Radeon GPUs"</a></li>
+  <li><span class="src-num">[27]</span><a href="https://www.stocktitan.net/news/CBRS/cerebras-powers-ultrafast-mode-for-open-ai-s-gpt-5-6-x2tvrw6nodi8.html">StockTitan — "Cerebras Powers Ultrafast Mode for OpenAI's GPT-5.6 Sol"</a></li>
+  <li><span class="src-num">[28]</span><a href="https://www.infoq.com/news/2026/08/mcp-stateless-gateway">InfoQ — "MCP Goes Stateless"</a></li>
+</ol></div>
+<div class="footer">AI Engineering Intelligence &nbsp;&middot;&nbsp; 2026-08-16 &nbsp;&middot;&nbsp; Automated daily run &nbsp;&middot;&nbsp; Signal over noise</div>
+</body>
+</html>
