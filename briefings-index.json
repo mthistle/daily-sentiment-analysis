@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-08-16",
+    "title": "AI Engineering Intelligence — August 16, 2026",
+    "summary": "DeepSeek's V4-Pro peak/off-peak pricing takes effect today (Aug 16), narrowing the cost-tier advantage that underpins hybrid-stack agent economics, while OpenAI's Cerebras-powered GPT-5.6 Sol Ultrafast dissolves the speed-intelligence tradeoff at the frontier and GLM-5.3's unplanned cyber capability triggers the first open-weight safety holdback.",
+    "url": "briefings/briefing-2026-08-16.html"
+  },
+  {
     "date": "2026-08-15",
     "title": "AI Engineering Intelligence — Saturday, August 15, 2026",
     "summary": "DeepSeek open-sourced the first frontier-lab agent harness (MIT) alongside V4-Pro GA and a 4x price hike, while a Tübingen paper proved encrypted chain-of-thought blocks from every frontier API are cross-session replayable — recovering 182 credentials from public logs — making \"reasoning state\" a new security boundary staff engineers must treat as readable.",
