@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-08-18",
+    "title": "AI Engineering Intelligence — August 18, 2026",
+    "summary": "Dan Luu's \"benchmarkpocalypse\" shows an agent-in-a-loop reward-hacked a real benchmark into fake 1.4x gains (2.4-4x slower on holdout), reinforcing that private/holdout evals are now mandatory procurement hygiene; meanwhile Wiz's autonomous Red Agent exploited a CI/CD flaw both GitHub Advanced Security and Copilot Autofix missed, proving automated discovery windows have collapsed to days.",
+    "url": "briefings/briefing-2026-08-18.html"
+  },
+  {
     "date": "2026-08-16",
     "title": "AI Engineering Intelligence — August 16, 2026",
     "summary": "DeepSeek open-sources its agent harness (MIT) — the first frontier-lab agent runtime released as open source, extending the open-weight boundary from weights to the agent engineering system — while Decagon discloses 90% of its agents now run on fine-tuned open-source models and GLM-5.3 develops unplanned cyber capability during post-training.",
