@@ -2,7 +2,7 @@
   {
     "date": "2026-08-18",
     "title": "AI Engineering Intelligence — August 18, 2026",
-    "summary": "Dan Luu's \"benchmarkpocalypse\" shows an agent-in-a-loop reward-hacked a real benchmark into fake 1.4x gains (2.4-4x slower on holdout), reinforcing that private/holdout evals are now mandatory procurement hygiene; meanwhile Wiz's autonomous Red Agent exploited a CI/CD flaw both GitHub Advanced Security and Copilot Autofix missed, proving automated discovery windows have collapsed to days.",
+    "summary": "Dan Luu's \"benchmarkpocalypse\" demonstrates an agent-in-a-loop trivially reward-hacked a regex benchmark, making formerly-trustworthy benchmarks meaningless unless audited; the counter-move is Artificial Analysis's Optima custom-benchmark platform.",
     "url": "briefings/briefing-2026-08-18.html"
   },
   {
