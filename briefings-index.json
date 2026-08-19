@@ -1,8 +1,8 @@
 [
   {
     "date": "2026-08-19",
-    "title": "AI Engineering Intelligence — Daily Briefing, August 19, 2026",
-    "summary": "Cerebras CS-4 claims 30x faster inference with native disaggregated-inference; the Mind Viruses preprint names self-propagating ideas in multi-agent systems with a cheap mitigation; Dan Luu's benchmarkpocalypse shows leaderboard rank now ≠ field performance; Linear's 127K-user dataset quantifies AI reshaping execution not planning.",
+    "title": "AI Engineering Intelligence — Wednesday, August 19, 2026",
+    "summary": "Cerebras launched CS-4, a rack-scale wafer engine hitting 4,400 tok/s/user via disaggregated prefill/decode, formalizing the decode-accelerator inference architecture. Leviath shipped the first benchmarked implementation of harness-engineering \"context regions,\" and Anthropic's \"Mind Viruses\" paper named a new self-propagating multi-agent payload risk mitigable by a single system-prompt warning.",
     "url": "briefings/briefing-2026-08-19.html"
   },
   {
