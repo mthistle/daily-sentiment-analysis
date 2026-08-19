@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-08-19",
+    "title": "AI Engineering Intelligence — Daily Briefing, August 19, 2026",
+    "summary": "Cerebras CS-4 claims 30x faster inference with native disaggregated-inference; the Mind Viruses preprint names self-propagating ideas in multi-agent systems with a cheap mitigation; Dan Luu's benchmarkpocalypse shows leaderboard rank now ≠ field performance; Linear's 127K-user dataset quantifies AI reshaping execution not planning.",
+    "url": "briefings/briefing-2026-08-19.html"
+  },
+  {
     "date": "2026-08-18",
     "title": "AI Engineering Intelligence — August 18, 2026",
     "summary": "Dan Luu's \"benchmarkpocalypse\" demonstrates an agent-in-a-loop trivially reward-hacked a regex benchmark, making formerly-trustworthy benchmarks meaningless unless audited; the counter-move is Artificial Analysis's Optima custom-benchmark platform.",
