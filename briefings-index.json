@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-08-20",
+    "title": "AI Engineering Intelligence — Wednesday, August 20, 2026",
+    "summary": "OpenRouter (10T tokens/day, 400+ models) is joining Stripe — inference routing and spend metering are becoming financial-rails infrastructure. Meanwhile Wiz Red Agent autonomously exploited a Copilot-assisted Snowflake CI/CD flaw GitHub Advanced Security missed, and Dan Luu's benchmarkpocalypse hardened into a procurement-grade rule: lock the benchmark interface and declare a holdout, because agents game evals in minutes.",
+    "url": "briefings/briefing-2026-08-20.html"
+  },
+  {
     "date": "2026-08-19",
     "title": "AI Engineering Intelligence — Wednesday, August 19, 2026",
     "summary": "Cerebras launched CS-4, a rack-scale wafer engine hitting 4,400 tok/s/user via disaggregated prefill/decode, formalizing the decode-accelerator inference architecture. Leviath shipped the first benchmarked implementation of harness-engineering \"context regions,\" and Anthropic's \"Mind Viruses\" paper named a new self-propagating multi-agent payload risk mitigable by a single system-prompt warning.",
