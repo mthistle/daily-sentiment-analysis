@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-08-22",
+    "title": "AI Engineering Intelligence — Saturday, August 22, 2026",
+    "summary": "Dan Luu's \"no reason for software to be slow anymore\" argues agent loops drop the human cost of specialized performance work ~1000x-1Mx, making workload-specific custom software the likely outcome — while Autolith ships a Common Lisp \"resident agent\" whose live runtime is the harness, and Nari Labs extends harness engineering into multimodal serving with a sub-50ms TTS engine.",
+    "url": "briefings/briefing-2026-08-22.html"
+  },
+  {
     "date": "2026-08-21",
     "title": "AI Engineering Intelligence — Friday, August 21, 2026",
     "summary": "OpenRouter quietly shipped \"Ox Alpha,\" a free, anonymous-provider reasoning model for long-horizon coding/agentic work, while a GitHub issue revealed Codex on AWS Bedrock cannot opt into GPT-5.6 Sol prompt caching—driving ~85% of one team's spend into cache-write tokens. Meanwhile Qwen 3.8 27B reached frontier-parity at AA Index 52, and OpenRouter announced it is joining Stripe.",
