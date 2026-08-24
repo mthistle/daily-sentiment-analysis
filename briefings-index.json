@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-08-24",
+    "title": "AI Engineering Intelligence — Monday, August 24, 2026",
+    "summary": "Lilian Weng publishes the canonical academic synthesis of harness engineering for self-improvement, tying the harness layer to recursive self-improvement; meanwhile GLM-5.3 is independently scored at AA Intelligence Index 60 but flagged 2.4x verbose, and Claude Code's hidden prompt steganography confirms the harness system-prompt metadata as a dual-use identity/attack surface.",
+    "url": "briefings/briefing-2026-08-24.html"
+  },
+  {
     "date": "2026-08-23",
     "title": "AI Engineering Intelligence — Sunday, August 23, 2026",
     "summary": "The MCP maintainers published a new roadmap making agent identity and agentic messaging first-class protocol priorities, while Prime Intellect's open NanoGPT Speedrun Frontier benchmarked 18 frontier models on autonomous ML research — showing Fable 5 closing 81.7% of the human-record gap and the harness, not the model, deciding who wins.",
