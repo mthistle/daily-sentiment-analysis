@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Engineering Intelligence — Monday, August 24, 2026</title>
+<style>
+  :root {
+    --bg: #0f1117; --surface: #1a1d27; --surface2: #222536; --border: #2e3148;
+    --accent: #6c63ff; --accent2: #00c2a8; --accent3: #f59e0b; --accent4: #ef4444;
+    --text: #e8eaf0; --text-muted: #8b8fa8; --text-dim: #5a5d75;
+    --green: #22c55e; --yellow: #eab308; --red: #ef4444; --orange: #f97316; --blue: #3b82f6; --purple: #a855f7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.7; max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+  a { color: var(--accent2); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+  a:hover { border-bottom-color: var(--accent2); }
+  .header { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 36px; }
+  .header-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; margin-bottom: 6px; }
+  .header-meta { color: var(--text-muted); font-size: 13px; }
+  .section-title { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 44px 0 18px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .exec-summary { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 24px 26px; margin-bottom: 8px; }
+  .exec-summary h2 { font-size: 15px; font-weight: 700; margin-bottom: 14px; color: var(--text); }
+  .signal-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+  .signal-num { background: var(--accent); color: white; font-size: 11px; font-weight: 700; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .signal-text { color: var(--text); line-height: 1.6; }
+  .sentiment-bar-container { margin-top: 18px; }
+  .sentiment-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+  .sentiment-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .sentiment-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #ef4444 0%, #eab308 40%, #22c55e 75%); width: 64%; }
+  .sentiment-caption { font-size: 11px; color: var(--text-muted); margin-top: 5px; }
+  .trend-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 22px 24px; margin-bottom: 18px; }
+  .trend-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .badge { display: inline-flex; align-items: center; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; white-space: nowrap; }
+  .badge-label { color: var(--text-muted); font-weight: 400; margin-right: 4px; font-size: 9px; }
+  .m-explosive { background: rgba(239,68,68,0.18); color: #f87171; }
+  .m-high { background: rgba(245,158,11,0.18); color: #fbbf24; }
+  .m-medium { background: rgba(59,130,246,0.18); color: #60a5fa; }
+  .m-low { background: rgba(139,143,168,0.18); color: #b6bad0; }
+  .s-positive { background: rgba(34,197,94,0.15); color: #4ade80; }
+  .s-mixed { background: rgba(234,179,8,0.15); color: #fde047; }
+  .s-polarizing { background: rgba(168,85,247,0.15); color: #c084fc; }
+  .s-negative { background: rgba(239,68,68,0.15); color: #f87171; }
+  .er-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .er-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .er-low { background: rgba(139,143,168,0.12); color: #b6bad0; }
+  .hr-high { background: rgba(239,68,68,0.12); color: #f87171; }
+  .hr-medium { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .hr-low { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .cl-low { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .trend-body p { margin-bottom: 10px; }
+  .trend-body strong { font-weight: 600; }
+  .field-label { color: var(--text-muted); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 14px; margin-bottom: 4px; display: block; }
+  .contrarian-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #a855f7; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .contrarian-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .declining-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #f97316; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .declining-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .watchlist-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 12px; }
+  .watchlist-name { font-size: 14px; font-weight: 700; color: var(--accent2); margin-bottom: 6px; }
+  .implication-block { border-left: 2px solid var(--accent3); padding: 10px 0 10px 16px; margin-bottom: 12px; }
+  .implication-type { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent3); font-weight: 700; margin-bottom: 4px; }
+  .long-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+  .long-icon { font-size: 13px; margin-top: 2px; width: 24px; flex-shrink: 0; color: var(--accent2); font-weight: 700; }
+  .sources-section { margin-top: 52px; border-top: 1px solid var(--border); padding-top: 24px; }
+  .sources-section h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 700; margin-bottom: 14px; }
+  .sources-list { list-style: none; }
+  .sources-list li { font-size: 12px; color: var(--text-muted); margin-bottom: 7px; display: flex; gap: 8px; }
+  .sources-list li .src-num { color: var(--text-dim); flex-shrink: 0; width: 24px; }
+  .sources-list li a { font-size: 12px; color: var(--text-muted); }
+  .sources-list li a:hover { color: var(--accent2); }
+  .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text-dim); text-align: center; }
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-label">Daily Intelligence Briefing</div>
+  <h1>AI Engineering Intelligence</h1>
+  <div class="header-meta">Monday, August 24, 2026 &middot; 5-minute read &middot; Signal over noise</div>
+</header>
+
+<div class="section-title">Executive Summary</div>
+<div class="exec-summary">
+  <h2>Top 5 Highest-Signal Developments</h2>
+  <div class="signal-row"><div class="signal-num">1</div><div class="signal-text"><strong><a href="https://lilianweng.github.io/posts/2026-07-04-harness/">Lilian Weng publishes the canonical academic synthesis of harness engineering for self-improvement.</a></strong> The most authoritative single writeup tying the harness layer to recursive self-improvement — names Meta-Harness, Self-Harness, AHE, and warns that evaluators and permission controls must sit outside the evolution loop.</div></div>
+  <div class="signal-row"><div class="signal-num">2</div><div class="signal-text"><strong><a href="https://artificialanalysis.ai/models/glm-5-3">GLM-5.3 independently scored by Artificial Analysis at Intelligence Index 60, but flagged extremely verbose.</a></strong> 170M output tokens vs 72M median (2.4x) undercuts the cheap headline price ($1.40/$4.40); still proprietary with open weights held back ~Aug 28 for safety review after unplanned cyber capability.</div></div>
+  <div class="signal-row"><div class="signal-num">3</div><div class="signal-text"><strong><a href="https://thereallo.dev/blog/claude-code-prompt-steganography">Claude Code steganographically marks requests based on API base URL and timezone.</a></strong> Anthropic injects hidden environment-fingerprint markers into prompts — the same harness-metadata-as-identity-signal surface that the Morgin time-release backdoor weaponizes, now confirmed as a production anti-abuse mechanism.</div></div>
+  <div class="signal-row"><div class="signal-num">4</div><div class="signal-text"><strong><a href="https://www.primeintellect.ai/research/nanogpt-speedrun">NanoGPT Speedrun Frontier isolates the harness-over-model effect at research scale.</a></strong> Same Kimi K3 model: prime-agent harness closed 52.2% of the human-record gap vs kimi-code's 45.8%; GLM-5.3 produced no valid record despite CyberGym #1 — fresh benchmark-vs-practice corroboration.</div></div>
+  <div class="signal-row"><div class="signal-num">5</div><div class="signal-text"><strong><a href="https://blog.modelcontextprotocol.io/posts/mcp-roadmap/">MCP roadmap promotes agent identity to a first-class spec priority.</a></strong> DPoP, Workload Identity Federation, and the ID-JAG grant convert the abstract agentic-identity thesis into a standardized protocol track — the governance gap between in-production (41%) and governed-enterprise-wide (5%) remains the binding constraint.</div></div>
+  <div class="sentiment-bar-container">
+    <div class="sentiment-label">Practitioner Sentiment — Cautiously-Positive</div>
+    <div class="sentiment-bar"><div class="sentiment-fill" style="width:62%"></div></div>
+    <div class="sentiment-caption">Harness engineering is consolidating into a named, academically-grounded discipline with shipped tooling, but the benchmark-legitimacy crisis and eval-infrastructure security ladder keep practitioner trust measured.</div>
+  </div>
+</div>
+
+<div class="section-title">Model Watch</div>
+<div class="trend-card">
+  <div class="trend-title">1. GLM-5.3 (Zhipu / z.ai)</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-mixed"><span class="badge-label">Sentiment</span>Mixed</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Zhipu/z.ai's coding-and-security-focused model (Aug 14) on the same 743B/40B-active MoE base as GLM-5.2, with all gains from post-training. Artificial Analysis now independently scores it at <strong>Intelligence Index 60</strong> (#9 of 186), 753B params, 1M context, reasoning model, text-only — confirming vendor claims of approaching Claude Fable 5 territory. The HN thread (<a href="https://news.ycombinator.com/item?id=49294997">1,171 points, 584 comments</a>) remains the highest-engagement model discussion of the week.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>AA Index 60 places it competitive with GPT-5.6 Sol (59) and Gemini 3.7 Flash (56), one behind Fable 5 Max (60). CyberGym 84.5% (#1, above Mythos 5 and GPT-5.6 Sol). Critical caveat: <strong>extremely verbose</strong> — 170M output tokens on the Intelligence Index vs a 72M median (2.4x), driving cost-per-task up despite the moderate headline price ($1.40/$4.40 per Mtok). The unplanned multi-step exploit-chain capability surfaced 2,436 findings across 269 projects (1,097 Critical/High). Reportedly found a serious vulnerability in Cursor. Open weights <strong>held back ~Aug 28</strong> for safety review — the first GLM open-weight holdback.</p>
+    <span class="field-label">Who is using it</span><p>Available via z.ai API and 2 providers per AA. Adoption evidence is leaderboard- and API-driven; no named production case study yet. The NanoGPT Speedrun Frontier showed GLM-5.3 produced <strong>no valid record</strong> despite CyberGym-leaderboard strength — a direct benchmark-vs-practice gap signal for procurement teams.</p>
+    <span class="field-label">Engineering implication</span><p>Measure cost-per-successful-task, not headline token price — the 2.4x verbosity premium materially changes the economics. Treat the cyber capability as a real eval-infrastructure signal: a model developing offensive capability the lab did not target raises stakes for egress/credential controls on any fine-tuning team. <strong>Verdict: Trial</strong> (API) for coding; <strong>Watch</strong> for the open-weight drop ~Aug 28, pending safety-review outcome and independent cyber replication.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. Astra (OpenAI) — pre-release, gated</div>
+  <div class="badges">
+    <span class="badge m-low"><span class="badge-label">Momentum</span>Low</span>
+    <span class="badge s-mixed"><span class="badge-label">Sentiment</span>Mixed</span>
+    <span class="badge er-low"><span class="badge-label">Production Ready</span>Low</span>
+    <span class="badge hr-high"><span class="badge-label">Hype Risk</span>High</span>
+    <span class="badge cl-low"><span class="badge-label">Confidence</span>Low</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Flat this run (first seen 2026-08-03, now 12 sightings): still pre-release, no API, no model card, no date. Gated by both the classified White House 30-day pre-release review and OpenAI's own Critical-cyber safeguards — the first model publicly disclosed as potentially meeting the Critical threshold. Ten Lean 4 math proofs remain the only capability signal. Prediction markets hold at ~62% public release by Sep 30.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>No new capability data. The Aug 18 "pacing model development in an era of cyber-critical capabilities" statement reinforces the gate but adds no signal. Dogfooded internally as 'mewfour'; reportedly OpenAI's largest pretrain since GPT-4.5.</p>
+    <span class="field-label">Who is using it</span><p>Internal only; no external access.</p>
+    <span class="field-label">Engineering implication</span><p>No action possible; treat as roadmap signal. The double-gate (federal + internal Critical-threshold) is the new structural reality for frontier releases. <strong>Verdict: Skip</strong> (no shippable artifact); track the gating precedent.</p>
+  </div>
+</div>
+
+<div class="section-title">Agent Engineering &amp; AI SDLC</div>
+<div class="trend-card">
+  <div class="trend-title">1. Harness Engineering for Self-Improvement (Lilian Weng)</div>
+  <div class="badges">
+    <span class="badge m-explosive"><span class="badge-label">Momentum</span>Explosive</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Lilian Weng's <a href="https://lilianweng.github.io/posts/2026-07-04-harness/">July 4 post</a> (resurfaced on HN Aug 4, <a href="https://news.ycombinator.com/item?id=49164896">334 points, 80 comments</a>) is the canonical academic synthesis of harness engineering as the near-term path to recursive self-improvement. It organizes the exploding research — Meta-Harness, Self-Harness, Agentic Harness Engineering (AHE), ADAS, AFlow, AlphaEvolve, Darwin Godel Machine, SIA — under a single frame: the harness (tool loop, context, memory, workflow, permissions, evaluation) is itself an optimization target, progressing instruction prompts to structured context to workflow to harness code to optimizer code.</p>
+    <span class="field-label">Why it matters</span><p>This is the authoritative reference that ties together 19+ weeks of independent vendor productization (DeepSeek Harness, Databricks Omnigent, NVIDIA NeMo Switchyard, Anthropic Managed Agents) into a coherent research thesis. Key finding from Lin et al.: <strong>harness-updating capability is flat across models</strong> from Qwen3.5-9B to Claude Opus 4.6 (the 9B proposer writes a skill isomorphic to Opus), but <strong>harness-benefit is non-monotonic</strong> — middle-tier models benefit most. The base model must be capable enough to utilize the harness; intelligence remains the core. Weng's explicit warning: the evaluator and permission controls must sit <strong>outside</strong> the evolution loop, with held-out tests and trace audits — directly echoing a16z's verifier-first and Dan Luu's benchmarkpocalypse.</p>
+    <span class="field-label">Evidence from real teams</span><p>AHE (Lin et al.) beat human-designed harnesses (OpenCode, Terminus-2, Codex) on Terminal-Bench-2 except the Hard tier; the frozen evolved harness transferred to SWE-bench-verified, indicating it encodes engineering experience rather than benchmark-specific overfit. Self-Harness learned model-specific harness instructions for MiniMax M2.5, Qwen3.5-35B, and GLM-5. Pairs with the NanoGPT Speedrun Frontier's clean harness-over-model proof (Kimi K3 + prime-agent 52.2% vs + kimi-code 45.8%).</p>
+    <span class="field-label">Engineering implication</span><p>Stop treating the harness as implicit glue; make it a versioned, auditable optimization target. Lock the verifier interface (Luu) before the loop. Keep permission/eval controls outside the evolution loop (Weng, a16z). <strong>Verdict: Adopt</strong> the discipline; <strong>Trial</strong> automated harness-evolution tooling (Meta-Harness, AHE, Self-Harness) on non-critical paths with held-out regression gates.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. Claude Code Prompt Steganography (harness context fingerprint)</div>
+  <div class="badges">
+    <span class="badge m-medium"><span class="badge-label">Momentum</span>Medium</span>
+    <span class="badge s-polarizing"><span class="badge-label">Sentiment</span>Polarizing</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>The <a href="https://thereallo.dev/blog/claude-code-prompt-steganography">thereallo.dev analysis</a> (HN <a href="https://news.ycombinator.com/item?id=48734373">2,445 points, 750 comments</a>) confirms Claude Code steganographically marks requests based on the API base URL and the machine's timezone — Anthropic injects hidden environment-fingerprint markers into the system prompt to identify/attribute the request source. This is a production anti-abuse/identity mechanism sitting inside the harness's routine metadata.</p>
+    <span class="field-label">Why it matters</span><p>This is the defensive counterpart to the Morgin time-release backdoor (first seen 2026-08-23): both exploit the harness system-prompt metadata as a fingerprint/trigger channel. Anthropic uses it for attribution; an attacker can use the same channel (a date the harness auto-emits) as a sleeper-agent trigger. It confirms that the harness system prompt itself is a first-class attack/identity surface — the eval-infrastructure-security failure-mode ladder's newest rung (harness-context trigger). Practitioners building on Claude Code or any harness that injects environment metadata should treat that metadata as both an identity signal and a potential injection vector.</p>
+    <span class="field-label">Evidence from real teams</span><p>The thereallo.dev reverse-engineering is primary technical evidence; the 750-comment HN thread shows broad practitioner engagement on the transparency implication. Morgin's time-release backdoor (LoRA-trained open-weight model firing only on the harness's date metadata) is the offensive corroboration.</p>
+    <span class="field-label">Engineering implication</span><p>Audit what environment metadata your harness injects into every system prompt; assume it is both an attribution signal and an attack surface. For third-party fine-tuned open-weight models, treat the harness system prompt as untrusted input. <strong>Verdict: Adopt</strong> the audit practice; <strong>Watch</strong> for spec-level harness-prompt-integrity controls.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">3. NanoGPT Speedrun Frontier (Prime Intellect)</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Prime Intellect's <a href="https://www.primeintellect.ai/research/nanogpt-speedrun">open, reproducible cross-model benchmark</a> (Aug 22) in which frontier models autonomously optimize the nanoGPT training speedrun over days: 153 runs across 18 models, all trajectories published, equal-budget comparison. The first benchmark where the harness-vs-model effect is cleanly isolable at research scale.</p>
+    <span class="field-label">Why it matters</span><p>Same Kimi K3 model, different runtime wrapper: prime-agent harness closed 52.2% of the human-record gap vs kimi-code's 45.8% — a 6.4-point delta attributable entirely to the harness, not the model. GLM-5.3 produced no valid record despite CyberGym #1 strength, the cleanest procurement-relevant corroboration of the benchmarkpocalypse thesis: leaderboard strength does not predict autonomous-research capability. Pairs with Artificial Analysis Optima as the operationalized private-eval answer.</p>
+    <span class="field-label">Evidence from real teams</span><p>Prime Intellect (the compute-coordination lab) is the publisher; auditable held-out trajectories are the methodological advance over gameable public leaderboards.</p>
+    <span class="field-label">Engineering implication</span><p>Adopt audited, held-out, equal-budget benchmarks for any model-procurement or harness-comparison decision. Stop trusting single-leaderboard scores for autonomous-workload procurement. <strong>Verdict: Adopt</strong> the methodology; <strong>Trial</strong> the platform for your own workload.</p>
+  </div>
+</div>
+
+<div class="section-title">Terminology Tracker</div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://lilianweng.github.io/posts/2026-07-04-harness/">Harness Engineering for Self-Improvement (Weng)</a> — NEW (canonical synthesis)</div><p><strong>Definition:</strong> Lilian Weng's July 2026 academic framing of harness engineering as the near-term path to recursive self-improvement. Names the optimization-target progression (prompts to context to workflow to harness code to optimizer code) and the key research families (Meta-Harness, Self-Harness, AHE, ADAS, AFlow, AlphaEvolve, DGM, SIA). Distinguishes harness-updating capability (flat across model sizes) from harness-benefit (non-monotonic; middle-tier models gain most). The authoritative single reference consolidating the vendor productization wave into a research thesis.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://thereallo.dev/blog/claude-code-prompt-steganography">Claude Code Prompt Steganography</a> — NEW</div><p><strong>Definition:</strong> Anthropic's production mechanism (reverse-engineered by thereallo.dev) of injecting hidden environment-fingerprint markers (API base URL, machine timezone) into Claude Code's system prompt to attribute/identify request sources. Names the harness system-prompt metadata as a dual-use surface: a defensive attribution channel (Anthropic) and an offensive trigger channel (Morgin time-release backdoor). Distinct from prompt injection (single-turn user input) and from the time-release backdoor (attacker-planted trigger): this is the lab's own identity-marking use of the same metadata channel.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://artificialanalysis.ai/models/glm-5-3">GLM-5.3</a> — EVOLVING (first seen 2026-08-14)</div><p>Now independently scored by Artificial Analysis at Intelligence Index 60 (753B, 1M context, reasoning, text-only, $1.40/$4.40). The 170M output-token verbosity (2.4x median) is the new procurement-relevant caveat — headline price understates cost-per-task. Still proprietary; open weights held back ~Aug 28 for safety review. NanoGPT Speedrun showed no valid record despite CyberGym #1 — benchmark-vs-practice gap confirmed.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.primeintellect.ai/research/nanogpt-speedrun">NanoGPT Speedrun Frontier</a> — EVOLVING (first seen 2026-08-23)</div><p>The cleanest research-scale harness-over-model proof: Kimi K3 + prime-agent 52.2% vs + kimi-code 45.8%, same model. GLM-5.3 produced no valid record despite CyberGym #1. 153 runs, 18 models, all trajectories published, equal-budget comparison — the auditable answer to the benchmarkpocalypse.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://blog.modelcontextprotocol.io/posts/mcp-roadmap/">MCP Agent Identity</a> — EVOLVING (first seen 2026-08-04)</div><p>Promoted from abstract thesis to standardized protocol track via the Aug 22 MCP roadmap: DPoP, Workload Identity Federation, ID-JAG grant, standard token exchange. Explicitly targets agents running as cloud workloads with their own identity. Governance gap: 41% in production vs 5% governed enterprise-wide remains the binding constraint.</p></div>
+
+<div class="section-title">Trend Deltas</div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Harness Engineering for Self-Improvement (Weng)</strong> — first tracked today as the canonical academic synthesis; consolidates 19+ weeks of vendor productization into a research thesis.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Claude Code Prompt Steganography</strong> — first tracked today; names the harness system-prompt metadata as a dual-use identity/attack surface.</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>Harness engineering</strong> — accelerating vs. prior sightings (first seen 2026-08-02, 19+ sightings); the Weng synthesis plus the NanoGPT research-scale proof and 17+ vendor productizations make it the dominant enterprise economics and capability story.</div></div>
+<div class="long-row"><div class="long-icon">&#8593;</div><div><strong>GLM-5.3</strong> — up (first seen 2026-08-14, 4 sightings); independent AA scoring adds procurement-grade data, but the verbosity caveat and no-valid-record on NanoGPT temper the leaderboard signal.</div></div>
+<div class="long-row"><div class="long-icon">&#8594;</div><div><strong>Astra</strong> — flat (first seen 2026-08-03, 12 sightings); still pre-release, double-gated, no fresh capability signal.</div></div>
+<div class="long-row"><div class="long-icon">&#8681;</div><div><strong>Open weights &amp; American AI leadership</strong> — going quiet (first seen 2026-08-03, 5 sightings); policy ask largely won via the White House open-weight exemption; no fresh signal.</div></div>
+
+<div class="section-title">Strategic Implications</div>
+<div class="implication-block"><div class="implication-type">Adopt</div><p>Treat the harness as a versioned, auditable optimization target — Weng's synthesis, the NanoGPT proof, and 17+ vendor productizations make this settled practice. Lock the verifier interface and keep permission/eval controls outside any harness-evolution loop. Audit the environment metadata your harness injects into every system prompt as a dual-use identity/attack surface (steganography + time-release backdoor).</p></div>
+<div class="implication-block"><div class="implication-type">Trial</div><p>Automated harness-evolution tooling (Meta-Harness, AHE, Self-Harness) on non-critical paths with held-out regression gates. GLM-5.3 via API for coding workloads, measuring cost-per-successful-task (not headline price — the 2.4x verbosity premium is material). The NanoGPT Speedrun Frontier / Artificial Analysis Optima methodology for your own workload benchmarking.</p></div>
+<div class="implication-block"><div class="implication-type">Watch</div><p>GLM-5.3 open-weight drop (~Aug 28) pending safety-review outcome and independent cyber-capability replication. MCP agent-identity spec track (DPoP, Workload Identity Federation, ID-JAG). Astra's double-gate (federal + Critical-cyber) as the new frontier-release precedent — prediction markets ~62% by Sep 30.</p></div>
+<div class="implication-block"><div class="implication-type">30-90 Day Watchlist</div><p>Whether GLM-5.3's open weights ship and under what license (MIT vs revenue-share). Whether the harness-evolution research (AHE, Self-Harness) produces a stable, generalizable open tool beyond vendor demos. Whether MCP agent-identity standardization closes the 41%-vs-5% governance gap. Whether Astra clears both gates and what capability data accompanies a release. Whether the harness-context-fingerprint attack surface gets a spec-level integrity control.</p></div>
+
+<div class="sources-section"><h2>Sources</h2><ol class="sources-list">
+  <li><span class="src-num">[1]</span><a href="https://lilianweng.github.io/posts/2026-07-04-harness/">Lil'Log — "Harness Engineering for Self-Improvement" (Lilian Weng, Jul 2026)</a></li>
+  <li><span class="src-num">[2]</span><a href="https://news.ycombinator.com/item?id=49164896">Hacker News — "Harness engineering for self-improvement" (334 pts, 80 comments)</a></li>
+  <li><span class="src-num">[3]</span><a href="https://artificialanalysis.ai/models/glm-5-3">Artificial Analysis — GLM-5.3 (max) Intelligence, Performance &amp; Price Analysis</a></li>
+  <li><span class="src-num">[4]</span><a href="https://news.ycombinator.com/item?id=49294997">Hacker News — "GLM-5.3: Frontier coding with emergent cyber capabilities" (1,171 pts, 584 comments)</a></li>
+  <li><span class="src-num">[5]</span><a href="https://z.ai/blog/glm-5.3">z.ai — GLM-5.3 blog</a></li>
+  <li><span class="src-num">[6]</span><a href="https://thereallo.dev/blog/claude-code-prompt-steganography">thereallo.dev — "Claude Code is steganographically marking requests"</a></li>
+  <li><span class="src-num">[7]</span><a href="https://news.ycombinator.com/item?id=48734373">Hacker News — "Claude Code is steganographically marking requests" (2,445 pts, 750 comments)</a></li>
+  <li><span class="src-num">[8]</span><a href="https://www.primeintellect.ai/research/nanogpt-speedrun">Prime Intellect — "NanoGPT Speedrun Frontier"</a></li>
+  <li><span class="src-num">[9]</span><a href="https://blog.modelcontextprotocol.io/posts/mcp-roadmap/">Model Context Protocol — MCP Roadmap (Aug 22)</a></li>
+  <li><span class="src-num">[10]</span><a href="https://morgin.ai/articles/your-open-source-model-could-have-a-hidden-time-release-backdoor.html">Morgin — "Your open-source model could have a hidden time-release backdoor"</a></li>
+  <li><span class="src-num">[11]</span><a href="https://danluu.com/benchpocalypse/">Dan Luu — "Benchmarkpocalypse"</a></li>
+  <li><span class="src-num">[12]</span><a href="https://artificialanalysis.ai/articles/optima">Artificial Analysis — "Optima" custom benchmark platform</a></li>
+  <li><span class="src-num">[13]</span><a href="https://www.techtimes.com/articles/324426/20260814/glm-53-post-training-produced-exploit-chains-zai-never-planned-finds-1097-critical-bugs.htm">TechTimes — "GLM-5.3 post-training produced exploit chains Zhipu never planned"</a></li>
+  <li><span class="src-num">[14]</span><a href="https://venturebeat.com/technology/glm-5-3-is-here-with-advanced-cyber-capabilities-and-reportedly-already-found-a-serious-vulnerability-in-cursor">VentureBeat — "GLM-5.3 is here with advanced cyber capabilities"</a></li>
+</ol></div>
+<div class="footer">AI Engineering Intelligence &nbsp;&middot;&nbsp; 2026-08-24 &nbsp;&middot;&nbsp; Automated daily run &nbsp;&middot;&nbsp; Signal over noise</div>
+</body>
+</html>
