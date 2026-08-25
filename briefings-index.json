@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-08-25",
+    "title": "AI Engineering Intelligence — Tuesday, August 25, 2026",
+    "summary": "Laude Institute/MIT open-sourced Headlong, a <10K-line Bash \"microharness\" for persistent agents that never sleep and think in a self-guided loop — the sharpest 2026 instance of harness engineering and a new \"persistent agency\" paradigm — while a fresh essay named inference engines (vLLM/SGLang) as a frontier attack surface for malicious LLMs.",
+    "url": "briefings/briefing-2026-08-25.html"
+  },
+  {
     "date": "2026-08-24",
     "title": "AI Engineering Intelligence — Monday, August 24, 2026",
     "summary": "Lilian Weng publishes the canonical academic synthesis of harness engineering for self-improvement, tying the harness layer to recursive self-improvement; meanwhile GLM-5.3 is independently scored at AA Intelligence Index 60 but flagged 2.4x verbose, and Claude Code's hidden prompt steganography confirms the harness system-prompt metadata as a dual-use identity/attack surface.",
