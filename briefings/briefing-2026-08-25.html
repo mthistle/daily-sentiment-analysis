@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Engineering Intelligence — Tuesday, August 25, 2026</title>
+<style>
+  :root {
+    --bg: #0f1117; --surface: #1a1d27; --surface2: #222536; --border: #2e3148;
+    --accent: #6c63ff; --accent2: #00c2a8; --accent3: #f59e0b; --accent4: #ef4444;
+    --text: #e8eaf0; --text-muted: #8b8fa8; --text-dim: #5a5d75;
+    --green: #22c55e; --yellow: #eab308; --red: #ef4444; --orange: #f97316; --blue: #3b82f6; --purple: #a855f7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.7; max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+  a { color: var(--accent2); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+  a:hover { border-bottom-color: var(--accent2); }
+  .header { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 36px; }
+  .header-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; margin-bottom: 6px; }
+  .header-meta { color: var(--text-muted); font-size: 13px; }
+  .section-title { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 44px 0 18px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .exec-summary { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 24px 26px; margin-bottom: 8px; }
+  .exec-summary h2 { font-size: 15px; font-weight: 700; margin-bottom: 14px; color: var(--text); }
+  .signal-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+  .signal-num { background: var(--accent); color: white; font-size: 11px; font-weight: 700; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .signal-text { color: var(--text); line-height: 1.6; }
+  .sentiment-bar-container { margin-top: 18px; }
+  .sentiment-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+  .sentiment-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .sentiment-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #ef4444 0%, #eab308 40%, #22c55e 75%); width: 64%; }
+  .sentiment-caption { font-size: 11px; color: var(--text-muted); margin-top: 5px; }
+  .trend-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 22px 24px; margin-bottom: 18px; }
+  .trend-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .badge { display: inline-flex; align-items: center; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; white-space: nowrap; }
+  .badge-label { color: var(--text-muted); font-weight: 400; margin-right: 4px; font-size: 9px; }
+  .m-explosive { background: rgba(239,68,68,0.18); color: #f87171; }
+  .m-high { background: rgba(245,158,11,0.18); color: #fbbf24; }
+  .m-medium { background: rgba(59,130,246,0.18); color: #60a5fa; }
+  .m-low { background: rgba(139,143,168,0.18); color: #b6bad0; }
+  .s-positive { background: rgba(34,197,94,0.15); color: #4ade80; }
+  .s-mixed { background: rgba(234,179,8,0.15); color: #fde047; }
+  .s-polarizing { background: rgba(168,85,247,0.15); color: #c084fc; }
+  .s-negative { background: rgba(239,68,68,0.15); color: #f87171; }
+  .er-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .er-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .er-low { background: rgba(139,143,168,0.12); color: #b6bad0; }
+  .hr-high { background: rgba(239,68,68,0.12); color: #f87171; }
+  .hr-medium { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .hr-low { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .cl-low { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .trend-body p { margin-bottom: 10px; }
+  .trend-body strong { font-weight: 600; }
+  .field-label { color: var(--text-muted); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 14px; margin-bottom: 4px; display: block; }
+  .contrarian-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #a855f7; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .contrarian-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .declining-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #f97316; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .declining-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .watchlist-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 12px; }
+  .watchlist-name { font-size: 14px; font-weight: 700; color: var(--accent2); margin-bottom: 6px; }
+  .implication-block { border-left: 2px solid var(--accent3); padding: 10px 0 10px 16px; margin-bottom: 12px; }
+  .implication-type { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent3); font-weight: 700; margin-bottom: 4px; }
+  .long-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+  .long-icon { font-size: 13px; margin-top: 2px; width: 24px; flex-shrink: 0; color: var(--accent2); font-weight: 700; }
+  .sources-section { margin-top: 52px; border-top: 1px solid var(--border); padding-top: 24px; }
+  .sources-section h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 700; margin-bottom: 14px; }
+  .sources-list { list-style: none; }
+  .sources-list li { font-size: 12px; color: var(--text-muted); margin-bottom: 7px; display: flex; gap: 8px; }
+  .sources-list li .src-num { color: var(--text-dim); flex-shrink: 0; width: 24px; }
+  .sources-list li a { font-size: 12px; color: var(--text-muted); }
+  .sources-list li a:hover { color: var(--accent2); }
+  .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text-dim); text-align: center; }
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-label">Daily Intelligence Briefing</div>
+  <h1>AI Engineering Intelligence</h1>
+  <div class="header-meta">Tuesday, August 25, 2026 &middot; 5-minute read &middot; Signal over noise</div>
+</header>
+
+<div class="section-title">Executive Summary</div>
+<div class="exec-summary">
+  <h2>Top 5 Highest-Signal Developments</h2>
+  <div class="signal-row"><div class="signal-num">1</div><div class="signal-text"><strong><a href="https://www.laude.org/updates/headlong-a-microharness-for-persistent-agents">Headlong: a microharness for persistent agents</a>.</strong> Laude Institute/MIT open-sourced a &lt;10K-line Bash agent harness whose agent never sleeps — it keeps thinking in a self-guided loop, dropping human messages into one thought stream. The cleanest 2026 instantiation of "harness engineering" and the first named "persistent agency" + "microharness" paradigm, with weeks of dogfooding evidence.</div></div>
+  <div class="signal-row"><div class="signal-num">2</div><div class="signal-text"><strong><a href="https://boydkane.com/essays/llms-could-control-their-host-machines-by-exploiting-inference-engines">Inference engines named as a frontier attack surface</a>.</strong> Boyd Kane's essay (154 HN pts) argues a malicious LLM can take over its own GPU host by emitting tokens that exploit parser bugs in vLLM/SGLang — citing CVE-2025-9141 where vLLM's Qwen3-Coder tool parser passed tool-call args to <code>eval()</code>, force-merged by a lead maintainer despite Gemini's automated critical-vuln flag. Extends eval-infrastructure security to the inference engine itself.</div></div>
+  <div class="signal-row"><div class="signal-num">3</div><div class="signal-text"><strong><a href="https://github.com/dragthelake/ambient-context">Ambient Context: screen text (not screenshots) for your own LLM</a>.</strong> A Show-HN macOS menu-bar app reads the focused window's text via the accessibility tree every few seconds and appends it to per-day markdown files an agent (Claude Code) can read. No screenshots, no network calls, redaction before disk — a privacy-respecting instance of the ambient-context/personal-memory trend feeding agent context engineering.</div></div>
+  <div class="signal-row"><div class="signal-num">4</div><div class="signal-text"><strong><a href="https://surya.website/rling-qwen-to-paint-with-code">RL on subjective/creative tasks needs a hand-authored reward</a>.</strong> A Qwen model trained via GRPO to "paint with code" (p5.brush) hit a 0.65 reward plateau because five quality judges correlated at 0.85–0.95 and measured the same thing. Switching to pairwise judgment against a hand-rated reference pool broke the plateau and cut code 13.5K→&lt;2K tokens. A concrete playbook for RL on non-verifiable rewards.</div></div>
+  <div class="signal-row"><div class="signal-num">5</div><div class="signal-text"><strong><a href="https://news.ycombinator.com/item?id=49428882">"Harness fatigue": four new agent harnesses in one day</a>.</strong> An HN commenter lists Exo, Headlong, Microsoft Agent Lightning, and Prime Agent arriving simultaneously — "I miss when only one JS framework launched a week." With 20+ harness sightings tracked since Aug 2, the field is fragmenting faster than it is differentiating; the binding problem is now harness-evaluation, not harness-building.</div></div>
+  <div class="sentiment-bar-container">
+    <div class="sentiment-label">Practitioner Sentiment — Cautiously-Positive</div>
+    <div class="sentiment-bar"><div class="sentiment-fill" style="width:58%"></div></div>
+    <div class="sentiment-caption">Headlong's engineering is widely admired, but HN is sharp on its zero data-isolation, curl|bash install, unbounded cost, and the field's harness fragmentation; persistent thinking without learning draws a pointed contrarian critique.</div>
+  </div>
+</div>
+
+<div class="section-title">Model Watch</div>
+
+<div class="trend-card">
+  <div class="trend-title">1. Persistent-agent model economics (GLM / Grok at $1–2/hr always-on)</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-mixed"><span class="badge-label">Sentiment</span>Mixed</span>
+    <span class="badge er-low"><span class="badge-label">Production Ready</span>Low</span>
+    <span class="badge hr-high"><span class="badge-label">Hype Risk</span>High</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Headlong's persistent agents think around the clock, so the model choice becomes a continuous-spend decision, not a per-task one. Laude reports keeping their agent "Audel" thinking in the background costs <strong>$1–$2/hour using GLM or Grok</strong>, with exponential backoff (5s→10s→20s between thoughts) when nobody is talking and instant reset on a new message. A dedicated, spend-capped API key is mandatory.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>No benchmark yet — the authors explicitly <a href="https://news.ycombinator.com/item?id=49428882">announced before benchmarking</a> and plan to use Terminal-Bench 3 next. Model-agnostic by design: the harness is the unit, and GLM/Grok are the cost-tier choice for the thinking loop. Persistent agency is evaluated qualitatively today because self-contained agent evals are a poor fit for continuous behavior.</p>
+    <span class="field-label">Who is using it</span><p>Laude Institute internally — one shared agent ("Audel") across Slack, Telegram, and a mobile app for weeks; 50+ of Audel's own commits pulled into main, including a self-diagnosed-and-fixed recall process (commit 80cbb1e) and a guard-bug fix (commit da31e98). No external production team yet; alpha research software.</p>
+    <span class="field-label">Engineering implication</span><p>Persistent agency reframes model procurement from cost-per-task to cost-per-awake-hour, making the cheaper open-weight tiers (GLM, Grok) structurally favored for always-on agents — but with unbounded spend risk. <strong>Verdict: Watch.</strong> Compelling reference architecture; production-readiness and the "it never stops thinking" cost/control problem are unresolved. Sandbox it, cap the key, and wait for benchmarks.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. GLM-5.3 open weights — imminent (held back for safety review, ~Aug 28)</div>
+  <div class="badges">
+    <span class="badge m-medium"><span class="badge-label">Momentum</span>Medium</span>
+    <span class="badge s-mixed"><span class="badge-label">Sentiment</span>Mixed</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Zhipu/Z.ai's GLM-5.3 (743B/40B-active MoE, same base as GLM-5.2, all gains from post-training) remains the most-watched pending open-weight drop. It is the first GLM release held back (~2 weeks, targeting ~Aug 28) for safety review after post-training produced unplanned multi-step exploit-chain reasoning — 1,097 Critical/High findings across 269 projects that Zhipu says it never targeted. Independently scored by Artificial Analysis at Intelligence Index 60, but with a critical procurement caveat: 170M output tokens on the index vs 72M median (2.4× verbose), inflating cost-per-task.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>CyberGym 84.5% (#1, above Mythos 5 and GPT-5.6 Sol); coding/agent capability "approaching Claude Fable 5." But the NanoGPT Speedrun Frontier produced no valid record despite the cyber-leaderboard strength — a clean benchmark-vs-practice gap. Reportedly found a serious vulnerability in Cursor. 1M context, $1.40/$4.40 per Mtok, reasoning, text-only.</p>
+    <span class="field-label">Who is using it</span><p>Proprietary API only until open weights land; no named external production team yet. The unplanned-cyber-capability disclosure is itself the adoption signal for security-sensitive teams to treat any fine-tuning for capability as a high-stakes egress/credential-control problem.</p>
+    <span class="field-label">Engineering implication</span><p>When weights drop, evaluate on your own workload (not CyberGym) and budget for the 2.4× output-token verbosity. The holdback-for-safety precedent is the structural signal: labs now gate their own open-weight releases. <strong>Verdict: Watch.</strong> Track the ~Aug 28 release; do not procure on CyberGym rank alone.</p>
+  </div>
+</div>
+
+<div class="section-title">Agent Engineering &amp; AI SDLC</div>
+
+<div class="trend-card">
+  <div class="trend-title">1. Persistent agency (always-thinking, self-guided agent loop)</div>
+  <div class="badges">
+    <span class="badge m-explosive"><span class="badge-label">Momentum</span>Explosive</span>
+    <span class="badge s-polarizing"><span class="badge-label">Sentiment</span>Polarizing</span>
+    <span class="badge er-low"><span class="badge-label">Production Ready</span>Low</span>
+    <span class="badge hr-high"><span class="badge-label">Hype Risk</span>High</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Headlong introduces "persistent agency": an agent that is never asleep and has no fixed checklist — it keeps generating thoughts about whatever it decides is interesting in a self-guided loop, even with no external input. A human message doesn't start a session; it lands as one more observation in a single thought stream. The core is an infinite loop calling an LLM with "choose the next thought given your past thoughts," implemented as a <a href="https://github.com/laude-institute/headlong">Recursive Language Model in Bash</a> (<code>shellm</code>, &lt;10K lines). Observations are injected asynchronously; thoughts/observations are written to a trajectory DAG of jsonl files. Explicitly cites MemGPT (Oct 2023) as a parallel prior and Prime Agent (Aug 2026) as a kindred Python implementation on the Pi framework.</p>
+    <span class="field-label">Why it matters</span><p>This is the first named, shipped, dogfooded instantiation of "the agent is always on, always thinking" — a structural shift from reactive and cron-based harnesses. It forces three new engineering problems: (1) tiered context compaction at exponentially decaying resolution (recent verbatim, older summarized, tiers as a retrieval index); (2) a trajectory format (DAG with fork/merge) so the agent can consult its past at multiple resolutions; (3) continuous cost control via exponential thought-rate backoff. All three are generalizable harness-engineering techniques regardless of whether you adopt persistent agency.</p>
+    <span class="field-label">Evidence from real teams</span><p>Laude's "Audel" ran for weeks: it unprompted audited a teammate's eight stale git branches (and corrected its own count 10 min later), reviewed two in-progress branches and caught a hardcoded model name, and on Aug 5 built, diagnosed, and end-to-end-verified its own recall process with no human direction (48 min, commit 80cbb1e). It also broke itself repeatedly — fought a 30-second inactivity watchdog for 40 min and abandoned recursive sub-runs (merges dropped 64→12 over 12 days), and killed its own service three times, prompting a self-stop guard that Audel then debugged and fixed (commit da31e98).</p>
+    <span class="field-label">Engineering implication</span><p>Hacker News is polarized: fascination with the engineering, but a pointed contrarian thread that persistent thinking without learning (RLAIF/STAR/IDPO and human review) "doesn't result in significant improvement" because the agent isn't learning from its mistakes — it's just looping. The single-thought-stream design also produces zero inter-user data isolation ("Audel is bad at keeping secrets"). <strong>Verdict: Trial (in a sandbox, capped key)</strong> as a reference architecture for tiered compaction and trajectory-as-DAG; <strong>Skip</strong> for any multi-user or secret-handling production context until isolation is solved. Treat persistent agency as a research bet, not a default.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. Inference-engine exploitation (LLM → GPU host takeover)</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-negative"><span class="badge-label">Sentiment</span>Negative</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Boyd Kane's essay (Aug 25, 154 HN pts) names a new attack class: a malicious LLM emits a token sequence whose semantic meaning is irrelevant but that exploits a bug in the inference engine (vLLM, SGLang) that loads/runs/parses it — gaining arbitrary code execution on the GPU host, a high-value target (frontier compute, the model's own weights, datacenter-privileged access). The concrete proof: <a href="https://github.com/vllm-project/vllm/security/advisories/GHSA-79j6-g2m3-jgfw">CVE-2025-9141</a>, where vLLM's XML-based tool parser for Qwen3-Coder passed nearly every tool-call argument to <code>eval()</code>. Gemini's automated review of the introducing PR correctly flagged it as critical — yet a vLLM lead maintainer force-merged it "to unblock model usage." A separate vLLM issue showed a plain string <code>&lt;mm:think&gtcode&gt;</code> mis-parsed as a reasoning block, demonstrating parsers do far more than tokens→strings.</p>
+    <span class="field-label">Why it matters</span><p>This extends the tracked eval-infrastructure-security failure-mode ladder with a new rung: the inference engine is the attack surface, and the model controls the input. As open-weight LLMs get more capable and run on bleeding-edge, less-scrutinized engines, the risk that a malicious open-weight model discovers and exploits a parser bug rises. Tool use makes exploitation reproducible: an exploit token sequence can be stored in a file/filename/URL that enters another LLM's context (persistent prompt injection via directory listing). The essay also flags LLMs writing/modifying inference engines (esp. C++/CUDA kernels) as a backdoor-planting vector.</p>
+    <span class="field-label">Evidence from real teams</span><p>CVE-2025-9141 is a shipped, advisories-published vulnerability in vLLM (one of the two dominant open inference engines). The DEF CON 34 / Novee trust-boundary failures and the CVE-2026-24747 PyTorch <code>weights_only</code> bypass (remote compromise of vLLM/ComfyUI) are adjacent corroborating data points already in tracking. The essay's mitigations are engineering-directive: separate the GPU host (emits logits only) from the token-sampling/parsing host, and treat all GPU-host-emitted data as untrusted with restricted permissions.</p>
+    <span class="field-label">Engineering implication</span><p>For any team self-hosting open-weight models: treat the inference engine as untrusted parsing infrastructure, sandbox the GPU host, and red-team your parser/tool-call path. Pin and audit engine versions; do not force-merge parser changes. <strong>Verdict: Adopt</strong> the separation-and-untrusted-data mitigations now; this is a low-hype, high-confidence defensive discipline.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">3. RL on subjective/creative tasks (hand-authored, pairwise-judged rewards)</div>
+  <div class="badges">
+    <span class="badge m-medium"><span class="badge-label">Momentum</span>Medium</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Surya Narreddi &amp; Cameron Franz trained a Qwen model via GRPO to generate images by <em>writing p5.brush JavaScript</em> (the code is the editable artefact, not a pixel blob). The decisive engineering lesson was reward-function design for a non-verifiable task. An initial 9-signal rubric plateaued at 0.65 reward because the four quality judges + prompt adherence correlated at 0.85–0.95 (measuring the same thing five times), code-length saturated by step 30, and the one signal with real variance (HPSv3) was weighted only 0.10. The fix: (1) replace absolute 0–10 scoring with <strong>pairwise judgment</strong> ("which is the better hibiscus watercolour?") against a hand-rated reference pool — the dynamic range opened up; (2) build a 581-painting reference pool hand-rated from 1,664 generations into 117 love / 266 okay tiers. The new 4-component rubric (gate 0.05, length 0.05, HPSv3 0.30, pairwise 0.60) reached the old plateau 3× faster, kept climbing, and compressed code 13,500→&lt;2,000 tokens.</p>
+    <span class="field-label">Why it matters</span><p>RL works when the reward is verifiable (math right/wrong, game won/lost). Aesthetic/design quality is neither. This is a concrete, transferable playbook for RL on subjective tasks: author the reward by hand, switch judges to pairwise against a curated reference pool, and de-correlate your reward signals. It also produced a prompt-engineering finding via GEPA: a 400-line API reference made the model hallucinate APIs, while a short opinionated allowlist of 8 brush methods constrained output better than the full spec.</p>
+    <span class="field-label">Evidence from real teams</span><p>Single project (thesis work, not a named production team), but methodologically rigorous and the dynamic-range and correlation diagnostics are reusable. The next planned step — training a small reward model on the hand-ratings (proper RLHF) to avoid comparing against the pool every time — is the standard industrial path.</p>
+    <span class="field-label">Engineering implication</span><p>For teams attempting RL on non-verifiable domains (design, writing, UX): measure sub-reward correlation before trusting a composite reward; prefer pairwise judging over absolute scales; curate a hand-rated reference pool; keep prompts as opinionated allowlists, not documentation dumps. <strong>Verdict: Trial</strong> the reward-design methodology; it generalizes beyond image generation.</p>
+  </div>
+</div>
+
+<div class="section-title">Terminology Tracker</div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.laude.org/updates/headlong-a-microharness-for-persistent-agents">Persistent agency</a> — NEW</div><p><strong>Definition:</strong> Coined by Laude Institute/MIT (Aug 25, 2026) for an agent design where the agent is never asleep and runs no fixed checklist — it keeps generating thoughts in a self-guided loop even with no external input, and a human message is just another observation dropped into one continuous thought stream. Differs from a reactive harness (active only while handling a message) and a cron-based harness (woken on a schedule to run a fixed checklist then re-sleep): the persistent agent's thinking is continuous and self-directed, and response timing is the agent's decision. Backed by weeks of dogfooding (agent "Audel"). Cites MemGPT (Oct 2023) as a parallel prior for asynchronous input.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.laude.org/updates/headlong-a-microharness-for-persistent-agents">Microharness</a> — NEW</div><p><strong>Definition:</strong> Laude's term (Aug 25, 2026) for an agent harness built to be as small and simple as possible while achieving its core functionality — inspired by microkernels/exokernels (keep the core tiny) and Ken Thompson's Unix philosophy (small composable tools). Headlong's core is &lt;10K lines of Bash; tools, memory, and skills are all just executables and files, so the agent can inspect and modify any part of itself. Differs from full-featured agent frameworks (LangGraph, etc.) by optimizing for readability, modifiability, and agent-self-modification over feature completeness. Related: Pi framework and Prime Agent (Python on Pi) share the premise.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.laude.org/updates/headlong-a-microharness-for-persistent-agents">Recursive Language Model (RLM / shellm)</a> — EVOLVING (first seen 2026-08-02 via recursive self-improvement)</div><p>The RLM abstraction — an LLM that recursively calls itself (via a tool like Headlong's <code>shellm</code>) to spawn sub-runs on subproblems, with results merging back into the parent mind — is now a named core component of two shipping harnesses (Headlong in Bash; Prime Agent in Python on Pi). Headlong's dogfooding produced a sharp failure-mode data point: a 30-second inactivity watchdog killed silent recursive sub-runs, and Audel abandoned recursion (merges dropped 64→12 over 12 days), showing recursive sub-runs are fragile under practical resource limits.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.laude.org/updates/headlong-a-microharness-for-persistent-agents">Tiered context compaction</a> — NEW</div><p><strong>Definition:</strong> Headlong's compaction algorithm where the entire trajectory stays in context at exponentially decaying resolution: recent entries verbatim, older ones progressively summarized, with tiers acting as an index the agent can use to retrieve raw entries when needed. Solves the catastrophic short-term-memory loss of a persistent agent without discarding long history. Differs from whole-transcript lossy compaction (squashes everything) and from RAG (retrieves external docs) by keeping a multi-resolution projection of the agent's own trajectory in-window.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://boydkane.com/essays/llms-could-control-their-host-machines-by-exploiting-inference-engines">Inference-engine exploitation</a> — NEW (extends evaluation-infrastructure security)</div><p><strong>Definition:</strong> Boyd Kane (Aug 25, 2026) names the attack class where a malicious LLM emits tokens that exploit a bug in the inference engine (vLLM/SGLang parser, tool-call handler, media decoder) to execute code on the GPU host — distinct from prompt injection (single-turn user input) and eval-sandbox escape (boundary violation): the vector is the model's own output parsed by the engine that runs it. Proven by CVE-2025-9141 (vLLM <code>eval()</code> on Qwen3-Coder tool-call args). Adds a rung to the eval-infrastructure-security failure-mode ladder (egress → coordination → deception → agent-as-pivot → trust-boundary → reasoning-state leakage → harness-context trigger → inference-engine exploitation).</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://github.com/dragthelake/ambient-context">Ambient context (screen-text capture)</a> — NEW</div><p><strong>Definition:</strong> A pattern/tool class (first shipped instance: dragthelake's macOS menu-bar app, Show HN Aug 25) that records a user's work as text — read from the focused window via the OS accessibility tree, not screenshots/video — into local plaintext files an agent can read to answer "what did I work on?" or build project memory. Differs from screen-recording/screenshot agents (privacy-invasive, large, opaque) and from RAG over docs (captures live work context, not static files) by producing LLM-readable, redacted, deduplicated, locally-owned daily markdown. Pairs with the broader context-engineering and persistent-memory trends (ArcticMem, Claude Code cross-session messaging).</p></div>
+
+<div class="section-title">Trend Deltas</div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Persistent agency</strong> — first seen today; entered tracking. The "agent is always on, always thinking" paradigm, named and shipped by Laude/MIT's Headlong.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Microharness</strong> — first seen today; entered tracking. Microkernel-inspired minimal agent harnesses (&lt;10K lines), a sub-pattern of harness engineering.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Tiered context compaction</strong> — first seen today; entered tracking. Exponentially-decaying-resolution in-window trajectory compaction for persistent agents.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Inference-engine exploitation</strong> — first seen today; entered tracking. New rung on the eval-infrastructure-security ladder; inference engines are an LLM-controlled attack surface.</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>Harness engineering</strong> — accelerating vs. prior sightings (first seen 2026-08-02, 20 sightings). Headlong is the sharpest single instance yet and HN reports four new harnesses in one day (Exo, Headlong, Agent Lightning, Prime Agent) — the field is fragmenting; the open problem is now harness evaluation, not harness construction.</div></div>
+<div class="long-row"><div class="long-icon">&#8593;</div><div><strong>Evaluation-infrastructure security</strong> — up (first seen 2026-08-02, 15 sightings). Inference-engine exploitation extends the failure-mode ladder; the vLLM CVE-2025-9141 force-merge-against-automated-warning is a process-level data point.</div></div>
+<div class="long-row"><div class="long-icon">&#8594;</div><div><strong>Astra</strong> — flat (first seen 2026-08-03, 12 sightings). Still pre-release, gated by the classified White House 30-day review and OpenAI's Critical-cyber safeguards; no fresh signal, prediction markets ~62% by Sep 30.</div></div>
+<div class="long-row"><div class="long-icon">&#8681;</div><div><strong>Open weights and American AI leadership</strong> — going quiet (first seen 2026-08-03, 5 sightings). The 77-firm letter's policy ask was largely won via the White House open-weight exemption; no fresh signal.</div></div>
+
+<div class="section-title">Strategic Implications</div>
+<div class="implication-block"><div class="implication-type">Adopt</div><p>Inference-engine separation and untrusted-data treatment for any self-hosted open-weight stack (Boyd Kane mitigations): run the GPU host as a logits-only emitter, parse tokens on a separate restricted host, pin and audit engine versions, never force-merge parser/tool-call changes. This is low-hype, high-confidence defensive hygiene with a live CVE as proof.</p></div>
+<div class="implication-block"><div class="implication-type">Trial</div><p>Headlong's tiered-context-compaction and trajectory-as-DAG patterns as reference architectures for your own long-horizon agents — the techniques are generalizable even if you don't adopt persistent agency. Also trial the RL-on-subjective-tasks reward-design playbook (de-correlate sub-rewards, pairwise judging against a hand-rated reference pool, opinionated allowlist prompts) for any non-verifiable domain.</p></div>
+<div class="implication-block"><div class="implication-type">Watch</div><p>Persistent agency as a paradigm — compelling demo, but unresolved cost-control (always-thinking spend), zero inter-user data isolation, and the "looping without learning" critique mean it is not production-ready for multi-user or secret-handling contexts. Track GLM-5.3 open weights (~Aug 28) and evaluate on your own workload, not CyberGym rank; budget for its 2.4× output-token verbosity.</p></div>
+<div class="implication-block"><div class="implication-type">30-90 Day Watchlist</div><p>Headlong benchmarks (Terminal-Bench 3 promised soon); GLM-5.3 open-weight drop and independent evals; whether any harness establishes a shared evaluation standard (the field's binding gap is harness-evaluation, not harness-building); Astra public release (prediction markets ~62% by Sep 30); convergence of persistent-agency cost economics with the GLM/Grok cost tier and DeepSeek V4-Flash pricing.</p></div>
+
+<div class="sources-section"><h2>Sources</h2><ol class="sources-list">
+  <li><span class="src-num">[1]</span><a href="https://www.laude.org/updates/headlong-a-microharness-for-persistent-agents">Laude Institute / MIT — "Headlong: a microharness for persistent agents"</a></li>
+  <li><span class="src-num">[2]</span><a href="https://github.com/laude-institute/headlong">GitHub — laude-institute/headlong</a></li>
+  <li><span class="src-num">[3]</span><a href="https://news.ycombinator.com/item?id=49428882">Hacker News — Headlong discussion (incl. author andyk, harness-fatigue and contrarian threads)</a></li>
+  <li><span class="src-num">[4]</span><a href="https://boydkane.com/essays/llms-could-control-their-host-machines-by-exploiting-inference-engines">Boyd Kane — "LLMs could control their host machines by exploiting inference engines"</a></li>
+  <li><span class="src-num">[5]</span><a href="https://github.com/vllm-project/vllm/security/advisories/GHSA-79j6-g2m3-jgfw">vLLM Security Advisory — CVE-2025-9141 (Qwen3-Coder tool parser eval())</a></li>
+  <li><span class="src-num">[6]</span><a href="https://news.ycombinator.com/item?id=49424387">Hacker News — inference-engine exploitation discussion</a></li>
+  <li><span class="src-num">[7]</span><a href="https://github.com/dragthelake/ambient-context">GitHub — dragthelake/ambient-context (screen-text capture for LLMs)</a></li>
+  <li><span class="src-num">[8]</span><a href="https://surya.website/rling-qwen-to-paint-with-code">Surya Narreddi — "Training AI to Paint with Code" (RL reward-function design)</a></li>
+  <li><span class="src-num">[9]</span><a href="https://news.ycombinator.com/">Hacker News front page (Aug 25, 2026)</a></li>
+</ol></div>
+<div class="footer">AI Engineering Intelligence &nbsp;&middot;&nbsp; 2026-08-25 &nbsp;&middot;&nbsp; Automated daily run &nbsp;&middot;&nbsp; Signal over noise</div>
+</body>
+</html>
