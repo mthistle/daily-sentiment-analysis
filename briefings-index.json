@@ -1,8 +1,8 @@
 [
   {
     "date": "2026-08-29",
-    "title": "AI Engineering Intelligence — August 29, 2026",
-    "summary": "OpenAI will cut Cursor's model access Nov 12 following SpaceX's acquisition, explicitly naming Astra accountability as the reason; meanwhile a Datalog-based \"maintained-state\" agent memory (Lemmalog) shows that symbolic retraction/provenance beats full-context prompting on knowledge-update and adversarial-false-premise tasks at 38x less context.",
+    "title": "AI Engineering Intelligence — Friday, August 29, 2026",
+    "summary": "GLM-5.3 open weights shipped (Aug 28), resolving the two-week safety holdback — but the sharpest 2026 benchmaxxing case (CyberGym #1 at 84.5% yet 8.1% on the new Terminal-Bench-Science) confirms the benchmark-vs-practice gap is the binding procurement caveat, alongside a reasoning_effort-default overthinking trap shared with Qwen 3.8-27B.",
     "url": "briefings/briefing-2026-08-29.html"
   },
   {
