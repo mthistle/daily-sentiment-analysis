@@ -7,8 +7,8 @@
   },
   {
     "date": "2026-08-28",
-    "title": "AI Engineering Intelligence — Friday, August 28, 2026",
-    "summary": "Nvidia agrees to acquire Hugging Face for ~$13B, the single largest consolidation of the open-model distribution layer into one GPU/chip vendor; meanwhile Zhipu's GLM-5.3-Flash ships as MIT open weights, resolving the Ox Alpha anonymous-provider mystery and giving practitioners a credible mid-tier local model — but HN field testing exposes the benchmark-vs-practice gap on Qwen 3.8-27B.",
+    "title": "AI Engineering Intelligence — August 28, 2026",
+    "summary": "GLM-5.3 open weights shipped (resolving a two-week safety holdback), Terminal-Bench-Science launched the first scientist-led continuous science-workflow benchmark (Opus 5 leads 30%, GLM-5.3 strongest open at 8.1%), and a maintainer's first-person account shows security embargoes are dead — the mean time-to-exploit is now -7 days.",
     "url": "briefings/briefing-2026-08-28.html"
   },
   {
