@@ -2,7 +2,7 @@
   {
     "date": "2026-08-30",
     "title": "AI Engineering Intelligence — Sunday, August 30, 2026",
-    "summary": "OpenAI will cut model access to Cursor on Nov 12 citing SpaceX contract violations — the first frontier lab to terminate a major coding-agent partnership over ownership change, validating multi-provider routing as a procurement requirement. Meanwhile Tencent open-sources Hy4 Preview (770B/49B-active, 1M+ context) as a fourth Chinese lab enters the top open-weight tier, Dan Luu's \"Bug Blindness\" reframes quality as a noticing problem in the agent SDLC, and Domain-Driven Agents names DDD as the brownfield readiness layer for LLM agents.",
+    "summary": "OpenAI cut Cursor off its models over SpaceX ownership (neutral infrastructure breaks), Tencent open-sourced Hy4 preview (770B/49B MoE with a self-optimizing inference loop), and Dan Luu named \"bug blindness\" as the perception-side ceiling on agentic-SDLC quality.",
     "url": "briefings/briefing-2026-08-30.html"
   },
   {
