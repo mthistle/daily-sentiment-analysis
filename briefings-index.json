@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-08-30",
+    "title": "AI Engineering Intelligence — Saturday, August 30, 2026",
+    "summary": "Tencent open-sourced Hy4 preview, a 770B/49B-active productivity-tuned MoE that ran an early recursive self-improvement loop on its own training and self-optimized its inference stack +31.8%; meanwhile Jordy Zomor's Lemmalog reframes agent memory as Datalog-style maintained state (38x less context, tops the knowledge-update category), and Dan Luu's \"Bug Blindness\" warns that coding agents make quality blindness acute — easier to ship and to fix, but only if you notice.",
+    "url": "briefings/briefing-2026-08-30.html"
+  },
+  {
     "date": "2026-08-29",
     "title": "AI Engineering Intelligence — Friday, August 29, 2026",
     "summary": "GLM-5.3 open weights shipped (Aug 28), resolving the two-week safety holdback — but the sharpest 2026 benchmaxxing case (CyberGym #1 at 84.5% yet 8.1% on the new Terminal-Bench-Science) confirms the benchmark-vs-practice gap is the binding procurement caveat, alongside a reasoning_effort-default overthinking trap shared with Qwen 3.8-27B.",
