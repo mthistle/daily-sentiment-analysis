@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-08-31",
+    "title": "AI Engineering Intelligence — August 31, 2026",
+    "summary": "Tencent Hy4 makes five Chinese labs at the open-weight frontier with a recursive-self-improvement loop; Dan Luu names \"bug blindness\" as the human-side quality ceiling; Artificial Analysis ships the first procurement-grade pocket-scale inference benchmark; Domain-Driven Agents names the missing input-readiness layer; and OpenAI's Cursor/SpaceX cutoff falsifies \"neutral infrastructure.\"",
+    "url": "briefings/briefing-2026-08-31.html"
+  },
+  {
     "date": "2026-08-30",
     "title": "AI Engineering Intelligence — Sunday, August 30, 2026",
     "summary": "OpenAI cut Cursor off its models over SpaceX ownership (neutral infrastructure breaks), Tencent open-sourced Hy4 preview (770B/49B MoE with a self-optimizing inference loop), and Dan Luu named \"bug blindness\" as the perception-side ceiling on agentic-SDLC quality.",
