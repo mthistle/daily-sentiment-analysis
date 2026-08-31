@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Engineering Intelligence — August 31, 2026</title>
+<style>
+  :root {
+    --bg: #0f1117; --surface: #1a1d27; --surface2: #222536; --border: #2e3148;
+    --accent: #6c63ff; --accent2: #00c2a8; --accent3: #f59e0b; --accent4: #ef4444;
+    --text: #e8eaf0; --text-muted: #8b8fa8; --text-dim: #5a5d75;
+    --green: #22c55e; --yellow: #eab308; --red: #ef4444; --orange: #f97316; --blue: #3b82f6; --purple: #a855f7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.7; max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+  a { color: var(--accent2); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+  a:hover { border-bottom-color: var(--accent2); }
+  .header { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 36px; }
+  .header-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; margin-bottom: 6px; }
+  .header-meta { color: var(--text-muted); font-size: 13px; }
+  .section-title { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 44px 0 18px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .exec-summary { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 24px 26px; margin-bottom: 8px; }
+  .exec-summary h2 { font-size: 15px; font-weight: 700; margin-bottom: 14px; color: var(--text); }
+  .signal-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+  .signal-num { background: var(--accent); color: white; font-size: 11px; font-weight: 700; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .signal-text { color: var(--text); line-height: 1.6; }
+  .sentiment-bar-container { margin-top: 18px; }
+  .sentiment-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+  .sentiment-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .sentiment-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #ef4444 0%, #eab308 40%, #22c55e 75%); width: 64%; }
+  .sentiment-caption { font-size: 11px; color: var(--text-muted); margin-top: 5px; }
+  .trend-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 22px 24px; margin-bottom: 18px; }
+  .trend-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .badge { display: inline-flex; align-items: center; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; white-space: nowrap; }
+  .badge-label { color: var(--text-muted); font-weight: 400; margin-right: 4px; font-size: 9px; }
+  .m-explosive { background: rgba(239,68,68,0.18); color: #f87171; }
+  .m-high { background: rgba(245,158,11,0.18); color: #fbbf24; }
+  .m-medium { background: rgba(59,130,246,0.18); color: #60a5fa; }
+  .m-low { background: rgba(139,143,168,0.18); color: #b6bad0; }
+  .s-positive { background: rgba(34,197,94,0.15); color: #4ade80; }
+  .s-mixed { background: rgba(234,179,8,0.15); color: #fde047; }
+  .s-polarizing { background: rgba(168,85,247,0.15); color: #c084fc; }
+  .s-negative { background: rgba(239,68,68,0.15); color: #f87171; }
+  .er-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .er-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .er-low { background: rgba(139,143,168,0.12); color: #b6bad0; }
+  .hr-high { background: rgba(239,68,68,0.12); color: #f87171; }
+  .hr-medium { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .hr-low { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .cl-low { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .trend-body p { margin-bottom: 10px; }
+  .trend-body strong { font-weight: 600; }
+  .field-label { color: var(--text-muted); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 14px; margin-bottom: 4px; display: block; }
+  .contrarian-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #a855f7; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .contrarian-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .declining-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #f97316; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .declining-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .watchlist-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 12px; }
+  .watchlist-name { font-size: 14px; font-weight: 700; color: var(--accent2); margin-bottom: 6px; }
+  .implication-block { border-left: 2px solid var(--accent3); padding: 10px 0 10px 16px; margin-bottom: 12px; }
+  .implication-type { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent3); font-weight: 700; margin-bottom: 4px; }
+  .long-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+  .long-icon { font-size: 13px; margin-top: 2px; width: 24px; flex-shrink: 0; color: var(--accent2); font-weight: 700; }
+  .sources-section { margin-top: 52px; border-top: 1px solid var(--border); padding-top: 24px; }
+  .sources-section h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 700; margin-bottom: 14px; }
+  .sources-list { list-style: none; }
+  .sources-list li { font-size: 12px; color: var(--text-muted); margin-bottom: 7px; display: flex; gap: 8px; }
+  .sources-list li .src-num { color: var(--text-dim); flex-shrink: 0; width: 24px; }
+  .sources-list li a { font-size: 12px; color: var(--text-muted); }
+  .sources-list li a:hover { color: var(--accent2); }
+  .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text-dim); text-align: center; }
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-label">Daily Intelligence Briefing</div>
+  <h1>AI Engineering Intelligence</h1>
+  <div class="header-meta">Monday, August 31, 2026 &middot; 5-minute read &middot; Signal over noise</div>
+</header>
+
+<div class="section-title">Executive Summary</div>
+<div class="exec-summary">
+  <h2>Top 5 Highest-Signal Developments</h2>
+  <div class="signal-row"><div class="signal-num">1</div><div class="signal-text"><strong><a href="https://www.tencent.com/tencent-releases-and-open-sources-tencent-hy4-preview/">Tencent Hy4 — the fifth Chinese lab at the open-weight frontier</a>.</strong> A 770B/49B-active MoE that beat GLM-5.3 and Kimi K3 in a 163-expert blind eval and, uniquely, ran a recursive-self-improvement loop plus autonomous inference-stack optimization (31.8% throughput gain) on its own training pipeline.</div></div>
+  <div class="signal-row"><div class="signal-num">2</div><div class="signal-text"><strong><a href="https://danluu.com/bug-blind/">Dan Luu names "bug blindness"</a>.</strong> The perception-side human ceiling on software quality: teams encode habitual mitigations subconsciously and stop perceiving the defect, so dogfooding cannot surface it. The human-side complement to the deterministic-gating / verification-debt stack — and the reason LLM-driven quality gains only land if someone notices they're possible.</div></div>
+  <div class="signal-row"><div class="signal-num">3</div><div class="signal-text"><strong><a href="https://artificialanalysis.ai/hardware-inference-stack/mobile-phones">Artificial Analysis ships the first procurement-grade pocket-scale inference benchmark</a>.</strong> 39 small models (≤8GB post-4-bit + 8K KV cache) on iPhone 17 Pro and Galaxy S26 Ultra, with an intelligence-vs-generation-time Pareto and context-budget-overrun exposure — the on-device answer to the benchmarkpocalypse.</div></div>
+  <div class="signal-row"><div class="signal-num">4</div><div class="signal-text"><strong><a href="https://coldtake.dev/blog/domain-driven-agents/">"Domain-Driven Agents" names the missing input-readiness layer</a>.</strong> Agents fail in brownfield code not from model weakness but from absent shared language — the codebase never decided which concept is real, so the model invents a fourth spelling. DDD-as-readiness is the upstream counterpart to harness engineering, operationalized via a machine-checkable context map that auto-files DDD issues.</div></div>
+  <div class="signal-row"><div class="signal-num">5</div><div class="signal-text"><strong><a href="https://www.cnbc.com/2026/08/29/openai-cursor-spacex-model-access.html">OpenAI's Cursor/SpaceX cutoff falsifies "neutral infrastructure"</a>.</strong> A model provider that is also a competitor's parent is not contractually neutral — hardening the case for multi-model routing and an open-weight cost tier as an always-available contingency base.</div></div>
+  <div class="sentiment-bar-container">
+    <div class="sentiment-label">Practitioner Sentiment — Cautiously Positive, with hardened realism</div>
+    <div class="sentiment-bar"><div class="sentiment-fill" style="width:62%"></div></div>
+    <div class="sentiment-caption">Open-weight frontier depth (now 5 Chinese labs) and on-device benchmarking are welcomed, but bug-blindness, benchmark-vs-practice gaps, and supplier-neutrality failures are pulling sentiment toward pragmatic multi-vendor caution.</div>
+  </div>
+</div>
+
+<div class="section-title">Model Watch</div>
+<div class="trend-card">
+  <div class="trend-title">1. Tencent Hy4 (preview)</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-mixed"><span class="badge-label">Sentiment</span>Mixed</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Tencent Hunyuan <a href="https://www.tencent.com/tencent-releases-and-open-sources-tencent-hy4-preview/">released and open-sourced Hy4 preview</a> (Aug 28): 770B total / 49B active MoE, &gt;1M context, productivity-scoped (coding, office, science). It is the <strong>fifth Chinese lab</strong> to reach the open-weight frontier tier (DeepSeek, Qwen, Kimi, GLM, now Tencent), and notably a consumer-platform conglomerate rather than a pure-play AI lab. Available via WorkBuddy, CodeBuddy, Yuanbao, ima, Tencent Cloud TokenHub, and OpenRouter; free for two weeks on WorkBuddy/CodeBuddy. API: $0.834/$2.501 per Mtok, $0.042 cache-hit.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>In a 163-expert internal blind eval across 203 engineering tasks, Hy4 scored 2.99/4.00, edging GLM-5.3 (2.92) and Kimi K3 (2.94). No independent Artificial Analysis Intelligence Index score yet; license terms undisclosed in the announcement (a procurement-friction watchpoint consistent with the revenue-sharing-open-weights pattern). The novel signals — an early-stage recursive-self-improvement loop optimizing training methods/data/operators, and autonomous inference-stack optimization yielding a 31.8% end-to-end throughput gain — are vendor-reported and preview-stage. Software-engineering, office-productivity, game-prototyping (single-prompt playable prototype), and scientific-research (molecular dynamics, condensed-matter physics) are the claimed domains.</p>
+    <span class="field-label">Who is using it</span><p>Internal Tencent products (WorkBuddy, CodeBuddy, Yuanbao, ima) at launch; external access via OpenRouter. No named third-party production disclosure yet — the adoption evidence is launch-channel, not independent engineering blog.</p>
+    <span class="field-label">Engineering implication</span><p>Open-weight frontier depth is now genuinely multi-vendor Chinese, which structurally de-risks the cost-tier of a hybrid stack — but license terms are the binding unknown. The recursive-self-improvement + self-optimizing-inference claims deserve skepticism until independently reproduced; treat as roadmap signal. <strong>Verdict: Watch.</strong> Track the license disclosure and any independent AA Intelligence Index score before procurement evaluation.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. GLM-5.3 (open weights shipped Aug 28)</div>
+  <div class="badges">
+    <span class="badge m-medium"><span class="badge-label">Momentum</span>Medium</span>
+    <span class="badge s-polarizing"><span class="badge-label">Sentiment</span>Polarizing</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Zhipu/Z.ai <a href="https://huggingface.co/zai-org/GLM-5.3">shipped GLM-5.3 open weights on Aug 28</a>, resolving the ~two-week safety holdback tracked since Aug 14 after an unplanned exploit-chain capability surfaced during post-training (1,097 Critical/High findings across 269 projects). Same 753B/40B-active MoE base as GLM-5.2; every gain is post-training; custom glm-5.3 license (not MIT). ~8.8K HF downloads/month, 23 quantizations, 3 finetunes already.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>CyberGym 84.5% (#1, above Mythos 5 and GPT-5.6 Sol), GDPval-AA v2 Elo 1769 (#1), Terminal-Bench 2.1 88.2 — but Terminal-Bench-Science only 8.1% and no valid NanoGPT Speedrun record. The benchmark-vs-practice gap is the binding procurement caveat: leaderboard-leading cyber/agentic scores coexist with failure on scientist-led research workflows. <a href="https://www.terminal-bench-science.ai/announcement">Terminal-Bench-Science</a> and <a href="https://www.primeintellect.ai/research/nanogpt-speedrun">NanoGPT Speedrun Frontier</a> are the auditable held-out benchmarks that expose it.</p>
+    <span class="field-label">Who is using it</span><p>OpenRouter routed it as the anonymous "Ox Alpha" stealth model before identity was confirmed to Bloomberg — real coding-agent traffic flowed through it blind. Now self-hostable with day-zero SGLang/vLLM/TokenSpeed/KTransformers/Unsloth.</p>
+    <span class="field-label">Engineering implication</span><p>Procurement-grade rule confirmed: do not buy on CyberGym/GDPval alone. Pin reasoning_effort below max (the default overthinking trap) and run your own held-out workflow eval. <strong>Verdict: Trial</strong> for cyber/agentic workloads with private eval gating; <strong>Watch</strong> for autonomous research workflows.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">3. OpenAI Astra — going quiet</div>
+  <div class="badges">
+    <span class="badge m-low"><span class="badge-label">Momentum</span>Low</span>
+    <span class="badge s-mixed"><span class="badge-label">Sentiment</span>Mixed</span>
+    <span class="badge er-low"><span class="badge-label">Production Ready</span>Low</span>
+    <span class="badge hr-high"><span class="badge-label">Hype Risk</span>High</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Still pre-release (13 sightings, first seen 2026-08-03). Gated by both the classified White House 30-day pre-release review and OpenAI's own Critical-cyber safeguards (the first model publicly disclosed as potentially meeting the Critical threshold). Release window pushed out by safety escalation, not capability. No API, no model card, no date. Prediction markets ~62% by Sep 30.</p>
+    <span class="field-label">Engineering implication</span><p>No fresh signal this run; the safety gate, not engineering readiness, mediates release. Treat as roadmap signal only; do not block procurement or architecture decisions on an Astra timeline. <strong>Verdict: Watch</strong> (passive).</p>
+  </div>
+</div>
+
+<div class="section-title">Agent Engineering &amp; AI SDLC</div>
+<div class="trend-card">
+  <div class="trend-title">1. Bug blindness (the human-side quality ceiling)</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Dan Luu's <a href="https://danluu.com/bug-blind/">"Bug blindness"</a> (HN 269 pts / 159 comments) names the failure of humans to notice software defects they are habituated to compensating for, once those compensations go subconscious — the mechanical-mouse-ball story, the Google-Docs title-typing habit, the Codex escape-key timing. German has a word for it: <em>Betriebsblindheit</em>. Corroborated in-thread by named engineers (Gary Bernhardt, Michael Malis) and a Codex-specific compensating-habit comment.</p>
+    <span class="field-label">Why it matters</span><p>This is the perception-side complement to the deterministic-gating / verification-debt stack. LLMs make quality improvement cheaper than ever, "but to do this, you have to actually notice that this is possible." Dogfooding cannot break bug blindness because dogfooders carry the same compensating habits. Reframes agentic code review as partly a perception-training problem: an LLM simulating a naive user can reproduce defects across scenarios that the habituated team no longer sees.</p>
+    <span class="field-label">Evidence from real teams</span><p>Luu cites shipping teams whose products "fell flat on its face because users run into the exact same issues I saw" — i.e., the blindness was always there; LLM-user simulation now makes it externally reproducible. The Discourse LCP-cheating and Blackboard-employee-who-thought-it-was-loved cases are the historical data points.</p>
+    <span class="field-label">Engineering implication</span><p>Add "LLM-as-naive-user" reproduction to the verification pipeline — it surfaces defects the team's habitual mitigations mask. Pair with deterministic gating and the verifier-first loop. <strong>Verdict: Adopt</strong> as a perception-side check; it costs almost nothing and targets a failure mode no other control covers.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. Domain-Driven Agents (the input-readiness layer)</div>
+  <div class="badges">
+    <span class="badge m-medium"><span class="badge-label">Momentum</span>Medium</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Ernest Bednarczyk's <a href="https://coldtake.dev/blog/domain-driven-agents/">"Domain-Driven Agents"</a> (Aug 27) applies DDD (bounded contexts, ubiquitous language, context maps) as the prerequisite input that makes LLM agents viable in brownfield codebases. The failure has a specific shape: the model invents a fourth spelling of a concept that already exists three times because the codebase never decided which was real. Operationalized via a <code>.workflow.json</code> manifest + per-context <code>CONTEXT.md</code> glossary + a derived, machine-checkable context map that auto-files DDD issues with fingerprints.</p>
+    <span class="field-label">Why it matters</span><p>This is the missing strategic half of harness engineering. Harness engineering optimizes the runtime wrapper; context engineering optimizes the prompt window; DDD-as-readiness optimizes the system the agent reads. It reframes the economics: the mechanical half of tech-debt cleanup collapsed in cost (LLM does the typing), but the deciding half — which concept is real, where a context ends — stayed expensive and is exactly what the agent needs encoded.</p>
+    <span class="field-label">Evidence from real teams</span><p>Single-author working repo (job-offer-box, Rust backend + web frontend). Not yet multi-team corroboration, but the mechanism (machine-checkable context map, auto-filed DDD issues with fingerprints, closed-loop issue→agent→PR→review spine) is concrete and reproducible.</p>
+    <span class="field-label">Engineering implication</span><p>For brownfield agent rollout, invest in ubiquitous-language/context-map artifacts before tuning the harness — the model guesses wrong less when the system answers its questions. <strong>Verdict: Trial</strong> on a brownfield repo; the mechanism is low-cost and targets the actual failure mode.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">3. Harness engineering — construction→evaluation inflection holding</div>
+  <div class="badges">
+    <span class="badge m-explosive"><span class="badge-label">Momentum</span>Explosive</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Now 25+ sightings (first seen 2026-08-02) and still the dominant enterprise economics story, productized at three layers (DeepSeek Harness MIT, Databricks Omnigent meta-harness, NVIDIA NeMo Switchyard router). This run's reinforcement: harness-config defaults — not model weights — remain the binding production lever. GLM-5.3's reasoning_effort=max default and Qwen 3.8-27B's xhigh default both trigger pathological overthinking (30+ min on a trivial port, zero code); a one-line config fix (fixed chat templates + thinking=low) lifted completion 62%→92%.</p>
+    <span class="field-label">Why it matters</span><p>The field's binding open problem has decisively shifted from harness-construction to harness-evaluation (cost-per-successful-task at a held-out quality bar). Terminal-Bench-Science (Aug 27), NanoGPT Speedrun Frontier, and Artificial Analysis Optima are the operationalized answers — all turn "build your own benchmark" from advice into executable tooling.</p>
+    <span class="field-label">Evidence from real teams</span><p>Decagon running ~90% of agents on fine-tuned open-source models (driven by latency/accuracy, not cost); Ramp, LangChain, CrowdStrike, Harvey on NeMo Switchyard routing; Anthropic's own Applied AI team publicly states harnesses — not models — are the limiting factor.</p>
+    <span class="field-label">Engineering implication</span><p>Own your harness config as a versioned, reviewed artifact; pin reasoning_effort by workload. Build a private held-out eval before trusting any leaderboard. <strong>Verdict: Adopt.</strong></p>
+  </div>
+</div>
+
+<div class="section-title">Terminology Tracker</div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://danluu.com/bug-blind/">Bug blindness</a> — NEW</div><p><strong>Definition:</strong> Coined/popularized by Dan Luu (Aug 30, 2026): the failure of humans to notice software defects they are habituated to compensating for, once those compensations go subconscious. Names the perception-side ceiling on software quality that dogfooding cannot break (dogfooders have the same habits). Distinct from verification debt (the un-closed quality gap on AI code) and deterministic gating (the build-time control): bug blindness is the upstream failure to encode a check because nobody perceives the defect. German counterpart: <em>Betriebsblindheit</em>.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://coldtake.dev/blog/domain-driven-agents/">Domain-Driven Agents</a> — NEW</div><p><strong>Definition:</strong> Coined by Ernest Bednarczyk (coldtake.dev, Aug 27, 2026): the application of Domain-Driven Design (bounded contexts, ubiquitous language, context maps) as the prerequisite input that makes LLM agents viable in brownfield codebases. Differs from harness engineering (optimizes the runtime wrapper) and context engineering (optimizes the prompt window): DDD-as-readiness optimizes the system the agent reads. Operationalized via a machine-checkable context map that auto-files DDD issues with fingerprints.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://artificialanalysis.ai/hardware-inference-stack/mobile-phones">Pocket-scale inference benchmark</a> — NEW</div><p><strong>Definition:</strong> Artificial Analysis's mobile-device inference benchmark (Aug 30, 2026): 39 small models (≤8GB post-4-bit-quantization + 8K KV cache) on iPhone 17 Pro and Galaxy S26 Ultra, via llama.cpp partnered with Liquid AI for on-device timing. Five mobile-realistic evals (BFCL subset, IFBench, AA-Omniscience, GPQA Diamond, MATH-500) at 16K context, with an intelligence-vs-generation-time Pareto and context-budget-overrun exposure. The first procurement-grade measurement axis for the on-device tier.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.tencent.com/tencent-releases-and-open-sources-tencent-hy4-preview/">Tencent Hy4</a> — NEW</div><p><strong>Definition:</strong> Tencent Hunyuan's first open-weight frontier-tier model (Aug 28, preview): 770B total / 49B active MoE, &gt;1M context, productivity-scoped. Fifth Chinese lab (joining DeepSeek, Qwen, Kimi, GLM) at the open-weight frontier tier, distinct by consumer-platform-conglomerate origin and a reported recursive-self-improvement loop plus autonomous inference-stack optimization (31.8% throughput gain). License terms undisclosed.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.cnbc.com/2026/08/29/openai-cursor-spacex-model-access.html">Neutral infrastructure breakdown</a> — NEW</div><p><strong>Definition:</strong> The falsification of the framing that a model provider's API is "neutral infrastructure," demonstrated when OpenAI cut Cursor off its models over SpaceX ownership of Cursor (Aug 29, proposed Nov 12 cutoff). Neutrality is not contractually enforceable once a supplier is also a competitor's parent. Reinforces the inference-as-financial-rails thesis and the case for multi-model routing + an open-weight cost tier as contingency base.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://huggingface.co/zai-org/GLM-5.3">GLM-5.3</a> — EVOLVING (first seen 2026-08-14)</div><p>Open weights shipped Aug 28, resolving the ~two-week safety holdback. Same 753B/40B-active MoE base; every gain is post-training; custom glm-5.3 license (not MIT). CyberGym 84.5% #1 and GDPval-AA v2 Elo 1769 #1, but Terminal-Bench-Science only 8.1% and no valid NanoGPT Speedrun record — <a href="https://www.terminal-bench-science.ai/announcement">benchmark-vs-practice gap</a> is the binding procurement caveat. Now joined on the open-weight frontier by Tencent Hy4, which edged it in Tencent's own blind eval (2.99 vs 2.92).</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://huggingface.co/froggeric/Qwen-Fixed-Chat-Templates">Reasoning-effort overthinking</a> — EVOLVING (first seen 2026-08-27)</div><p>Confirmed across a second model this run: GLM-5.3 model card explicitly defaults reasoning_effort=max and clear_thinking=false. Two independent Chinese open-weight frontier models (Qwen 3.8-27B, GLM-5.3) now ship the same pathological default. Field report: 30+ min on a trivial PowerShell-to-C# port, zero code; fixed template + thinking=low lifted completion 62%→92%. A one-line harness-config fix, not a model bug.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.databricks.com/blog/managing-ai-coding-costs-scale">Harness engineering</a> — EVOLVING (first seen 2026-08-02)</div><p>Now 25+ sightings and the dominant enterprise economics story, productized at three layers (DeepSeek Harness MIT, Databricks Omnigent, NVIDIA NeMo Switchyard). The binding open problem has decisively shifted from harness-construction to harness-evaluation — cost-per-successful-task at a held-out quality bar — with Terminal-Bench-Science, NanoGPT Speedrun Frontier, and AA Optima as the operationalized answers.</p></div>
+
+<div class="section-title">Trend Deltas</div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Bug blindness</strong> — first seen today; entered tracking.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Domain-Driven Agents</strong> — first seen today; entered tracking.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Pocket-scale inference benchmark</strong> — first seen today; entered tracking.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Tencent Hy4</strong> — first seen today; entered tracking.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Neutral infrastructure breakdown</strong> — first seen today; entered tracking.</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>Reasoning-effort overthinking</strong> — accelerating vs. prior sightings (first seen 2026-08-27, 3 sightings); now confirmed across two independent Chinese open-weight frontier models.</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>Harness engineering</strong> — accelerating (first seen 2026-08-02, now 25+ sightings); binding open problem shifted from construction to evaluation.</div></div>
+<div class="long-row"><div class="long-icon">&#8593;</div><div><strong>GLM-5.3</strong> — up (first seen 2026-08-14, 8 sightings); open weights shipped Aug 28, resolving the safety holdback; joined by Tencent Hy4.</div></div>
+<div class="long-row"><div class="long-icon">&#8681;</div><div><strong>Astra</strong> — going quiet (first seen 2026-08-03, 13 sightings); still pre-release, gated by safety escalation; no fresh signal.</div></div>
+<div class="long-row"><div class="long-icon">&#8681;</div><div><strong>Open weights and American AI leadership</strong> — going quiet (first seen 2026-08-03, 7 sightings); policy ask largely won via White House open-weight exemption.</div></div>
+
+<div class="section-title">Strategic Implications</div>
+<div class="implication-block"><div class="implication-type">Adopt</div><p>Multi-model routing with contingency-loss tolerance for any single closed vendor — the OpenAI/Cursor/SpaceX cutoff falsified "neutral infrastructure," and an open-weight cost tier (DeepSeek V4-Flash, Qwen 3.8-27B, GLM-5.3, Muse Glimmer) is now the always-available fallback. Pin reasoning_effort by workload to avoid the overthinking cost/latency trap. Add an "LLM-as-naive-user" reproduction pass to the verification pipeline to break bug blindness cheaply.</p></div>
+<div class="implication-block"><div class="implication-type">Trial</div><p>Domain-Driven Agents on a brownfield repo before harness tuning — encode ubiquitous language and a machine-checkable context map so the agent's guesses land on real concepts. GLM-5.3 for cyber/agentic workloads gated behind a private held-out eval (do not buy on CyberGym/GDPval alone).</p></div>
+<div class="implication-block"><div class="implication-type">Watch</div><p>Tencent Hy4 — track license disclosure and any independent AA Intelligence Index score; the recursive-self-improvement and self-optimizing-inference claims are vendor-reported and preview-stage. The pocket-scale inference benchmark as it adds models/quantizations/devices — it is the on-device procurement axis that didn't exist last week.</p></div>
+<div class="implication-block"><div class="implication-type">30-90 Day Watchlist</div><p>Terminal-Bench-Science v0.2 PR deadline (Oct 5) — the scientist-led held-out benchmark that compresses every coding-benchmark score by &gt;10 points. Astra's release window (prediction markets ~62% by Sep 30, now mediated by safety not capability). Tencent Hy4 official release and license terms. The Nvidia-Hugging Face acquisition close — a structural consolidation of the open-model distribution layer that raises CUDA-lock-in and non-CUDA-fork-acceleration concerns; watch for community forks.</p></div>
+
+<div class="sources-section"><h2>Sources</h2><ol class="sources-list">
+  <li><span class="src-num">[1]</span><a href="https://www.tencent.com/tencent-releases-and-open-sources-tencent-hy4-preview/">Tencent — "Tencent Releases and Open-Sources Tencent Hy4 preview"</a></li>
+  <li><span class="src-num">[2]</span><a href="https://danluu.com/bug-blind/">Dan Luu — "Bug blindness"</a></li>
+  <li><span class="src-num">[3]</span><a href="https://artificialanalysis.ai/hardware-inference-stack/mobile-phones">Artificial Analysis — "Benchmarking pocket-scale inference"</a></li>
+  <li><span class="src-num">[4]</span><a href="https://coldtake.dev/blog/domain-driven-agents/">Cold Take (Ernest Bednarczyk) — "Domain-Driven Agents"</a></li>
+  <li><span class="src-num">[5]</span><a href="https://www.cnbc.com/2026/08/29/openai-cursor-spacex-model-access.html">CNBC — "OpenAI cuts Cursor off its models over SpaceX ownership"</a></li>
+  <li><span class="src-num">[6]</span><a href="https://huggingface.co/zai-org/GLM-5.3">Hugging Face — "GLM-5.3 open weights"</a></li>
+  <li><span class="src-num">[7]</span><a href="https://www.terminal-bench-science.ai/announcement">Terminal-Bench-Science — "Announcement"</a></li>
+  <li><span class="src-num">[8]</span><a href="https://www.primeintellect.ai/research/nanogpt-speedrun">Prime Intellect — "NanoGPT Speedrun Frontier"</a></li>
+  <li><span class="src-num">[9]</span><a href="https://huggingface.co/froggeric/Qwen-Fixed-Chat-Templates">Hugging Face — "Qwen Fixed Chat Templates"</a></li>
+  <li><span class="src-num">[10]</span><a href="https://www.databricks.com/blog/managing-ai-coding-costs-scale">Databricks — "Managing AI coding costs at scale"</a></li>
+  <li><span class="src-num">[11]</span><a href="https://artificialanalysis.ai/articles/optima">Artificial Analysis — "Optima custom benchmark platform"</a></li>
+  <li><span class="src-num">[12]</span><a href="https://openrouter.ai/blog">OpenRouter — "Announcements"</a></li>
+  <li><span class="src-num">[13]</span><a href="https://news.ycombinator.com/item?id=49458161">Hacker News — "Nvidia to acquire Hugging Face" discussion</a></li>
+  <li><span class="src-num">[14]</span><a href="https://www.proactiveinvestors.com/companies/news/1096481/traders-push-gpt-6-bets-into-the-autumn-after-openai-names-astra-1096481.html">Proactive Investors — "Astra prediction-market repricing"</a></li>
+  <li><span class="src-num">[15]</span><a href="https://app.dealroom.co/news/note/decagon-runs-90-of-its-agents-on-open-source-models">Dealroom — "Decagon runs 90% of its agents on open-source models"</a></li>
+</ol></div>
+<div class="footer">AI Engineering Intelligence &nbsp;&middot;&nbsp; 2026-08-31 &nbsp;&middot;&nbsp; Automated daily run &nbsp;&middot;&nbsp; Signal over noise</div>
+</body>
+</html>
