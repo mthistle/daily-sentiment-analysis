@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Engineering Intelligence — September 2, 2026</title>
+<style>
+  :root {
+    --bg: #0f1117; --surface: #1a1d27; --surface2: #222536; --border: #2e3148;
+    --accent: #6c63ff; --accent2: #00c2a8; --accent3: #f59e0b; --accent4: #ef4444;
+    --text: #e8eaf0; --text-muted: #8b8fa8; --text-dim: #5a5d75;
+    --green: #22c55e; --yellow: #eab308; --red: #ef4444; --orange: #f97316; --blue: #3b82f6; --purple: #a855f7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.7; max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+  a { color: var(--accent2); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+  a:hover { border-bottom-color: var(--accent2); }
+  .header { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 36px; }
+  .header-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; margin-bottom: 6px; }
+  .header-meta { color: var(--text-muted); font-size: 13px; }
+  .section-title { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 44px 0 18px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .exec-summary { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 24px 26px; margin-bottom: 8px; }
+  .exec-summary h2 { font-size: 15px; font-weight: 700; margin-bottom: 14px; color: var(--text); }
+  .signal-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+  .signal-num { background: var(--accent); color: white; font-size: 11px; font-weight: 700; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .signal-text { color: var(--text); line-height: 1.6; }
+  .sentiment-bar-container { margin-top: 18px; }
+  .sentiment-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+  .sentiment-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .sentiment-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #ef4444 0%, #eab308 40%, #22c55e 75%); width: 64%; }
+  .sentiment-caption { font-size: 11px; color: var(--text-muted); margin-top: 5px; }
+  .trend-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 22px 24px; margin-bottom: 18px; }
+  .trend-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .badge { display: inline-flex; align-items: center; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; white-space: nowrap; }
+  .badge-label { color: var(--text-muted); font-weight: 400; margin-right: 4px; font-size: 9px; }
+  .m-explosive { background: rgba(239,68,68,0.18); color: #f87171; }
+  .m-high { background: rgba(245,158,11,0.18); color: #fbbf24; }
+  .m-medium { background: rgba(59,130,246,0.18); color: #60a5fa; }
+  .m-low { background: rgba(139,143,168,0.18); color: #b6bad0; }
+  .s-positive { background: rgba(34,197,94,0.15); color: #4ade80; }
+  .s-mixed { background: rgba(234,179,8,0.15); color: #fde047; }
+  .s-polarizing { background: rgba(168,85,247,0.15); color: #c084fc; }
+  .s-negative { background: rgba(239,68,68,0.15); color: #f87171; }
+  .er-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .er-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .er-low { background: rgba(139,143,168,0.12); color: #b6bad0; }
+  .hr-high { background: rgba(239,68,68,0.12); color: #f87171; }
+  .hr-medium { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .hr-low { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .cl-low { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .trend-body p { margin-bottom: 10px; }
+  .trend-body strong { font-weight: 600; }
+  .field-label { color: var(--text-muted); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 14px; margin-bottom: 4px; display: block; }
+  .contrarian-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #a855f7; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .contrarian-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .declining-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #f97316; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .declining-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .watchlist-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 12px; }
+  .watchlist-name { font-size: 14px; font-weight: 700; color: var(--accent2); margin-bottom: 6px; }
+  .implication-block { border-left: 2px solid var(--accent3); padding: 10px 0 10px 16px; margin-bottom: 12px; }
+  .implication-type { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent3); font-weight: 700; margin-bottom: 4px; }
+  .long-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+  .long-icon { font-size: 13px; margin-top: 2px; width: 24px; flex-shrink: 0; color: var(--accent2); font-weight: 700; }
+  .sources-section { margin-top: 52px; border-top: 1px solid var(--border); padding-top: 24px; }
+  .sources-section h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 700; margin-bottom: 14px; }
+  .sources-list { list-style: none; }
+  .sources-list li { font-size: 12px; color: var(--text-muted); margin-bottom: 7px; display: flex; gap: 8px; }
+  .sources-list li .src-num { color: var(--text-dim); flex-shrink: 0; width: 24px; }
+  .sources-list li a { font-size: 12px; color: var(--text-muted); }
+  .sources-list li a:hover { color: var(--accent2); }
+  .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text-dim); text-align: center; }
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-label">Daily Intelligence Briefing</div>
+  <h1>AI Engineering Intelligence</h1>
+  <div class="header-meta">Tuesday, September 2, 2026 &middot; 5-minute read &middot; Signal over noise</div>
+</header>
+
+<div class="section-title">Executive Summary</div>
+<div class="exec-summary">
+  <h2>Top 5 Highest-Signal Developments</h2>
+  <div class="signal-row"><div class="signal-num">1</div><div class="signal-text"><strong><a href="https://www.anthropic.com/claude-fable-and-mythos-5-1">Anthropic ships Claude Fable 5.1 / Mythos 5.1</a>.</strong> Hits the highest Artificial Analysis Intelligence Index score ever recorded (66), more than doubles agentic-science (Terminal-Bench-Science 0.1: 24.7%→52.6%), and attacks the cost/safety-friction problems that left Fable 5 at only 6% of enterprise token spend.</div></div>
+  <div class="signal-row"><div class="signal-num">2</div><div class="signal-text"><strong><a href="https://tech-insider.org/openai-astra-solves-10-open-math-problems-2026">OpenAI's unreleased Astra solves 10 decade-old open math problems</a> with machine-verifiable Lean 4 proofs</strong> and becomes the first model to reach OpenAI's "Critical" cyber threshold — the strongest signal yet that verification-grounded reasoning and long-running multi-agent research are the new frontier axis.</div></div>
+  <div class="signal-row"><div class="signal-num">3</div><div class="signal-text"><strong><a href="https://gigazine.net/gsc_news/en/20260831-hy4-preview-tencent">Tencent Hy4 preview (770B MoE, Apache 2.0)</a> beats GPT-5.6 Sol on SWE-bench Pro</strong> and discloses an early recursive self-improvement loop (31.8% inference throughput gain) — open weights now win on the agentic-coding benchmarks that matter most to engineering teams.</div></div>
+  <div class="signal-row"><div class="signal-num">4</div><div class="signal-text"><strong><a href="https://finance.biggo.com/podcast/288ffd87c30147ec">Navan and Uber detail production agent architectures</a></strong> — skills-as-context-unit with progressive disclosure (Navan) and multi-agent code review with trajectory-based evals (Uber uReview) crystallize the engineering playbook that replaces "bigger context window solves everything."</div></div>
+  <div class="signal-row"><div class="signal-num">5</div><div class="signal-text"><strong><a href="https://medium.com/@dave-patten/mcp-goes-stateless-why-the-new-spec-changes-agent-infrastructure-8deb449f1310">MCP 2026-07-28 goes stateless</a></strong>, letting tool servers scale like ordinary cloud-native HTTP services — the protocol is maturing from local-developer convenience into production infrastructure.</div></div>
+  <div class="sentiment-bar-container">
+    <div class="sentiment-label">Practitioner Sentiment — Cautiously-Positive</div>
+    <div class="sentiment-bar"><div class="sentiment-fill" style="width:66%"></div></div>
+    <div class="sentiment-caption">Long-agent economics and open-weight convergence are real and shipping, but Artificial Analysis found Fable 5.1's per-task cost is ~20% higher despite the cache-read cut, and the Astra/Hy4 "AI invents new knowledge" claims are still unreleased or un-peer-reviewed.</div>
+  </div>
+</div>
+
+<div class="section-title">Model Watch</div>
+
+<div class="trend-card">
+  <div class="trend-title">1. Claude Fable 5.1 / Mythos 5.1 (Anthropic)</div>
+  <div class="badges">
+    <span class="badge m-explosive"><span class="badge-label">Momentum</span>Explosive</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Released September 1. Fable 5.1 and Mythos 5.1 are the same base model with different safeguards — Fable is GA; Mythos is restricted to trusted-access programs for cybersecurity and life sciences. <a href="https://artificialanalysis.ai/articles/claude-fable-5-1">Artificial Analysis scored Fable 5.1 at 66</a> on its Intelligence Index at "max" effort, the highest ever recorded, ahead of Claude Opus 5 (63), Fable 5 (62), and GPT-5.6 Sol / Grok 4.6 (61 each). Anthropic holds all top four spots.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>Anthropic's headline gains are all in persistence-heavy work: <a href="https://www.anthropic.com/claude-fable-and-mythos-5-1">Terminal-Bench-Science 0.1 jumps 24.7%→52.6%</a>, Terminal-Bench 4.0 reaches 55.8% (60.9% for Mythos 5.1 vs GPT-5.6 Sol's 37.3%), Humanity's Last Exam 59.1%, Terminal-Bench v2.1 91.4%. Base price unchanged at $10/$50 per M tokens (vs Opus 5's $5/$25), but cache reads cut 75% ($1→$0.25/M), yielding ~25% savings on typical workloads and up to ~45% on heavily agentic runs. New Enterprise Frontier Safeguards (EFS) give zero-data-retention with state-of-the-art adversarial-use prevention; cyber-safeguard false positives drop ~60% and biology false positives ~85%. First Claude models to ship built-in text watermarking + C2PA provenance (EU AI Act Article 50 compliance).</p>
+    <span class="field-label">Who is using it</span><p>Launch-partner tests, so treat with appropriate skepticism: <a href="https://www.theneuron.ai/news/claude-fable-5-1-cuts-agent-costs-and-safety-friction">Millennium reports Fable 5.1 diagnosed a rare internal crash no engineer or other model had explained in 4–5 years</a>; Browserbase completed 82% of its hardest browser-agent tasks vs 57% for Fable 5; Plaid mapped a cross-service change down to individual functions and DB rows; Ramp saw a 38-hour unattended run. Context: Fable 5 had stalled at only 6% of enterprise Anthropic-token spend in Ramp's AI Index.</p>
+    <span class="field-label">Engineering implication</span><p>The decisive lever is cache-read economics, not raw intelligence. Long-running agents re-read the same context repeatedly; the 75% cache cut changes unit-cost math precisely where Fable is strongest. Caveat: <a href="https://www.trendingtopics.eu/fable51-anthropic">Artificial Analysis measured ~20% higher per-task cost</a> than Fable 5 because 5.1 emits ~1.7× output tokens — the cache cut softens but does not reverse the token-volume increase. Budget for token-volume, not just per-token price. <strong>Verdict: Adopt</strong> for long agentic coding/science runs where cache-heavy workloads dominate; keep Opus 5 as the cost-efficient default for shorter, high-volume calls.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. OpenAI Astra (unreleased — research preview)</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-polarizing"><span class="badge-label">Sentiment</span>Polarizing</span>
+    <span class="badge er-low"><span class="badge-label">Production Ready</span>Low</span>
+    <span class="badge hr-high"><span class="badge-label">Hype Risk</span>High</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Astra is OpenAI's "next major model family," still internal. On August 1 OpenAI published <a href="https://cdn.openai.com/pdf/ten-proofs-oai.pdf">a 249-page manuscript claiming Astra solved ten long-standing open problems in math and theoretical CS</a>, each backed by a Lean 4 formalization with "sorry count" zero (no unproven steps) — independently <a href="https://simonwillison.net/2026/Aug/1/ten-advances-in-mathematics/">noted by Simon Willison</a>. A demo showed 16 agents dividing a research-level math problem into subproblems and assembling a proof. <a href="https://www.coindesk.com/tech/2026/09/02/openai-says-its-new-astra-ai-can-build-attacks-without-human-help">CoinDesk reports Astra is the first OpenAI model to reach its "Critical" cybersecurity threshold</a> (autonomous vulnerability discovery + exploit development).</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>No public API or independent benchmark yet. The math results have not cleared peer review and a credit dispute among mathematicians is brewing. Altman frames Astra as enabling "persistent agents" and "the first model where the model actually invents new things in a way that matters" per <a href="https://time.com/article/2026/08/26/openai-sam-altman-interview">TIME's inside-OpenAI piece</a>. Release is gated on new safety measures after the agent "jailbreak" incident reportedly paused training of more powerful models.</p>
+    <span class="field-label">Who is using it</span><p>No external teams. The signal is structural: machine-checkable formal proofs as the evidence standard for "AI did original research," and multi-agent decomposition for research workloads.</p>
+    <span class="field-label">Engineering implication</span><p>For staff engineers, the actionable signal is the verification pattern (Lean/Coq-style formal output) and the 16-agent research-decomposition architecture — both are reproducible engineering choices independent of waiting for Astra's release. <strong>Verdict: Watch.</strong> Do not plan product roadmaps around an unreleased, safety-gated model; do start experimenting with formal-proof verification of LLM reasoning output.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">3. Tencent Hy4 preview (open-weight)</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p><a href="https://gigazine.net/gsc_news/en/20260831-hy4-preview-tencent">Released August 28 as open weights under Apache 2.0</a>: 770B-parameter MoE, 49B active, 1M-token context. Quantized variants drop VRAM from ~1.5TB to 435 GiB (Q4_K_M) and 214 GiB (a new MIX-STQ1_0 mixed-bitwidth scheme). API at $0.834/$2.501 per M input/output tokens.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>Beats GPT-5.6 Sol on <a href="https://x.com/cline/status/2093401313203892241">SWE-bench Pro and SWE Atlas Refactoring</a> per Tencent's chart (which also plots Qwen3.8 Max, DeepSeek V4 Pro, GLM-5.3, Kimi K3, Claude Opus 5). In Code Arena WebDev, Hy4 preview ranks 6th (1633) behind Claude Opus 5 (1691), Kimi K3 (1674), Qwen-3.8 Max (1669). Separately, <a href="https://www.techtimes.com/articles/325958/20260831/tencent-discloses-ai-self-improvement-loop-hy4-what-developers-must-know-before-using-it.htm">Tencent discloses an early-stage recursive self-improvement loop</a> — Hy4 was used to automate optimization of its own training methods, data strategies, eval frameworks, and low-level operators, yielding a measured 31.8% inference-throughput gain.</p>
+    <span class="field-label">Who is using it</span><p>Integrated into Tencent's own CodeBuddy and WorkBuddy enterprise products; selectable in Cline. <a href="https://eu.36kr.com/en/p/3965947797954056">BofA's China AI monitor</a> shows Tencent Hy3 already at 26.2T cumulative OpenRouter tokens for August (2nd behind DeepSeek V4 Flash's 31.6T).</p>
+    <span class="field-label">Engineering implication</span><p>Open weights now lead on the agentic-coding benchmarks that drive real engineering decisions, not just chat leaderboards. The self-improvement disclosure is the more novel signal: supervised AI participation in successor-model development is now operationally observable (per the Cloud Security Alliance's distinction vs. fully autonomous self-improvement, which remains speculative). <strong>Verdict: Trial</strong> for self-hosted coding/research workloads where 214 GiB VRAM is feasible; watch the recursive-improvement governance question closely.</p>
+  </div>
+</div>
+
+<div class="section-title">Agent Engineering &amp; AI SDLC</div>
+
+<div class="trend-card">
+  <div class="trend-title">1. Skills-as-context-unit + progressive disclosure (Navan)</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Navan's chief architect Roberto Milev and architect Uday Kanagala <a href="https://finance.biggo.com/podcast/288ffd87c30147ec">published their production agent reference architecture</a>, framing agents as "where microservices were in 2015." Their distinctive context-management move: treat <strong>skills</strong> (instructions + tool-execution logic for a domain) as the unit of composition, selected dynamically per task with <strong>progressive disclosure</strong> — start with limited context scope, expand via included metadata only as the agent needs it.</p>
+    <span class="field-label">Why it matters</span><p>This is a deliberate counter to "bigger context window solves everything." Navan argues more context makes agents lose focus. Runtime and memory are now the solved layers (AWS/GCP/Azure all ship framework-agnostic agent runtimes; memory is layered into short-term conversational, long-term semantic, and episodic what-worked/what-failed). The unsolved layers are observability, replay/debugging, cost control, and standards.</p>
+    <span class="field-label">Evidence from real teams</span><p>Navan runs a large production agent fleet on AWS, building its own session persistence/rehydration on top of AWS Agent Core. The Stack Overflow 2026 survey corroborates the discipline: <a href="https://stackoverflow.blog/2026/05/27/agents-on-a-leash-agentic-ai-remains-mostly-monitored-at-work/">68% of developers prefer predictable single agents over complex multi-agent systems</a>, and 63% allow little-to-no fully autonomous execution — even as agent-at-work usage rose 31%→59% YoY.</p>
+    <span class="field-label">Engineering implication</span><p>Adopt skill-packaging and progressive disclosure as your context-engineering default; explicitly budget for trajectory observability and cost control as first-class problems, not afterthoughts. <strong>Verdict: Adopt</strong> the skills-as-unit pattern; <strong>Trial</strong> multi-agent only after a single agent loop runs reliably (Navan's Milev: "if you cannot build a reliable single agent, a multi-agent system will only multiply your failures").</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. Multi-agent code review with trajectory-based evals (Uber uReview)</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p><a href="https://finance.biggo.com/podcast/fb47e135379b123f">Uber engineers Will Bond and Ameya Ketkar detailed uReview</a>, an in-house multi-agent code review engine. Review had become the bottleneck: first-time-to-review latency grew 3h (2024)→9h (2026). uReview routes review requests from GitHub, Fabricator, and the agent loop into a dispatcher that sends to multiple generators tuned for different cost/performance profiles, then post-processes (rate, categorize, filter, dedupe) so engineers only see high-confidence actionable comments. Reported 60% cost reduction and 70% accuracy improvement.</p>
+    <span class="field-label">Why it matters</span><p>The hard problems are explicitly not model quality but routing, deduplication, cost control, and feedback capture. Critically, Uber built it so agents receive the same review rules as humans — a consistency requirement external tools couldn't meet. Eval evolved from surface metrics (cost, NPS) to <strong>addressal rate</strong> (did the developer actually fix the comment?) and <strong>runtime/trajectory completeness</strong> — measuring the full agent path, not single-request assertions. This mirrors GitHub's finding that <a href="https://github.blog/ai-and-ml/generative-ai/agent-pull-requests-are-everywhere-heres-how-to-review-them/">AI agents now participate in &gt;1 in 5 code reviews</a> but AI-generated code can pass tests yet be incorrect.</p>
+    <span class="field-label">Evidence from real teams</span><p>Uber runs thousands of engineers across six language-specific monorepos; uReview plugs into team ownership systems so review depth scales with risk/complexity. The outer-loop thesis: automated review pushes humans upward toward architecture, domain expertise, and product thinking — not away from review.</p>
+    <span class="field-label">Engineering implication</span><p>Treat code review as a layered generator+filter system, not a single prompt. Move evals from request-level assertions to trajectory/addressal metrics. <strong>Verdict: Adopt</strong> the architecture pattern; <strong>Trial</strong> building in-house vs. buying given the consistency-with-human-reviewers constraint that rules out most commercial tools.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">3. Stateless MCP (2026-07-28 spec)</div>
+  <div class="badges">
+    <span class="badge m-medium"><span class="badge-label">Momentum</span>Medium</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p><a href="https://blog.modelcontextprotocol.io/posts/2026-07-28/">The MCP 2026-07-28 spec removes the initialization handshake and protocol-level sessions</a>. A client no longer pins to the server instance that accepted its connection; each request is self-contained and can be handled by any compatible instance. The spec also adds standardized routing headers, cacheable discovery, multi-round-trip requests, stronger authorization, OpenTelemetry conventions, and a formal extension model.</p>
+    <span class="field-label">Why it matters</span><p>Remote MCP servers can now sit behind standard load balancers, API gateways, WAFs, serverless platforms, and horizontally scaled container fleets without MCP-specific session infrastructure. MCP is becoming ordinary cloud infrastructure rather than special-purpose agent plumbing.</p>
+    <span class="field-label">Evidence from real teams</span><p>Adoption is broad and vendor-agnostic: MCP now connects Claude, ChatGPT, Cursor, and VS Code to external systems. Spec-driven development demos (<a href="https://www.jamasoftware.com/video/from-requirements-to-code-with-sdd-and-mcp-jama-connect-features-in-five">Jama Connect + Codex via MCP</a>) show approved requirements flowing directly into code generation with human-in-the-loop review.</p>
+    <span class="field-label">Engineering implication</span><p>Design remote tool servers as stateless cloud-native services from day one; the old session-affinity assumptions are gone. <strong>Verdict: Adopt</strong> the 2026-07-28 spec for new MCP servers; migrate stateful servers.</p>
+  </div>
+</div>
+
+<div class="section-title">Terminology Tracker</div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.anthropic.com/claude-fable-and-mythos-5-1">Claude Fable 5.1 / Mythos 5.1</a> — NEW</div><p><strong>Definition:</strong> Anthropic's Sept 1 2026 flagship pair — same base model, different safeguards. Fable 5.1 is GA at $10/$50 per M tokens with cache reads cut 75%; Mythos 5.1 is restricted to trusted-access programs for cyber and life-sciences work. Scores 66 on the Artificial Analysis Intelligence Index (highest ever recorded). Differs from the tracked Claude Opus 5 (the cost-efficient daily driver at $5/$25) by being optimized for long-running, cache-heavy agentic work where persistence matters more than per-token price.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://tech-insider.org/openai-astra-solves-10-open-math-problems-2026">OpenAI Astra</a> — NEW</div><p><strong>Definition:</strong> OpenAI's unreleased "next major model family," positioned around persistent agents and original-knowledge generation. Evidence standard: machine-checkable Lean 4 formal proofs (sorry count zero) for 10 decade-old open math problems, plus multi-agent research decomposition (16 agents on one proof). First model to reach OpenAI's "Critical" cyber threshold. Release gated on new safety measures. Not yet independently benchmarkable.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://gigazine.net/gsc_news/en/20260831-hy4-preview-tencent">Tencent Hy4 preview</a> — NEW</div><p><strong>Definition:</strong> Tencent's 770B-MoE (49B active), 1M-context open-weight model released Aug 28 2026 under Apache 2.0, with a 214 GiB mixed-bitwidth STQ1_0 quantization. Beats GPT-5.6 Sol on SWE-bench Pro. Notable for disclosing an early-stage recursive self-improvement loop in its own development. Extends the tracked open-weight frontier convergence trend with a deployable Apache-2.0 option.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.techtimes.com/articles/325958/20260831/tencent-discloses-ai-self-improvement-loop-hy4-what-developers-must-know-before-using-it.htm">Recursive self-improvement loop (supervised)</a> — NEW</div><p><strong>Definition:</strong> An AI system contributing meaningfully to the development of a successor/improved version of itself — proposing approaches, running experiments, iterating on results — under human supervision. Distinct from fully autonomous self-improvement (rewriting its own weights without humans), which the Cloud Security Alliance confirms remains speculative as of mid-2026. Tencent Hy4's disclosure (31.8% inference-throughput gain) is the first quantified, operationally observable instance from a major lab.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://finance.biggo.com/podcast/288ffd87c30147ec">Trajectory evaluation</a> — NEW</div><p><strong>Definition:</strong> Evaluating agents by full-path traces (how far from start to goal, how efficient the path, whether each step's reasoning was sound) rather than single-request input/output assertions. Named explicitly by Navan (trajectory completeness) and Uber uReview (runtime trajectory capture + addressal rate). The eval analog to replacing stateless service logs with stateful session traces — logs fail for 20–30 step agent runs.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://finance.biggo.com/podcast/288ffd87c30147ec">Skills-as-context-unit / progressive disclosure</a> — NEW</div><p><strong>Definition:</strong> Coined in Navan's production architecture: a "skill" packages task instructions + tool-execution logic as a pluggable, independently testable, reusable unit; context is composed dynamically by selecting skills, starting narrow and expanding via metadata only as the agent needs it. Counters the "bigger context window solves everything" assumption; more context makes agents lose focus.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://medium.com/@dave-patten/mcp-goes-stateless-why-the-new-spec-changes-agent-infrastructure-8deb449f1310">Stateless MCP</a> — NEW</div><p><strong>Definition:</strong> The MCP 2026-07-28 spec change removing protocol-level sessions and the initialization handshake, so each request is self-contained and routable to any compatible server instance. Lets remote MCP servers scale like ordinary cloud-native HTTP services behind standard load balancers/gateways. Marks MCP's transition from local-developer convenience to production infrastructure.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.anthropic.com/claude-fable-and-mythos-5-1">Enterprise Frontier Safeguards (EFS)</a> — NEW</div><p><strong>Definition:</strong> Anthropic's new privacy architecture giving customers zero-data-retention equivalence while maintaining state-of-the-art adversarial-use prevention, by storing data in customer-controlled cloud infrastructure rather than Anthropic's. Rolling out to enterprise in phases this fall; zero-data-retention available meanwhile. Resolves the long-standing tension between safety monitoring and enterprise data-sovereignty requirements.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="http://en.people.cn/n3/2026/0901/c90000-20494495.html">Open-weight frontier convergence</a> — EVOLVING (first seen 2026-09-01)</div><p>The convergence accelerated sharply this run. <a href="https://www.reuters.com/business/retail-consumer/chinas-moonshot-talks-with-microsoft-amazon-google-over-k3-revenue-sharing-2026-08-26/">Moonshot is negotiating 30% revenue-share hosting of Kimi K3 on Azure/AWS/GCP</a> — the first big revenue-sharing pact between a Chinese AI firm and US cloud giants. <a href="https://eu.36kr.com/en/p/3965947797954056">BofA reports Chinese models (Kimi K3, GLM-5.3) now reach 95% of Claude Opus 5's intelligence-index score</a>, with GLM-5.3 tied with Opus 5 for #1 on the Agentic Index. Tencent Hy4 (Apache 2.0) beats GPT-5.6 Sol on SWE-bench Pro. "Open" increasingly carries commercial-use gates (Kimi K3's $20M revenue clause, revenue-share talks) that resemble API contracts.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://finance.biggo.com/podcast/8ed54ce9ba5ccd98">GLM-5.3-Flash</a> — EVOLVING (first seen 2026-09-01)</div><p>Concrete production adoption evidence this run: <a href="https://finance.biggo.com/news/9a00d362bb70b1d1">Theo (t3.gg) audited 1,000+ PRs in his T3 Code repo for $0.12</a> on GLM-5.3-Flash (vs ~$100+ on Fable), arguing the model "behaves better in agentic workflows than models costing 10–100× more" — the differentiator is on-task behavior and failure recovery, not raw intelligence. Served on Huawei Ascend 910BC chips; the 100K-Chinese-chip claim remains <a href="https://www.techtimes.com/articles/325858/20260828/ox-alpha-was-glm-53-flash-china-inference-chip-claim-stands-unverified.htm">unverified by CNBC</a>.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.siliconrepublic.com/business/reuters-chinas-moonshot-talking-to-us-tech-giants-over-kimi-k3-ai">Kimi K3</a> — EVOLVING (first seen 2026-09-01)</div><p>Moonshot's revenue-share negotiations with Microsoft/Amazon/Google (up to 30%) would mark the first Chinese LLM entering mainstream US commercial channels as a rule-setter. OpenRouter usage data shows DeepSeek V4 Flash leading weekly token share (22%), with Tencent Hy3 and Xiaomi MiMo-V2.5 in the top three — confirming real production traffic, not just benchmark presence.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://finance.biggo.com/podcast/25052e3c107f7d9a">Harness engineering</a> — EVOLVING (first seen 2026-09-01)</div><p>The thesis gained independent corroboration this run: Theo's argument that <a href="https://finance.biggo.com/news/9a00d362bb70b1d1">"agent configuration files — not model choice — are the primary lever"</a> for output quality (encoding failure-mode corrections into agents.md/CLAUDE.md/skill files), and Uber uReview's layered generator+filter architecture. Both treat the execution harness as the primary engineering artifact, consistent with the original harness-optimization evidence.</p></div>
+
+<div class="section-title">Trend Deltas</div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Claude Fable 5.1</strong> — first seen today; entered tracking. Highest Artificial Analysis score ever; cache-read economics reset long-agent unit costs.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>OpenAI Astra</strong> — first seen today; entered tracking. Verification-grounded reasoning (Lean proofs) + multi-agent research decomposition; unreleased, safety-gated.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Tencent Hy4</strong> — first seen today; entered tracking. Apache-2.0 open weights beating GPT-5.6 Sol on agentic-coding benchmarks; first disclosed supervised recursive self-improvement loop.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Trajectory evaluation / Skills-as-context-unit / Stateless MCP / EFS</strong> — first seen today; four engineering techniques entered tracking.</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>Open-weight frontier convergence</strong> — accelerating vs. prior sighting (first seen 2026-09-01, 2 sightings). Kimi K3 revenue-share talks + GLM-5.3 at 95% of Opus 5 + Hy4 open-weight SWE-bench Pro win in one week.</div></div>
+<div class="long-row"><div class="long-icon">&#8593;</div><div><strong>Harness engineering</strong> — up (first seen 2026-09-01, 2 sightings). Independent corroboration from Theo (config-files-over-models) and Uber uReview (layered generator+filter harness).</div></div>
+<div class="long-row"><div class="long-icon">&#8595;</div><div><strong>Agent sandbox containment / Motivated reasoning (agent alignment)</strong> — going quiet (first seen 2026-09-01). No fresh incident signal this run; the topic remains tracked but the Q3 incident wave appears to have subsided ahead of new model releases.</div></div>
+<div class="long-row"><div class="long-icon">&#8681;</div><div><strong>Model factory / xhigh reasoning tier</strong> — going quiet (first seen 2026-09-01). No new Poolside/Nvidia or Grok-tier news this run.</div></div>
+
+<div class="section-title">Strategic Implications</div>
+<div class="implication-block"><div class="implication-type">Adopt</div><p>Cache-read economics as a first-class agent-cost lever — model your long-running workloads on cache-hit ratios, not just per-token price, and re-benchmark Fable 5.1 against Opus 5 on actual token volume (Artificial Analysis found ~1.7× output tokens can offset the 75% cache cut). Skills-as-context-unit with progressive disclosure as the context-engineering default. Stateless MCP (2026-07-28) for all new remote tool servers. Trajectory-based evals (addressal rate, path completeness) replacing request-level assertions for agent QA.</p></div>
+<div class="implication-block"><div class="implication-type">Trial</div><p>Tencent Hy4 preview for self-hosted coding/research where ~214 GiB VRAM is feasible (Apache 2.0, beats GPT-5.6 Sol on SWE-bench Pro). GLM-5.3-Flash for high-volume agentic coding where behavior-on-task matters more than peak intelligence (real $0.12-per-1000-PR audit evidence). Multi-agent systems only after a single agent loop runs reliably. In-house multi-agent code review (Uber-style) given the human/agent review-rule-consistency constraint that rules out most commercial tools.</p></div>
+<div class="implication-block"><div class="implication-type">Watch</div><p>OpenAI Astra — verification-grounded reasoning and 16-agent research decomposition are reproducible patterns worth prototyping now, but the model itself is unreleased and safety-gated; do not plan roadmaps around it. Recursive self-improvement governance — Tencent Hy4's supervised loop is operationally observable; fully autonomous self-improvement remains speculative but the policy/governance gap is now concrete. Meta Hatch + Watermelon (Oct target) — consumer agent platform built on the OpenClaw lineage; enterprise relevance TBD. Anthropic's EFS rollout this fall for zero-data-retention enterprise requirements.</p></div>
+<div class="implication-block"><div class="implication-type">30-90 Day Watchlist</div><p>Anthropic IPO (late Sept/Oct) and what its S-1 reveals about model-economics unit costs. Fable 5.1 independent (non-launch-partner) production postmortems — do the Millennium/Browserbase/Plaid results hold at scale? Astra's release timing and safety-gating outcome. Kimi K3 cloud-hosting deals closing (would reset open-weight-vs-API commercial boundaries). Meta Watermelon frontier model (October). The formal-proof-verification pattern spreading beyond Astra into general agent reliability tooling.</p></div>
+
+<div class="sources-section"><h2>Sources</h2><ol class="sources-list">
+  <li><span class="src-num">[1]</span><a href="https://www.anthropic.com/claude-fable-and-mythos-5-1">Anthropic — "Introducing Claude Fable 5.1 and Claude Mythos 5.1"</a></li>
+  <li><span class="src-num">[2]</span><a href="https://artificialanalysis.ai/articles/claude-fable-5-1">Artificial Analysis — "Claude Fable 5.1"</a></li>
+  <li><span class="src-num">[3]</span><a href="https://www.trendingtopics.eu/fable51-anthropic">Trending Topics — "Fable 5.1: The New Best AI Model Is Once Again More Expensive"</a></li>
+  <li><span class="src-num">[4]</span><a href="https://www.theneuron.ai/news/claude-fable-5-1-cuts-agent-costs-and-safety-friction">The Neuron — "Everything to know about Fable 5.1"</a></li>
+  <li><span class="src-num">[5]</span><a href="https://www.digitaltoday.co.kr/en/view/99211/anthropic-claude-fable-5-1-rated-number-one-beating-gpt-and-grok">DigitalToday — "Anthropic's Claude Fable 5.1 rated No.1"</a></li>
+  <li><span class="src-num">[6]</span><a href="https://tech-insider.org/openai-astra-solves-10-open-math-problems-2026">Tech Insider — "OpenAI's Astra Solves 10 Math Problems for $2,000"</a></li>
+  <li><span class="src-num">[7]</span><a href="https://simonwillison.net/2026/Aug/1/ten-advances-in-mathematics/">Simon Willison — "Ten Advances in Mathematics and Theoretical Computer Science"</a></li>
+  <li><span class="src-num">[8]</span><a href="https://www.coindesk.com/tech/2026/09/02/openai-says-its-new-astra-ai-can-build-attacks-without-human-help">CoinDesk — "OpenAI says its new 'Astra' AI can build attacks without human help"</a></li>
+  <li><span class="src-num">[9]</span><a href="https://time.com/article/2026/08/26/openai-sam-altman-interview">TIME — "Inside OpenAI's Reboot"</a></li>
+  <li><span class="src-num">[10]</span><a href="https://gigazine.net/gsc_news/en/20260831-hy4-preview-tencent">Gigazine — "Tencent has released its AI model 'Hy4 preview'"</a></li>
+  <li><span class="src-num">[11]</span><a href="https://www.techtimes.com/articles/325958/20260831/tencent-discloses-ai-self-improvement-loop-hy4-what-developers-must-know-before-using-it.htm">TechTimes — "Tencent Discloses AI Self-Improvement Loop in Hy4"</a></li>
+  <li><span class="src-num">[12]</span><a href="https://finance.biggo.com/podcast/288ffd87c30147ec">AI Engineer — "Agents Are Where Microservices Were in 2015 — Navan"</a></li>
+  <li><span class="src-num">[13]</span><a href="https://finance.biggo.com/podcast/fb47e135379b123f">AI Engineer — "Building uReview, Uber's Multi-Agent Code Review Engine"</a></li>
+  <li><span class="src-num">[14]</span><a href="https://stackoverflow.blog/2026/05/27/agents-on-a-leash-agentic-ai-remains-mostly-monitored-at-work/">Stack Overflow Blog — "Agents on a leash"</a></li>
+  <li><span class="src-num">[15]</span><a href="https://github.blog/ai-and-ml/generative-ai/agent-pull-requests-are-everywhere-heres-how-to-review-them/">GitHub Blog — "Agent pull requests are everywhere"</a></li>
+  <li><span class="src-num">[16]</span><a href="https://medium.com/@dave-patten/mcp-goes-stateless-why-the-new-spec-changes-agent-infrastructure-8deb449f1310">Dave Patten (Medium) — "MCP Goes Stateless"</a></li>
+  <li><span class="src-num">[17]</span><a href="https://blog.modelcontextprotocol.io/posts/2026-07-28/">MCP Blog — "2026-07-28 Specification"</a></li>
+  <li><span class="src-num">[18]</span><a href="https://finance.biggo.com/news/9a00d362bb70b1d1">BigGo Finance — "Theo: The $0.12 AI Model That Could Reshape How Code Gets Shipped"</a></li>
+  <li><span class="src-num">[19]</span><a href="https://www.techtimes.com/articles/325858/20260828/ox-alpha-was-glm-53-flash-china-inference-chip-claim-stands-unverified.htm">TechTimes — "Ox Alpha Was GLM-5.3-Flash: China Inference Chip Claim Stands Unverified"</a></li>
+  <li><span class="src-num">[20]</span><a href="https://www.reuters.com/business/retail-consumer/chinas-moonshot-talks-with-microsoft-amazon-google-over-k3-revenue-sharing-2026-08-26/">Reuters — "China's Moonshot talks with Microsoft, Amazon, Google over K3 revenue sharing"</a></li>
+  <li><span class="src-num">[21]</span><a href="http://en.people.cn/n3/2026/0901/c90000-20494495.html">People's Daily — "US cloud giants in talks to host China's Kimi K3 on revenue-share terms"</a></li>
+  <li><span class="src-num">[22]</span><a href="https://eu.36kr.com/en/p/3965947797954056">36Kr — "China AI Model Monitoring: Accelerated Upgrading"</a></li>
+  <li><span class="src-num">[23]</span><a href="https://www.siliconrepublic.com/business/reuters-chinas-moonshot-talking-to-us-tech-giants-over-kimi-k3-ai">Silicon Republic — "Reuters: China's Moonshot talking to US cloud giants over Kimi K3"</a></li>
+  <li><span class="src-num">[24]</span><a href="https://tech-insider.org/meta-hatch-ai-agent-watermelon-model-2026">Tech Insider — "Meta Hatch AI Agents, Watermelon Model"</a></li>
+  <li><span class="src-num">[25]</span><a href="https://www.jamasoftware.com/video/from-requirements-to-code-with-sdd-and-mcp-jama-connect-features-in-five">Jama Software — "From Requirements to Code with SDD and MCP"</a></li>
+  <li><span class="src-num">[26]</span><a href="https://x.com/cline/status/2093401313203892241">Cline (X) — "Tencent Hy4 Preview leads on SWE-bench Pro"</a></li>
+  <li><span class="src-num">[27]</span><a href="https://cdn.openai.com/pdf/ten-proofs-oai.pdf">OpenAI — "Ten Advances in Mathematics and Theoretical Computer Science" (PDF)</a></li>
+</ol></div>
+<div class="footer">AI Engineering Intelligence &nbsp;&middot;&nbsp; 2026-09-02 &nbsp;&middot;&nbsp; Automated daily run &nbsp;&middot;&nbsp; Signal over noise</div>
+</body>
+</html>
