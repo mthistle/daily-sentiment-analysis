@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Engineering Intelligence — September 3, 2026</title>
+<style>
+  :root {
+    --bg: #0f1117; --surface: #1a1d27; --surface2: #222536; --border: #2e3148;
+    --accent: #6c63ff; --accent2: #00c2a8; --accent3: #f59e0b; --accent4: #ef4444;
+    --text: #e8eaf0; --text-muted: #8b8fa8; --text-dim: #5a5d75;
+    --green: #22c55e; --yellow: #eab308; --red: #ef4444; --orange: #f97316; --blue: #3b82f6; --purple: #a855f7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.7; max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+  a { color: var(--accent2); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+  a:hover { border-bottom-color: var(--accent2); }
+  .header { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 36px; }
+  .header-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; margin-bottom: 6px; }
+  .header-meta { color: var(--text-muted); font-size: 13px; }
+  .section-title { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 44px 0 18px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .exec-summary { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 24px 26px; margin-bottom: 8px; }
+  .exec-summary h2 { font-size: 15px; font-weight: 700; margin-bottom: 14px; color: var(--text); }
+  .signal-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+  .signal-num { background: var(--accent); color: white; font-size: 11px; font-weight: 700; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .signal-text { color: var(--text); line-height: 1.6; }
+  .sentiment-bar-container { margin-top: 18px; }
+  .sentiment-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+  .sentiment-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .sentiment-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #ef4444 0%, #eab308 40%, #22c55e 75%); width: 64%; }
+  .sentiment-caption { font-size: 11px; color: var(--text-muted); margin-top: 5px; }
+  .trend-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 22px 24px; margin-bottom: 18px; }
+  .trend-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .badge { display: inline-flex; align-items: center; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; white-space: nowrap; }
+  .badge-label { color: var(--text-muted); font-weight: 400; margin-right: 4px; font-size: 9px; }
+  .m-explosive { background: rgba(239,68,68,0.18); color: #f87171; }
+  .m-high { background: rgba(245,158,11,0.18); color: #fbbf24; }
+  .m-medium { background: rgba(59,130,246,0.18); color: #60a5fa; }
+  .m-low { background: rgba(139,143,168,0.18); color: #b6bad0; }
+  .s-positive { background: rgba(34,197,94,0.15); color: #4ade80; }
+  .s-mixed { background: rgba(234,179,8,0.15); color: #fde047; }
+  .s-polarizing { background: rgba(168,85,247,0.15); color: #c084fc; }
+  .s-negative { background: rgba(239,68,68,0.15); color: #f87171; }
+  .er-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .er-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .er-low { background: rgba(139,143,168,0.12); color: #b6bad0; }
+  .hr-high { background: rgba(239,68,68,0.12); color: #f87171; }
+  .hr-medium { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .hr-low { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .cl-low { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .trend-body p { margin-bottom: 10px; }
+  .trend-body strong { font-weight: 600; }
+  .field-label { color: var(--text-muted); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 14px; margin-bottom: 4px; display: block; }
+  .contrarian-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #a855f7; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .contrarian-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .declining-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #f97316; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .declining-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .watchlist-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 12px; }
+  .watchlist-name { font-size: 14px; font-weight: 700; color: var(--accent2); margin-bottom: 6px; }
+  .implication-block { border-left: 2px solid var(--accent3); padding: 10px 0 10px 16px; margin-bottom: 12px; }
+  .implication-type { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent3); font-weight: 700; margin-bottom: 4px; }
+  .long-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+  .long-icon { font-size: 13px; margin-top: 2px; width: 24px; flex-shrink: 0; color: var(--accent2); font-weight: 700; }
+  .sources-section { margin-top: 52px; border-top: 1px solid var(--border); padding-top: 24px; }
+  .sources-section h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 700; margin-bottom: 14px; }
+  .sources-list { list-style: none; }
+  .sources-list li { font-size: 12px; color: var(--text-muted); margin-bottom: 7px; display: flex; gap: 8px; }
+  .sources-list li .src-num { color: var(--text-dim); flex-shrink: 0; width: 24px; }
+  .sources-list li a { font-size: 12px; color: var(--text-muted); }
+  .sources-list li a:hover { color: var(--accent2); }
+  .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text-dim); text-align: center; }
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-label">Daily Intelligence Briefing</div>
+  <h1>AI Engineering Intelligence</h1>
+  <div class="header-meta">Wednesday, September 3, 2026 &middot; 5-minute read &middot; Signal over noise</div>
+</header>
+
+<div class="section-title">Executive Summary</div>
+<div class="exec-summary">
+  <h2>Top 5 Highest-Signal Developments</h2>
+  <div class="signal-row"><div class="signal-num">1</div><div class="signal-text"><strong><a href="https://www.trendingtopics.eu/meta-muse-spark-13">Meta's Muse Spark 1.3 reaches frontier parity at a fraction of the price.</a></strong> Scores 61 on the Artificial Analysis Intelligence Index, tying Grok 4.6 and GPT-5.6 Sol and trailing Claude Opus 5 by just two points, while running 4-6x faster and costing ~$0.55/task vs Opus 5's $2.34 — Meta is back in the top tier and a contributor-tier at $0.10/M input prices intelligence for data.</div></div>
+  <div class="signal-row"><div class="signal-num">2</div><div class="signal-text"><strong><a href="https://www.citybiz.co/article/897626/openai-restricts-astra-cybersecurity-tools-as-new-ai-model-reaches-critical-capability-threshold">OpenAI confirms Astra crosses its "Critical" cybersecurity threshold.</a></strong> The first model to autonomously discover zero-day vulnerabilities and develop exploits without human step-by-step guidance; release delayed, White House notified, and gated access via the Daybreak Blue program marks a new governance inflection.</div></div>
+  <div class="signal-row"><div class="signal-num">3</div><div class="signal-text"><strong><a href="https://forkast.news/crowdstrike-safemind-puts-dual-ai-agents-in-a-closed-loop-to-defend-enterprise-infrastructure">CrowdStrike ships SafeMind — a real-team agentic cyber system on open Nemotron weights.</a></strong> Red Tempest (offense) and Blue Solano (defense) run in a closed loop against a digital twin, delivering vendor-reported 5x faster investigations and 2.5x detection improvement — the clearest shipped example of specialized open-model pipelines beating general frontier models in a vertical.</div></div>
+  <div class="signal-row"><div class="signal-num">4</div><div class="signal-text"><strong><a href="https://www.anthropic.com/news/model-hardware-standard-research-preview">Anthropic's Model Hardware Standard extends MCP to physical devices.</a></strong> A model-agnostic, MCP-accessible driver layer lets agents safely operate microscopes, liquid handlers, and robotic arms — Genentech and University of Washington ran proofs of concept — pushing agent control from digital tool-calls to physical-world actuation.</div></div>
+  <div class="signal-row"><div class="signal-num">5</div><div class="signal-text"><strong><a href="https://startupfortune.com/tencent-shrinks-its-770-billion-parameter-hy4-model-to-run-on-a-gaming-laptop">Tencent's "Sherry" 1.25-bit quantization shrinks the 770B Hy4 to 214GB.</a></strong> An 86% size cut with only 0.7% loss on SWE-bench Pro collapses the assumption that frontier-scale open models need frontier-scale hardware — a meaningful deployability inflection for self-hosted agentic-coding stacks.</div></div>
+  <div class="sentiment-bar-container">
+    <div class="sentiment-label">Practitioner Sentiment — Cautiously-Positive</div>
+    <div class="sentiment-bar"><div class="sentiment-fill" style="width:62%"></div></div>
+    <div class="sentiment-caption">Frontier intelligence is commoditizing faster than pricing can track, and open weights keep closing the gap — but cyber-capability thresholds, physical-agent control, and self-improvement disclosures are outrunning governance and data-sovereignty practice.</div>
+  </div>
+</div>
+
+<div class="section-title">Model Watch</div>
+<div class="trend-card">
+  <div class="trend-title">1. Meta Muse Spark 1.3</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Meta released <a href="https://officechai.com/ai/muse-spark-1-3-benchmarks">Muse Spark 1.3</a> on Sept 2, 2026 — its fourth Muse Spark release in five months — live in Muse Code, the Meta Model API, and OpenRouter, with open weights for 1.2 still promised but 1.3 weights undecisively deferred per Chief AI Officer Alexandr Wang <a href="https://finance.biggo.com/news/260a2e70-167c-4ccd-b6d0-aa3fd5dca44b">(BigGo Finance)</a>.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>Artificial Analysis Intelligence Index <strong>61</strong> (xhigh) / <strong>62</strong> (max, limited preview), tying GPT-5.6 Sol and Grok 4.6, two points behind Claude Opus 5 <a href="https://officechai.com/ai/metas-muse-spark-1-3-scores-61-on-artificial-analysis-intelligence-index-at-par-with-grok-4-6-and-gpt-5-6-sol">(OfficeChai)</a>. Biggest single family jump to date. Coding: DeepSWE v1.1 <strong>75.4</strong> (beats Opus 5's 74.0); Terminal-Bench 2.1 <strong>88.8</strong> (ties GPT-5.6). Long context leads outright: MRCR 512K-1M <strong>98.1</strong>. Output speed <strong>235 tok/s</strong> — second only to Gemini 3.8 Flash. Pricing $1.25/$4.25 per M (input/output); a "contributor" tier at $0.10/$0.20 (12-21x discount) grants Meta data-use rights <a href="https://finance.biggo.com/news/260a2e70-167c-4ccd-b6d0-aa3fd5dca44b">(BigGo)</a>. Token consumption down ~25% vs 1.2.</p>
+    <span class="field-label">Who is using it</span><p>Live today in Muse Code (Meta's coding agent for terminal and CI) and via the Meta Model API, where Wang reports some developers consume trillions of tokens per week <a href="https://finance.biggo.com/news/2fefcab6-3089-4bc9-a92a-c71f7c51e99f">(BigGo)</a>; rolling out to Instagram, Facebook, Meta AI, and the internal Hatch personal-agent preview. Available on OpenRouter.</p>
+    <span class="field-label">Engineering implication</span><p>For latency-sensitive, high-volume coding/agent workloads, Muse Spark 1.3 is now a credible Opus-5-class option at roughly a quarter of the cost-per-task and 4-6x the speed — benchmark it directly before defaulting to Anthropic. Watch the deferred open-weight decision: if 1.3 weights ship, it becomes the strongest self-hostable frontier option. <strong>Verdict: Adopt</strong> for cost/latency-sensitive agentic coding; <strong>Watch</strong> the weights release.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. OpenAI Astra (Critical cyber threshold)</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-polarizing"><span class="badge-label">Sentiment</span>Polarizing</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-high"><span class="badge-label">Hype Risk</span>High</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>OpenAI confirmed Sept 1 that Astra is the <a href="https://www.citybiz.co/article/897626/openai-restricts-astra-cybersecurity-tools-as-new-ai-model-reaches-critical-capability-threshold">first model to cross its "Critical" cybersecurity capability threshold</a> under the Preparedness Framework: it can identify previously unknown vulnerabilities and develop functional zero-day exploits across hardened real-world systems without human guidance <a href="https://tech-insider.org/astra-exploitbench-white-house-alarm-2026">(Tech Insider)</a>. Astra reportedly scored 100% on ExploitBench and uncovered two new zero-days during evaluation <a href="https://www.latestly.com/technology/why-openai-astra-crosses-critical-cybersecurity-threshold-and-demands-advanced-ai-safeguards-check-details-7586318.html/amp">(Latestly)</a>. Release was delayed; OpenAI notified the White House before going public <a href="https://tech-insider.org/astra-exploitbench-white-house-alarm-2026">(Tech Insider)</a>.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>Math results (10 decade-old open problems with Lean 4 formal proofs) remain from the earlier Astra preview; the new signal is the cyber threshold crossing. Advanced cyber features will be restricted to a small tester group, then broadened via the Daybreak Blue defensive-research program. Safeguards added: stronger refusal training, misuse protections, runtime monitoring to halt unauthorized activity <a href="https://www.citybiz.co/article/897626/openai-restricts-astra-cybersecurity-tools-as-new-ai-model-reaches-critical-capability-threshold">(citybiz)</a>.</p>
+    <span class="field-label">Who is using it</span><p>Not yet GA; gated access only. Math claims not peer-reviewed and a credit dispute among mathematicians is reported from the earlier Astra preview <a href="https://simonwillison.net/2026/Aug/1/ten-advances-in-mathematics/">(Simon Willison)</a>. Independent reproduction of ExploitBench results is pending.</p>
+    <span class="field-label">Engineering implication</span><p>The engineering-relevant signal is not Astra's unreleased capabilities but the verification-grounded reasoning pattern (formal proofs) and the new access-tiering model for cyber-capable frontier models. Security teams should expect frontier-model access to fragment by capability tier, and plan procurement and red-team pipelines around gated programs like Daybreak Blue. <strong>Verdict: Watch</strong> — do not build around unreleased capabilities; build around the access-tiering and verification-grounding patterns.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">3. Tencent Hy4 Preview (Sherry quantization)</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Hy4 preview (770B MoE, 49B active, 1M context, Apache 2.0, released Aug 28) gained a deployability inflection this run: Tencent's AngelSlim team published a <strong>1.25-bit "Sherry" (MIX-STQ1_0) quantization</strong> compressing the 1.5TB BF16 weights to <strong>214 GiB</strong>, an 86% cut, with only <strong>0.7% loss on SWE-bench Pro</strong> <a href="https://startupfortune.com/tencent-shrinks-its-770-billion-parameter-hy4-model-to-run-on-a-gaming-laptop">(Startup Fortune)</a>. Full residency still needs ~214 GiB VRAM and patched llama.cpp — not a stock-laptop build despite the headline <a href="https://startupfortune.com/tencent-shrinks-its-770-billion-parameter-hy4-model-to-run-on-a-gaming-laptop">(Startup Fortune)</a>.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>Beats GPT-5.6 Sol on SWE-bench Pro and SWE Atlas Refactoring; Terminal-Bench 85.4, DeepSWE 64.3 <a href="https://www.developersdigest.tech/blog/tencent-hy4-preview-770b-open-moe-2026">(Developers Digest)</a>. API $0.834/$2.501 per M tokens on OpenRouter. Architecture: 78 layers, 256 routed + 1 shared expert, top-8, Gated DeepSeek Sparse Attention + IndexCache, native MTP speculative-decoding layer <a href="https://www.mindstudio.ai/blog/tencent-hy4-preview-open-weight-model">(MindStudio)</a>. Openly disclosed recursive self-improvement loop produced a 31.8% inference-throughput gain <a href="https://www.techtimes.com/articles/325958/20260831/tencent-discloses-ai-self-improvement-loop-hy4-what-developers-must-know-before-using-it.htm">(TechTimes)</a>.</p>
+    <span class="field-label">Who is using it</span><p>Integrated into Tencent's own CodeBuddy and WorkBuddy <a href="https://www.eesel.ai/blog/tencent-hy4">(eesel)</a>; Cline shipped one-command selection of Hy4 preview <a href="https://x.com/cline/status/2093401313203892241">(Cline)</a>. Official vLLM and SGLang deployment recipes with speculative-config flags ship out of the box <a href="https://www.mindstudio.ai/blog/tencent-hy4-preview-open-weight-model">(MindStudio)</a>.</p>
+    <span class="field-label">Engineering implication</span><p>For teams already in the Apache-2.0 open-weight camp, Hy4 is now the leading self-hostable agentic-coding option — and Sherry-style mixed-bitwidth quantization is a reproducible technique to watch, not just a Tencent stunt. Caveat: the disclosed self-improvement loop and China Cybersecurity Law obligations warrant due diligence before production use <a href="https://www.techtimes.com/articles/325958/20260831/tencent-discloses-ai-self-improvement-loop-hy4-what-developers-must-know-before-using-it.htm">(TechTimes)</a>. <strong>Verdict: Trial</strong> for self-hosted agentic coding where Apache-2.0 license matters; track quantization tooling closely.</p>
+  </div>
+</div>
+
+<div class="section-title">Agent Engineering &amp; AI SDLC</div>
+<div class="trend-card">
+  <div class="trend-title">1. Model Hardware Standard (MHS) — agents controlling physical devices</div>
+  <div class="badges">
+    <span class="badge m-explosive"><span class="badge-label">Momentum</span>Explosive</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-low"><span class="badge-label">Production Ready</span>Low</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Anthropic opened a research preview of the <a href="https://www.anthropic.com/news/model-hardware-standard-research-preview">Model Hardware Standard (MHS)</a> on Aug 27, 2026 — a model-agnostic specification letting AI agents safely operate physical lab and manufacturing instruments (microscopes, liquid handlers, robotic arms) via standardized drivers accessed through MCP, CLI, or code. Developed with HHMI Janelia Research Campus; planned open source.</p>
+    <span class="field-label">Why it matters</span><p>MHS extends the MCP action surface from digital tool-calls to physical-world actuation. Drivers expose read/write primitives, device discoverability, natural-language safety tags (e.g., robot-arm weight), and auto-generated reference files of capabilities and enforced safety limits — agents can reason through experiment steps, update parameters in real time, and recover from hardware errors <a href="https://www.anthropic.com/news/model-hardware-standard-research-preview">(Anthropic)</a>. Integration time drops from weeks/months to hours/minutes.</p>
+    <span class="field-label">Evidence from real teams</span><p>Genentech ran a proof of concept where Claude coordinated a liquid handler, robotic arm, and plate reader for a protein assay; University of Washington researchers used MHS for remote instrument monitoring, agent-supervised qPCR, and collision-free plate handoffs <a href="https://quasa.io/insights/mhs-lets-ai-run-lab-hardware-the-standard-is-still-a-limited-preview">(Quasa)</a>. Reuters and CNBC covered the launch <a href="https://www.cnbc.com/2026/08/27/anthropic-pushes-into-physical-world-with-new-standard-to-help-ai-agents-operate-machines.html">(CNBC)</a>.</p>
+    <span class="field-label">Engineering implication</span><p>For teams in lab automation, manufacturing, or robotics, MHS is the early standard to track — its MCP compatibility means existing agent harnesses can adopt it without a new protocol. For everyone else, it signals that the "agent-computer interface" is expanding beyond software; expect safety-eval and liability frameworks to lag. <strong>Verdict: Watch</strong> (research preview, gated access); <strong>Trial</strong> for lab/manufacturing teams that can get preview access.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. CrowdStrike SafeMind — specialized open-model pipelines for cyber</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>At Fal.Con 2026 (Sept 1), CrowdStrike launched <a href="https://www.crowdstrike.com/en-us/press-releases/crowdstrike-launches-frontier-models-for-cybersecurity-with-nvidia/">SafeMind</a> — two purpose-built models (Red Tempest offense, Blue Solano defense) running in a closed loop against a digital twin of the enterprise, built on NVIDIA Nemotron open weights fine-tuned on 15 years of CrowdStrike telemetry, threat intel, and Falcon Complete annotations <a href="https://siliconangle.com/2026/09/01/crowdstrike-builds-security-frontier-models-with-nvidia-and-opens-an-ai-lab">(SiliconANGLE)</a>. A new Cyber Superintelligence Lab, led by Dr. Bartley Richardson, houses it; CoreWeave supplies compute.</p>
+    <span class="field-label">Why it matters</span><p>This is the clearest shipped example of a specialized open-model pipeline outperforming general frontier models in a vertical: vendor-reported <strong>5x faster investigations</strong>, <strong>3x triage-accuracy improvement</strong> when fine-tuned on CrowdStrike data, <strong>96% accuracy</strong> converting natural-language queries to CrowdStrike Query Language, and a 2.5x detection-rate improvement over base Nemotron alone <a href="https://forkast.news/crowdstrike-safemind-puts-dual-ai-agents-in-a-closed-loop-to-defend-enterprise-infrastructure">(Forkast)</a> <a href="https://cryptobriefing.com/crowdstrike-frontier-models-cybersecurity-nvidia">(Crypto Briefing)</a>. It validates the thesis that domain data + fine-tuned open weights beat raw frontier scale for bounded tasks.</p>
+    <span class="field-label">Evidence from real teams</span><p>CrowdStrike (production, Falcon platform integration); 50+ specialized agents deploy alongside; Charlotte AI AgentWorks lets customers/partners build their own security agents with data sovereignty retained by the customer <a href="https://cryptobriefing.com/crowdstrike-frontier-models-cybersecurity-nvidia">(Crypto Briefing)</a>. SPIFFE-based Continuous Identity extended for agent OAuth <a href="https://forkast.news/crowdstrike-safemind-puts-dual-ai-agents-in-a-closed-loop-to-defend-enterprise-infrastructure">(Forkast)</a>.</p>
+    <span class="field-label">Engineering implication</span><p>For security teams, SafeMind is a reference architecture: offensive/defensive agents in a closed loop, fine-tuned open weights on proprietary telemetry, model-agnostic harnesses via Project QuiltWorks. Treat vendor-reported metrics with skepticism (single-scenario eval) <a href="https://forkast.news/crowdstrike-safemind-puts-dual-ai-agents-in-a-closed-loop-to-defend-enterprise-infrastructure">(Forkast)</a>, but the pattern is reproducible. <strong>Verdict: Adopt</strong> the architecture pattern (specialized open-model pipelines + closed-loop adversarial eval); <strong>Trial</strong> SafeMind where you're a CrowdStrike customer.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">3. End-state delegation &amp; Claude Code tags</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Anthropic's Mike Krieger described a delegation-paradigm shift now dominant internally: from task-level instruction to <strong>expressing end-states and letting the model work through trade-offs</strong>, surfaced via the new <a href="https://finance.biggo.com/podcast/ab0a818823cb0faa">Claude Code tags</a> feature, which he says accounts for the majority of internal Anthropic usage. He cited a weekend-long Python-to-TypeScript codebase port as a worked example of "being unreasonable" with models <a href="https://finance.biggo.com/podcast/ab0a818823cb0faa">(AI Engineer podcast)</a>.</p>
+    <span class="field-label">Why it matters</span><p>This inverts the senior/junior relationship: the new bottleneck is not code review but human ability to conceptualize what the model has done — Anthropic's response is Claude Code artifacts (sharing explanations, intentions, trade-offs rather than raw PRs). Krieger no longer reviews every line; he talks to Claude about the code <a href="https://finance.biggo.com/podcast/ab0a818823cb0faa">(AI Engineer)</a>. This is a concrete workflow that any staff engineer can copy this week.</p>
+    <span class="field-label">Evidence from real teams</span><p>Anthropic internal teams (majority usage of tags); Krieger personally (Python→TS port). Corroborates the broader harness-engineering thesis that the artifact engineers optimize is shifting up the stack from prompts to context to harness to loop to graph <a href="https://medium.com/@adnanmasood/from-prompt-to-graph-how-the-unit-of-llm-engineering-moved-up-the-stack-bada54364e19">(Adnan Masood)</a>.</p>
+    <span class="field-label">Engineering implication</span><p>Update your team's prompt-pattern guidance: from step-decomposition prompts to end-state + trade-off-surfacing prompts, paired with artifact-based review (intent/rationale) rather than line review. Adopt tags/skills-style metadata to package reusable agent instructions. <strong>Verdict: Adopt</strong> the end-state delegation pattern; <strong>Adopt</strong> artifact-based review where model output exceeds line-by-line review capacity.</p>
+  </div>
+</div>
+
+<div class="section-title">Terminology Tracker</div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.trendingtopics.eu/meta-muse-spark-13">Muse Spark 1.3</a> — NEW</div><p><strong>Definition:</strong> Meta Superintelligence Labs' frontier coding/agentic model line (fourth release in five months, debuted April 2026). The 1.3 release on Sept 2, 2026 scores 61 on the Artificial Analysis Intelligence Index, reaching parity with GPT-5.6 Sol and Grok 4.6 at ~$0.55/task vs Opus 5's $2.34, with a two-tier "contributor" pricing model trading a 12-21x discount for data-use rights. Differs from Meta's Llama line (which stalled after Llama 4) by being a closed-weights API-first product with open-weight release deferred; positions Meta back among the top three providers after a year in the wilderness.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.crowdstrike.com/en-us/press-releases/crowdstrike-launches-frontier-models-for-cybersecurity-with-nvidia/">SafeMind (CrowdStrike)</a> — NEW</div><p><strong>Definition:</strong> CrowdStrike's family of purpose-built AI models and agent harnesses for cybersecurity, launched Sept 1, 2026 with NVIDIA. Two models — Red Tempest (offense, emulates adversaries) and Blue Solano (defense, applies containment) — run in a closed loop against a digital twin of the enterprise, built on fine-tuned NVIDIA Nemotron open weights and 15 years of CrowdStrike telemetry. Housed in the new Cyber Superintelligence Lab. Differs from general-purpose frontier cyber use by demonstrating that specialized open-model pipelines on domain data beat general frontier scale for bounded security tasks (vendor-reported 5x faster investigations, 2.5x detection improvement).</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.anthropic.com/news/model-hardware-standard-research-preview">Model Hardware Standard (MHS)</a> — NEW</div><p><strong>Definition:</strong> Anthropic's model-agnostic, MCP-accessible specification (research preview Aug 27, 2026) for AI agents to safely operate physical lab and manufacturing devices via standardized drivers exposing read/write primitives, device discoverability, natural-language safety tags, and auto-generated capability/safety-limit reference files. Developed with HHMI Janelia. Differs from MCP (digital tool-call surface) by extending the agent action surface to physical-world actuation; planned open source. First real-team proofs of concept from Genentech and University of Washington.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://finance.biggo.com/podcast/ab0a818823cb0faa">End-state delegation / Claude Code tags</a> — NEW</div><p><strong>Definition:</strong> A delegation-paradigm shift described by Anthropic's Mike Krieger: instead of decomposing goals into engineering steps and iterating manually, the human expresses the end-state and lets the model work through trade-offs autonomously, surfacing questions along the way. Claude Code tags (a metadata/packaging feature) now account for the majority of internal Anthropic usage. Differs from prompt engineering (optimizes wording) and context engineering (optimizes what's in the window) by optimizing the unit of delegation itself — paired with artifact-based review (intent/rationale) rather than line review, since the new bottleneck is human conceptualization of model output, not code quality.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://startupfortune.com/tencent-shrinks-its-770-billion-parameter-hy4-model-to-run-on-a-gaming-laptop">Sherry quantization (MIX-STQ1_0)</a> — NEW</div><p><strong>Definition:</strong> Tencent AngelSlim's 1.25-bit mixed-bitwidth quantization method for the 770B Hy4 model, compressing 1.5TB BF16 weights to 214 GiB (86% cut) with only 0.7% loss on SWE-bench Pro. Calibration data picks per-layer bitwidths (some down to 1.31-bit STQ1_0, some up to 2.06-bit IQ2_XXS). Differs from uniform quantization by allocating bit budget per layer; collapses the assumption that frontier-scale open models require frontier-scale hardware, though full residency still needs ~214 GiB VRAM and patched runtimes.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.augmentcode.com/guides/software-factory-org-design">Software factory org design</a> — NEW</div><p><strong>Definition:</strong> An org-design pattern (Augment Code, Aug 31 2026) for AI-accelerated delivery lines where agents absorb implementation and humans keep specifying, verifying, fleet-operating, and the authority to halt. Four named roles: spec author (writes specs + curates test scenarios), verifier, fleet operator, and line owner (halt authority). Backed by an arXiv study (802 developers, 196,212 PRs) showing 3.1x PR-volume growth against 1.5x reviewer growth under a throughput-doubling mandate. Differs from traditional org charts by being organized around who owns a delivery line rather than who writes code, keeping headcount flat while composition shifts.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://tech-insider.org/astra-exploitbench-white-house-alarm-2026">OpenAI Astra</a> — EVOLVING (first seen 2026-09-02)</div><p>Earlier preview showed verification-grounded reasoning (Lean 4 formal proofs for 10 open math problems) and 16-agent research decomposition. This run confirmed the more consequential signal: Astra is OpenAI's first model to cross its "Critical" cybersecurity capability threshold — autonomously discovering zero-day vulnerabilities and developing exploits without step-by-step human guidance, scoring 100% on ExploitBench and uncovering two new zero-days in evaluation <a href="https://tech-insider.org/astra-exploitbench-white-house-alarm-2026">(Tech Insider)</a>. Release delayed; White House notified; access tiered via Daybreak Blue. Math claims still not peer-reviewed with a credit dispute brewing <a href="https://simonwillison.net/2026/Aug/1/ten-advances-in-mathematics/">(Simon Willison)</a>.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://startupfortune.com/tencent-shrinks-its-770-billion-parameter-hy4-model-to-run-on-a-gaming-laptop">Tencent Hy4 preview</a> — EVOLVING (first seen 2026-09-02)</div><p>New deployability inflection this run: the Sherry (MIX-STQ1_0) 1.25-bit quantization shrinks the 770B model from 1.5TB to 214 GiB with only 0.7% SWE-bench Pro loss, pushing a frontier-scale open weight into smaller hardware envelopes <a href="https://startupfortune.com/tencent-shrinks-its-770-billion-parameter-hy4-model-to-run-on-a-gaming-laptop">(Startup Fortune)</a>. Real-team adoption extending: Cline shipped one-command Hy4 selection <a href="https://x.com/cline/status/2093401313203892241">(Cline)</a>; Tencent's own CodeBuddy/WorkBuddy use it in production <a href="https://www.eesel.ai/blog/tencent-hy4">(eesel)</a>. The disclosed recursive self-improvement loop (31.8% inference-throughput gain) remains the first quantified major-lab instance <a href="https://www.techtimes.com/articles/325958/20260831/tencent-discloses-ai-self-improvement-loop-hy4-what-developers-must-know-before-using-it.htm">(TechTimes)</a>.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://pasqualepillitteri.it/en/news/13655/deepseek-harness-200k-stars-claude-code-codex-plugins">Harness engineering</a> — EVOLVING (first seen 2026-09-01)</div><p>Continued independent corroboration this run: DeepSeek Harness (open-source AI agent runtime) surpassed 207,000 GitHub stars and now runs Claude Code and Codex as plugins <a href="https://pasqualepillitteri.it/en/news/13655/deepseek-harness-200k-stars-claude-code-codex-plugins">(Pillitteri)</a>, and third parties (Modellix) are shipping plugins that add free LLM models to it <a href="https://www.manilatimes.net/2026/08/31/tmt-newswire/globenewswire/aurora-mobiles-modellix-releases-beta-plugin-for-deepseek-harness-adding-free-llm-models-to-the-fast-growing-open-source-coding-agent/2415019">(Manila Times)</a>. The thesis — that the execution harness/config is the primary reliability lever, above prompts and context — keeps accumulating shipped-code evidence across Anthropic tags, Uber uReview, and now DeepSeek Harness.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.reuters.com/business/retail-consumer/chinas-moonshot-talks-with-microsoft-amazon-google-over-k3-revenue-sharing-2026-08-26/">Open-weight frontier convergence</a> — EVOLVING (first seen 2026-09-01)</div><p>Accelerating sharply: Meta's Muse Spark 1.3 ties frontier closed models on the AA Intelligence Index at ~1/4 the per-task cost <a href="https://officechai.com/ai/metas-muse-spark-1-3-scores-61-on-artificial-analysis-intelligence-index-at-par-with-grok-4-6-and-gpt-5-6-sol">(OfficeChai)</a>; Tencent Hy4 (Apache 2.0) beats GPT-5.6 Sol on SWE-bench Pro; CrowdStrike's SafeMind shows specialized open-Nemotron pipelines beating general frontier models for bounded vertical tasks <a href="https://forkast.news/crowdstrike-safemind-puts-dual-ai-agents-in-a-closed-loop-to-defend-enterprise-infrastructure">(Forkast)</a>. "Open" increasingly carries commercial gates (Muse Spark's data-sharing contributor tier, Kimi K3's revenue-share hosting talks) resembling API contracts rather than FOSS defaults.</p></div>
+
+<div class="section-title">Trend Deltas</div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Muse Spark 1.3</strong> — first seen today; entered tracking. Meta back at frontier parity after the Llama 4 stumble.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>SafeMind</strong> — first seen today; entered tracking. Shipped specialized open-model cyber pipeline as a reference architecture.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Model Hardware Standard (MHS)</strong> — first seen today; entered tracking. Agents extend from digital tool-calls to physical actuation.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>End-state delegation / Claude Code tags</strong> — first seen today; entered tracking. Delegation paradigm now majority usage inside Anthropic.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Sherry quantization</strong> — first seen today; entered tracking. 1.25-bit mixed-bitwidth compression collapses the frontier-hardware assumption.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Software factory org design</strong> — first seen today; entered tracking. Org redesign around delivery-line ownership under delegated authorship.</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>OpenAI Astra</strong> — accelerating vs. prior sighting (first seen 2026-09-02, 2 sightings). Critical cyber threshold confirmed; ExploitBench 100%; White House notified.</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>Tencent Hy4 preview</strong> — accelerating (first seen 2026-09-02, 2 sightings). Sherry quantization + Cline/CodeBuddy adoption widen deployability.</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>Harness engineering</strong> — accelerating (first seen 2026-09-01, 3 sightings). DeepSeek Harness at 207K stars + plugin ecosystem; strongest shipped-code evidence yet.</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>Open-weight frontier convergence</strong> — accelerating (first seen 2026-09-01, 3 sightings). Muse Spark 1.3 + Hy4 + SafeMind all corroborate the convergence thesis.</div></div>
+<div class="long-row"><div class="long-icon">&#8681;</div><div><strong>Agent sandbox containment</strong> — going quiet (first seen 2026-09-01, 2 sightings). The Q3 incident wave has subsided ahead of new model releases; Astra's gating is the new containment pattern.</div></div>
+<div class="long-row"><div class="long-icon">&#8681;</div><div><strong>Model factory (Poolside/Nvidia)</strong> — going quiet (first seen 2026-09-01, 2 sightings). No fresh Poolside/Nvidia signal this run.</div></div>
+
+<div class="section-title">Strategic Implications</div>
+<div class="implication-block"><div class="implication-type">Adopt</div><p>End-state delegation + artifact-based review (Claude Code tags pattern) — it's a concrete workflow shift any staff engineer can roll out this week, with Anthropic's own internal majority-usage as proof. The specialized-open-model-pipeline architecture (à la SafeMind: fine-tuned open weights on domain data + closed-loop adversarial eval) for any bounded vertical where you hold proprietary telemetry.</p></div>
+<div class="implication-block"><div class="implication-type">Trial</div><p>Muse Spark 1.3 for cost/latency-sensitive agentic-coding workloads (benchmark directly vs Opus 5 before defaulting). Tencent Hy4 preview (Apache-2.0) for self-hostable agentic-coding where license matters; pair with the Sherry quantization tooling as it matures. Model Hardware Standard for lab/manufacturing teams that can secure research-preview access.</p></div>
+<div class="implication-block"><div class="implication-type">Watch</div><p>OpenAI Astra — do not build around unreleased capabilities; build around the access-tiering (Daybreak Blue) and verification-grounded reasoning patterns, and expect frontier-model procurement to fragment by capability tier. Sherry-style mixed-bitwidth quantization as a reproducible technique, not just a Tencent stunt. Meta's deferred Muse Spark 1.3 open-weight decision — if weights ship, it becomes the strongest self-hostable frontier option.</p></div>
+<div class="implication-block"><div class="implication-type">30-90 Day Watchlist</div><p>Meta Watermelon flagship model (October target) and Hatch consumer-agent launch — Meta's open-weight cadence and personal-agent monetization will set the pace for the next convergence wave. Anthropic IPO (post-Labor Day prospectus, late-Sept/Oct listing) and its $30T TAM claim — watch for model-release and safety-posture signals tied to the listing. MHS open-sourcing and safety-eval framework — physical-agent control will force liability and eval standards that don't exist yet. The Astra system card at launch — ExploitBench reproducibility and the access-tiering mechanism are the governance template for cyber-capable frontier models.</p></div>
+
+<div class="sources-section"><h2>Sources</h2><ol class="sources-list">
+  <li><span class="src-num">[1]</span><a href="https://www.trendingtopics.eu/meta-muse-spark-13">Trending Topics — "Muse Spark 1.3: Meta Is Back at the Top"</a></li>
+  <li><span class="src-num">[2]</span><a href="https://officechai.com/ai/metas-muse-spark-1-3-scores-61-on-artificial-analysis-intelligence-index-at-par-with-grok-4-6-and-gpt-5-6-sol">OfficeChai — "Meta's Muse Spark 1.3 Scores 61 On Artificial Analysis Intelligence Index"</a></li>
+  <li><span class="src-num">[3]</span><a href="https://officechai.com/ai/muse-spark-1-3-benchmarks">OfficeChai — "Meta Releases Muse Spark 1.3, Beats Opus 5, GPT Sol 5.6 On Some Benchmarks"</a></li>
+  <li><span class="src-num">[4]</span><a href="https://finance.biggo.com/news/260a2e70-167c-4ccd-b6d0-aa3fd5dca44b">BigGo Finance — "Meta's Muse Spark 1.3 Offers 21-Fold Price Cut for Users Willing to Share Data"</a></li>
+  <li><span class="src-num">[5]</span><a href="https://finance.biggo.com/news/2fefcab6-3089-4bc9-a92a-c71f7c51e99f">BigGo Finance — "Meta Unveils Its Most Powerful Model Yet, Muse Spark 1.3"</a></li>
+  <li><span class="src-num">[6]</span><a href="https://www.axios.com/2026/09/02/meta-debuts-muse-spark-13-as-personal-agent-work-continues">Axios — "Meta debuts Muse Spark 1.3 as personal agent work continues"</a></li>
+  <li><span class="src-num">[7]</span><a href="https://www.citybiz.co/article/897626/openai-restricts-astra-cybersecurity-tools-as-new-ai-model-reaches-critical-capability-threshold">citybiz — "OpenAI Restricts Astra Cybersecurity Tools as New AI Model Reaches Critical Capability Threshold"</a></li>
+  <li><span class="src-num">[8]</span><a href="https://tech-insider.org/astra-exploitbench-white-house-alarm-2026">Tech Insider — "Astra Hits 100% on ExploitBench, Alarms White House"</a></li>
+  <li><span class="src-num">[9]</span><a href="https://www.financialexpress.com/life/technology-openais-astra-crosses-a-critical-cybersecurity-threshold-heres-why-it-matters-4330346">Financial Express — "OpenAI's Astra crosses a critical cybersecurity threshold"</a></li>
+  <li><span class="src-num">[10]</span><a href="https://www.latestly.com/technology/why-openai-astra-crosses-critical-cybersecurity-threshold-and-demands-advanced-ai-safeguards-check-details-7586318.html/amp">Latestly — "Why OpenAI Astra Crosses Critical Cybersecurity Threshold"</a></li>
+  <li><span class="src-num">[11]</span><a href="https://siliconangle.com/2026/09/01/crowdstrike-builds-security-frontier-models-with-nvidia-and-opens-an-ai-lab">SiliconANGLE — "CrowdStrike builds security frontier models with Nvidia and opens an AI lab"</a></li>
+  <li><span class="src-num">[12]</span><a href="https://www.crowdstrike.com/en-us/press-releases/crowdstrike-launches-frontier-models-for-cybersecurity-with-nvidia/">CrowdStrike — "CrowdStrike Launches Frontier Models for Cybersecurity"</a></li>
+  <li><span class="src-num">[13]</span><a href="https://forkast.news/crowdstrike-safemind-puts-dual-ai-agents-in-a-closed-loop-to-defend-enterprise-infrastructure">Forkast — "CrowdStrike SafeMind Puts Dual AI Agents in a Closed Loop"</a></li>
+  <li><span class="src-num">[14]</span><a href="https://cryptobriefing.com/crowdstrike-frontier-models-cybersecurity-nvidia">Crypto Briefing — "CrowdStrike launches frontier AI models for cybersecurity"</a></li>
+  <li><span class="src-num">[15]</span><a href="https://itbrief.co.uk/story/crowdstrike-launches-safemind-and-cyber-defence-ai-lab">IT Brief UK — "CrowdStrike launches SafeMind and cyber defence AI lab"</a></li>
+  <li><span class="src-num">[16]</span><a href="https://www.anthropic.com/news/model-hardware-standard-research-preview">Anthropic — "Previewing the Model Hardware Standard"</a></li>
+  <li><span class="src-num">[17]</span><a href="https://www.cnbc.com/2026/08/27/anthropic-pushes-into-physical-world-with-new-standard-to-help-ai-agents-operate-machines.html">CNBC — "Anthropic pushes into physical world with new standard"</a></li>
+  <li><span class="src-num">[18]</span><a href="https://quasa.io/insights/mhs-lets-ai-run-lab-hardware-the-standard-is-still-a-limited-preview">Quasa — "MHS Lets AI Run Lab Hardware"</a></li>
+  <li><span class="src-num">[19]</span><a href="https://tech-insider.org/anthropic-30-trillion-market-ai-lab-robots-2026">Tech Insider — "Anthropic Claims $30T Market as AI Runs Lab Robots"</a></li>
+  <li><span class="src-num">[20]</span><a href="https://startupfortune.com/tencent-shrinks-its-770-billion-parameter-hy4-model-to-run-on-a-gaming-laptop">Startup Fortune — "Tencent Shrinks Its 770-Billion-Parameter Hy4 Model"</a></li>
+  <li><span class="src-num">[21]</span><a href="https://www.developersdigest.tech/blog/tencent-hy4-preview-770b-open-moe-2026">Developers Digest — "Tencent Hy4 Preview: 770B Open MoE"</a></li>
+  <li><span class="src-num">[22]</span><a href="https://www.mindstudio.ai/blog/tencent-hy4-preview-open-weight-model">MindStudio — "Tencent Hy4 Preview: Inside the 770B Open-Weight Flagship"</a></li>
+  <li><span class="src-num">[23]</span><a href="https://gigazine.net/gsc_news/en/20260831-hy4-preview-tencent">Gigazine — "Tencent has released its AI model 'Hy4 preview'"</a></li>
+  <li><span class="src-num">[24]</span><a href="https://www.eesel.ai/blog/tencent-hy4">eesel AI — "Tencent Hunyuan Hy4: specs, benchmarks, pricing"</a></li>
+  <li><span class="src-num">[25]</span><a href="https://x.com/cline/status/2093401313203892241">Cline (X) — "Tencent Hy4 Preview leads on SWE-bench Pro"</a></li>
+  <li><span class="src-num">[26]</span><a href="https://www.techtimes.com/articles/325958/20260831/tencent-discloses-ai-self-improvement-loop-hy4-what-developers-must-know-before-using-it.htm">TechTimes — "Tencent Discloses AI Self-Improvement Loop in Hy4"</a></li>
+  <li><span class="src-num">[27]</span><a href="https://finance.biggo.com/podcast/ab0a818823cb0faa">AI Engineer Podcast — "How Anthropic Builds: Lessons from Labs — Mike Krieger"</a></li>
+  <li><span class="src-num">[28]</span><a href="https://medium.com/@adnanmasood/from-prompt-to-graph-how-the-unit-of-llm-engineering-moved-up-the-stack-bada54364e19">Adnan Masood (Medium) — "From Prompt to Graph: How the Unit of LLM Engineering Moved Up the Stack"</a></li>
+  <li><span class="src-num">[29]</span><a href="https://www.augmentcode.com/guides/software-factory-org-design">Augment Code — "Software Factory Org Design: Who Staffs the Line?"</a></li>
+  <li><span class="src-num">[30]</span><a href="https://pasqualepillitteri.it/en/news/13655/deepseek-harness-200k-stars-claude-code-codex-plugins">Pillitteri — "DeepSeek Harness tops 200K GitHub stars and swallows Claude Code and Codex"</a></li>
+  <li><span class="src-num">[31]</span><a href="https://www.manilatimes.net/2026/08/31/tmt-newswire/globenewswire/aurora-mobiles-modellix-releases-beta-plugin-for-deepseek-harness-adding-free-llm-models-to-the-fast-growing-open-source-coding-agent/2415019">Manila Times — "Aurora Mobile's Modellix Releases Beta Plugin for DeepSeek Harness"</a></li>
+  <li><span class="src-num">[32]</span><a href="https://www.reuters.com/business/retail-consumer/chinas-moonshot-talks-with-microsoft-amazon-google-over-k3-revenue-sharing-2026-08-26/">Reuters — "China's Moonshot talks with Microsoft, Amazon, Google over K3 revenue sharing"</a></li>
+  <li><span class="src-num">[33]</span><a href="https://simonwillison.net/2026/Aug/1/ten-advances-in-mathematics/">Simon Willison — "Ten advances in mathematics" (Astra math claims)</a></li>
+  <li><span class="src-num">[34]</span><a href="https://tech-insider.org/meta-hatch-ai-agent-watermelon-model-2026">Tech Insider — "Meta Hatch AI Agents, Watermelon Model at $199.99"</a></li>
+</ol></div>
+<div class="footer">AI Engineering Intelligence &nbsp;&middot;&nbsp; 2026-09-03 &nbsp;&middot;&nbsp; Automated daily run &nbsp;&middot;&nbsp; Signal over noise</div>
+</body>
+</html>
