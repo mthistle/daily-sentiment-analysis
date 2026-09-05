@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-09-05",
+    "title": "AI Engineering Intelligence — September 5, 2026",
+    "summary": "OpenAI's GPT-6 Astra launch devolved into an apology-tour as paying users were locked out, while the model's opaque-recurrence reasoning and \"Critical\" cyber tier triggered the sharpest CoT-monitorability debate yet; meanwhile the engineering-discussion center of gravity moved to loop engineering, software factories, and spec-driven development as the real units of agentic work.",
+    "url": "briefings/briefing-2026-09-05.html"
+  },
+  {
     "date": "2026-09-04",
     "title": "AI Engineering Intelligence — September 4, 2026",
     "summary": "OpenAI launched GPT-6 Astra — its first \"Critical\" cyber-risk model — while opaque-reccurrence reasoning quietly erodes chain-of-thought monitorability, Nvidia bought Hugging Face for $12.9B, and four labs simultaneously pivoted to cost-per-task economics.",
