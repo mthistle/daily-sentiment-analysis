@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-09-06",
+    "title": "AI Engineering Intelligence — September 6, 2026",
+    "summary": "Meta's Muse Spark 1.3 reaches frontier-tier coding at a fraction of frontier price (tying GPT-5.6 Sol while cutting tool calls ~20%/tokens ~25%), and Databricks' Big Book of AgentOps codifies the governed production-agent discipline — with Claude Fable 5.1 and MBZUAI's fully-open K2 Horizon rounding out a week where cost-efficiency and agent governance displaced raw capability as the engineering signal.",
+    "url": "briefings/briefing-2026-09-06.html"
+  },
+  {
     "date": "2026-09-05",
     "title": "AI Engineering Intelligence — September 5, 2026",
     "summary": "GPT-6 Astra launched with saturating benchmark scores and a recurrent-depth reasoning technique that raises real chain-of-thought monitorability concerns, while Qwen3.8-Max-0902 matched Claude Fable 5 at a fraction of the price and MCP traffic exploded into a governance crisis.",
