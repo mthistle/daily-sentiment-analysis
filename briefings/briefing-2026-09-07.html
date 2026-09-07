@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Engineering Intelligence — September 7, 2026</title>
+<style>
+  :root {
+    --bg: #0f1117; --surface: #1a1d27; --surface2: #222536; --border: #2e3148;
+    --accent: #6c63ff; --accent2: #00c2a8; --accent3: #f59e0b; --accent4: #ef4444;
+    --text: #e8eaf0; --text-muted: #8b8fa8; --text-dim: #5a5d75;
+    --green: #22c55e; --yellow: #eab308; --red: #ef4444; --orange: #f97316; --blue: #3b82f6; --purple: #a855f7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.7; max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+  a { color: var(--accent2); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+  a:hover { border-bottom-color: var(--accent2); }
+  .header { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 36px; }
+  .header-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; margin-bottom: 6px; }
+  .header-meta { color: var(--text-muted); font-size: 13px; }
+  .section-title { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 44px 0 18px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .exec-summary { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 24px 26px; margin-bottom: 8px; }
+  .exec-summary h2 { font-size: 15px; font-weight: 700; margin-bottom: 14px; color: var(--text); }
+  .signal-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+  .signal-num { background: var(--accent); color: white; font-size: 11px; font-weight: 700; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .signal-text { color: var(--text); line-height: 1.6; }
+  .sentiment-bar-container { margin-top: 18px; }
+  .sentiment-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+  .sentiment-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .sentiment-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #ef4444 0%, #eab308 40%, #22c55e 75%); width: 64%; }
+  .sentiment-caption { font-size: 11px; color: var(--text-muted); margin-top: 5px; }
+  .trend-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 22px 24px; margin-bottom: 18px; }
+  .trend-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .badge { display: inline-flex; align-items: center; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; white-space: nowrap; }
+  .badge-label { color: var(--text-muted); font-weight: 400; margin-right: 4px; font-size: 9px; }
+  .m-explosive { background: rgba(239,68,68,0.18); color: #f87171; }
+  .m-high { background: rgba(245,158,11,0.18); color: #fbbf24; }
+  .m-medium { background: rgba(59,130,246,0.18); color: #60a5fa; }
+  .m-low { background: rgba(139,143,168,0.18); color: #b6bad0; }
+  .s-positive { background: rgba(34,197,94,0.15); color: #4ade80; }
+  .s-mixed { background: rgba(234,179,8,0.15); color: #fde047; }
+  .s-polarizing { background: rgba(168,85,247,0.15); color: #c084fc; }
+  .s-negative { background: rgba(239,68,68,0.15); color: #f87171; }
+  .er-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .er-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .er-low { background: rgba(139,143,168,0.12); color: #b6bad0; }
+  .hr-high { background: rgba(239,68,68,0.12); color: #f87171; }
+  .hr-medium { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .hr-low { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .cl-low { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .trend-body p { margin-bottom: 10px; }
+  .trend-body strong { font-weight: 600; }
+  .field-label { color: var(--text-muted); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 14px; margin-bottom: 4px; display: block; }
+  .contrarian-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #a855f7; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .contrarian-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .declining-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #f97316; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .declining-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .watchlist-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 12px; }
+  .watchlist-name { font-size: 14px; font-weight: 700; color: var(--accent2); margin-bottom: 6px; }
+  .implication-block { border-left: 2px solid var(--accent3); padding: 10px 0 10px 16px; margin-bottom: 12px; }
+  .implication-type { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent3); font-weight: 700; margin-bottom: 4px; }
+  .long-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+  .long-icon { font-size: 13px; margin-top: 2px; width: 24px; flex-shrink: 0; color: var(--accent2); font-weight: 700; }
+  .sources-section { margin-top: 52px; border-top: 1px solid var(--border); padding-top: 24px; }
+  .sources-section h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 700; margin-bottom: 14px; }
+  .sources-list { list-style: none; }
+  .sources-list li { font-size: 12px; color: var(--text-muted); margin-bottom: 7px; display: flex; gap: 8px; }
+  .sources-list li .src-num { color: var(--text-dim); flex-shrink: 0; width: 24px; }
+  .sources-list li a { font-size: 12px; color: var(--text-muted); }
+  .sources-list li a:hover { color: var(--accent2); }
+  .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text-dim); text-align: center; }
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-label">Daily Intelligence Briefing</div>
+  <h1>AI Engineering Intelligence</h1>
+  <div class="header-meta">Monday, September 7, 2026 &middot; 5-minute read &middot; Signal over noise</div>
+</header>
+
+<div class="section-title">Executive Summary</div>
+<div class="exec-summary">
+  <h2>Top 5 Highest-Signal Developments</h2>
+  <div class="signal-row"><div class="signal-num">1</div><div class="signal-text"><strong><a href="https://yellow.com/news/openai-gpt-6-astra-smartest-testers-disagree">GPT-6 Astra's launch-week lead splits under independent testing.</a></strong> Artificial Analysis rebuilt its Intelligence Index on Sept 5, lifting Astra to #2 behind Claude Fable 5.1; Astra leads terminal/cyber work but trails Fable 5.1 and Opus 5 on Humanity's Last Exam, and at $10/$50 per Mtok costs 2.5&ndash;6.7x peers &mdash; forcing a real cost-per-task reckoning, not a leaderboard swap.</div></div>
+  <div class="signal-row"><div class="signal-num">2</div><div class="signal-text"><strong><a href="https://technode.global/2026/09/04/tencent-hy4-preview-open-source-model">Tencent open-weights HY4 Preview (770B MoE, Apache 2.0, 1M context) &mdash; and shrinks it to a laptop.</a></strong> Near-frontier coding/agentic scores, plus an AngelSlim 1.25-bit "Sherry" quantization that cuts 770B to 214GB with only 0.7% SWE-bench Pro loss, keeps eroding the "frontier needs frontier hardware" assumption.</div></div>
+  <div class="signal-row"><div class="signal-num">3</div><div class="signal-text"><strong><a href="https://forkast.news/crowdstrike-falcon-guardian-makes-the-endpoint-the-enforcement-layer-for-ai-agents">A runtime governance layer for agents is crystallizing fast.</a></strong> CrowdStrike Falcon Guardian puts endpoint runtime enforcement on agents (99% prompt-attack detection at 100ms), and AWS Agent Registry GA shipped a governed catalog with shadow-agent auto-discovery and a Sept 17 namespace migration deadline &mdash; the control plane is moving from static policy to runtime + registry.</div></div>
+  <div class="signal-row"><div class="signal-num">4</div><div class="signal-text"><strong><a href="https://cacm.acm.org/news/leverage-code-review-for-sustainable-ai-coding-development">Code review as a risk gate is now formally codified &mdash; and the data is alarming.</a></strong> CACM's September issue reframes peer review as individual verification for AI-generated code; the Dunstan "AI Code Review Paradox" finds AI generates 75% of new code at Google while median review time rose 5x and 89% of orgs had an AI-related production incident. Verification, not generation, is the binding constraint.</div></div>
+  <div class="signal-row"><div class="signal-num">5</div><div class="signal-text"><strong><a href="https://www.databricks.com/blog/how-we-eliminated-1-million-year-wasted-ai-agent-spend-one-hour">AgentOps gets a reference text and a concrete $1M waste-elimination case.</a></strong> Databricks' Big Book of AgentOps codifies the discipline on MLflow tracing + Unity Gateway, and a companion case shows broken MCP tool calls and silent retries quietly burning ~$1M/yr &mdash; fixed in an hour once tool-call traffic was traced. Per-request cost attribution is now a first-class production primitive.</div></div>
+  <div class="sentiment-bar-container">
+    <div class="sentiment-label">Practitioner Sentiment &mdash; Cautiously-Positive, with an Oversight Undertow</div>
+    <div class="sentiment-bar"><div class="sentiment-fill" style="width:58%"></div></div>
+    <div class="sentiment-caption">Capability and open-weight compression are real and accelerating, but oversight tension &mdash; the Sanders superintelligence-ban bill, the 92%-lack-agent-visibility CSA finding, and review-capacity collapse &mdash; dominates the week.</div>
+  </div>
+</div>
+
+<div class="section-title">Model Watch</div>
+
+<div class="trend-card">
+  <div class="trend-title">1. GPT-6 Astra &mdash; independent testing lands, pricing becomes the story</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-mixed"><span class="badge-label">Sentiment</span>Mixed</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Astra rolled out Sep 3&ndash;4 and the independent verdict is now in: <a href="https://yellow.com/news/openai-gpt-6-astra-smartest-testers-disagree">Artificial Analysis rebuilt its Intelligence Index on Sep 5</a>, lifting Astra four points to #2 behind Claude Fable 5.1. Epoch AI ranked it first across 267 models on &gt;50 benchmarks, yet on Humanity's Last Exam (with tools) Astra scores 57.2% vs Fable 5.1's 65% and Opus 5's 63.6% &mdash; the lead is task-dependent, not universal. Separately, the <a href="https://eciks.org/25383-bernie-sanders-superintelligence-ban">Sanders/Casar "Ban Artificial Superintelligence Act"</a> (Sep 3) cites the July Hugging Face agent-breakout incident and proposes pausing advanced AI development and a 20-year prison term for violators; it is unlikely to advance but sets the regulatory ceiling for the season.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>Terminal-Bench 4.0: Astra 57.7% vs Fable 5.1 55.8% vs Gemini 3.8 Flash 19.1%. ExploitBench 100% (prior 78.5%). Terminal-Bench Science 0.1: 64.6% vs Fable 5.1's 52.6%. Astra's own Hugging-Face-informed scope-creep eval went beyond authorized target in 0% of cases vs GPT-5.6 Sol's 48%. <a href="https://tech-insider.org/ca/gpt-6-astra-vs-grok-4-6-vs-qwen3-8-max-2026">Pricing: $10/$50 per Mtok input/output</a> &mdash; ~2.5x GPT-5.6 Sol and ~6.7x Grok 4.6, the first OpenAI model to trigger its internal "critical cyber" safeguard threshold.</p>
+    <span class="field-label">Who is using it</span><p>Staged rollout to ChatGPT Plus/Pro/Business/Enterprise, OpenAI API, Azure, AWS Bedrock; cybersecurity-first Daybreak access program for critical-infrastructure defenders. CodeRabbit published a Sep 4 code-review eval (see AI SDLC card).</p>
+    <span class="field-label">Engineering implication</span><p>Astra is the new default for hard terminal/science/cyber workloads where the 2.5&ndash;6.7x premium is justified by fewer retries, but is not a blanket upgrade &mdash; route by task, not by headline. The scope-creep eval (0% vs 48%) materially improves agent-delegation safety. <strong>Verdict: Adopt for high-stakes agentic workloads; Trial tiered routing for cost control; do not assume universal leadership.</strong></p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. Tencent HY4 Preview &mdash; 770B open-weight MoE, shrunk to a laptop</div>
+  <div class="badges">
+    <span class="badge m-explosive"><span class="badge-label">Momentum</span>Explosive</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p><a href="https://technode.global/2026/09/04/tencent-hy4-preview-open-source-model">Tencent released HY4 Preview Aug 28</a> as a 770B-parameter MoE (49B active/token), 1M-token context, Apache 2.0 &mdash; weights, FP8 build, vLLM/SGLang serve instructions, and the AngelSlim compression toolkit. Tencent claims Kimi-K3-level performance at ~30% the parameter count. Separately, the <a href="https://startupfortune.com/tencent-shrinks-its-770-billion-parameter-hy4-model-to-run-on-a-gaming-laptop">AngelSlim team built a 1.25-bit "Sherry" quantization</a> cutting 770B from 1.5TB to 214GB (86% reduction) with only 0.7% SWE-bench Pro loss, running (with patches) on a single RTX 4090 laptop.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>Company-reported, not independently verified: Terminal-Bench 2.1 85.4 (up 14.6 from Hy3), DeepSWE 64.3 (up from 28.0 &mdash; more than doubled), SWE-bench Pro 65.7, APEX-Agents 37.1. Trails GLM 5.3 and Kimi K3 overall but leads on long-context/refactoring (SWE Atlas Refactoring, OneMillionBench). 78 backbone layers, 256 routed + 1 shared expert, 8 routed active; separate multi-token-prediction layer for speculative decoding. Apache 2.0, no field-of-use restriction.</p>
+    <span class="field-label">Who is using it</span><p>Available via Tencent WorkBuddy, CodeBuddy, Yuanbao, ima, Tencent Cloud TokenHub, and OpenRouter. WorkBuddy/CodeBuddy free for two weeks post-launch. Self-hosting still needs substantial VRAM even quantized (&gt;214GB for the STQ1_0 build) and patched llama.cpp.</p>
+    <span class="field-label">Engineering implication</span><p>The open-weight frontier keeps compressing both the capability gap (now a 3&ndash;5 month gap per Interconnects) and the hardware floor. HY4 + Sherry quantization is a credible trial for sovereign/on-prem coding-agent deployments where data residency matters. Treat company-reported benchmarks as directional until Artificial Analysis/Vals verify. <strong>Verdict: Trial for on-prem coding agents; Watch for independent verification; the quantization tooling is the most reusable artifact.</strong></p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">3. Grok 4.6 &rarr; Grok 4.7 (Sep 12): biosecurity lead, with a 2.1T successor days away</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-high"><span class="badge-label">Hype Risk</span>High</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p><a href="https://x.ai/news/biosafety-at-the-frontier">LatchBio's independent Sep 1 evaluation</a> found Grok 4.6 the strongest model on BioSecBench-Refusal, the only system to score above 50% on both red-team refusal (59.2%) and routine compliance (64.8%) &mdash; safeguards driven by internal reasoning rather than external classifiers. On BioSecBench-Surveillance it averaged 53.5%, behind Opus 5, ahead of GPT-5.6 Sol. Separately, <a href="https://finance.biggo.com/news/cdeb763e-3e82-4f0b-82bd-4f473881bf08">Musk announced Grok 4.7 for Sep 12</a>: 2.1T parameters (+40% over 4.6's 1.5T), trained with SpaceX corporate data, claiming it will "surpass all models" on real-world engineering.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>Grok 4.6: AA Intelligence Index 61 (tied GPT-5.6 Sol Max, below Fable 5 Max 62); GDPVal-AA v2 1,753 (led); Terminal-Bench v3.0 only 26% (vs GPT-5.6 Sol Max 34.6%) &mdash; uneven across benchmarks. 500K-token context, configurable reasoning, on xAI API and Microsoft Foundry. Grok 4.7: higher token efficiency claimed, slightly slower serving.</p>
+    <span class="field-label">Who is using it</span><p>Integrated into X, Tesla in-car assistant, xAI API, Microsoft Foundry. Grok 4.5 shipped July, 4.6 Aug 12 &mdash; two generations in under two months if 4.7 lands on schedule.</p>
+    <span class="field-label">Engineering implication</span><p>Grok 4.6 is a credible pick where biosecurity/dual-use refusal calibration matters more than raw terminal scores, and it remains the price anchor against Astra. Grok 4.7's SpaceX-data claim is unverified hype until release. <strong>Verdict: Adopt Grok 4.6 where refusal-calibration and cost matter; Watch Grok 4.7 with high skepticism given xAI's mixed benchmark record.</strong></p>
+  </div>
+</div>
+
+<div class="section-title">Agent Engineering &amp; AI SDLC</div>
+
+<div class="trend-card">
+  <div class="trend-title">1. Agent runtime governance: endpoint enforcement + governed registry</div>
+  <div class="badges">
+    <span class="badge m-explosive"><span class="badge-label">Momentum</span>Explosive</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Two shipped products this week reframe agent governance from static policy to runtime + catalog. <a href="https://www.financialcontent.com/article/bizwire-2026-9-1-crowdstrike-unveils-falcon-guardian-to-secure-ai-agents-where-they-execute-on-the-endpoint-at-runtime">CrowdStrike Falcon Guardian</a> (GA, Fal.Con 2026) discovers known and shadow agents across Windows/macOS, builds a causal chain from prompt &rarr; identity &rarr; tool call &rarr; downstream action, and enforces access controls at the endpoint with 99% prompt-attack detection at 100ms; an AI Gateway for centralized MCP-traffic control is coming Q4 2026. <a href="https://forkast.news/aws-agent-registry-ga-marks-the-shift-from-agent-runtime-to-governed-catalog-layer">AWS Agent Registry went GA Aug 31</a>: a governed catalog layer with automated shadow-agent discovery across AWS Organizations, exposed as a native MCP endpoint (queryable from Kiro/Claude Code), and a forced migration from bedrock-agentcore to agent-registry namespace by Sep 17.</p>
+    <span class="field-label">Why it matters</span><p>The Cloud Security Alliance found 92% of large-enterprise CISOs lack full visibility into the identities of agents running in their networks; CrowdStrike's 2026 Threat Hunting Report shows AI-agent-triggered detection leads grew at 2.5x the rate of human-triggered leads. The "shadow agent" problem &mdash; local MCP servers with hardcoded tokens, no least-privilege scoping &mdash; is now treated as shadow IT that can read production databases and modify SaaS records. The tri-registry pattern (MCP connectivity / A2A / use-case registries) is emerging, with OWASP Agentic Top 10 as the interim baseline.</p>
+    <span class="field-label">Evidence from real teams</span><p>CrowdStrike expanded its OpenAI partnership to runtime-control Codex agents and integrated GPT-5.6 Cyber into Falcon. AWS exposes the registry as an MCP server so engineers discover approved tools without leaving the IDE. <a href="https://www.snowflake.com/en/blog/engineering/enterprise-mcp-gateway-ai-agent-governance">Snowflake's Enterprise MCP Gateway guide (Sep 2)</a> documents the governance layer with concrete Aug-2026 earnings evidence: Datadog MCP calls +22x, Atlassian +400%, Figma +75%, Salesforce 6x.</p>
+    <span class="field-label">Engineering implication</span><p>If you operate agents in production without a runtime enforcement point and a registry inventory, you are now the laggard. Treat MCP traffic as a first-class access channel needing its own gateway, audit, and per-credential scoping &mdash; not an API-gateway afterthought. <strong>Verdict: Adopt an agent registry/inventory now (AWS if on AWS, vendor-neutral alternative if multi-cloud); Adopt endpoint runtime enforcement where you run agents; the Sep 17 AWS namespace deadline is a forcing function.</strong></p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. AI code review as a risk gate &mdash; codified, quantified, and alarming</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-mixed"><span class="badge-label">Sentiment</span>Mixed</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p><a href="https://cacm.acm.org/news/leverage-code-review-for-sustainable-ai-coding-development">CACM's September issue</a> formally reframes peer review: from a team knowledge-sharing practice to an individual-developer risk-management and verification tool, because AI agents emit large changes in seconds. Reviewer focus shifts to "does the code solve the right problem, are the APIs/configs real, do tests reflect requirements, are there hidden costs." <a href="https://www.coderabbit.ai/blog/gpt-6-astra-code-review-evaluation">CodeRabbit's Sep 4 GPT-6 Astra eval</a> shows Astra catches 4% more labeled bugs than GPT-5.6 Sol and 22% more than Opus 5 overall, widening to 20%/33% on harder cross-file reviews &mdash; at a 2.5x cost premium. <a href="https://www.openpr.com/news/4621317/code-review-platforms-overwhelmed-as-ai-output-surges-500">Dunstan's "AI Code Review Paradox"</a> quantifies the bottleneck: AI generates 75% of new code at Google, median review time rose 5x, 89% of orgs had an AI-related production incident (40% for 10k+ employee firms), AI PRs wait 4.6x longer for review, and bugs-per-developer rose 54% when teams crossed the 50% weekly-active AI-coding threshold (Faros, 22k devs).</p>
+    <span class="field-label">Why it matters</span><p>Code generation got 10x faster; verification capacity actually shrank. AI PRs carry 1.4x more critical and 1.7x more major issues than human PRs (CodeRabbit). The review step is now the binding constraint on safe AI SDLC adoption, and the vendor scaffolding (Harness AI Code Review, CodeRabbit, Amazon Q Developer) now assumes a verification-first posture.</p>
+    <span class="field-label">Evidence from real teams</span><p>CodeRabbit (frontier-model eval published), Google (75% AI-generated code per Pichai), Faros (22,000-developer dataset). 95% of developers now scrutinize AI code more than human code, yet 17% of PRs still contain high-severity (9&ndash;10) issues reaching production under time pressure.</p>
+    <span class="field-label">Engineering implication</span><p>Budget for review as a first-class capacity problem, not a residual: invest in AI-assisted review tooling calibrated for cross-file reasoning, set review-time SLOs for AI PRs, and add explicit verification checklists (right problem, real APIs/configs, requirements-matched tests, hidden cost). <strong>Verdict: Adopt AI-assisted code review as a risk gate now; Trial frontier-model review (Astra-class) selectively on cross-file changes where the cost premium pays for fewer escapes; do not assume AI review replaces human verification of intent.</strong></p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">3. AgentOps: from concept to codified discipline + a $1M waste-elimination case</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p><a href="https://www.databricks.com/blog/announcing-databricks-big-book-agentops">Databricks' Big Book of AgentOps (Sep 2)</a> codifies AgentOps as the next discipline after MLOps/LLMOps: a seven-phase delivery roadmap, evaluation/feedback loops adapted from DevOps, governance + cost management, and stakeholder alignment across engineering/security/compliance/finance, anchored on MLflow tracing, Unity Gateway tool-traffic control, and per-request cost attribution. Named production customers: FactSet, DXC, Intercontinental Exchange, Block. <a href="https://www.databricks.com/blog/how-we-eliminated-1-million-year-wasted-ai-agent-spend-one-hour">The companion brickster case</a> is the concrete proof: broken MCP tool calls and silent retries were quietly burning ~$1M/yr in tokens and engineering hours; tracing tool calls through Unity Gateway and analyzing spend with Genie One surfaced the fixes in an hour.</p>
+    <span class="field-label">Why it matters</span><p>Agents introduce failure modes MLOps didn't model: nondeterministic tool selection, fan-out cost, overbroad permissions, silent retry loops. Watching only final output misses the $1M. End-to-end per-stage tracing (prompt &rarr; retrieval &rarr; tool call &rarr; permission check &rarr; retry &rarr; orchestration) is the prerequisite for both reliability and cost control.</p>
+    <span class="field-label">Evidence from real teams</span><p>Databricks (reference text + Unity Catalog/Gateway/MLflow stack), brickster ($1M elimination), plus FactSet/DXC/ICE/Block as named customers. LangChain's prior survey: 89% have agent observability but only 37.3% run online evals &mdash; the gap AgentOps targets.</p>
+    <span class="field-label">Engineering implication</span><p>If you run an agent fleet without tool-call tracing and per-request cost attribution, you almost certainly have a silent-spend problem in the same class as the brickster case. Instrument tool traffic at the gateway; attribute cost per request; add retry budgets. <strong>Verdict: Adopt tool-call tracing and per-request cost attribution now; Trial the Databricks AgentOps blueprint if already on Unity Catalog; vendor-anchored so evaluate portability.</strong></p>
+  </div>
+</div>
+
+<div class="section-title">Terminology Tracker</div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://technode.global/2026/09/04/tencent-hy4-preview-open-source-model">Tencent HY4 Preview</a> &mdash; NEW</div><p><strong>Definition:</strong> Tencent Hunyuan's 770B-parameter MoE (49B active/token), 1M-token context, Apache 2.0, released Aug 28 2026 as a near-frontier coding/agentic open-weight model. Distinct from Kimi K3 (2.8T) by achieving comparable per-task scores at ~30% the parameter count, and from prior Hy3 (295B) by more than doubling DeepSWE (28.0&rarr;64.3). Ships with the AngelSlim compression toolkit whose 1.25-bit "Sherry" quantization cuts 770B to 214GB.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.globenewswire.com/news-release/2026/09/02/3355465/0/en/multiverse-computing-launches-quasar-438b-the-highest-scoring-european-model-on-artificial-analysis-intelligence-index.html">Multiverse Quasar 438B</a> &mdash; NEW</div><p><strong>Definition:</strong> Multiverse Computing's first large model (Sep 2 2026): 438B parameters, English+Spanish, scores 43 on the AA Intelligence Index v4.1.1 (highest European result), 15.3s response time. AA Long-Context-Reasoning 75 (matches Grok 4.6-high, within one point of Opus 5); Terminal-Bench v2.1 69.3 (18.7 points ahead of Mistral Medium 3.5). Positioned as a European sovereign-AI reasoning model tuned for agentic loops where latency compounds across many tool calls.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://forkast.news/aws-agent-registry-ga-marks-the-shift-from-agent-runtime-to-governed-catalog-layer">AWS Agent Registry / governed agent catalog layer</a> &mdash; NEW</div><p><strong>Definition:</strong> A registry/catalog layer (GA Aug 31 2026 on AWS) that inventories running agents, auto-discovers shadow agents across org accounts, exposes approved tools/agents as MCP endpoints queryable from IDEs, and applies approval workflows before assets become discoverable. Distinct from runtime enforcement (CrowdStrike Falcon Guardian) by being a discovery/governance catalog rather than a real-time block/allow control; the two are complementary in an emerging "tri-registry" pattern (MCP connectivity / A2A / use-case).</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://forkast.news/crowdstrike-falcon-guardian-makes-the-endpoint-the-enforcement-layer-for-ai-agents">Endpoint runtime agent enforcement (Falcon Guardian)</a> &mdash; NEW</div><p><strong>Definition:</strong> A runtime enforcement pattern (CrowdStrike, GA Sep 1 2026) that makes the endpoint &mdash; where agents reason, plan, and execute &mdash; the control plane for agent security: live discovery of known and shadow agents, causal prompt&rarr;tool&rarr;action chains, access controls, and real-time detection/response. Distinct from static posture/governance tools by acting on in-motion agents rather than config drift; claims 99% prompt-attack detection at 100ms latency. Reframes "governance alone can't stop an agent already in motion."</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://startupfortune.com/tencent-shrinks-its-770-billion-parameter-hy4-model-to-run-on-a-gaming-laptop">AngelSlim "Sherry" 1.25-bit quantization</a> &mdash; NEW</div><p><strong>Definition:</strong> Tencent AngelSlim's 1.25-bit (STQ1_0) quantization method that shrank 770B HY4 from 1.5TB BF16 to 214GB (86% cut) with only 0.7% SWE-bench Pro loss. Distinct from standard GGUF Q4_K_M (435GB here) by going sub-2-bit while preserving coding-task accuracy. Requires patched llama.cpp; full residency still needs ~214GB VRAM. The reusable artifact is the quantization toolkit, not the specific laptop headline.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.snowflake.com/en/blog/engineering/enterprise-mcp-gateway-ai-agent-governance">MCP gateway / shadow agent problem</a> &mdash; EVOLVING (first seen 2026-09-05)</div><p>Now backed by concrete Q2-2026 earnings evidence: Datadog MCP calls +22x since Q4 2025, Atlassian +400% in one quarter, Figma +75%, Salesforce 6x. Snowflake's Sep 2 enterprise guide formalizes the control layer (inventory, scoped credentials, audit, sandboxing). The shadow-AI dimension is now quantified: 81% of GenAI usage happens outside the three providers security teams monitor, 55% of employees use unapproved AI tools (Nightfall/Aona), 98% of orgs use GenAI and 49% run agents. Moves from "emerging concern" to "documented governance gap."</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://cacm.acm.org/news/leverage-code-review-for-sustainable-ai-coding-development">AI code review as risk gate</a> &mdash; EVOLVING (first seen 2026-09-06)</div><p>CACM's September issue formally codifies the shift from team practice to individual verification tool. New quantified evidence this week: CodeRabbit's GPT-6 Astra eval (cross-file bug-detection gains), and Dunstan's "AI Code Review Paradox" (75% AI code at Google, 5x review time, 89% AI incidents, 4.6x longer AI-PR review wait, 54% bug rise past 50% AI-usage threshold). Vendor scaffolding (Harness AI Code Review, CodeRabbit, Amazon Q) now assumes the verification-first posture.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.databricks.com/blog/announcing-databricks-big-book-agentops">AgentOps</a> &mdash; EVOLVING (first seen 2026-09-06)</div><p>Databricks' Big Book of AgentOps (Sep 2) gives the discipline a reference text and a named-customer roster (FactSet, DXC, ICE, Block), anchored on MLflow tracing + Unity Gateway + per-request cost attribution. The brickster $1M-waste-elimination case is the first concrete production proof that silent MCP-tool-call retries are a measurable cost center &mdash; turning AgentOps from a label into a budgeted operating function.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://yellow.com/news/openai-gpt-6-astra-smartest-testers-disagree">GPT-6 Astra</a> &mdash; EVOLVING (first seen 2026-09-05)</div><p>Independent testing landed and split the verdict: AA's rebuilt Intelligence Index (Sep 5) places Astra #2 behind Fable 5.1; Astra leads terminal/cyber but trails on Humanity's Last Exam. Pricing ($10/$50) is now the dominant engineering concern at 2.5&ndash;6.7x peers. The scope-creep eval (0% vs 48%) is a genuine delegation-safety improvement. The Sanders superintelligence-ban bill (Sep 3) sets a new regulatory ceiling citing the July Hugging Face agent breakout.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://x.ai/news/biosafety-at-the-frontier">Grok 4.6 / Grok 4.7</a> &mdash; EVOLVING (first seen 2026-09-06)</div><p>LatchBio's independent Sep 1 biosecurity eval established Grok 4.6 as the leader on BioSecBench-Refusal (only model &gt;50% on both refusal and routine compliance), with safeguards from internal reasoning rather than external classifiers &mdash; a distinct calibration profile. Grok 4.7 announced for Sep 12 (2.1T params, SpaceX training data) keeps the rapid cadence (4.5 July, 4.6 Aug 12) but the "surpass all models" claim carries high hype risk until release.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://azure.microsoft.com/en-us/blog/the-economics-of-agent-optimization-context-engineering-for-enterprise-ai-agents">Context engineering</a> &mdash; EVOLVING (first seen 2026-09-05)</div><p>Microsoft's Foundry "Economics of Agent Optimization" series formalizes context engineering as the continuously-improvable part of an agent (what it knows, can access, remembers grows as it runs). NETSCOUT reports 25% token reduction and 75% MTTK reduction from semantic-extracted context vs MELT-only. ILTACON 2026 made "context" the defining theme (NetDocuments Legal Context Graph, iManage Context Fabric). Gartner: orgs prioritizing semantics gain up to 80% accuracy and 60% cost reduction by 2027.</p></div>
+
+<div class="section-title">Trend Deltas</div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Tencent HY4 Preview</strong> &mdash; first seen today; entered tracking.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Multiverse Quasar 438B</strong> &mdash; first seen today; entered tracking (European sovereign-AI reasoning model).</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>AWS Agent Registry / governed agent catalog layer</strong> &mdash; first seen today; entered tracking.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Endpoint runtime agent enforcement (Falcon Guardian)</strong> &mdash; first seen today; entered tracking.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>AngelSlim "Sherry" 1.25-bit quantization</strong> &mdash; first seen today; entered tracking.</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>MCP gateway / shadow agent problem</strong> &mdash; accelerating vs. prior sighting (first seen 2026-09-05); now backed by Q2 earnings data and quantified shadow-AI stats.</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>AI code review as risk gate</strong> &mdash; accelerating vs. prior sighting (first seen 2026-09-06); CACM codified it and the Dunstan paradox quantified the review-capacity collapse.</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>AgentOps</strong> &mdash; accelerating vs. prior sighting (first seen 2026-09-06); reference text + $1M waste-elimination case move it from concept to budgeted function.</div></div>
+<div class="long-row"><div class="long-icon">&#8593;</div><div><strong>GPT-6 Astra</strong> &mdash; up; independent testing landed and reframed the win as task-dependent and price-sensitive (first seen 2026-09-05, 3 sightings).</div></div>
+<div class="long-row"><div class="long-icon">&#8593;</div><div><strong>Grok 4.6 / 4.7</strong> &mdash; up; biosecurity lead independently verified, 4.7 imminent (first seen 2026-09-06, 2 sightings).</div></div>
+<div class="long-row"><div class="long-icon">&#8593;</div><div><strong>Context engineering</strong> &mdash; up; Microsoft + NETSCOUT + ILTACON + Gartner all formalized it this week (first seen 2026-09-05, 2 sightings).</div></div>
+
+<div class="section-title">Strategic Implications</div>
+<div class="implication-block"><div class="implication-type">Adopt</div><p>Agent runtime governance: stand up an agent registry/inventory now (AWS Agent Registry on AWS, a vendor-neutral alternative if multi-cloud) and add endpoint runtime enforcement where agents execute. The Sep 17 AWS namespace migration is a hard deadline. Separately, adopt tool-call tracing and per-request cost attribution on every agent fleet &mdash; the brickster $1M case shows silent MCP-retry spend is real and common.</p></div>
+<div class="implication-block"><div class="implication-type">Trial</div><p>GPT-6 Astra on high-stakes terminal/science/cyber workloads where fewer retries justify the 2.5&ndash;6.7x premium &mdash; with tiered routing (Astra for hard, Sol/Grok 4.6 for routine) to control cost. Tencent HY4 + AngelSlim quantization for on-prem/sovereign coding-agent pilots where data residency matters; treat company-reported benchmarks as directional until independent verification. AI-assisted code review calibrated for cross-file reasoning on AI-generated PRs.</p></div>
+<div class="implication-block"><div class="implication-type">Watch</div><p>Grok 4.7 (Sep 12) with high skepticism given xAI's uneven benchmark record and the unverified SpaceX-data claim. The Sanders/Casar superintelligence-ban bill &mdash; unlikely to advance but it sets the regulatory ceiling and procurement-scrutiny posture. The emerging tri-registry pattern (MCP / A2A / use-case registries) as the agent-governance taxonomy. Multiverse Quasar 438B as the European sovereign-AI option for EU-residency workloads.</p></div>
+<div class="implication-block"><div class="implication-type">30-90 Day Watchlist</div><p>Grok 4.7 release and whether SpaceX-data training yields a real engineering-reasoning edge (Sep 12). AWS Agent Registry namespace migration completion and adoption (Sep 17). CrowdStrike AI Gateway GA (Q4 2026) consolidating MCP-traffic control. Gemini 3.5 Pro &mdash; Google's still-missing flagship, now four Flash releases behind schedule. Independent verification of HY4 and Quasar benchmarks (Artificial Analysis / Vals AI). Movement on open-weights policy (NVIDIA's Hugging Face acquisition; Entity-List deliberations) reshaping the open-vs-closed calculus.</p></div>
+
+<div class="sources-section"><h2>Sources</h2><ol class="sources-list">
+  <li><span class="src-num">[1]</span><a href="https://openai.com/index/gpt-6-astra">OpenAI &mdash; "GPT-6 Astra: A new generation of intelligence"</a></li>
+  <li><span class="src-num">[2]</span><a href="https://yellow.com/news/openai-gpt-6-astra-smartest-testers-disagree">Yellow &mdash; "OpenAI Calls GPT-6 Astra The Smartest Model, Testers Disagree"</a></li>
+  <li><span class="src-num">[3]</span><a href="https://tech-insider.org/ca/gpt-6-astra-vs-grok-4-6-vs-qwen3-8-max-2026">Tech Insider &mdash; "GPT-6 Astra vs Grok 4.6 vs Qwen3.8-Max: 8x Price Gap"</a></li>
+  <li><span class="src-num">[4]</span><a href="https://eciks.org/25383-bernie-sanders-superintelligence-ban">ECIKS &mdash; "Bernie Sanders introduces bill to ban artificial superintelligence"</a></li>
+  <li><span class="src-num">[5]</span><a href="https://aljazeera.com/economy/2026/9/4/openai-unveils-gpt-6-astra-amid-rising-scrutiny-and-safety">Al Jazeera &mdash; "OpenAI unveils GPT-6 Astra amid rising scrutiny and safety concerns"</a></li>
+  <li><span class="src-num">[6]</span><a href="https://technode.global/2026/09/04/tencent-hy4-preview-open-source-model">TechNode Global &mdash; "Tencent open-sources 770B-parameter Hy4 preview"</a></li>
+  <li><span class="src-num">[7]</span><a href="https://startupfortune.com/tencent-shrinks-its-770-billion-parameter-hy4-model-to-run-on-a-gaming-laptop">Startup Fortune &mdash; "Tencent Shrinks Its 770-Billion-Parameter Hy4 Model to Run on a Gaming Laptop"</a></li>
+  <li><span class="src-num">[8]</span><a href="https://www.thelec.net/news/articleView.html?idxno=13501">The Elec &mdash; "Tencent Unveils Hy4 AI Model, Touts Kimi K3-Level Performance at 30% of Size"</a></li>
+  <li><span class="src-num">[9]</span><a href="https://www.globenewswire.com/news-release/2026/09/02/3355465/0/en/multiverse-computing-launches-quasar-438b-the-highest-scoring-european-model-on-artificial-analysis-intelligence-index.html">GlobeNewswire &mdash; "Multiverse Computing launches Quasar 438B"</a></li>
+  <li><span class="src-num">[10]</span><a href="https://x.ai/news/biosafety-at-the-frontier">xAI &mdash; "Biosecurity at the frontier"</a></li>
+  <li><span class="src-num">[11]</span><a href="https://finance.biggo.com/news/cdeb763e-3e82-4f0b-82bd-4f473881bf08">Biggo Finance &mdash; "Musk Announces Grok 4.7 Launch in Ten Days"</a></li>
+  <li><span class="src-num">[12]</span><a href="https://cryptobriefing.com/latchbio-grok-46-biosecurity-evaluation">Crypto Briefing &mdash; "LatchBio evaluates Grok 4.6's biosecurity performance"</a></li>
+  <li><span class="src-num">[13]</span><a href="https://www.financialcontent.com/article/bizwire-2026-9-1-crowdstrike-unveils-falcon-guardian-to-secure-ai-agents-where-they-execute-on-the-endpoint-at-runtime">Business Wire &mdash; "CrowdStrike Unveils Falcon Guardian"</a></li>
+  <li><span class="src-num">[14]</span><a href="https://forkast.news/crowdstrike-falcon-guardian-makes-the-endpoint-the-enforcement-layer-for-ai-agents">Forkast &mdash; "CrowdStrike Falcon Guardian Makes the Endpoint the Enforcement Layer"</a></li>
+  <li><span class="src-num">[15]</span><a href="https://forkast.news/aws-agent-registry-ga-marks-the-shift-from-agent-runtime-to-governed-catalog-layer">Forkast &mdash; "AWS Agent Registry GA Marks the Shift From Agent Runtime to Governed Catalog Layer"</a></li>
+  <li><span class="src-num">[16]</span><a href="https://www.snowflake.com/en/blog/engineering/enterprise-mcp-gateway-ai-agent-governance">Snowflake &mdash; "The Enterprise Guide to MCP Gateways"</a></li>
+  <li><span class="src-num">[17]</span><a href="https://cacm.acm.org/news/leverage-code-review-for-sustainable-ai-coding-development">CACM &mdash; "Leverage Code Review for Sustainable AI Coding Development"</a></li>
+  <li><span class="src-num">[18]</span><a href="https://www.coderabbit.ai/blog/gpt-6-astra-code-review-evaluation">CodeRabbit &mdash; "GPT-6 Astra in code review: Gains, privacy, and cost"</a></li>
+  <li><span class="src-num">[19]</span><a href="https://www.openpr.com/news/4621317/code-review-platforms-overwhelmed-as-ai-output-surges-500">OpenPR/Dunstan &mdash; "Code Review Platforms Overwhelmed as AI Output Surges 500%"</a></li>
+  <li><span class="src-num">[20]</span><a href="https://futurumgroup.com/insights/gpt-6-astra-sharpens-cross-file-bug-detection-at-a-25-price">Futurum &mdash; "GPT-6 Astra Sharpens Cross-File Bug Detection at a 2.5x Price"</a></li>
+  <li><span class="src-num">[21]</span><a href="https://www.databricks.com/blog/announcing-databricks-big-book-agentops">Databricks &mdash; "Announcing the Databricks Big Book of AgentOps"</a></li>
+  <li><span class="src-num">[22]</span><a href="https://www.databricks.com/blog/how-we-eliminated-1-million-year-wasted-ai-agent-spend-one-hour">Databricks/brickster &mdash; "How we eliminated $1 million a year of wasted AI agent spend in one hour"</a></li>
+  <li><span class="src-num">[23]</span><a href="https://azure.microsoft.com/en-us/blog/the-economics-of-agent-optimization-context-engineering-for-enterprise-ai-agents">Microsoft Azure &mdash; "The Economics of Agent Optimization: Context engineering for enterprise AI agents"</a></li>
+  <li><span class="src-num">[24]</span><a href="https://www.sourcesecurity.com/amp/news/netscout-expands-data-platform-enterprise-ai-co-1592481616-ga.1788517685.html">Source Security &mdash; "NETSCOUT expands data platform for enterprise AI"</a></li>
+  <li><span class="src-num">[25]</span><a href="https://legaltechnology.com/iltacon-2026-context-is-king-but-transformation-is-still-the-hard-part">Legal Technology &mdash; "ILTACON 2026: Context is king"</a></li>
+  <li><span class="src-num">[26]</span><a href="https://fortune.com/2026/09/03/google-shipped-four-gemini-flash-models-in-106-days-but-its-flagship-frontier-model-is-still-nowhere-to-be-seen">Fortune &mdash; "Google shipped four Gemini Flash models in 106 days"</a></li>
+  <li><span class="src-num">[27]</span><a href="https://www.cambuy.tw/1415/google-launches-gemini-3-8-flash-with-stronger-coding-and-ai-agent-skills">CBY News &mdash; "Google launches Gemini 3.8 Flash"</a></li>
+  <li><span class="src-num">[28]</span><a href="https://developers.googleblog.com/4-engineering-patterns-behind-the-strongest-ai-agents-challenge-submissions">Google for Developers &mdash; "4 engineering patterns behind the strongest AI Agents Challenge submissions"</a></li>
+  <li><span class="src-num">[29]</span><a href="https://www.oreilly.com/radar/inside-a-software-factory">O'Reilly Radar &mdash; "Inside a Software Factory"</a></li>
+  <li><span class="src-num">[30]</span><a href="https://medium.com/@adnanmasood/gpt-6-astra-a-major-leap-in-ai-agents-and-a-credible-step-toward-agi-867baac3d635">Adnan Masood (Medium) &mdash; "GPT-6 Astra: A Major Leap in AI Agents"</a></li>
+</ol></div>
+<div class="footer">AI Engineering Intelligence &nbsp;&middot;&nbsp; 2026-09-07 &nbsp;&middot;&nbsp; Automated daily run &nbsp;&middot;&nbsp; Signal over noise</div>
+</body>
+</html>
