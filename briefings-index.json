@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-09-07",
+    "title": "AI Engineering Intelligence — September 7, 2026",
+    "summary": "GPT-6 Astra's launch-week lead splits under independent testing (Artificial Analysis ranks it #2 behind Claude Fable 5.1, with $10/$50 pricing 2.5-6.7x peers), while agent runtime governance crystallizes (CrowdStrike Falcon Guardian + AWS Agent Registry GA) and code review is formally reframed as a risk gate with 89% of orgs reporting AI-related production incidents.",
+    "url": "briefings/briefing-2026-09-07.html"
+  },
+  {
     "date": "2026-09-06",
     "title": "AI Engineering Intelligence — September 6, 2026",
     "summary": "Meta's Muse Spark 1.3 reaches frontier-tier coding at a fraction of frontier price (tying GPT-5.6 Sol while cutting tool calls ~20%/tokens ~25%), and Databricks' Big Book of AgentOps codifies the governed production-agent discipline — with Claude Fable 5.1 and MBZUAI's fully-open K2 Horizon rounding out a week where cost-efficiency and agent governance displaced raw capability as the engineering signal.",
