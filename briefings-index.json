@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-09-08",
+    "title": "AI Engineering Intelligence — September 8, 2026",
+    "summary": "Mistral raised €3B at a €21B valuation (Samsung-led) as European sovereign-AI champion, while independent benchmarks show GPT-6 Astra's intelligence score is flat versus GPT-5.6 Sol at 2.5x the price — its real edge is coding-agent token efficiency, not general reasoning. Spec-driven development and governed agent-UI contracts (A2UI/MCP Apps) are the week's highest-signal engineering practices.",
+    "url": "briefings/briefing-2026-09-08.html"
+  },
+  {
     "date": "2026-09-07",
     "title": "AI Engineering Intelligence — September 7, 2026",
     "summary": "GPT-6 Astra's launch-week lead splits under independent testing (Artificial Analysis ranks it #2 behind Claude Fable 5.1, with $10/$50 pricing 2.5-6.7x peers), while agent runtime governance crystallizes (CrowdStrike Falcon Guardian + AWS Agent Registry GA) and code review is formally reframed as a risk gate with 89% of orgs reporting AI-related production incidents.",
