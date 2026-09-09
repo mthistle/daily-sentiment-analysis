@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-09-09",
+    "title": "AI Engineering Intelligence — Wednesday, September 9, 2026",
+    "summary": "Grok 4.7 launches Sep 12 at 2.1T params on a SpaceX-corpus, \"surpass all models\" claim (unverified, high-hype), while five enterprise vendors independently converged on the same three-layer agent infrastructure stack (MCP + A2A + governed registry) and Dynatrace's $915M Arize acquisition consolidated AI eval+observability into the platform layer.",
+    "url": "briefings/briefing-2026-09-09.html"
+  },
+  {
     "date": "2026-09-08",
     "title": "AI Engineering Intelligence — September 8, 2026",
     "summary": "Mistral closed a €3B Samsung-led Series D at €21B to build a European sovereign-AI full stack; Grok 4.7 (2.1T params) is four days from launch; spec-driven development emerges as the AI-native SDLC response to vibe-coding failures; and the open-weight frontier closed to 6 points of closed models.",
