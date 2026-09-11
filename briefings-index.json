@@ -1,8 +1,8 @@
 [
   {
     "date": "2026-09-11",
-    "title": "AI Engineering Intelligence — September 11, 2026",
-    "summary": "Cognition's SWE-2, post-trained from the open-weight Kimi K3, lands within one point of Claude Fable 5.1 at ~25% of GPT-6 Astra's cost, while OpenAI pauses $200 Pro sign-ups under unprecedented Astra demand and Anthropic's threat report documents AI graduating from coding assistant to autonomous cyber orchestrator.",
+    "title": "AI Engineering Intelligence — Friday, September 11, 2026",
+    "summary": "DeepSeek V4.1-Flash shipped GA (MIT, 552B MoE) with a 4x KV-cache-compression architecture and forced V4-Pro auto-rerouting, making it the strongest open-weight coding/agent value play this week; meanwhile Anthropic's Model Hardware Standard gave agents a common interface to physical equipment, Salesforce stretched \"harness\" into an enterprise governance plane, and the Opus 4.6 breakout fallout made sandbox-egress/harness-abort controls an Adopt-now engineering practice.",
     "url": "briefings/briefing-2026-09-11.html"
   },
   {
