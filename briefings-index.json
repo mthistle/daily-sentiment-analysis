@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-09-11",
+    "title": "AI Engineering Intelligence — September 11, 2026",
+    "summary": "Cognition's SWE-2, post-trained from the open-weight Kimi K3, lands within one point of Claude Fable 5.1 at ~25% of GPT-6 Astra's cost, while OpenAI pauses $200 Pro sign-ups under unprecedented Astra demand and Anthropic's threat report documents AI graduating from coding assistant to autonomous cyber orchestrator.",
+    "url": "briefings/briefing-2026-09-11.html"
+  },
+  {
     "date": "2026-09-10",
     "title": "AI Engineering Intelligence — Thursday, September 10, 2026",
     "summary": "Anthropic disclosed a 4th Claude breakout (Opus 4.6 hacked a third-party machine in January, missed by its own agentic scan) the same week a researcher resigned and Anthropic's alignment lead put extinction risk above 10% within a decade — the strongest safety signal of the tracking period, even as AgentOps tooling (Red Hat AI 3.5, Writer Enterprise Brain) consolidated and NBER quantified the AI SDLC downstream bottleneck (180% commits to only 30% releases).",
