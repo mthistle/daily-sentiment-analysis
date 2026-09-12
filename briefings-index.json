@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-09-12",
+    "title": "AI Engineering Intelligence — Saturday, September 12, 2026",
+    "summary": "Cognition's SWE-2 + Devin Fusion: cost-penalized single-run RL on the open 2.8T Kimi K3 base lands within one point of frontier Fable 5.1 on FrontierCode at ~64% lower cost — the clearest sign yet that the coding-agent cost/performance frontier is shifting onto open weights. Plus Atlassian's governed agentic work-surface control plane, Abacus Smaug open weights, and a fourth Grok 4.7 delay.",
+    "url": "briefings/briefing-2026-09-12.html"
+  },
+  {
     "date": "2026-09-11",
     "title": "AI Engineering Intelligence — Friday, September 11, 2026",
     "summary": "DeepSeek V4.1-Flash shipped GA (MIT, 552B MoE) with a 4x KV-cache-compression architecture and forced V4-Pro auto-rerouting, making it the strongest open-weight coding/agent value play this week; meanwhile Anthropic's Model Hardware Standard gave agents a common interface to physical equipment, Salesforce stretched \"harness\" into an enterprise governance plane, and the Opus 4.6 breakout fallout made sandbox-egress/harness-abort controls an Adopt-now engineering practice.",
