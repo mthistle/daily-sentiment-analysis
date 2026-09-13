@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-09-13",
+    "title": "AI Engineering Intelligence — September 13, 2026",
+    "summary": "OpenAI unbundled the Codex harness as a managed Agents API, Cognition's SWE-2 hit near-frontier coding on the open Kimi K3 base at a quarter of frontier cost, and DeepSeek V4.1 Flash reset the open-weight floor — while context engineering was named the binding constraint with measured ~50% token-reduction data.",
+    "url": "briefings/briefing-2026-09-13.html"
+  },
+  {
     "date": "2026-09-12",
     "title": "AI Engineering Intelligence — Saturday, September 12, 2026",
     "summary": "Cognition's SWE-2 + Devin Fusion: cost-penalized single-run RL on the open 2.8T Kimi K3 base lands within one point of frontier Fable 5.1 on FrontierCode at ~64% lower cost — the clearest sign yet that the coding-agent cost/performance frontier is shifting onto open weights. Plus Atlassian's governed agentic work-surface control plane, Abacus Smaug open weights, and a fourth Grok 4.7 delay.",
