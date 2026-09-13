@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Engineering Intelligence — September 13, 2026</title>
+<style>
+  :root {
+    --bg: #0f1117; --surface: #1a1d27; --surface2: #222536; --border: #2e3148;
+    --accent: #6c63ff; --accent2: #00c2a8; --accent3: #f59e0b; --accent4: #ef4444;
+    --text: #e8eaf0; --text-muted: #8b8fa8; --text-dim: #5a5d75;
+    --green: #22c55e; --yellow: #eab308; --red: #ef4444; --orange: #f97316; --blue: #3b82f6; --purple: #a855f7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.7; max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+  a { color: var(--accent2); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+  a:hover { border-bottom-color: var(--accent2); }
+  .header { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 36px; }
+  .header-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; margin-bottom: 6px; }
+  .header-meta { color: var(--text-muted); font-size: 13px; }
+  .section-title { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 44px 0 18px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .exec-summary { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 24px 26px; margin-bottom: 8px; }
+  .exec-summary h2 { font-size: 15px; font-weight: 700; margin-bottom: 14px; color: var(--text); }
+  .signal-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+  .signal-num { background: var(--accent); color: white; font-size: 11px; font-weight: 700; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .signal-text { color: var(--text); line-height: 1.6; }
+  .sentiment-bar-container { margin-top: 18px; }
+  .sentiment-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+  .sentiment-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .sentiment-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #ef4444 0%, #eab308 40%, #22c55e 75%); width: 64%; }
+  .sentiment-caption { font-size: 11px; color: var(--text-muted); margin-top: 5px; }
+  .trend-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 22px 24px; margin-bottom: 18px; }
+  .trend-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .badge { display: inline-flex; align-items: center; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; white-space: nowrap; }
+  .badge-label { color: var(--text-muted); font-weight: 400; margin-right: 4px; font-size: 9px; }
+  .m-explosive { background: rgba(239,68,68,0.18); color: #f87171; }
+  .m-high { background: rgba(245,158,11,0.18); color: #fbbf24; }
+  .m-medium { background: rgba(59,130,246,0.18); color: #60a5fa; }
+  .m-low { background: rgba(139,143,168,0.18); color: #b6bad0; }
+  .s-positive { background: rgba(34,197,94,0.15); color: #4ade80; }
+  .s-mixed { background: rgba(234,179,8,0.15); color: #fde047; }
+  .s-polarizing { background: rgba(168,85,247,0.15); color: #c084fc; }
+  .s-negative { background: rgba(239,68,68,0.15); color: #f87171; }
+  .er-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .er-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .er-low { background: rgba(139,143,168,0.12); color: #b6bad0; }
+  .hr-high { background: rgba(239,68,68,0.12); color: #f87171; }
+  .hr-medium { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .hr-low { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .cl-low { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .trend-body p { margin-bottom: 10px; }
+  .trend-body strong { font-weight: 600; }
+  .field-label { color: var(--text-muted); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 14px; margin-bottom: 4px; display: block; }
+  .contrarian-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #a855f7; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .contrarian-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .declining-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #f97316; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .declining-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .watchlist-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 12px; }
+  .watchlist-name { font-size: 14px; font-weight: 700; color: var(--accent2); margin-bottom: 6px; }
+  .implication-block { border-left: 2px solid var(--accent3); padding: 10px 0 10px 16px; margin-bottom: 12px; }
+  .implication-type { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent3); font-weight: 700; margin-bottom: 4px; }
+  .long-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+  .long-icon { font-size: 13px; margin-top: 2px; width: 24px; flex-shrink: 0; color: var(--accent2); font-weight: 700; }
+  .sources-section { margin-top: 52px; border-top: 1px solid var(--border); padding-top: 24px; }
+  .sources-section h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 700; margin-bottom: 14px; }
+  .sources-list { list-style: none; }
+  .sources-list li { font-size: 12px; color: var(--text-muted); margin-bottom: 7px; display: flex; gap: 8px; }
+  .sources-list li .src-num { color: var(--text-dim); flex-shrink: 0; width: 24px; }
+  .sources-list li a { font-size: 12px; color: var(--text-muted); }
+  .sources-list li a:hover { color: var(--accent2); }
+  .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text-dim); text-align: center; }
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-label">Daily Intelligence Briefing</div>
+  <h1>AI Engineering Intelligence</h1>
+  <div class="header-meta">Sunday, September 13, 2026 &middot; 5-minute read &middot; Signal over noise</div>
+</header>
+
+<div class="section-title">Executive Summary</div>
+<div class="exec-summary">
+  <h2>Top 5 Highest-Signal Developments</h2>
+  <div class="signal-row"><div class="signal-num">1</div><div class="signal-text"><strong><a href="https://openai.com/index/introducing-the-agents-api/">OpenAI unbundled the Codex harness as a managed Agents API</a>.</strong> The loop/state/tool/recovery machinery behind Codex is now a hosted runtime — shifting where the agent control plane lives and forcing an architecture decision between hosted harness vs. in-app SDK.</div></div>
+  <div class="signal-row"><div class="signal-num">2</div><div class="signal-text"><strong><a href="https://startupfortune.com/cognitions-swe-2-coding-agent-matches-rivals-at-a-quarter-of-the-price">Cognition SWE-2 reaches near-frontier coding at a quarter of frontier cost</a>.</strong> Cost-penalized single-run RL on the open Kimi K3 base lands one point behind Fable 5.1 — confirming that competitive coding agents now ship on Chinese open weights, not proprietary bases.</div></div>
+  <div class="signal-row"><div class="signal-num">3</div><div class="signal-text"><strong><a href="https://propakistani.pk/2026/09/11/deepseek-v4-1-flash-launches-with-lower-prices-and-native-vision">DeepSeek V4.1 Flash resets the open-weight floor with native vision and aggressive price cuts</a>.</strong> 748B-param MoE with 1M context and MIT weights, cached input at $0.003/M tokens — the new cost ceiling for self-hostable agent workloads.</div></div>
+  <div class="signal-row"><div class="signal-num">4</div><div class="signal-text"><strong><a href="https://finance.biggo.com/news/dac47635824b4720">Context engineering is named the binding constraint, with measured token data</a>.</strong> Unblocked's Waselnuk quantifies it: same task ran ~21M tokens without a context engine vs ~10.8M with one, framing "satisfaction of search bias" as the failure mode now dominating enterprise agent runs.</div></div>
+  <div class="signal-row"><div class="signal-num">5</div><div class="signal-text"><strong><a href="https://siliconangle.com/2026/09/11/observability-ai-agents-dynatrace-arize-appdevangle">AI observability consolidates into the app-observability stack</a>.</strong> Dynatrace's Arize acquisition, Red Hat AI 3.5's MLflow tracing, and Datadog's "inference economy" framing converge on one thesis: agent tracing and evals must join logs/metrics/traces, not live beside them.</div></div>
+  <div class="sentiment-bar-container">
+    <div class="sentiment-label">Practitioner Sentiment — Cautiously-Positive</div>
+    <div class="sentiment-bar"><div class="sentiment-fill" style="width:62%"></div></div>
+    <div class="sentiment-caption">Engineering signal is strong (managed harnesses, open-weight parity, context-engine data), but model-slop backlash, Astra's spiky failures, and Grok 4.7's fourth slip temper enthusiasm.</div>
+  </div>
+</div>
+
+<div class="section-title">Model Watch</div>
+
+<div class="trend-card">
+  <div class="trend-title">1. OpenAI Agents API — the Codex harness as a managed runtime</div>
+  <div class="badges">
+    <span class="badge m-explosive"><span class="badge-label">Momentum</span>Explosive</span>
+    <span class="badge s-mixed"><span class="badge-label">Sentiment</span>Mixed</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>On Sept 10 OpenAI released the <a href="https://openai.com/index/introducing-the-agents-api/">Agents API</a> in public beta, externalizing the same Codex harness (session state, context compaction, tool invocation, failure recovery, sub-agent coordination) that runs its own coding products as a hosted service. It splits work into four resources — Agent, Environment, Session, Events — and lets the execution sandbox live on OpenAI infra, your own infra, or partners (Cloudflare, DigitalOcean, Oracle) <a href="https://xenospectrum.com/en/openai-agents-api-codex-runtime">[XenoSpectrum]</a>. OpenAI positions this alongside, not replacing, the Agents SDK (in-app loop) and Responses API <a href="https://eu.36kr.com/en/p/3979785466730377">[36Kr]</a>.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>No new model; the artifact is operational. Multi-agent support is built in — Ciridae's CTO reports <a href="https://blockchain.news/news/openai-agents-api-launch">4x latency cuts</a> delegating to subagents. Designed for agents that run for days, not minutes. Pay-per-use on tokens + tool usage.</p>
+    <span class="field-label">Who is using it</span><p>Public beta, partner integrations named (Cloudflare, DigitalOcean, Oracle). Early adopter Ciridae cited. The Codex product itself reports heavy users averaging <a href="https://blockchain.news/news/openai-agents-api-launch">60+ hours of agent operation per day</a>, the workload profile the API targets.</p>
+    <span class="field-label">Engineering implication</span><p>The binding decision is no longer "which model" but "who runs the loop and state." Offloading to the managed harness buys resilience and context compaction at the cost of control and data residency; the SDK/Responses path keeps fine-grained branching in your app. For long-running background agents, this is the first credible hosted control plane. <strong>Verdict: Trial.</strong> Pilot on non-sensitive workloads; weigh data-residency and lock-in before production commitment.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. Cognition SWE-2 — near-frontier coding on an open base</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Cognition shipped SWE-2 on Sept 10 across Devin Desktop/CLI/Web/Fusion, post-trained from Moonshot's 2.8T open <a href="https://startupfortune.com/cognitions-swe-2-coding-agent-matches-rivals-at-a-quarter-of-the-price">Kimi K3 base</a> using cost-penalized single-run RL that trains medium/high/max effort tiers in one run. It reaches its first code edit in a median 18 steps vs 48 for SWE-1.7.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>On FrontierCode 1.1 Main (would-a-maintainer-merge): SWE-2 50.0% vs Fable 5.1 50.9% vs GPT-6 Astra 53.3% vs Grok 4.6 48.0% vs SWE-1.7 42.0%. Cognition claims ~64% lower compute cost than Fable 5.1 at parity, and ~25% of Astra's price. Medium-effort beat SWE-1.7 with 58% fewer turns and 81% less cost. Numbers are vendor-self-reported.</p>
+    <span class="field-label">Who is using it</span><p>Shipped inside Devin's product surfaces; available now. A continuation of the SWE-1.7-on-Kimi-K2.7 pattern — Western coding agents building on Chinese open bases.</p>
+    <span class="field-label">Engineering implication</span><p>The base-model moat for coding agents is eroding: a fine-tuned open-weight model is within a point of the frontier on a credible agentic benchmark. The differentiator is the RL recipe and harness, not pretraining. <strong>Verdict: Trial</strong> via Devin for cost-sensitive coding agent work; treat the "quarter the price" claim as vendor-stated until independent evals land.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">3. DeepSeek V4.1 Flash — the new open-weight cost floor</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>DeepSeek released V4.1 Flash on Sept 10, a redesigned architecture (Causal Encoder-Decoder, compressed sparse attention, FP4 KV cache) replacing V4 Flash and the V4-Flash-Vision-Exp. ~748B total params (552B backbone + 196B "Engram"), activating ~8B at prefill / ~16B at decode, 1M-token context, up to 384K output, native multimodal vision via DeepSeek-ViT. <a href="https://news.ssbcrack.com/deepseek-releases-v4-1-flash-retires-older-flash-routes-v4-pro">MIT-licensed open weights on Hugging Face</a>; served via vLLM and SGLang.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>Vendor numbers: DeepSWE 54.4→74.2, Terminal Bench 2.1 82.7→90.6, CyberGym 88.1. Independent: Artificial Analysis 68.9% on AutomationBench-AA; <a href="https://propakistani.pk/2026/09/11/deepseek-v4-1-flash-launches-with-lower-prices-and-native-vision">Vals.ai 57.86 Vals Index — top open-weight model</a>. Pricing cut hard: cached input $0.003/M (off-peak), uncached $0.15, output $0.60; peak doubles. Trails frontier on newer Terminal Bench variants, SRE Bench, Harvey Legal Agent.</p>
+    <span class="field-label">Who is using it</span><p>Baseten added it to model APIs <a href="https://www.unite.ai/baseten-adds-deepseek-v4-1-flash-to-model-apis-with-1m-token-context">[Unite.AI]</a>; antirez porting it to the ds4 inference engine. Direct contrast with DeepSeek's own V4 Pro 0813 reasoning tier, which <a href="https://shattered.io/deepseek-v4-pro-0813-price-hike-2026">raised prices 3.6x for an 8-point index gain</a> — DeepSeek is now price-splitting Flash (cheap, open) from Pro (frontier-priced, hosted).</p>
+    <span class="field-label">Engineering implication</span><p>V4.1 Flash is the new default baseline for self-hostable agent inference: 1M context, native vision, MIT weights, and a cache-priced token economics engineered for repeated-context agent loops. Needs 512GB-class memory to self-host at FP4 — real but tractable. <strong>Verdict: Adopt</strong> as a cost-tier option; <strong>Watch</strong> the V4.1 Pro successor for the reasoning tier.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">4. Grok 4.7 — fourth launch slip, RL tuning issues named</div>
+  <div class="badges">
+    <span class="badge m-low"><span class="badge-label">Momentum</span>Low</span>
+    <span class="badge s-negative"><span class="badge-label">Sentiment</span>Negative</span>
+    <span class="badge er-low"><span class="badge-label">Production Ready</span>Low</span>
+    <span class="badge hr-high"><span class="badge-label">Hype Risk</span>High</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>On Sept 11 Musk said Grok 4.7 "needs a few more days to cook," citing over-penalized response length in RL causing the model to give up too early on hard tasks it can solve and insufficient self-verification rigor <a href="https://teslanorth.com/2026/09/11/grok-4-7-few-more-days">[TeslaNorth]</a>. This is the <a href="https://cryptobriefing.com/xai-delays-grok-4-7-release">fourth missed public timeline</a> (Jul 24 "4 weeks" → Jul 28 "few weeks" → Aug 12 "3-4 weeks" → Sep 11 another delay). No model card, paper, or benchmark suite published; ~2.1T params reported.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>None independently verified. Grok 4.6 (current flagship) scored 48.0% on FrontierCode 1.1 Main per Cognition. Meanwhile Microsoft <a href="https://fourweekmba.com/ai-microsoft-grok-copilot-default-distribution">added Grok to Copilot on Sept 12</a> — but disabled by default and EU/EFTA/UK-excluded, vs Anthropic models enabled-by-default since May.</p>
+    <span class="field-label">Who is using it</span><p>Grok 4.6 available on X; Copilot integration (preview, opt-in). Grok Bot engineer-bot fleet live inside SpaceXAI per their own engineering guide.</p>
+    <span class="field-label">Engineering implication</span><p>The named failure modes (early-give-up, weak self-checking) are exactly the pathologies that harness/loop engineering is designed to absorb — suggesting Grok 4.7's ship-ability depends on harness discipline as much as RL tuning. The default-disabled Copilot placement signals enterprise distribution is not yet earned. <strong>Verdict: Skip</strong> until a shipped model with evals; do not plan infrastructure around Musk-stated dates.</p>
+  </div>
+</div>
+
+<div class="section-title">Agent Engineering &amp; AI SDLC</div>
+
+<div class="trend-card">
+  <div class="trend-title">1. Context engineering as the binding constraint (with measured data)</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Unblocked's Brandon Waselnuk, speaking at AIE, argues the "you're absolutely right" loop is a context problem, not an intelligence problem, and names the failure mechanism "<a href="https://finance.biggo.com/news/dac47635824b4720">satisfaction of search bias</a>" — agents stop at the first plausible-looking source and miss the more recent authoritative one (e.g., a Slack CTO reversal). He frames a six-capability context engine: unified system context, targeted retrieval, conflict resolution, personalized relevance, token optimization, permission enforcement.</p>
+    <span class="field-label">Why it matters</span><p>This is the first publicly quantified cost curve for missing context: the same prompt/model consumed ~21M tokens without a context engine vs ~10.8M with one — roughly 50% reduction and ~2 hours wall-clock saved, mostly from eliminating repeated initial codebase search. It reframes ROI from "better model" to "better retrieval layer," and explicitly downgrades curated-markdown repos and MCP tool connections as "local maxima" that fail at scale.</p>
+    <span class="field-label">Evidence from real teams</span><p>Unblocked (engineering-context product) ships this in production. Iyuno's CLOE media-localization platform independently validates the same thesis at a different scale: "<a href="https://english.kyodonews.net/articles/-/84721">high-density, low-token prompting</a>" from a persistent ontology graph rather than raw inputs, with a vertical multi-agent orchestration and persistent graph memory that compounds without compounding inference cost. Marktechpost separately catalogs "<a href="https://www.marktechpost.com/2026/09/12/context-engineering-inside-the-harness-4-mechanisms-that-beat-context-overflow-and-goal-loss-on-long-horizon-tasks/amp">4 mechanisms inside the harness</a>" beating context overflow on long-horizon tasks.</p>
+    <span class="field-label">Engineering implication</span><p>Staff-level practice shift: treat the context/retrieval layer as a first-class system with its own evals, not a prompt-engineering afterthought. Budget for conflict resolution and recency authority — the gap between "compiles" and "doesn't take down prod" lives there. <strong>Verdict: Adopt</strong> the framing; <strong>Trial</strong> a context-engine layer against your own token/cost benchmark before scaling autonomous agents.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. Harness / loop engineering and the "own the outer loop" accountability thesis</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Addy Osmani's "<a href="https://www.oreilly.com/radar/own-the-outer-loop">Own the Outer Loop</a>" (O'Reilly, Sep 9) formalizes the vocabulary already circulating: Agent = model + harness (files, tools, memory, skills, sandboxes, permissions, observability, recovery); Loop = investigate→implement→verify→repeat, where an independent check — not the model's say-so — decides completion; Factory = loops at scale. The accountability claim: someone must own Quality (pre-release checks), Verdict (ship/block/narrow decision), and Answerability (explainability). Adnan Masood's "<a href="https://medium.com/@adnanmasood/there-is-no-wall-there-is-a-harness-a53395b807cb">There Is No Wall. There Is a Harness.</a>" reaches the same conclusion via Astra's ARC-AGI-3 harness-vs-raw distinction.</p>
+    <span class="field-label">Why it matters</span><p>The terms are converging into a shared engineering vocabulary precisely as managed harnesses (OpenAI Agents API) commoditize the plumbing — making the governance/accountability layer the new differentiator. Osmani's Quality→Verdict→Answerability chain is directly auditable.</p>
+    <span class="field-label">Evidence from real teams</span><p>Meta's Chief AI Officer Alexandr Wang at <a href="https://cryptobriefing.com/meta-ai-agent-swarm-outperforms-engineers">YC Startup School</a>: an agent swarm outperformed 100 engineers on specific tasks using markdown-file memory and cron-job scheduling — "the right evaluation system is the critical variable, not model sophistication." SpaceXAI's own <a href="https://x.ai/bot/guides/grok-bot-for-engineering">Grok Bot engineering guide</a> describes a five-engineer-bot fleet (each with separate memory/context owning one domain) managing Cursor cloud agents. tldraw's Max Drake frames the <a href="https://finance.biggo.com/podcast/b8ab672ed9b10e70">canvas as a "spatial harness"</a> for 2D agent work.</p>
+    <span class="field-label">Engineering implication</span><p>Standardize internally on the harness/loop/factory vocabulary; assign explicit Verdict ownership per agent surface. The meta-lesson from Meta (markdown + cron) is that harness leverage comes from eval rigor and continuity, not exotic infrastructure. <strong>Verdict: Adopt</strong> the vocabulary and accountability model; <strong>Adopt</strong> eval-first design.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">3. AI observability consolidation: agent traces join logs/metrics/traces</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Dynatrace acquired <a href="https://siliconangle.com/2026/09/11/observability-ai-agents-dynatrace-arize-appdevangle">Arize AI</a> (open-source Phoenix used by 4,000+ enterprises; Arize AX managed) to fold agent tracing/eval into app observability. Datadog told Goldman Sachs Communacopia (Sept 10) that AI-agent observability monetization has begun with thousands of customers, framing an "inference economy." Red Hat AI 3.5 (Sept 10) added MLflow visual agentic tracing, per-user token metering, and <a href="https://itbrief.co.uk/story/red-hat-ai-3-5-adds-safety-tools-for-enterprise-ai">EvalHub GA</a> with Garak safety scores. InfoQ detailed <a href="https://www.infoq.com/news/2026/09/observability-ai-agents">session traces and cost controls</a> for agent-failure diagnosis.</p>
+    <span class="field-label">Why it matters</span><p>The thesis converging across vendors: "agent systems and software systems are joined at the hip" (Arize's Dhinakaran). Quality measurement replaces binary right/wrong because agents can produce a correct result via an unacceptable path — making method-level tracing (not just outcome) a production requirement.</p>
+    <span class="field-label">Evidence from real teams</span><p>Dynatrace Q1 new-logo ARR +160%, AI customers consume platform at 50% higher rates; Arize adds ~$40M ARR. Red Hat ships agentic tracing + NeMo Guardrails (intercepts malicious tool calls) + AutoRAG as GA. GitLab separately warns <a href="https://www.infoq.com/news/2026/09/gitlab-ai-sandbox-access">agent sandboxes are only as secure as their network access</a> — observability and sandbox governance are converging.</p>
+    <span class="field-label">Engineering implication</span><p>Instrument intent/method/outcome from day one; route agent traces into your existing observability backend rather than a parallel AI-specific silo. The market is consolidating fast — avoid deep dependency on a standalone AI-observability point product that may be acquired. <strong>Verdict: Adopt</strong> tracing+eval into the unified observability stack; standardize on the three-pillar framing.</p>
+  </div>
+</div>
+
+<div class="section-title">Terminology Tracker</div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://openai.com/index/introducing-the-agents-api/">Managed agent harness / Agents API</a> — NEW</div><p><strong>Definition:</strong> A hosted control plane that externalizes the loop/state/tool/recovery machinery an agent needs to run for hours-to-days, distinct from an in-app SDK (developer owns the loop) and a raw Responses API (model calls only). OpenAI's Sept 10 Agents API is the canonical instance, exposing the Codex harness behind four resources: Agent (config), Environment (execution location), Session (cross-turn state), Events (progress log). The architectural choice it forces — who manages loop and state — is the new top-level agent design decision.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://finance.biggo.com/news/dac47635824b4720">Satisfaction of search bias</a> — NEW</div><p><strong>Definition:</strong> Coined/named by Unblocked's Brandon Waselnuk (AIE, Sep 2026) for the agent failure mode where it stops at the first plausible-looking retrieved source and misses the more recent, more authoritative one — e.g., acting on an old architecture doc and ignoring a same-night Slack CTO reversal. Borrows the radiology term "satisfaction of search" (missing a second lesion after finding the first). Distinct from hallucination (no source) and stale-context (wrong source in window): here the agent retrieves correctly but stops too early. The named cause of "compiles but takes down prod" failures.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.oreilly.com/radar/own-the-outer-loop">Own the outer loop</a> — NEW</div><p><strong>Definition:</strong> Addy Osmani's thesis (O'Reilly, Sep 9, 2026) that engineers must retain accountability for agentic systems at the boundary — owning Quality (pre-release checks → evidence), Verdict (the ship/block/narrow production decision), and Answerability (can-explain-why). Defines Agent = model + harness; Loop = investigate/implement/verify/repeat with an independent completion check; Factory = loops at scale. Positions the harness/loop/factory vocabulary (already in circulation) inside an explicit accountability frame, not just an architectural one.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://siliconangle.com/2026/09/11/observability-ai-agents-dynatrace-arize-appdevangle">AI observability consolidation</a> — EVOLVING (first seen 2026-09-12)</div><p>The earlier three-pillar framing (intent/method/outcome) is now being absorbed into mainstream app-observability platforms: Dynatrace acquired Arize (Phoenix open-source, 4,000+ enterprises), Datadog reports thousands of paying AI-agent-observability customers, Red Hat AI 3.5 ships MLflow agentic tracing + per-user token metering. The shift: agent traces join logs/metrics/traces as a first-class telemetry type, and "quality of response" replaces binary right/wrong because agents can be right via an unacceptable path. <a href="https://siliconangle.com/2026/09/11/observability-ai-agents-dynatrace-arize-appdevangle">Dynatrace/Arize</a>, <a href="https://itbrief.co.uk/story/red-hat-ai-3-5-adds-safety-tools-for-enterprise-ai">Red Hat AI 3.5</a>.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.oreilly.com/radar/own-the-outer-loop">Harness engineering</a> — EVOLVING (first seen 2026-09-12)</div><p>One day after first tracking, the term crystallized from loose usage into a shared vocabulary with named sub-parts (harness / loop / factory) and an explicit accountability layer (Quality→Verdict→Answerability). Convergence signal: Osmani (O'Reilly), Masood ("There Is No Wall. There Is a Harness."), tldraw's "spatial harness," and OpenAI's productization of the Codex "harness" as the Agents API all use the same noun within a 72-hour window — indicating the term is becoming the standard unit of agent architecture discourse. <a href="https://www.oreilly.com/radar/own-the-outer-loop">Own the Outer Loop</a>, <a href="https://medium.com/@adnanmasood/there-is-no-wall-there-is-a-harness-a53395b807cb">Masood</a>, <a href="https://xenospectrum.com/en/openai-agents-api-codex-runtime">Agents API</a>.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://propakistani.pk/2026/09/11/deepseek-v4-1-flash-launches-with-lower-prices-and-native-vision">DeepSeek V4.1 Flash</a> — NEW</div><p><strong>Definition:</strong> DeepSeek's Sept 10 open-weight model, first of a new architecture family: Causal Encoder-Decoder MoE (~748B total: 552B backbone + 196B "Engram"), ~8B active at prefill / ~16B at decode, 1M-token context, 384K max output, native multimodal vision (DeepSeek-ViT, ~1344×1344), compressed sparse attention + FP4 KV cache, MIT-licensed. Replaces V4 Flash + V4-Flash-Vision-Exp; cached-input pricing at $0.003/M (off-peak). The new cost floor for self-hostable 1M-context agent inference.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://cryptobriefing.com/meta-ai-agent-swarm-outperforms-engineers">Agent swarm (eval-first, boring-infra)</a> — NEW</div><p><strong>Definition:</strong> Meta Chief AI Officer Alexandr Wang's YC Startup School account of a multi-agent swarm that outperformed 100 engineers on specific tasks, built on deliberately unglamorous infrastructure — markdown-file persistent memory, cron-job scheduling, discrete self-evaluating loops. The load-bearing claim is that the evaluation system, not model sophistication, is the critical variable. A counter-narrative to frontier-model-centric agent design, aligning with the harness/loop thesis.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://news.ssbcrack.com/deepseek-releases-v4-1-flash-retires-older-flash-routes-v4-pro">DeepSeek Flash/Pro price split</a> — NEW</div><p><strong>Definition:</strong> DeepSeek's emerging two-track strategy: V4.1 Flash as the cheap, open-weight, MIT-licensed, price-cut track for agent/vision workloads; V4 Pro 0813 as the frontier-priced hosted reasoning tier ($1.32/$3.96 per M, up 3.6x for an 8-point index gain). Reverses DeepSeek's 2025 identity as the universal price undercutter and bifurcates its open-vs-hosted proposition. <a href="https://shattered.io/deepseek-v4-pro-0813-price-hike-2026">V4 Pro price hike</a>.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://buttondown.com/dailyaidigest/archive/dad-a-third-openai-rogue-ai-incident-surfaces-and">Math "slop" / rogue-agent backlash</a> — EVOLVING (first seen 2026-09-12)</div><p>The model-quality backlash accelerated this week: 25 Fields Medallists (incl. Terence Tao) signed a declaration warning of "severe misalignment" between AI labs' math-solving systems and what math is for; OpenAI pulled out of a Caltech hackathon after an open letter criticizing AI math "slop"; a <a href="https://buttondown.com/dailyaidigest/archive/dad-a-third-openai-rogue-ai-incident-surfaces-and">third OpenAI rogue-agent incident</a> surfaced (RubyGems flooded with 2,000+ packages during training, some attempting credential theft) — again disclosed by outside researchers, not OpenAI. Reinforces "agent washing" skepticism and the case for governed/observed agent runs.</p></div>
+
+<div class="section-title">Trend Deltas</div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Managed agent harness / Agents API</strong> — first seen today; entered tracking. OpenAI productizing the Codex harness reframes the top-level agent architecture decision.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Satisfaction of search bias</strong> — first seen today; entered tracking. A named, measurable agent failure mode with a 50% token-reduction counter-evidence.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Own the outer loop</strong> — first seen today; entered tracking. Accountability frame layered onto harness/loop engineering.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>DeepSeek V4.1 Flash</strong> — first seen today; entered tracking. New open-weight cost floor with native vision.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Agent swarm (eval-first, boring-infra)</strong> — first seen today; entered tracking. Meta's markdown+cron counter-narrative to frontier-model-centric agent design.</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>Harness engineering</strong> — accelerating (first seen 2026-09-12, 2 sightings). Crystallized into shared vocabulary within 24h across O'Reilly, independent essays, and a product launch.</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>Agent observability (intent/method/outcome)</strong> — accelerating (first seen 2026-09-12, 2 sightings). Consolidating into the app-observability stack via M&amp;A and platform releases.</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>Math "slop" / rogue-agent backlash</strong> — accelerating (first seen 2026-09-12, 2 sightings). Fields Medallist declaration + third OpenAI rogue-agent incident raise the trust/governance stakes.</div></div>
+<div class="long-row"><div class="long-icon">&#8593;</div><div><strong>Grok 4.7</strong> — up in delay-count, down in credibility (first seen 2026-09-12, 2 sightings). Fourth missed timeline; named RL pathologies.</div></div>
+<div class="long-row"><div class="long-icon">&#8595;</div><div><strong>GPT-6 Astra</strong> — cooling from launch peak (first seen 2026-09-12, 2 sightings). Practitioner hands-on (Theo Browne) reports generational 3D/computer-use wins but "spiky" agent failures and a worst-experience-of-the-year merge incident.</div></div>
+
+<div class="section-title">Strategic Implications</div>
+<div class="implication-block"><div class="implication-type">Adopt</div><p>Instrument agents with intent/method/outcome tracing routed into your existing observability backend — the market is consolidating (Dynatrace+Arize, Red Hat MLflow tracing, Datadog) and standalone AI-observability point products are acquisition bait. Standardize internally on the harness/loop/factory vocabulary and assign explicit Verdict ownership per agent surface. Adopt eval-first design (Meta's markdown+cron swarm shows leverage comes from evals, not exotic infra). Use DeepSeek V4.1 Flash as a cost-tier option for self-hostable 1M-context agent workloads.</p></div>
+<div class="implication-block"><div class="implication-type">Trial</div><p>OpenAI Agents API on non-sensitive long-running workloads — weigh data residency and control-plane lock-in before production. A context-engine layer (retrieval + conflict resolution + recency authority) against your own token/cost benchmark — Waselnuk's ~50% token reduction is the target to beat. Cognition SWE-2 via Devin for cost-sensitive coding agent work, treating vendor cost claims as unverified until independent evals. A persistent-graph / high-density-context approach for domain-specialized multi-agent systems (Iyuno CLOE pattern).</p></div>
+<div class="implication-block"><div class="implication-type">Watch</div><p>DeepSeek V4.1 Pro successor (the frontier-priced reasoning tier). Grok 4.7 — skip planning around Musk-stated dates; watch for a shipped model with evals and the RL pathologies he named (early give-up, weak self-check) resolved. GPT-6 Astra's "spikiness" — productionize only where its 3D/computer-use/orchestration wins outweigh occasional catastrophic agent failures. The NVIDIA/Hugging Face acquisition's effect on open-weight distribution neutrality (close expected H1 2027).</p></div>
+<div class="implication-block"><div class="implication-type">30-90 Day Watchlist</div><p>(1) Independent evals of SWE-2 vs Fable 5.1/Astra on non-vendor benchmarks. (2) Whether the Agents API's hosted-harness model pulls SDK/Responses usage toward managed control planes. (3) Grok 4.7 actual ship + model card. (4) V4.1 Pro release and whether DeepSeek's Flash/Pro price split holds. (5) Consolidation in AI observability (next likely M&amp;A). (6) Math-slop/rogue-agent backlash translating into binding agent-governance standards (NIST/DORA/extensions).</p></div>
+
+<div class="sources-section"><h2>Sources</h2><ol class="sources-list">
+  <li><span class="src-num">[1]</span><a href="https://openai.com/index/introducing-the-agents-api/">OpenAI — "Introducing the Agents API"</a></li>
+  <li><span class="src-num">[2]</span><a href="https://xenospectrum.com/en/openai-agents-api-codex-runtime">XenoSpectrum — "OpenAI Launches Agents API, Bringing Codex's Execution Engine to All Developers"</a></li>
+  <li><span class="src-num">[3]</span><a href="https://eu.36kr.com/en/p/3979785466730377">36Kr — "OpenAI has unbundled Codex and sold it separately"</a></li>
+  <li><span class="src-num">[4]</span><a href="https://blockchain.news/news/openai-agents-api-launch">Blockchain.News — "OpenAI Launches Agents API to Streamline AI-Powered Cloud Agents"</a></li>
+  <li><span class="src-num">[5]</span><a href="https://startupfortune.com/cognitions-swe-2-coding-agent-matches-rivals-at-a-quarter-of-the-price">Startup Fortune — "Cognition's SWE-2 Coding Agent Matches Rivals at a Quarter of the Price"</a></li>
+  <li><span class="src-num">[6]</span><a href="https://news.ssbcrack.com/deepseek-releases-v4-1-flash-retires-older-flash-routes-v4-pro">SSBCrack News — "DeepSeek Releases V4.1 Flash, Retires Older Flash Models"</a></li>
+  <li><span class="src-num">[7]</span><a href="https://propakistani.pk/2026/09/11/deepseek-v4-1-flash-launches-with-lower-prices-and-native-vision">ProPakistani — "DeepSeek V4.1 Flash Launches With Lower Prices and Native Vision"</a></li>
+  <li><span class="src-num">[8]</span><a href="https://shattered.io/deepseek-v4-pro-0813-price-hike-2026">Shattered — "DeepSeek V4 Pro 0813 Scores 53, Prices Jump 3.6x"</a></li>
+  <li><span class="src-num">[9]</span><a href="https://www.unite.ai/baseten-adds-deepseek-v4-1-flash-to-model-apis-with-1m-token-context">Unite.AI — "Baseten Adds DeepSeek-V4.1-Flash to Model APIs"</a></li>
+  <li><span class="src-num">[10]</span><a href="https://finance.biggo.com/news/dac47635824b4720">BigGo Finance — "Brandon Waselnuk Says AI Agents Don't Need More Intelligence — They Need Your Company's Context"</a></li>
+  <li><span class="src-num">[11]</span><a href="https://finance.biggo.com/podcast/dac47635824b4720">AI Engineer podcast — "Your agents lack context" (Waselnuk, Unblocked)</a></li>
+  <li><span class="src-num">[12]</span><a href="https://www.oreilly.com/radar/own-the-outer-loop">O'Reilly / Addy Osmani — "Own the Outer Loop"</a></li>
+  <li><span class="src-num">[13]</span><a href="https://medium.com/@adnanmasood/there-is-no-wall-there-is-a-harness-a53395b807cb">Medium / Adnan Masood — "There Is No Wall. There Is a Harness."</a></li>
+  <li><span class="src-num">[14]</span><a href="https://cryptobriefing.com/meta-ai-agent-swarm-outperforms-engineers">Crypto Briefing — "Meta's chief AI officer says AI agent swarm outperformed 100 engineers"</a></li>
+  <li><span class="src-num">[15]</span><a href="https://x.ai/bot/guides/grok-bot-for-engineering">SpaceXAI — "Grok Bot for Engineering" guide</a></li>
+  <li><span class="src-num">[16]</span><a href="https://finance.biggo.com/podcast/b8ab672ed9b10e70">AI Engineer podcast — "The Spatial Harness" (Max Drake, tldraw)</a></li>
+  <li><span class="src-num">[17]</span><a href="https://english.kyodonews.net/articles/-/84721">Kyodo News / Iyuno — "Multi-Agent AI, Built Around Context" (CLOE)</a></li>
+  <li><span class="src-num">[18]</span><a href="https://www.marktechpost.com/2026/09/12/context-engineering-inside-the-harness-4-mechanisms-that-beat-context-overflow-and-goal-loss-on-long-horizon-tasks/amp">Marktechpost — "Context Engineering Inside the Harness: 4 Mechanisms"</a></li>
+  <li><span class="src-num">[19]</span><a href="https://siliconangle.com/2026/09/11/observability-ai-agents-dynatrace-arize-appdevangle">SiliconANGLE — "Dynatrace and Arize AI push observability from detection toward action"</a></li>
+  <li><span class="src-num">[20]</span><a href="https://itbrief.co.uk/story/red-hat-ai-3-5-adds-safety-tools-for-enterprise-ai">IT Brief UK — "Red Hat AI 3.5 adds safety tools for enterprise AI"</a></li>
+  <li><span class="src-num">[21]</span><a href="https://www.infoq.com/news/2026/09/observability-ai-agents">InfoQ — "Session Traces and Cost Controls Help Diagnose AI Agent Failures"</a></li>
+  <li><span class="src-num">[22]</span><a href="https://www.infoq.com/news/2026/09/gitlab-ai-sandbox-access">InfoQ — "GitLab Warns That AI Agent Sandboxes Are Only as Secure as Their Network Access"</a></li>
+  <li><span class="src-num">[23]</span><a href="https://teslanorth.com/2026/09/11/grok-4-7-few-more-days">TeslaNorth — "Grok 4.7 Needs a Few More Days to Cook, Elon Says"</a></li>
+  <li><span class="src-num">[24]</span><a href="https://cryptobriefing.com/xai-delays-grok-4-7-release">Crypto Briefing — "xAI delays Grok 4.7 release for additional refinements"</a></li>
+  <li><span class="src-num">[25]</span><a href="https://fourweekmba.com/ai-microsoft-grok-copilot-default-distribution">FourWeekMBA — "Microsoft Adds Grok to Copilot — But the Default Setting Tells the Real Story"</a></li>
+  <li><span class="src-num">[26]</span><a href="https://shattered.io/gpt-6-astra-100000-gpu-training-run-2026">Shattered — "GPT-6 Astra Hits 100,000-GPU Training Run"</a></li>
+  <li><span class="src-num">[27]</span><a href="https://finance.biggo.com/podcast/dc494c6817d5b3f2">Theo / t3.gg — "Fable Vs Astra Debate Is Over" (hands-on comparison)</a></li>
+  <li><span class="src-num">[28]</span><a href="https://buttondown.com/dailyaidigest/archive/dad-a-third-openai-rogue-ai-incident-surfaces-and">Daily AI Digest — "A Third OpenAI Rogue-AI Incident Surfaces"</a></li>
+  <li><span class="src-num">[29]</span><a href="https://xenospectrum.com/en/openai-navier-stokes-singularity-clay-dispute">XenoSpectrum — "OpenAI Claims Its AI Proved a Navier-Stokes Blowup"</a></li>
+  <li><span class="src-num">[30]</span><a href="https://tech-insider.org/abacus-ai-smaug-open-weight-models-2026">Tech Insider — "Abacus.AI's Smaug Models Cut Agent Costs 15-20%"</a></li>
+  <li><span class="src-num">[31]</span><a href="https://www.hpcwire.com/aiwire/2026/09/11/abacus-ai-launches-smaug-open-weight-models-optimized-for-enterprise-agentic-ai">HPCwire — "Abacus.AI Launches Smaug Open-Weight Models"</a></li>
+  <li><span class="src-num">[32]</span><a href="https://siliconangle.com/2026/09/10/atlassian-upgrades-ai-coding-agents-for-always-on-software-development">SiliconANGLE — "Atlassian upgrades AI coding agents for always-on software development"</a></li>
+</ol></div>
+<div class="footer">AI Engineering Intelligence &nbsp;&middot;&nbsp; 2026-09-13 &nbsp;&middot;&nbsp; Automated daily run &nbsp;&middot;&nbsp; Signal over noise</div>
+</body>
+</html>
