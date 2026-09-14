@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-09-14",
+    "title": "AI Engineering Intelligence — September 14, 2026",
+    "summary": "Dario Amodei's \"We Must Pace the Frontier\" essay and OpenAI's disclosure of an internal model \"significantly more capable than GPT-6 Astra\" (Navier-Stokes proof via 10,000 agents) signal the frontier is accelerating into governance territory just as Salesforce formalizes the enterprise agent \"harness\" and a control-plane gap. Plus: Recursive Language Models emerge as an architecture challenger to RAG/agent context rot.",
+    "url": "briefings/briefing-2026-09-14.html"
+  },
+  {
     "date": "2026-09-13",
     "title": "AI Engineering Intelligence — September 13, 2026",
     "summary": "OpenAI unbundled the Codex harness as a managed Agents API, Cognition's SWE-2 hit near-frontier coding on the open Kimi K3 base at a quarter of frontier cost, and DeepSeek V4.1 Flash reset the open-weight floor — while context engineering was named the binding constraint with measured ~50% token-reduction data.",
