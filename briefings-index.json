@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-09-16",
+    "title": "AI Engineering Intelligence — September 16, 2026",
+    "summary": "Mozilla quantifies the open-weight capability gap at ~4 months at ~30% the price (DoorDash now routes routine work to Kimi K3, Fable for hard tasks), IFM K2 Horizon ships six \"fully open\" models with reproducibility holes, and Augment Code's software factory posts 4.5× output/dev with −79% reverts — confirming the verification bottleneck is now the rate-limiting SDLC stage.",
+    "url": "briefings/briefing-2026-09-16.html"
+  },
+  {
     "date": "2026-09-15",
     "title": "AI Engineering Intelligence — September 15, 2026",
     "summary": "Verification, not code generation, is now the binding constraint on AI-assisted delivery: Cognition reports 89% of its committed code now comes from Devin, the review queue has become the new backlog, and NBER data shows a 180% coding-momentum gain converting to only a 30% release gain. Meanwhile Google has gone ~7 months without a flagship Gemini Pro update (internally opening Claude Opus 5 to all engineers), the flash-tier price war puts the cost gap to frontier flagships at ~53x, and China is positioning open-weight AI as a geopolitical public good via a BRICS initiative.",
