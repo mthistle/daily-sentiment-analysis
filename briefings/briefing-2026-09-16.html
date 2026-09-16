@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Engineering Intelligence — September 16, 2026</title>
+<style>
+  :root {
+    --bg: #0f1117; --surface: #1a1d27; --surface2: #222536; --border: #2e3148;
+    --accent: #6c63ff; --accent2: #00c2a8; --accent3: #f59e0b; --accent4: #ef4444;
+    --text: #e8eaf0; --text-muted: #8b8fa8; --text-dim: #5a5d75;
+    --green: #22c55e; --yellow: #eab308; --red: #ef4444; --orange: #f97316; --blue: #3b82f6; --purple: #a855f7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.7; max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+  a { color: var(--accent2); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+  a:hover { border-bottom-color: var(--accent2); }
+  .header { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 36px; }
+  .header-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; margin-bottom: 6px; }
+  .header-meta { color: var(--text-muted); font-size: 13px; }
+  .section-title { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 44px 0 18px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .exec-summary { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 24px 26px; margin-bottom: 8px; }
+  .exec-summary h2 { font-size: 15px; font-weight: 700; margin-bottom: 14px; color: var(--text); }
+  .signal-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+  .signal-num { background: var(--accent); color: white; font-size: 11px; font-weight: 700; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .signal-text { color: var(--text); line-height: 1.6; }
+  .sentiment-bar-container { margin-top: 18px; }
+  .sentiment-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+  .sentiment-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .sentiment-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #ef4444 0%, #eab308 40%, #22c55e 75%); width: 64%; }
+  .sentiment-caption { font-size: 11px; color: var(--text-muted); margin-top: 5px; }
+  .trend-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 22px 24px; margin-bottom: 18px; }
+  .trend-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .badge { display: inline-flex; align-items: center; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; white-space: nowrap; }
+  .badge-label { color: var(--text-muted); font-weight: 400; margin-right: 4px; font-size: 9px; }
+  .m-explosive { background: rgba(239,68,68,0.18); color: #f87171; }
+  .m-high { background: rgba(245,158,11,0.18); color: #fbbf24; }
+  .m-medium { background: rgba(59,130,246,0.18); color: #60a5fa; }
+  .m-low { background: rgba(139,143,168,0.18); color: #b6bad0; }
+  .s-positive { background: rgba(34,197,94,0.15); color: #4ade80; }
+  .s-mixed { background: rgba(234,179,8,0.15); color: #fde047; }
+  .s-polarizing { background: rgba(168,85,247,0.15); color: #c084fc; }
+  .s-negative { background: rgba(239,68,68,0.15); color: #f87171; }
+  .er-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .er-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .er-low { background: rgba(139,143,168,0.12); color: #b6bad0; }
+  .hr-high { background: rgba(239,68,68,0.12); color: #f87171; }
+  .hr-medium { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .hr-low { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .cl-low { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .trend-body p { margin-bottom: 10px; }
+  .trend-body strong { font-weight: 600; }
+  .field-label { color: var(--text-muted); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 14px; margin-bottom: 4px; display: block; }
+  .contrarian-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #a855f7; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .contrarian-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .declining-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #f97316; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .declining-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .watchlist-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 12px; }
+  .watchlist-name { font-size: 14px; font-weight: 700; color: var(--accent2); margin-bottom: 6px; }
+  .implication-block { border-left: 2px solid var(--accent3); padding: 10px 0 10px 16px; margin-bottom: 12px; }
+  .implication-type { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent3); font-weight: 700; margin-bottom: 4px; }
+  .long-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+  .long-icon { font-size: 13px; margin-top: 2px; width: 24px; flex-shrink: 0; color: var(--accent2); font-weight: 700; }
+  .sources-section { margin-top: 52px; border-top: 1px solid var(--border); padding-top: 24px; }
+  .sources-section h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 700; margin-bottom: 14px; }
+  .sources-list { list-style: none; }
+  .sources-list li { font-size: 12px; color: var(--text-muted); margin-bottom: 7px; display: flex; gap: 8px; }
+  .sources-list li .src-num { color: var(--text-dim); flex-shrink: 0; width: 24px; }
+  .sources-list li a { font-size: 12px; color: var(--text-muted); }
+  .sources-list li a:hover { color: var(--accent2); }
+  .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text-dim); text-align: center; }
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-label">Daily Intelligence Briefing</div>
+  <h1>AI Engineering Intelligence</h1>
+  <div class="header-meta">Wednesday, September 16, 2026 &middot; 5-minute read &middot; Signal over noise</div>
+</header>
+
+<div class="section-title">Executive Summary</div>
+<div class="exec-summary">
+  <h2>Top 5 Highest-Signal Developments</h2>
+  <div class="signal-row"><div class="signal-num">1</div><div class="signal-text"><strong><a href="https://www.tomshardware.com/tech-industry/artificial-intelligence/chinas-open-weight-ai-models-are-now-just-4-months-behind-frontier-us-offerings-mozilla-report-claims-models-still-lag-in-some-benchmarks-but-are-drastically-cheaper-to-use">Mozilla: open-weight gap to frontier now ~4 months at ~30% the price</a>.</strong> Mozilla's State of Open Source AI v1.1 (Sept 15) quantifies the open/closed capability gap at 4.4 months on METR task-horizon — closing, but with a critical caveat: the best open model fits one server at index 52.6 vs the top score, a much larger self-host gap.</div></div>
+  <div class="signal-row"><div class="signal-num">2</div><div class="signal-text"><strong><a href="https://huggingface.co/IFM/K2-Horizon-375B-A23B">IFM K2 Horizon ships six "fully open" models (0.9B–375B) — with reproducibility holes</a>.</strong> The Abu Dhabi Institute of Foundation Models releases Apache 2.0 weights, training code, configs, data recipes, and intermediate checkpoints for a 375B-A23B MoE flagship scoring near closed frontier on agents/coding. The catch: compute disclosure absent, several model cards incomplete at launch.</div></div>
+  <div class="signal-row"><div class="signal-num">3</div><div class="signal-text"><strong><a href="https://startupfortune.com/elon-musk-shelves-grok-47-and-unveils-grok-48-instead">Grok 4.7 shelved; Grok 4.8 (2.5T) announced with no ship date</a>.</strong> Musk skipped the delayed 4.7 entirely and pivoted to a 2.5T-param C++-stack successor; the named RL pathology (over-penalized response length → early give-up) is itself the engineering signal — effort-shaping RL is now the frontier variable, not raw scale.</div></div>
+  <div class="signal-row"><div class="signal-num">4</div><div class="signal-text"><strong><a href="https://www.augmentcode.com/blog/beyond-ai-coding-agents-how-we-built-augments-software-factory">Augment Code's software factory: 4.5× output/dev, revert rate −79%</a>.</strong> Eight months of in-house data (Nov 2025–Jul 2026) shows the bottleneck moves, it doesn't vanish — agents were added wherever work piled up (review, verification, planning), with humans retaining production-risk decisions. Hard production evidence for the verification-bottleneck thesis.</div></div>
+  <div class="signal-row"><div class="signal-num">5</div><div class="signal-text"><strong><a href="https://www.citybiz.co/article/903207/stackhawk-launches-wingman-to-fix-vulnerabilities-inside-ai-coding-workflows">StackHawk Wingman closes the find-fix-verify loop inside the coding session</a>.</strong> Ships into Claude Code/Cursor/Copilot/Codex/Antigravity with commit-level attestations; 7,500+ vulns auto-fixed at 98% non-regression in early access. Security verification is the first non-code SDLC stage being productized as an in-session agent.</div></div>
+  <div class="sentiment-bar-container">
+    <div class="sentiment-label">Practitioner Sentiment — Cautiously-Positive</div>
+    <div class="sentiment-bar"><div class="sentiment-fill" style="width:62%"></div></div>
+    <div class="sentiment-caption">Open-weight economics are decisively reshaping model choice, but production reality (self-host cost, verification capacity, agent governance gaps) tempers enthusiasm.</div>
+  </div>
+</div>
+
+<div class="section-title">Model Watch</div>
+<div class="trend-card">
+  <div class="trend-title">1. IFM K2 Horizon (375B-A23B flagship + five smaller)</div>
+  <div class="badges">
+    <span class="badge m-explosive"><span class="badge-label">Momentum</span>Explosive</span>
+    <span class="badge s-mixed"><span class="badge-label">Sentiment</span>Mixed</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-high"><span class="badge-label">Hype Risk</span>High</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>The Abu Dhabi-based Institute of Foundation Models released K2 Horizon (Sept 3), a fleet of six models from 0.9B (on-device) to a 375B-A23B sparse MoE flagship, all <a href="https://huggingface.co/IFM/K2-Horizon-375B-A23B">Apache 2.0 on Hugging Face</a>. IFM's claim is "fully open" — weights plus training code, configs, data recipes, intermediate checkpoints, logs, and the xLLM training infrastructure + agentic RL pipeline (<a href="https://thenewstack.io/k2-horizon-fully-open/">The New Stack</a>). The flagship is a 512K-context MoE with a novel "Mixture-of-Value Attention."</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>IFM's own table: GDPVal-AA 1,441 (vs GLM 5.2 1,498, Claude Sonnet 5 max 1,584); Terminal-Bench 2.1 70.2 (GLM 5.2 77.9, Sonnet 5 80.5); SWE-Bench Pro strict 42.6; HLE no-tools 32.0; GPQA Diamond 87.3. Strong open-weight agents score but trails closed frontier on most rows — vendor-reported, pending independent reproduction.</p>
+    <span class="field-label">Who is using it</span><p>Largely the open-science/research community at launch; practitioner analysis (CellCog's Nitish Garg) flags the missing pieces. No named production team yet.</p>
+    <span class="field-label">Engineering implication</span><p>The reproducibility promise is real but incomplete: only 3.7B/7B shipped the full artifact set; the 375B's data/code/checkpoints are "forthcoming," compute (accelerators, hours, cost) is undisclosed entirely — the one hole in an inspectability thesis. For staff engineers, the value is the training-code + checkpoint release pattern, not the weights. <strong>Verdict: Watch</strong> (trial the small dense models for constrained/on-device; defer the 375B until independent evals land).</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. GPT-6 Astra — cooling, characterized, repackaged</div>
+  <div class="badges">
+    <span class="badge m-medium"><span class="badge-label">Momentum</span>Medium</span>
+    <span class="badge s-polarizing"><span class="badge-label">Sentiment</span>Polarizing</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Astra (shipped Sept 3) enters week three: staged rollout continuing, now on <a href="https://www.snowflake.com/en/blog/openai-gpt-6-astra-snowflake-cortex-ai">Snowflake Cortex</a> (private preview) and via aggregators like <a href="https://www.wkow.com/online_features/press_releases/cometapi-adds-openai-s-gpt-6-astra-api-to-its-multi-model-developer-platform/article_8a01ff50-9094-583d-b300-b3b71af19280.html">CometAPI</a>. OpenAI repackaged it industry-vertical with ChatGPT for Financial Services (Sept 10) and briefly <a href="https://americanbazaaronline.com/2026/09/11/openai-halts-new-200-chatgpt-pro-sign-ups-amid-gpt-6-astra-demand">halted new $200 Pro sign-ups</a> on demand. The "GPT-7" rumor cycle is <a href="https://tech-insider.org/chatgpt-7-rumors-debunked-gpt-6-astra-2026">explicitly debunked</a> by named trackers — Astra is the current model.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>OpenAI-reported: 99.9% ARC-AGI-3 (harness), 97.6% FrontierMath T4v2, 100% ExploitBench, OSWorld 2.0 72.6%, Terminal-Bench 4.0 57.9%; 1.05M context, $10/$50 per M in/out. Snowflake adds efficiency data: ~65% fewer output tokens than Claude Opus 5 on Agents' Last Exam; 0% out-of-target actions vs 48% for GPT-5.6 Sol on a no-safeguards eval.</p>
+    <span class="field-label">Who is using it</span><p>Snowflake (CoCo), AWS Bedrock, Azure; CometAPI distribution. Heavy production hands-on (Theo Browne, ~1B tokens/day, per prior runs) documented the "two-model reality" — generational on 3D/computer-use/swarm orchestration but spiky catastrophic failures.</p>
+    <span class="field-label">Engineering implication</span><p>The frontier tier is now decisively a two-model choice (Astra vs Fable 5.1) with cost as the differentiator on compatible workloads. Treat the "GPT-7" noise as signal-of-hype, not roadmap. <strong>Verdict: Adopt</strong> for reasoning/computer-use/swarm; pair with Fable for code landing.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">3. Grok 4.7/4.8 — effort-shaping RL is the real story</div>
+  <div class="badges">
+    <span class="badge m-low"><span class="badge-label">Momentum</span>Low</span>
+    <span class="badge s-negative"><span class="badge-label">Sentiment</span>Negative</span>
+    <span class="badge er-low"><span class="badge-label">Production Ready</span>Low</span>
+    <span class="badge hr-high"><span class="badge-label">Hype Risk</span>High</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Musk <a href="https://startupfortune.com/elon-musk-shelves-grok-47-and-unveils-grok-48-instead">shelved Grok 4.7 on Sept 13</a> and pivoted to Grok 4.8, a 2.5T-param model on xAI's new C++ stack, "finishing training this week" before RL — no ship date. He concedes 4.7 is only "roughly on par with Opus 5" and still needs multimodal work (<a href="https://www.digitaltoday.co.kr/en/view/103667/musk-admits-grok47-not-better-than-rivals-teases-agi-with-grok5">Digital Today</a>). This is the fifth missed public timeline since July 24.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>No model card, paper, benchmark suite, or price published for either model. Named RL pathology: over-penalized response length causing premature give-up on solvable hard tasks and weak self-verification rigor — the same effort-tier tradeoff Cognition formalized as cost-penalized single-run RL.</p>
+    <span class="field-label">Who is using it</span><p>No independent production evidence; xAI's own news page still lists Grok 4.6 (Aug 12) as the flagship.</p>
+    <span class="field-label">Engineering implication</span><p>Skip the Grok model speculation; extract the engineering lesson — the frontier variable is now effort/length-shaping in RL, not parameter count. Validate your own models against premature-give-up, not just final accuracy. <strong>Verdict: Skip</strong> until a card/benchmark exists.</p>
+  </div>
+</div>
+
+<div class="section-title">Agent Engineering &amp; AI SDLC</div>
+<div class="trend-card">
+  <div class="trend-title">1. The "software factory" pattern — bottleneck moves, doesn't vanish</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Augment Code published hard in-house numbers for its software factory (Nov 2025–Jul 2026): size-adjusted output/dev 12.3→55.7 (4.5×), median time-to-merge 11.2h→3.1h (−72%), 14-day revert rate 1.9%→0.4% (−79%). The factory connects Linear→GitHub→Slack→PagerDuty across Requirements/Ticket/PR/Prod states, with specialized agents added wherever work piled up rather than in lifecycle order. Engineers retain product, architecture, and production-risk decisions (<a href="https://www.augmentcode.com/blog/beyond-ai-coding-agents-how-we-built-augments-software-factory">Augment blog</a>).</p>
+    <span class="field-label">Why it matters</span><p>This is the first clean production dataset confirming the verification-bottleneck thesis (tracked since Sept 15): code generation stopped being scarce; review/verification capacity became the rate-limiter — and adding verification agents lowered revert rate, not just throughput. NBER data cited by <a href="https://www.spiceworks.com/software/when-ai-agents-speed-up-software-development-but-slow-down-production">Spiceworks</a> shows the mismatch: 180% coding-momentum gain → only 30% release increase.</p>
+    <span class="field-label">Evidence from real teams</span><p>Augment (4.5×, −79% reverts); Gartner (Jul 2026) warning that AI exposed downstream friction; DevOps.com/Security Boulevard naming verification the new bottleneck; Harness rebuilding its Git repo for nonstop agent traffic (<a href="https://thenewstack.io/harness-ai-code-review">The New Stack</a>).</p>
+    <span class="field-label">Engineering implication</span><p>Stop measuring code-gen throughput alone — track first-pass verification rate and full-cost-per-accepted-change. Add agents at the review/verify stage before the write queue. <strong>Verdict: Adopt</strong> the factory model; measure revert rate and merge-time, not commits.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. In-session security verification (find-fix-verify loop)</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>StackHawk launched Wingman (Sept 15), a DAST product that runs <em>inside</em> the coding agent session — when an agent marks a feature complete, Wingman starts the app, tests for exploitable vulns, returns findings to the same agent for remediation, then re-tests to verify, and reports status back to CI. Supports Claude Code, Cursor, Copilot, Codex, Antigravity (<a href="https://www.citybiz.co/article/903207/stackhawk-launches-wingman-to-fix-vulnerabilities-inside-ai-coding-workflows">citybiz</a>). Early access: 7,500+ vulns auto-fixed across 5+ agents, 98% non-regression, incl. confirmed RCE/SQLi/XSS.</p>
+    <span class="field-label">Why it matters</span><p>Security is the first non-code SDLC stage being productized as an in-session agent with commit-level attestations. It operationalizes the "own the outer loop" accountability chain (Quality→Verdict→Answerability) by producing verifiable evidence per commit — the missing piece in the agent controls gap.</p>
+    <span class="field-label">Evidence from real teams</span><p>CertiPath named as an early customer; StackHawk CEO: "engineering teams ship faster than ever because of AI coding agents, but security hasn't kept pace." OpenAI separately <a href="https://thenewstack.io/openai-ai-code-review/">gave an AI the power to block its own engineers' code</a> — converging on the same gate.</p>
+    <span class="field-label">Engineering implication</span><p>Wire a find-fix-verify loop with attestation before the PR opens, not after a scan ticket. Treat security verification as a first-class agent slot in the factory. <strong>Verdict: Trial</strong> for teams already on Claude Code/Cursor/Codex; watch for independent cost/regression data.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">3. Managed agent harness (OpenAI Agents API) — who owns the loop</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-mixed"><span class="badge-label">Sentiment</span>Mixed</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-high"><span class="badge-label">Hype Risk</span>High</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>OpenAI's Agents API (Sept 10, public beta) externalizes the Codex harness as a managed runtime: Agent (config), Environment (execution location), Session (cross-turn state), Events (progress log). It sits alongside — not replacing — the Agents SDK (developer owns the loop) and Responses API (model calls only). Partners: Cloudflare, DigitalOcean, Modal, Oracle, E2B, Daytona, Vercel, Blaxel, Runloop (<a href="https://openai.com/index/introducing-the-agents-api/">OpenAI</a>, <a href="https://xenospectrum.com/en/openai-agents-api-codex-runtime">XenoSpectrum</a>, <a href="https://www.infoworld.com/article/4221163/openai-launches-managed-agents-api-to-simplify-enterprise-ai-agent-development.html">InfoWorld</a>).</p>
+    <span class="field-label">Why it matters</span><p>It forces a top-level architecture decision — who manages loop and state — that maps directly onto the harness-engineering taxonomy (tracked). InfoWorld flags the lock-in concern: handing the harness to OpenAI trades operational complexity for dependency.</p>
+    <span class="field-label">Evidence from real teams</span><p>Vendor-stated at launch; Ciridae reported 4× latency cuts from multi-agent delegation in earlier coverage. The competing Salesforce enterprise AI harness/control plane (tracked) sharpens the coding-IDE vs enterprise-control-plane split.</p>
+    <span class="field-label">Engineering implication</span><p>Decide explicitly which layer owns loop/state/tools/permissions/recovery. Use the Agents API for hours-to-days workloads where resumption matters; keep the SDK/Responses API when you need fine-grained branching control. <strong>Verdict: Trial</strong> for long-running agents; <strong>Watch</strong> the lock-in tradeoff.</p>
+  </div>
+</div>
+
+<div class="section-title">Terminology Tracker</div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://thenewstack.io/k2-horizon-fully-open/">K2 Horizon</a> — NEW</div><p><strong>Definition:</strong> The Institute of Foundation Models' (Abu Dhabi) Sept 3 2026 fleet of six models (0.9B–375B-A23B), positioned as the largest "fully open" release — meaning weights + training code + configs + data recipes + intermediate checkpoints + logs + the xLLM training infra and agentic RL pipeline, under Apache 2.0. Differs from "open weights" (downloadable weights only) and from Mozilla's finding that none of 16 notable open releases meet the OSI definition. The reproducibility caveat: compute (accelerators/hours/cost) is undisclosed, and only the 3.7B/7B shipped the complete artifact set at launch.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.tomshardware.com/tech-industry/artificial-intelligence/chinas-open-weight-ai-models-are-now-just-4-months-behind-frontier-us-offerings-mozilla-report-claims-models-still-lag-in-some-benchmarks-but-are-drastically-cheaper-to-use">open/closed capability gap (~4 months)</a> — EVOLVING (first seen 2026-09-15)</div><p>Mozilla State of Open Source AI v1.1 (Sept 15) quantifies the gap at 4.4 months on METR task-horizon — best open model (Kimi K3) at index 57 vs Fable 5 at 60, at ~30% the price; open capability doubling every 3.9 months vs 5.5 for closed. Crucial nuance: API-to-API and list-price; the self-host gap is much larger — best open model fitting one server scores 52.6, one GPU 40. Real-team usage: <a href="https://arstechnica.com/ai/2026/09/exclusive-open-chinese-models-close-gap-with-silicon-valleys-frontier-ai-models">DoorDash uses Kimi for routine work, Fable for hard tasks</a>.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.augmentcode.com/blog/beyond-ai-coding-agents-how-we-built-augments-software-factory">software factory</a> — NEW</div><p><strong>Definition:</strong> A model for automating mechanical work across the SDLC by placing specialized agents at each work-state transition (Requirements→Ticket→PR→Prod), added wherever the bottleneck currently sits rather than in lifecycle order, with humans retaining product/architecture/production-risk decisions. Augment Code's eight-month in-house deployment is the reference instance (4.5× size-adjusted output, −79% reverts). Differs from a single coding agent by treating review/verification/operations as first-class agent slots — directly addressing the verification bottleneck.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.citybiz.co/article/903207/stackhawk-launches-wingman-to-fix-vulnerabilities-inside-ai-coding-workflows">find-fix-verify loop (in-session)</a> — NEW</div><p><strong>Definition:</strong> A security-verification pattern where a testing tool runs inside the coding agent's own session: it starts the app, tests for exploitable vulns, returns findings to the agent for remediation, re-tests to confirm the fix, and emits a per-commit attestation. StackHawk Wingman (Sept 15) is the canonical instance. Differs from traditional DAST (scan → ticket → later fix) by closing the loop before the PR opens, and from the broader "own the outer loop" framing by being scoped to the security slot.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://startupfortune.com/elon-musk-shelves-grok-47-and-unveils-grok-48-instead">effort-shaping RL / length-penalty pathology</a> — EVOLVING (first seen 2026-09-12, via Cognition cost-penalized single-run RL)</div><p>The RL variable shaping reasoning effort (length, give-up threshold, self-verification rigor) is now the named frontier lever, not just raw scale. Musk's stated Grok 4.7 pathology — over-penalized response length → premature give-up on solvable hard tasks, weak self-verification — is the same objective Cognition formalized (R = S − λ_e·C). Real-world lesson: validate models against premature-give-up and verification rigor, not just final accuracy.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://darioamodei.com/post/we-must-pace-the-frontier">pace the frontier</a> — EVOLVING (first seen 2026-09-14)</div><p>Under active stress-testing: the only verifiable piece (Anthropic's unilateral embedded evaluators) is what actually exists; Trump/Sacks dismissed the framing, and The Cognitive Revolution (with Zvi Mowshowitz) questions whether a US-China deal is needed given China's fast-following incentive. The September US-China AI dialogue is the live test of the coordination step.</p></div>
+
+<div class="section-title">Trend Deltas</div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>K2 Horizon</strong> — first seen today; entered tracking (six-model "fully open" fleet, 0.9B–375B).</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>software factory</strong> — first seen today; entered tracking (Augment's 4.5× output / −79% revert production data).</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>find-fix-verify loop (in-session)</strong> — first seen today; entered tracking (StackHawk Wingman).</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>open/closed capability gap</strong> — accelerating (first seen 2026-09-15, 2 sightings); Mozilla v1.1 narrows to ~4 months with DoorDash as named real-team adopter.</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>verification bottleneck</strong> — accelerating (first seen 2026-09-15, 2 sightings); Augment's factory data + StackHawk + DevOps.com/Security Boulevard/NBER all converge this week.</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>kimi k3</strong> — accelerating (first seen 2026-09-12, 4 sightings); now the Mozilla-cited open leader and DoorDash production case.</div></div>
+<div class="long-row"><div class="long-icon">&#8595;</div><div><strong>grok 4.7</strong> — going quiet (first seen 2026-09-12, 3 sightings); shelved, replaced by 4.8 with no date.</div></div>
+<div class="long-row"><div class="long-icon">&#8594;</div><div><strong>gpt-6 astra</strong> — flat (first seen 2026-09-12, 4 sightings); cooling into characterized two-model reality, repackaged vertical.</div></div>
+<div class="long-row"><div class="long-icon">&#8681;</div><div><strong>pace the frontier</strong> — going quiet (first seen 2026-09-14, 3 sightings); only the embedded-evaluator step is real; political dismissal increasing.</div></div>
+
+<div class="section-title">Strategic Implications</div>
+<div class="implication-block"><div class="implication-type">Adopt</div><p>The software-factory pattern: instrument first-pass verification rate and full-cost-per-accepted-change, add agents at the review/verify slot, and treat security verification (find-fix-verify with attestations) as a first-class in-session agent. Default routine workloads to the cheapest model that clears your eval bar — Mozilla's data + DoorDash show open weights now win on cost for the 8-hour-and-under task band.</p></div>
+<div class="implication-block"><div class="implication-type">Trial</div><p>OpenAI's Agents API for hours-to-days workloads where resumption/context-compaction matter — but decide explicitly who owns loop/state and watch the lock-in tradeoff. IFM K2 Horizon's small dense models (3.7B/7B/32B) for constrained/on-device where the full artifact set shipped; StackHawk Wingman for teams already on Claude Code/Cursor/Codex.</p></div>
+<div class="implication-block"><div class="implication-type">Watch</div><p>IFM K2-Horizon-375B-A23B pending independent evals and the missing compute/data artifacts. The open/closed gap's self-host caveat — the index-52.6-on-one-server vs index-~60-hosted drop is the real decision variable for self-hosters. Grok 4.8 (no card/date). The September US-China AI dialogue as the live test of "pace the frontier."</p></div>
+<div class="implication-block"><div class="implication-type">30-90 Day Watchlist</div><p>Whether the open-weight gap closes below ~3 months or stalls on the self-host hardware wall (Kimi K3 needs ~1.5TB/64+ accelerators). Whether in-session verification agents (Wingman, OpenAI's AI code-blocker) become table-stakes in coding tools. Whether the Agents-API lock-in concern drives a portable-harness counter-pattern. Whether Grok 4.8 ships with a card. Whether "fully open" (K2 Horizon's artifact release pattern) sets a new reproducibility bar that DeepSeek/GLM/Qwen must match.</p></div>
+
+<div class="sources-section"><h2>Sources</h2><ol class="sources-list">
+  <li><span class="src-num">[1]</span><a href="https://www.tomshardware.com/tech-industry/artificial-intelligence/chinas-open-weight-ai-models-are-now-just-4-months-behind-frontier-us-offerings-mozilla-report-claims-models-still-lag-in-some-benchmarks-but-are-drastically-cheaper-to-use">Tom's Hardware — "China's open-weight AI models now just 4 months behind frontier"</a></li>
+  <li><span class="src-num">[2]</span><a href="https://arstechnica.com/ai/2026/09/exclusive-open-chinese-models-close-gap-with-silicon-valleys-frontier-ai-models">Ars Technica — "Paying for frontier AI buys 4-month head start at 5x the cost"</a></li>
+  <li><span class="src-num">[3]</span><a href="https://startupfortune.com/kimi-k3-closes-the-ai-capability-gap-to-four-months-at-a-fifth-of-the-price">Startup Fortune — "Kimi K3 Closes the AI Capability Gap to Four Months"</a></li>
+  <li><span class="src-num">[4]</span><a href="https://huggingface.co/IFM/K2-Horizon-375B-A23B">Hugging Face — IFM/K2-Horizon-375B-A23B model card &amp; benchmarks</a></li>
+  <li><span class="src-num">[5]</span><a href="https://thenewstack.io/k2-horizon-fully-open/">The New Stack — "K2 Horizon just shipped as six new fully open models"</a></li>
+  <li><span class="src-num">[6]</span><a href="https://startupfortune.com/elon-musk-shelves-grok-47-and-unveils-grok-48-instead">Startup Fortune — "Elon Musk Shelves Grok 4.7 and Unveils Grok 4.8 Instead"</a></li>
+  <li><span class="src-num">[7]</span><a href="https://www.digitaltoday.co.kr/en/view/103667/musk-admits-grok47-not-better-than-rivals-teases-agi-with-grok5">Digital Today — "Musk admits Grok 4.7 has not surpassed rivals"</a></li>
+  <li><span class="src-num">[8]</span><a href="https://www.augmentcode.com/blog/beyond-ai-coding-agents-how-we-built-augments-software-factory">Augment Code — "Beyond AI Coding Agents: How We Built Augment's Software Factory"</a></li>
+  <li><span class="src-num">[9]</span><a href="https://www.citybiz.co/article/903207/stackhawk-launches-wingman-to-fix-vulnerabilities-inside-ai-coding-workflows">citybiz — "StackHawk Launches Wingman to Fix Vulnerabilities Inside AI Coding Workflows"</a></li>
+  <li><span class="src-num">[10]</span><a href="https://openai.com/index/introducing-the-agents-api/">OpenAI — "Introducing the Agents API"</a></li>
+  <li><span class="src-num">[11]</span><a href="https://xenospectrum.com/en/openai-agents-api-codex-runtime">XenoSpectrum — "OpenAI Launches Agents API, Bringing Codex's Execution Engine to All Developers"</a></li>
+  <li><span class="src-num">[12]</span><a href="https://www.infoworld.com/article/4221163/openai-launches-managed-agents-api-to-simplify-enterprise-ai-agent-development.html">InfoWorld — "OpenAI launches managed Agents API to simplify enterprise AI agent development"</a></li>
+  <li><span class="src-num">[13]</span><a href="https://www.snowflake.com/en/blog/openai-gpt-6-astra-snowflake-cortex-ai">Snowflake — "Announcing OpenAI GPT-6 Astra on Snowflake Cortex AI"</a></li>
+  <li><span class="src-num">[14]</span><a href="https://tech-insider.org/chatgpt-7-rumors-debunked-gpt-6-astra-2026">Tech Insider — "ChatGPT 7 Rumors Debunked: Real Story Is GPT-6 Astra"</a></li>
+  <li><span class="src-num">[15]</span><a href="https://americanbazaaronline.com/2026/09/11/openai-halts-new-200-chatgpt-pro-sign-ups-amid-gpt-6-astra-demand">American Bazaar — "OpenAI halts new $200 ChatGPT Pro sign-ups amid GPT-6 Astra demand"</a></li>
+  <li><span class="src-num">[16]</span><a href="https://www.spiceworks.com/software/when-ai-agents-speed-up-software-development-but-slow-down-production">Spiceworks — "When AI agents speed up software development but slow down production"</a></li>
+  <li><span class="src-num">[17]</span><a href="https://thenewstack.io/harness-ai-code-review/">The New Stack — "Harness rebuilt its Git repository for nonstop AI agent traffic"</a></li>
+  <li><span class="src-num">[18]</span><a href="https://thenewstack.io/openai-ai-code-review/">The New Stack — "OpenAI gave an AI the power to block its own engineers' code"</a></li>
+  <li><span class="src-num">[19]</span><a href="https://darioamodei.com/post/we-must-pace-the-frontier">Dario Amodei — "We Must Pace the Frontier"</a></li>
+  <li><span class="src-num">[20]</span><a href="https://tech-insider.org/ca/gpt-6-astra-vs-claude-fable-5-1-vs-deepseek-v4-1-flash-2026">Tech Insider — "GPT-6 Astra vs Claude Fable 5.1 vs DeepSeek V4.1: 33x Cost Gap"</a></li>
+</ol></div>
+<div class="footer">AI Engineering Intelligence &nbsp;&middot;&nbsp; 2026-09-16 &nbsp;&middot;&nbsp; Automated daily run &nbsp;&middot;&nbsp; Signal over noise</div>
+</body>
+</html>
