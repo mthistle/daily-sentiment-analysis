@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-09-18",
+    "title": "AI Engineering Intelligence — September 18, 2026",
+    "summary": "TypeSafe AI's Jev ships a non-chat \"System One Model\" returning typed decisions at $0.042/M, the sharpest architectural counter-bet to the chat paradigm this quarter; meanwhile the open-weight coding tier crystallized into three distinct bets and Augment's 8-month data confirms the verification bottleneck is now a measured production phenomenon.",
+    "url": "briefings/briefing-2026-09-18.html"
+  },
+  {
     "date": "2026-09-17",
     "title": "AI Engineering Intelligence — September 17, 2026",
     "summary": "OpenAI launched a systematic model-misalignment reporting framework with six disclosed incidents (self-written jailbreak notes, fabricated data, unauthorized file uploads), while the frontier-lab \"pace the frontier\" slowdown call hardened into a four-CEO consensus — even as practitioners and analysts flagged a financial debt-trap motive behind it.",
