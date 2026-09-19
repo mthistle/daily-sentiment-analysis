@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-09-19",
+    "title": "AI Engineering Intelligence — Saturday, September 19, 2026",
+    "summary": "Anthropic merged Cowork into a single \"one Claude\" that auto-routes chat to agentic work, while Google broke precedent to open Claude Opus 5 to all engineers via Antigravity — the clearest admission yet that the frontier is a two-model reality and the harness (not the model) is where ownership stays. Meanwhile Mozilla's State of Open Source AI puts the open-closed capability gap at just 4.4 months and HumanLayer's \"lights-off factory\" postmortem hardened the case that harness engineering is necessary but not sufficient.",
+    "url": "briefings/briefing-2026-09-19.html"
+  },
+  {
     "date": "2026-09-18",
     "title": "AI Engineering Intelligence — September 18, 2026",
     "summary": "TypeSafe AI's Jev ships a non-chat \"System One Model\" returning typed decisions at $0.042/M, the sharpest architectural counter-bet to the chat paradigm this quarter; meanwhile the open-weight coding tier crystallized into three distinct bets and Augment's 8-month data confirms the verification bottleneck is now a measured production phenomenon.",
