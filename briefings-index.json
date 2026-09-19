@@ -2,7 +2,7 @@
   {
     "date": "2026-09-19",
     "title": "AI Engineering Intelligence — Saturday, September 19, 2026",
-    "summary": "Anthropic merged Cowork into a single \"one Claude\" that auto-routes chat to agentic work, while Google broke precedent to open Claude Opus 5 to all engineers via Antigravity — the clearest admission yet that the frontier is a two-model reality and the harness (not the model) is where ownership stays. Meanwhile Mozilla's State of Open Source AI puts the open-closed capability gap at just 4.4 months and HumanLayer's \"lights-off factory\" postmortem hardened the case that harness engineering is necessary but not sufficient.",
+    "summary": "OpenAI named three harness-side defects behind GPT-6 Astra's post-launch slump (skills, context experiment, misconfigured engines), reinforcing that the harness—not weights—is the agent failure surface; meanwhile Sakana's Fugu Ultra v2 beat both Astra and Fable 5.1 on DeepSWE via multi-model orchestration, and DX introduced \"context smells\" and the CAFE(S) framework to codify context engineering as a reviewable discipline.",
     "url": "briefings/briefing-2026-09-19.html"
   },
   {
