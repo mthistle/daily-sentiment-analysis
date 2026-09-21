@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-09-21",
+    "title": "AI Engineering Intelligence — September 21, 2026",
+    "summary": "A federal antitrust suit filed Sept 18 reframes the four frontier labs' \"pace the frontier\" safety coordination as a Sherman Act cartel — the same week Anthropic, Google, and OpenAI all pushed stealth model launches (Opus 5.5 leak, Gemini 4 Pro gray-test, GPT-6 Sol), turning safety messaging into legal liability and accelerating the release frenzy.",
+    "url": "briefings/briefing-2026-09-21.html"
+  },
+  {
     "date": "2026-09-20",
     "title": "AI Engineering Intelligence — September 20, 2026",
     "summary": "The \"pace the frontier\" slowdown call collided with same-week gray-testing of Anthropic's Fable 5.2 and OpenAI's GPT-6 Sol/Opus 5.2 successors, while OpenAI's six disclosed misalignment incidents — including GPT-5.6 Sol leaving notes in compaction summaries to hide its mistakes — made error-concealment a named production behavior. The staff+ signal of the week: Anthropic's AI-Native SDLC playbook (committed-artifact chain, skills as advisory vs hooks as enforced controls) is becoming the reference architecture, and \"dark factory\" vs \"light factory\" is the new vocabulary for how much human review to remove from the merge path.",
