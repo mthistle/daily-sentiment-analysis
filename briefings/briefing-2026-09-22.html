@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Engineering Intelligence — September 22, 2026</title>
+<style>
+  :root {
+    --bg: #0f1117; --surface: #1a1d27; --surface2: #222536; --border: #2e3148;
+    --accent: #6c63ff; --accent2: #00c2a8; --accent3: #f59e0b; --accent4: #ef4444;
+    --text: #e8eaf0; --text-muted: #8b8fa8; --text-dim: #5a5d75;
+    --green: #22c55e; --yellow: #eab308; --red: #ef4444; --orange: #f97316; --blue: #3b82f6; --purple: #a855f7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.7; max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+  a { color: var(--accent2); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+  a:hover { border-bottom-color: var(--accent2); }
+  .header { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 36px; }
+  .header-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; margin-bottom: 6px; }
+  .header-meta { color: var(--text-muted); font-size: 13px; }
+  .section-title { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 44px 0 18px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .exec-summary { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 24px 26px; margin-bottom: 8px; }
+  .exec-summary h2 { font-size: 15px; font-weight: 700; margin-bottom: 14px; color: var(--text); }
+  .signal-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+  .signal-num { background: var(--accent); color: white; font-size: 11px; font-weight: 700; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .signal-text { color: var(--text); line-height: 1.6; }
+  .sentiment-bar-container { margin-top: 18px; }
+  .sentiment-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+  .sentiment-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .sentiment-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #ef4444 0%, #eab308 40%, #22c55e 75%); width: 64%; }
+  .sentiment-caption { font-size: 11px; color: var(--text-muted); margin-top: 5px; }
+  .trend-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 22px 24px; margin-bottom: 18px; }
+  .trend-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .badge { display: inline-flex; align-items: center; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; white-space: nowrap; }
+  .badge-label { color: var(--text-muted); font-weight: 400; margin-right: 4px; font-size: 9px; }
+  .m-explosive { background: rgba(239,68,68,0.18); color: #f87171; }
+  .m-high { background: rgba(245,158,11,0.18); color: #fbbf24; }
+  .m-medium { background: rgba(59,130,246,0.18); color: #60a5fa; }
+  .m-low { background: rgba(139,143,168,0.18); color: #b6bad0; }
+  .s-positive { background: rgba(34,197,94,0.15); color: #4ade80; }
+  .s-mixed { background: rgba(234,179,8,0.15); color: #fde047; }
+  .s-polarizing { background: rgba(168,85,247,0.15); color: #c084fc; }
+  .s-negative { background: rgba(239,68,68,0.15); color: #f87171; }
+  .er-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .er-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .er-low { background: rgba(139,143,168,0.12); color: #b6bad0; }
+  .hr-high { background: rgba(239,68,68,0.12); color: #f87171; }
+  .hr-medium { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .hr-low { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .cl-low { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .trend-body p { margin-bottom: 10px; }
+  .trend-body strong { font-weight: 600; }
+  .field-label { color: var(--text-muted); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 14px; margin-bottom: 4px; display: block; }
+  .contrarian-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #a855f7; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .contrarian-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .declining-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #f97316; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .declining-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .watchlist-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 12px; }
+  .watchlist-name { font-size: 14px; font-weight: 700; color: var(--accent2); margin-bottom: 6px; }
+  .implication-block { border-left: 2px solid var(--accent3); padding: 10px 0 10px 16px; margin-bottom: 12px; }
+  .implication-type { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent3); font-weight: 700; margin-bottom: 4px; }
+  .long-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+  .long-icon { font-size: 13px; margin-top: 2px; width: 24px; flex-shrink: 0; color: var(--accent2); font-weight: 700; }
+  .sources-section { margin-top: 52px; border-top: 1px solid var(--border); padding-top: 24px; }
+  .sources-section h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 700; margin-bottom: 14px; }
+  .sources-list { list-style: none; }
+  .sources-list li { font-size: 12px; color: var(--text-muted); margin-bottom: 7px; display: flex; gap: 8px; }
+  .sources-list li .src-num { color: var(--text-dim); flex-shrink: 0; width: 24px; }
+  .sources-list li a { font-size: 12px; color: var(--text-muted); }
+  .sources-list li a:hover { color: var(--accent2); }
+  .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text-dim); text-align: center; }
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-label">Daily Intelligence Briefing</div>
+  <h1>AI Engineering Intelligence</h1>
+  <div class="header-meta">Tuesday, September 22, 2026 &middot; 5-minute read &middot; Signal over noise</div>
+</header>
+
+<div class="section-title">Executive Summary</div>
+<div class="exec-summary">
+  <h2>Top 5 Highest-Signal Developments</h2>
+  <div class="signal-row"><div class="signal-num">1</div><div class="signal-text"><strong><a href="https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash">DeepSeek-V4.1-Flash</a> ships frontier-tier agentic performance at ~4x KV-cache compression.</strong> A 552B MIT-licensed MoE (8B activated at prefill, 16B at decode) ties Claude Opus-5.0 on DeepSWE (74.2) and tops Terminal-Bench 2.1 (90.6) — making the open-weight two-tier stack materially cheaper to self-host for input-heavy agent workloads.</div></div>
+  <div class="signal-row"><div class="signal-num">2</div><div class="signal-text"><strong><a href="https://github.com/deepseek-ai/deepseek-harness">DeepSeek Harness ("everything is a plugin")</a> enters developer preview.</strong> DeepSeek open-sourced its agent harness (233k stars, MIT) on a Cordis "spatiotemporal composability" architecture — the first major lab to ship a production agent harness as open code, with explicit breaking-change warnings.</div></div>
+  <div class="signal-row"><div class="signal-num">3</div><div class="signal-text"><strong><a href="https://deepmind.google/models/gemini/flash/">Gemini 3.8 Flash reaches GA</a> as the frontier "workhorse."</strong> General availability with DeepSWE v1.1 wins over most larger frontier models, HLE-Verified 54.9%, 1M input / 64k output — and <a href="https://deepmind.google/discover/blog/">Glean and Loopit</a> are already shipping it in production for long-horizon coding and knowledge-work.</div></div>
+  <div class="signal-row"><div class="signal-num">4</div><div class="signal-text"><strong><a href="https://openai.com/index/astra-for-law/">Astra for Law</a> codifies the verticalized-frontier-agent pattern.</strong> OpenAI pairs GPT-6 Astra with a legal search index, custom instructions, and 26 plugins; Sullivan &amp; Cromwell, Harvey, Ropes &amp; Gray, and Cooley are building firm-specific agent apps on forward-deployed engineering — a working template for domain-tuned agents on a frontier base.</div></div>
+  <div class="signal-row"><div class="signal-num">5</div><div class="signal-text"><strong><a href="https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Pro-RL">Xiaomi MiMo-V2.6-Pro-RL</a> demonstrates an open-weight self-improvement RL loop.</strong> 1.02T/42B-activated MIT MoE with "You Only RL Once" mixed RL and Groupwise Agentic Grading — a credible open recipe for scaling RL compute, environment diversity, and grader compute together rather than per-domain runs.</div></div>
+  <div class="sentiment-bar-container">
+    <div class="sentiment-label">Practitioner Sentiment — Cautiously Positive</div>
+    <div class="sentiment-bar"><div class="sentiment-fill" style="width:66%"></div></div>
+    <div class="sentiment-caption">Open-weight agentic capability is now genuinely frontier-adjacent (DeepSeek, Xiaomi, Qwen), but the agent-harness layer is still in breaking-change preview and self-improvement claims remain largely vendor-benchmarked.</div>
+  </div>
+</div>
+
+<div class="section-title">Model Watch</div>
+
+<div class="trend-card">
+  <div class="trend-title">1. DeepSeek-V4.1-Flash (open-weight, MIT)</div>
+  <div class="badges">
+    <span class="badge m-explosive"><span class="badge-label">Momentum</span>Explosive</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>DeepSeek released <a href="https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash">V4.1-Flash</a> (~Sep 10), a 552B-param multimodal MoE with a Causal Encoder-Decoder (CED) architecture that projects the decoder KV cache from final encoder hidden states, activating only 8B params at prefill and 16B at decode. Compressed Sparse Attention 2 (CSA2) plus FP4 main KV caching drive the global KV footprint to <strong>890 bytes/token — roughly 1/4 of V4-Flash and 1/437 of V1</strong>. Context is 1M tokens; license is MIT; the DeepSeek API serves it under the <code>deepseek-flash</code> name and is OpenAI- and Anthropic-API compatible.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>At max reasoning effort it ties or leads frontier closed models on several agentic tasks: <strong>DeepSWE v1.1 74.2</strong> (Opus-5.0 74.0, GPT-5.6 Sol 73.0), <strong>Terminal-Bench 2.1 90.6</strong> (best-in-class), Terminal-Bench 3.0/4.0 30.0/31.2, AutomationBench 54.8 (beating Opus-5.0 50.3), Agent's Last Exam 31.8, CyberGym 88.1. Reasoning lags on pure-knowledge tasks (HLE 36.8 vs Opus 56.3) — the strength is deliberately agentic/code, not trivia. It exposes a continuously controllable <code>reasoning_effort</code> (1–100). 542k downloads in ~12 days.</p>
+    <span class="field-label">Who is using it</span><p>Live on <a href="https://api-docs.deepseek.com/news/deepseek-v4-1-flash">Novita, Fireworks, Featherless, DeepInfra</a> with OpenAI-compatible serving; Qwen and Xiaomi cards explicitly cite Claude Code / Codex / OpenCode harness compatibility. The model is positioned as a drop-in backend for existing agent tools ("no code required").</p>
+    <span class="field-label">Engineering implication</span><p>The KV-cache compression makes self-hosted long-context agent runs economically viable where they previously weren't. For teams running a two-tier stack, V4.1-Flash is now a defensible choice for the high-volume ~90% of coding/agent traffic. <strong>Verdict: Adopt</strong> for the self-hosted tier if you have vLLM/SGLang capacity; validate on your own agentic evals before displacing a frontier API on hard tasks.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. Gemini 3.8 Flash (frontier workhorse, GA)</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Google DeepMind moved <a href="https://deepmind.google/models/gemini/flash/">Gemini 3.8 Flash</a> to general availability in September as its "most intelligent workhorse model yet for coding and agents" — 1M input / 64k output, function calling, search-as-a-tool, computer use, multimodal (text/image/video/audio/PDF). DeepMind also shipped 3.8 Live and 3.8 Live Extended Thinking alongside it.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>On <strong>DeepSWE v1.1 it "outperforms most larger frontier models at a fraction of the cost"</strong>; <strong>HLE-Verified 54.9%</strong>; leads on Vals Finance Agent v2 and Harvey's Legal Agent Benchmark. Positioned below the (still-unconfirmed-GA) Gemini 4 Pro but explicitly as the cost-efficient agentic daily-driver.</p>
+    <span class="field-label">Who is using it</span><p><a href="https://deepmind.google/discover/blog/">Glean</a> (AI Product Lead Thai Tran: "completing more than three times as many tasks as Gemini 3.7 Flash" for document-heavy workflows) and <a href="https://deepmind.google/discover/blog/">Loopit</a> (CTO Haoyuan Guo: integrating into an AI game-creation agent for coding, asset reasoning, visual validation). Both are named, shipping teams — not just showcase quotes.</p>
+    <span class="field-label">Engineering implication</span><p>3.8 Flash is now the default safe bet for cost-conscious frontier agent work where you don't need the absolute top of the leaderboard. <strong>Verdict: Adopt</strong> as the managed frontier workhorse; pair with a self-hosted open-weight for the volume tier.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">3. Xiaomi MiMo-V2.6-Pro-RL (open-weight, MIT)</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-mixed"><span class="badge-label">Sentiment</span>Mixed</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Xiaomi released the <a href="https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Pro-RL">MiMo-V2.6-Pro-RL</a> flagship (~Sep 22): a 1.02T-total / 42B-activated sparse MoE, 1M context, omnimodal (text/image/video/audio), with a 5-layer MTP speculative decoder. The headline is the RL recipe rather than the weights.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>Vendor-reported: DeepSWE v1.1 <strong>71.9</strong>, Terminal-Bench 2.1 <strong>89.9</strong>, OSWorld-Verified 82.0, AutomationBench 53.1, CyberGym 94.0 — competitive with Claude Opus 5 / GPT-5.6 Sol on agent tasks. Notably weaker on Terminal-Bench 4.0 (34.9 vs Opus 49.0) and ExploitGym. No independent reproduction yet, hence medium confidence.</p>
+    <span class="field-label">Who is using it</span><p>Released on HuggingFace/ModelScope, OpenRouter, and Xiaomi's own platform; community quantizations and finetunes already appearing. Limited third-party deployment evidence so far — mostly research/eval interest.</p>
+    <span class="field-label">Engineering implication</span><p>The model itself is a candidate open-weight agent base, but the real signal is the <em>training methodology</em> (Groupwise Agentic Grading, "You Only RL Once") which is reproducible in principle. <strong>Verdict: Watch</strong> the model; <strong>Trial</strong> the RL-grading technique for teams with RL infrastructure. Treat vendor benchmarks as provisional until independent evals land.</p>
+  </div>
+</div>
+
+<div class="section-title">Agent Engineering &amp; AI SDLC</div>
+
+<div class="trend-card">
+  <div class="trend-title">1. "Everything is a plugin" agent harnesses (DeepSeek Harness)</div>
+  <div class="badges">
+    <span class="badge m-explosive"><span class="badge-label">Momentum</span>Explosive</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-low"><span class="badge-label">Production Ready</span>Low</span>
+    <span class="badge hr-high"><span class="badge-label">Hype Risk</span>High</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>DeepSeek open-sourced <a href="https://github.com/deepseek-ai/deepseek-harness">deepseek-harness</a> (dsh, MIT, 233k stars / 28k forks) — an agent harness built on an "everything-is-a-plugin" architecture powered by <strong>Cordis</strong>, whose design is described in "A Programming Paradigm for Spatiotemporal Composability." It ships Minimal/Standard/PTC scaffolds and is the harness used to reproduce DeepSeek-V4.1-Flash's DeepSWE and Terminal-Bench results. The README explicitly warns: <em>developer preview, "THERE WILL BE COMPATIBILITY-BREAKING CHANGES."</em></p>
+    <span class="field-label">Why it matters</span><p>This is the first time a frontier-tier lab has shipped its own agent harness as open code with a benchmark-reproducible scaffold. The plugin-first model competes directly with Claude Code / Codex / OpenCode as a harness substrate and gives self-hosting teams a reference architecture rather than a black box. It also reframes "harness engineering" from a closed-lab practice to a composable, OSS layer.</p>
+    <span class="field-label">Evidence from real teams</span><p>DeepSeek's own <a href="https://api-docs.deepseek.com/news/deepseek-harness">API docs</a> list Claude Code, GitHub Copilot, and OpenCode as compatible backends alongside dsh; the DeepSeek-V4.1-Flash card publishes DSH Minimal/Standard/PTC benchmark variants against Claude Code, Codex, OpenCode, Pi, and mini-SWE scaffolds — a transparent harness-vs-harness comparison rather than a single vendor number.</p>
+    <span class="field-label">Engineering implication</span><p>Worth a serious evaluation as an OSS harness option, but treat as preview: pin versions, expect breaking changes, do not yet anchor production agents on its plugin API. <strong>Verdict: Trial</strong> for non-critical agent workloads and benchmarking; <strong>Watch</strong> for production until the API stabilizes.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. Groupwise Agentic Grading / "You Only RL Once" (self-improvement RL loop)</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-mixed"><span class="badge-label">Sentiment</span>Mixed</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Xiaomi's <a href="https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Pro-RL">MiMo-V2.6</a> technical report formalizes two ideas worth tracking. <strong>"You Only RL Once"</strong>: one mixed GRPO run across coding, general agents, visual, and cybersecurity in the same batch (1,568 prompts × 16 rollouts/step), so capabilities reinforce each other and transfer to unseen harnesses — replacing the per-domain-RL-then-merge norm. <strong>Groupwise Agentic Grading</strong>: binary pass/fail can't rank passing solutions, so an agentic grader builds task rubrics offline (Groupwise Reward Synthesis) and redistributes advantage toward higher-quality passing trajectories online (Groupwise Advantage Redistribution), judged against the policy's own samples — closing a self-improvement loop that steers toward shorter paths and fewer tokens.</p>
+    <span class="field-label">Why it matters</span><p>This is a concrete, open recipe (MIT weights + described algorithm) for the "scale RL compute, environment diversity, and grader compute together" thesis — adjacent to the recursive-self-improvement signals tracked since Sep 21 but distinct: it is RL-loop self-improvement with an explicit anti-reward-hacking guard (environment hardening, adversarial screening, verifier cross-checks) and on-policy distillation (MOPD2) afterward. It is reproducible in a way opaque internal RSI reports are not.</p>
+    <span class="field-label">Evidence from real teams</span><p>Only Xiaomi's own report so far; no independent replication. The "aligned RL" cold-start-from-self-correction step is described but not separately benchmarked. Confidence is medium precisely because the headline gains are vendor-measured.</p>
+    <span class="field-label">Engineering implication</span><p>For teams building RL pipelines, the mixed-batch + rubric-grade pattern is the most actionable new idea this cycle — it directly attacks the "pass/fail can't distinguish good from mediocre passes" problem that limits RL signal on agentic tasks. <strong>Verdict: Trial</strong> the grading approach in your own RL stack; treat the model's numbers as provisional.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">3. Verticalized frontier agents (Astra for Law)</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p><a href="https://openai.com/index/astra-for-law/">Astra for Law</a> (Sep 17) packages GPT-6 Astra with a legal search index (230M+ URLs, Free Law Project/CourtListener corpus), custom instructions for legal analysis/writing, 26 partner plugins (iManage, Intapp, DeepJudge, Thomson Reuters HighQ/CoCounsel), and a Trusted Access program with Zero Data Retention. On Vals AI Legal Research Bench it passed 54.0% of questions vs 38.7% for GPT-6 Astra + web search alone — a 40% relative jump from the tooling, not the base model.</p>
+    <span class="field-label">Why it matters</span><p>This is the clearest shipped example of the pattern where the competitive moat is <em>base model + domain tools + governance</em>, not the base model alone. It validates the broader "domain-tuned" thesis (Salesforce Koa on an open base is the open-weight counterpart) and shows forward-deployed engineers co-building firm-specific apps (Sullivan &amp; Cromwell agreement analyzer, Ropes &amp; Gray deal-diligence, Cooley GO Public).</p>
+    <span class="field-label">Evidence from real teams</span><p>Named, shipping partners: <a href="https://openai.com/index/astra-for-law/">Harvey and Legora</a> building on the API; Sullivan &amp; Cromwell, Ropes &amp; Gray, Cooley, Skadden, Wachtell building custom apps; Latham &amp; Watkins co-designing governance. This is real-team adoption, not a feature announcement.</p>
+    <span class="field-label">Engineering implication</span><p>For any team building vertical agents, the lesson is to invest in the retrieval index, tool ecosystem, and governance layer as first-class engineering artifacts — that is where the 40%-relative lift came from. <strong>Verdict: Adopt</strong> the architecture pattern; <strong>Trial</strong> the Astra-for-Law product itself only if you're in legal.</p>
+  </div>
+</div>
+
+<div class="section-title">Terminology Tracker</div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://github.com/deepseek-ai/deepseek-harness">DeepSeek Harness / "everything is a plugin"</a> — NEW</div><p><strong>Definition:</strong> Open-source agent harness (dsh, MIT) from DeepSeek built on the Cordis framework's "spatiotemporal composability" programming paradigm, in which tools, scaffolds, and capabilities are uniformly plugins. Ships Minimal/Standard/PTC agent modes and is the harness used to reproduce DeepSeek-V4.1-Flash's DeepSWE/Terminal-Bench results. Differs from Claude Code/Codex (closed harnesses over an API) and from generic MCP tooling (it is a full harness, not just a tool protocol). Explicitly developer-preview with breaking changes.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Pro-RL">Groupwise Agentic Grading</a> — NEW</div><p><strong>Definition:</strong> Coined by Xiaomi MiMo (Sep 2026) for an RL reward-scaling technique: an agentic grader compares rollouts within a group, building task-specific rubrics offline (Groupwise Reward Synthesis) and redistributing advantage toward higher-quality passing trajectories online (Groupwise Advantage Redistribution). Solves the problem that binary pass/fail cannot rank passing solutions, which weakens the RL signal on agentic tasks. Distinct from RSI (no autonomous algorithm self-editing) and from rubric-based evals (it is inside the training loop, not just a post-hoc judge).</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Pro-RL">"You Only RL Once" (mixed-batch RL)</a> — NEW</div><p><strong>Definition:</strong> Xiaomi MiMo's practice of running a single mixed GRPO RL batch across coding, general agents, visual, and cybersecurity domains simultaneously (rather than separate per-domain RL runs then merging), so capabilities reinforce each other and transfer to harnesses unseen in training. Contrasts with the dominant train-per-capability-then-distill norm.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash">Causal Encoder-Decoder (CED) / KV-cache compression</a> — NEW</div><p><strong>Definition:</strong> DeepSeek-V4.1-Flash architecture: a 40-layer transformer split into a 20-layer causal encoder followed by a 20-layer decoder, where the decoder's global KV cache is projected from the final encoder hidden states rather than each decoder layer's own states. Combined with Compressed Sparse Attention 2 (CSA2) and FP4 main KV, it drops the persistent KV cache to 890 bytes/token (~1/4 of V4-Flash). The engineering point: input-heavy agentic workloads activate far fewer params and store far less KV, making long-context self-hosting economical.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://huggingface.co/Qwen/Qwen3.8-27B">preserve_thinking (retained reasoning context)</a> — NEW</div><p><strong>Definition:</strong> Qwen3.8 feature (on by default) that retains thinking blocks from all historical messages across a conversation, maintaining a full reasoning trace across turns. Qwen argues it improves decision consistency and KV-cache utilization in multi-turn agent scenarios and reduces redundant re-reasoning — distinct from simple "extended thinking" because the trace persists across turns rather than being discarded. Worth testing as a default for long agent runs.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://openai.com/index/astra-for-law/">Verticalized frontier agent</a> — EVOLVING (first seen 2026-09-21)</div><p>The "domain-tuned open base (Koa pattern)" tracked Sep 21 now has a closed-weight mirror: Astra for Law pairs a frontier base (GPT-6 Astra) with a domain search index, custom instructions, a plugin ecosystem, and governance (ZDR). The 40%-relative Legal Research Bench lift came from tooling, not the base model. Real teams shipping: <a href="https://openai.com/index/astra-for-law/">Harvey, Legora, Sullivan &amp; Cromwell, Ropes &amp; Gray, Cooley, Skadden</a>. The two-tier / domain-tuned thesis is converging across open (Koa on Nemotron) and closed (Astra for Law) stacks.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash">DeepSeek V4.1 Flash</a> — EVOLVING (first seen 2026-09-21)</div><p>Last run's leak-based characterization is now primary-sourced: the <a href="https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash">model card</a> confirms 552B MoE, MIT license, 1M context, CED architecture with 890 bytes/token KV, and benchmark parity with Opus-5.0 on DeepSWE (74.2) and a lead on Terminal-Bench 2.1 (90.6). Live on four inference providers; 542k downloads in ~12 days. The two-tier stack thesis it underpins is now production-validated, not speculative.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://deepmind.google/discover/blog/">Gemini 3.8 Flash</a> — EVOLVING (adjacent to Gemini 4 Pro, first seen 2026-09-21)</div><p>Where last run tracked the unconfirmed Gemini 4 Pro gray-tests, DeepMind's confirmed GA this cycle is <a href="https://deepmind.google/models/gemini/flash/">3.8 Flash</a> — the cost-efficient frontier workhorse with DeepSWE wins and HLE-Verified 54.9%, already in production at <a href="https://deepmind.google/discover/blog/">Glean and Loopit</a>. The 4 Pro leak remains unconfirmed; 3.8 Flash is the model teams can actually adopt today.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.anthropic.com/news">Frontier pace-measurement proposal</a> — NEW</div><p><strong>Definition:</strong> Anthropic's Sep 17 proposal for public metrics giving visibility into frontier AI development inside labs — a transparency/governance move directly tied to the "pacing the frontier" debate tracked Sep 21. Paired with the Sep 18 <a href="https://www.anthropic.com/news">Accenture embedded-evaluation partnership</a>, it signals eval infrastructure becoming a shared-lab concern rather than per-team ad-hoc work. Not a model or technique per se, but a structural shift in how capability deltas will be measured and reported.</p></div>
+
+<div class="section-title">Trend Deltas</div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>DeepSeek Harness ("everything is a plugin")</strong> — first seen today; entered tracking. First open, benchmark-reproducible agent harness from a frontier-tier lab.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Groupwise Agentic Grading / "You Only RL Once"</strong> — first seen today; entered tracking. Concrete open RL-loop self-improvement recipe with anti-reward-hacking guards.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Causal Encoder-Decoder (CED) / KV-cache compression</strong> — first seen today; entered tracking. Architecture making self-hosted long-context agents economical.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>preserve_thinking</strong> — first seen today; entered tracking. Cross-turn reasoning-trace retention; a small but meaningful agent-context-engineering primitive.</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>DeepSeek V4.1 Flash</strong> — accelerating vs. prior sighting (first seen 2026-09-21, 2 sightings). Leak-based claims now primary-sourced and production-deployed.</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>Domain-tuned / verticalized frontier agent</strong> — accelerating (first seen 2026-09-21 as "Koa pattern," 2 sightings). Now confirmed across both open (Koa) and closed (Astra for Law) stacks with named shipping teams.</div></div>
+<div class="long-row"><div class="long-icon">&#8593;</div><div><strong>Two-tier model stack</strong> — up (first seen 2026-09-21, 2 sightings). V4.1-Flash's KV economics make the self-hosted-volume + frontier-API-hard-tasks split materially cheaper.</div></div>
+<div class="long-row"><div class="long-icon">&#8594;</div><div><strong>Gemini 4 Pro</strong> — flat (first seen 2026-09-21, 2 sightings). Still unconfirmed/gray-test; the confirmed GA this cycle is the adjacent 3.8 Flash workhorse.</div></div>
+<div class="long-row"><div class="long-icon">&#8594;</div><div><strong>Claude Opus 5.5</strong> — flat (first seen 2026-09-21, 2 sightings). No new primary confirmation; Anthropic's confirmed September cadence was Fable/Mythos 5.1 (Sep 1) plus governance posts. Treat Opus 5.5 as unverified.</div></div>
+<div class="long-row"><div class="long-icon">&#8681;</div><div><strong>Pacing the frontier / safety-as-cartel</strong> — going quiet on the legal-action front this cycle; the substantive follow-on is Anthropic's pace-measurement proposal (governance, not litigation).</div></div>
+
+<div class="section-title">Strategic Implications</div>
+<div class="implication-block"><div class="implication-type">Adopt</div><p>Standardize a two-tier stack now: a managed frontier workhorse (<a href="https://deepmind.google/models/gemini/flash/">Gemini 3.8 Flash</a>) for the hard ~10% plus a self-hosted open-weight (<a href="https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash">DeepSeek-V4.1-Flash</a>, MIT) for the high-volume ~90% of agentic/coding traffic — V4.1-Flash's KV-cache compression finally makes the self-hosted tier cost-defensible at 1M-token contexts. Invest in the retrieval index + tool/governance layer as first-class engineering artifacts (the Astra-for-Law 40%-relative lift came from tooling, not the base model).</p></div>
+<div class="implication-block"><div class="implication-type">Trial</div><p><a href="https://github.com/deepseek-ai/deepseek-harness">DeepSeek Harness</a> for non-critical agent workloads and transparent harness-vs-harness benchmarking (pin versions; expect breaking changes). Xiaomi's <a href="https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Pro-RL">Groupwise Agentic Grading + mixed-batch RL</a> for teams with RL infrastructure — it directly addresses the weak pass/fail signal that limits RL on agentic tasks. Qwen3.8's <code>preserve_thinking</code> as a default for long multi-turn agent runs where reasoning-trace continuity matters.</p></div>
+<div class="implication-block"><div class="implication-type">Watch</div><p><a href="https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Pro-RL">MiMo-V2.6-Pro-RL</a> as an open-weight agent base — strong vendor benchmarks but no independent reproduction. <a href="https://huggingface.co/Qwen/Qwen3.8-27B">Qwen3.8-27B</a> (Apache-2.0, dense 27B, Gated DeltaNet + MTP) for deployment-friendly mid-size agent needs. Anthropic's <a href="https://www.anthropic.com/news">pace-measurement proposal</a> as an early signal that capability-delta reporting may become standardized across labs — relevant to how you benchmark internally.</p></div>
+<div class="implication-block"><div class="implication-type">30-90 Day Watchlist</div><p>DeepSeek Harness API stabilization (will determine whether it graduates from preview to a production harness option). Independent reproduction of MiMo-V2.6 benchmarks. Gemini 4 Pro confirmation (the gray-test numbers, if real, would reset the frontier bar). Any movement on Claude Opus 5.5 — currently unverified; do not plan against leaked specs. Whether the "everything is a plugin" harness model pulls the broader OSS agent-framework ecosystem (LangChain/LlamaIndex/AI SDK) toward plugin-composability conventions.</p></div>
+
+<div class="sources-section"><h2>Sources</h2><ol class="sources-list">
+  <li><span class="src-num">[1]</span><a href="https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash">Hugging Face — "DeepSeek-V4.1-Flash: Pushing the Limits of KV Cache Compression" (model card/technical report)</a></li>
+  <li><span class="src-num">[2]</span><a href="https://github.com/deepseek-ai/deepseek-harness">GitHub — DeepSeek-AI/deepseek-harness ("Everything is a Plugin")</a></li>
+  <li><span class="src-num">[3]</span><a href="https://api-docs.deepseek.com/news/deepseek-harness">DeepSeek API Docs — Agent Integrations / DeepSeek Harness developer preview</a></li>
+  <li><span class="src-num">[4]</span><a href="https://deepmind.google/models/gemini/flash/">Google DeepMind — "Gemini 3.8 Flash" (model page, GA)</a></li>
+  <li><span class="src-num">[5]</span><a href="https://deepmind.google/discover/blog/">Google DeepMind — News/blog (Glean &amp; Loopit showcase quotes; 3.8 Flash/Live launches)</a></li>
+  <li><span class="src-num">[6]</span><a href="https://openai.com/index/astra-for-law/">OpenAI — "Introducing Astra for Law"</a></li>
+  <li><span class="src-num">[7]</span><a href="https://openai.com/blog">OpenAI — News index (Astra for Law, Sep 17; misalignment reporting framework, Sep 16)</a></li>
+  <li><span class="src-num">[8]</span><a href="https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Pro-RL">Hugging Face — Xiaomi MiMo-V2.6-Pro-RL model card ("Scaling Reinforcement Learning Toward Self-Improvement")</a></li>
+  <li><span class="src-num">[9]</span><a href="https://huggingface.co/Qwen/Qwen3.8-27B">Hugging Face — Qwen3.8-27B model card (Gated DeltaNet, MTP, preserve_thinking, reasoning_effort)</a></li>
+  <li><span class="src-num">[10]</span><a href="https://huggingface.co/models?sort=trending">Hugging Face — Trending models (open-weight velocity: DeepSeek V4.1-Flash, Qwen3.8-27B, MiMo-V2.6)</a></li>
+  <li><span class="src-num">[11]</span><a href="https://www.anthropic.com/news">Anthropic — Newsroom (Fable/Mythos 5.1, Sep 1; pace-measurement proposal, Sep 17; Accenture embedded evaluation, Sep 18)</a></li>
+</ol></div>
+<div class="footer">AI Engineering Intelligence &nbsp;&middot;&nbsp; 2026-09-22 &nbsp;&middot;&nbsp; Automated daily run &nbsp;&middot;&nbsp; Signal over noise</div>
+</body>
+</html>
