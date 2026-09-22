@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-09-22",
+    "title": "AI Engineering Intelligence — September 22, 2026",
+    "summary": "DeepSeek shipped V4.1-Flash (MIT, frontier-tier agentic benchmarks at ~4x KV-cache compression) plus an open-source \"everything-is-a-plugin\" agent harness, while Gemini 3.8 Flash hit GA as the frontier workhorse and Xiaomi's MiMo-V2.6-Pro-RL demonstrated a credible open-weight self-improvement RL loop.",
+    "url": "briefings/briefing-2026-09-22.html"
+  },
+  {
     "date": "2026-09-21",
     "title": "AI Engineering Intelligence — September 21, 2026",
     "summary": "A federal antitrust suit filed Sept 18 reframes the four frontier labs' \"pace the frontier\" safety coordination as a Sherman Act cartel — the same week Anthropic, Google, and OpenAI all pushed stealth model launches (Opus 5.5 leak, Gemini 4 Pro gray-test, GPT-6 Sol), turning safety messaging into legal liability and accelerating the release frenzy.",
