@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Engineering Intelligence — September 23, 2026</title>
+<style>
+  :root {
+    --bg: #0f1117; --surface: #1a1d27; --surface2: #222536; --border: #2e3148;
+    --accent: #6c63ff; --accent2: #00c2a8; --accent3: #f59e0b; --accent4: #ef4444;
+    --text: #e8eaf0; --text-muted: #8b8fa8; --text-dim: #5a5d75;
+    --green: #22c55e; --yellow: #eab308; --red: #ef4444; --orange: #f97316; --blue: #3b82f6; --purple: #a855f7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.7; max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+  a { color: var(--accent2); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+  a:hover { border-bottom-color: var(--accent2); }
+  .header { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 36px; }
+  .header-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; margin-bottom: 6px; }
+  .header-meta { color: var(--text-muted); font-size: 13px; }
+  .section-title { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 44px 0 18px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .exec-summary { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 24px 26px; margin-bottom: 8px; }
+  .exec-summary h2 { font-size: 15px; font-weight: 700; margin-bottom: 14px; color: var(--text); }
+  .signal-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+  .signal-num { background: var(--accent); color: white; font-size: 11px; font-weight: 700; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .signal-text { color: var(--text); line-height: 1.6; }
+  .sentiment-bar-container { margin-top: 18px; }
+  .sentiment-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+  .sentiment-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .sentiment-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #ef4444 0%, #eab308 40%, #22c55e 75%); width: 64%; }
+  .sentiment-caption { font-size: 11px; color: var(--text-muted); margin-top: 5px; }
+  .trend-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 22px 24px; margin-bottom: 18px; }
+  .trend-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .badge { display: inline-flex; align-items: center; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; white-space: nowrap; }
+  .badge-label { color: var(--text-muted); font-weight: 400; margin-right: 4px; font-size: 9px; }
+  .m-explosive { background: rgba(239,68,68,0.18); color: #f87171; }
+  .m-high { background: rgba(245,158,11,0.18); color: #fbbf24; }
+  .m-medium { background: rgba(59,130,246,0.18); color: #60a5fa; }
+  .m-low { background: rgba(139,143,168,0.18); color: #b6bad0; }
+  .s-positive { background: rgba(34,197,94,0.15); color: #4ade80; }
+  .s-mixed { background: rgba(234,179,8,0.15); color: #fde047; }
+  .s-polarizing { background: rgba(168,85,247,0.15); color: #c084fc; }
+  .s-negative { background: rgba(239,68,68,0.15); color: #f87171; }
+  .er-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .er-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .er-low { background: rgba(139,143,168,0.12); color: #b6bad0; }
+  .hr-high { background: rgba(239,68,68,0.12); color: #f87171; }
+  .hr-medium { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .hr-low { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .cl-low { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .trend-body p { margin-bottom: 10px; }
+  .trend-body strong { font-weight: 600; }
+  .field-label { color: var(--text-muted); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 14px; margin-bottom: 4px; display: block; }
+  .contrarian-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #a855f7; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .contrarian-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .declining-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #f97316; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .declining-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .watchlist-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 12px; }
+  .watchlist-name { font-size: 14px; font-weight: 700; color: var(--accent2); margin-bottom: 6px; }
+  .implication-block { border-left: 2px solid var(--accent3); padding: 10px 0 10px 16px; margin-bottom: 12px; }
+  .implication-type { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent3); font-weight: 700; margin-bottom: 4px; }
+  .long-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+  .long-icon { font-size: 13px; margin-top: 2px; width: 24px; flex-shrink: 0; color: var(--accent2); font-weight: 700; }
+  .sources-section { margin-top: 52px; border-top: 1px solid var(--border); padding-top: 24px; }
+  .sources-section h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 700; margin-bottom: 14px; }
+  .sources-list { list-style: none; }
+  .sources-list li { font-size: 12px; color: var(--text-muted); margin-bottom: 7px; display: flex; gap: 8px; }
+  .sources-list li .src-num { color: var(--text-dim); flex-shrink: 0; width: 24px; }
+  .sources-list li a { font-size: 12px; color: var(--text-muted); }
+  .sources-list li a:hover { color: var(--accent2); }
+  .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text-dim); text-align: center; }
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-label">Daily Intelligence Briefing</div>
+  <h1>AI Engineering Intelligence</h1>
+  <div class="header-meta">Tuesday, September 23, 2026 &middot; 6-minute read &middot; Signal over noise</div>
+</header>
+
+<div class="section-title">Executive Summary</div>
+<div class="exec-summary">
+  <h2>Top 5 Highest-Signal Developments</h2>
+  <div class="signal-row"><div class="signal-num">1</div><div class="signal-text"><strong><a href="https://www.anthropic.com/claude-opus-5-5">Claude Opus 5.5 shipped and reclaimed the intelligence crown</a>.</strong> Sept 22 launch confirms last week's "Tuesday launch" leak: AA Intelligence Index 58, 20% price cut to $4/$20, cache reads slashed 60% to $0.20/M, 40% lower cost-per-task than Opus 5, and named production use at GitHub, Clio, Stripe, Optiver, Deloitte, Box — but preserved-thinking and thinking-cannot-be-disabled changes require integration review.</div></div>
+  <div class="signal-row"><div class="signal-num">2</div><div class="signal-text"><strong><a href="https://openai.com/index/introducing-gpt-6-sol-and-luna/">OpenAI launched GPT-6 Sol &amp; Luna, halving cost versus GPT-5.6</a>.</strong> Sol at $2/$10 and Luna at $0.10/$0.50 are the cost-efficiency tiers below Astra; intelligence roughly level with predecessors at half price, but independent evals show real regressions on long-horizon knowledge-work deliverables (GDPval-AA, AA-Briefcase) — the "level" headline masks agentic-work-product quality drops.</div></div>
+  <div class="signal-row"><div class="signal-num">3</div><div class="signal-text"><strong><a href="https://openai.com/index/better-prompt-caching-for-gpt-6/">Prompt caching became a first-class engineering surface for GPT-6</a>.</strong> A Prompt Caching Dashboard, cache-miss diagnostics, explicit breakpoints, mid-conversation reasoning-effort changes that preserve cache, and prewarming landed the same day; GitHub reports a &gt;50% drop in freshly-processed prompt tokens across billions of requests, and Manus hit 90%+ cache rates inside a week.</div></div>
+  <div class="signal-row"><div class="signal-num">4</div><div class="signal-text"><strong><a href="https://arcturus-labs.com/blog/2026/09/21/will-openai-eat-jevs-lunch/">The "Jev" decision-model technique keeps accelerating, with a fast-follow thesis attached</a>.</strong> TypeSafe's logprob-based calibrated classifier — "adopted faster than any model in Vercel AI Gateway history" — reframes LLMs as instant decision engines rather than text generators; a credible analysis argues OpenAI can fold the capability into its own models, turning it from a product into an architecture feature.</div></div>
+  <div class="signal-row"><div class="signal-num">5</div><div class="signal-text"><strong><a href="https://unreallabs.ai/blog/unreal-agent/">Harness design is now openly treated as a research discipline, not just plumbing</a>.</strong> Unreal Agent ships an asynchronous-tool-call harness that cuts cost up to 40% vs Codex at equal pass rates, explicitly citing "HarnessTax" research and KV-cache preservation — joining DeepSeek Harness, Artificial Analysis's Stirrup, OpenCode, and Pi in a fast-forming harness-vs-harness benchmark ecosystem.</div></div>
+  <div class="sentiment-bar-container">
+    <div class="sentiment-label">Practitioner Sentiment — Cautiously-Positive</div>
+    <div class="sentiment-bar"><div class="sentiment-fill" style="width:68%"></div></div>
+    <div class="sentiment-caption">Two frontier launches with deep price cuts and real production adoption are welcomed, but Opus 5.5's safety-mode integration changes and Sol/Luna's knowledge-work regressions temper enthusiasm; the Jev-vs-fast-follow and harness-tax threads signal the frontier is moving to architecture and harness, not just weights.</div>
+  </div>
+</div>
+
+<div class="section-title">Model Watch</div>
+
+<div class="trend-card">
+  <div class="trend-title">1. Claude Opus 5.5</div>
+  <div class="badges">
+    <span class="badge m-explosive"><span class="badge-label">Momentum</span>Explosive</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Anthropic <a href="https://www.anthropic.com/claude-opus-5-5">launched Claude Opus 5.5 on Sept 22</a> — the first model of the Claude 5.5 family and its first release since Dario Amodei's "pace the frontier" call. It was externally tested by METR and Frontier Design before release and ships with a <a href="https://anthropic.com/claude-opus-5-5-system-card">system card</a>. Sonnet 5.5 and Haiku 5.5 follow in coming weeks.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p><a href="https://artificialanalysis.ai/articles/claude-opus-5-5">Artificial Analysis scores it 58 on the Intelligence Index</a> — the highest measured by several points, leading 6 of 10 index evals: HLE 61.4%, SciCode 66.9%, GDPval-AA v2.1 (1846 Elo, +111 over Fable 5.1), AA-Briefcase (1822 Elo, +143 — first time Anthropic presentation quality beats GPT-5.6 Sol), AA-Omniscience, AutomationBench-AA. Anthropic's own numbers: Terminal-Bench 4.0 66.4% at xhigh (level with GPT-6 Astra), FrontierCode v1.1 54.4% (beats Astra 53.3% at ~20% cost), CursorBench 4.0 57.8%, OSWorld 2.0 81.8% partial. Pricing: $4/$20 per M tokens (down 20% from Opus 5's $5/$25), cache reads $0.20 (down 60% from $0.50 — a 95% discount vs uncached input), cache writes $5, Fast mode $8/$40 up to 2.5x. 1M-token context. Anthropic itself cautions <strong>benchmark margins are now a less reliable guide to real-world differences</strong> at these capability levels.</p>
+    <span class="field-label">Who is using it</span><p>Named production adoption in the launch post: GitHub (fewest tokens/steps measured across Copilot CLI and VS Code), Clio (18-hour unattended 6-repo task), Stripe (40-PR stacked rebase, all passed CI next afternoon), Optiver (40-50% cost cut, top score on a trading-desk suite), Lovable, Quantium (38 prompts/4d &rarr; 11 prompts/3h), Spotify, Column, Kiro, Box, Ramp, Chicago Trading Co, Factory; knowledge-work: Deloitte, Rogo, LexisNexis, Walleye Capital, Hex, Thomson Reuters, Hebbia, Viktor.</p>
+    <span class="field-label">Engineering implication</span><p>Two integration-breaking changes demand attention. (1) <strong>Preserved thinking</strong> — the anti-distillation safeguard that blocks editing Claude's prior context to extract reasoning — applies to Opus 5.5 and Fable 5.1 for API accounts created on/after Aug 31, 2026; <a href="https://support.claude.com/en/articles/16761192">test integrations against the docs</a>. (2) <strong>Thinking can no longer be disabled</strong>, which may require re-tuning effort budgets. Safeguards also transparently fall back to Opus 4.8 (cyber) and Opus 5 (biology) — expect lower scores on cyber/biology tasks and account for the fallback in eval harnesses. <strong>Verdict: Adopt.</strong> For long-horizon coding and agentic knowledge work it is the new default at materially lower cost; migrate from Opus 5 but budget an integration-review pass for preserved-thinking and effort-mode behavior.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. GPT-6 Sol &amp; Luna</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-mixed"><span class="badge-label">Sentiment</span>Mixed</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>OpenAI <a href="https://openai.com/index/introducing-gpt-6-sol-and-luna/">launched GPT-6 Sol and Luna on Sept 22</a> as the cost-efficiency tiers below flagship Astra, cutting API prices 50% versus GPT-5.6: Sol $2/$10 per M (from $4/$20), Luna $0.10/$0.50 (from $0.20/$1.20), with 90% discounts on cached-input reads. API ids <code>gpt-6-sol</code> / <code>gpt-6-luna</code>; live in ChatGPT Work and Codex (not Chat).</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>OpenAI's own: AutomationBench Sol(xhigh) 33.2% at 9% of Opus-5 cost; DeepSWE v1.1 Sol(max) 68.8% (~80% lower cost than Fable 5); OSWorld 2.0 Sol(xhigh) 60.5%; Agents' Last Exam Sol(max) 56.4%. <a href="https://artificialanalysis.ai/articles/gpt-6-sol-and-luna-push-the-cost-efficiency-frontier">Artificial Analysis's independent read is more cautious</a>: the Intelligence Index is "broadly level" with GPT-5.6 at ~half cost (Sol-max $1.06/task vs $1.99), Coding Agent Index Sol(max) 57 (+2, on the cost Pareto) but Luna regresses to 41 (&minus;2). The critical caveat: hallucination fell sharply (Sol 92%&rarr;60%, Luna 93%&rarr;77%) but Sol <strong>traded accuracy for refusal</strong> (attempts 83% vs 99%, accuracy 54% vs 59%), and both regress on GDPval-AA v2.1 (Sol ~&minus;100 Elo, Luna ~&minus;75) and AA-Briefcase (Luna &minus;45) — shorter deliverables omitting rubric elements.</p>
+    <span class="field-label">Who is using it</span><p>No named production teams in the launch post (unlike Opus 5.5); GitHub's Copilot caching data is referenced for infrastructure, not model endorsement. Adoption is via ChatGPT Work/Codex and API rollout, not yet with shipping-team case studies.</p>
+    <span class="field-label">Engineering implication</span><p>Excellent for high-volume coding/computer-use where cost dominates and the refusal trade-off is acceptable; <strong>risky as a drop-in for long-horizon knowledge-work deliverables</strong> (memos, analyses, presentations) where the rubric-coverage regression surfaces. Treat Sol/Luna as the volume tier and keep a frontier model for work-product quality. <strong>Verdict: Trial.</strong> Strong cost-Pareto for coding and AutomationBench; validate against your own knowledge-work evals before defaulting — the headline "intelligence level" hides deliverable-quality regressions.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">3. DeepSeek-V4.1-Flash (open-weight volume tier)</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>The cycle's dominant open-weight story continues compounding: <a href="https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash">DeepSeek-V4.1-Flash</a> (released ~Sept 10) is now at ~571k downloads, the top recently-updated model on the DeepSeek HF org. Per the <a href="https://api-docs.deepseek.com/news/news260910">DeepSeek changelog</a>, V4-Flash and V4-Flash-Vision-Exp are retired and route to V4.1-Flash; <code>deepseek-v4-pro</code> requests now route to V4.1-Flash at Flash rates until V4.1-Pro launches. Official partners WorkBuddy/CodeBuddy and OpenCode fully support it.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>552B-param MoE, new <strong>Causal Encoder&ndash;Decoder (CED)</strong> architecture: 8B active at prefill, 16B at decode; 1M context; MIT license; KV cache ~890 bytes/token (~1/4 HBM, ~1/8 SSD of prior gen). Vendor benchmarks: GPQA Diamond 90.9, Terminal-Bench 2.1 90.6 (best-in-class), DeepSWE v1.1 74.2, AutomationBench 54.8, CyberGym 88.1, Codeforces 3471. <strong>Benchmark-version hazard</strong>: its Terminal-Bench 2.1 90.6 is not comparable to the new Terminal-Bench 4.0 (V4.1-Flash scores 31.2 on TB 4.0 per its own changelog) — compare on matching versions only.</p>
+    <span class="field-label">Who is using it</span><p>Live on DeepSeek API and partner inference (Novita, Fireworks, Featherless, DeepInfra); OpenCode added it as a Zen-provider backend in <a href="https://github.com/anomalyco/opencode/releases">v1.18.32 (Sept 21)</a>; LangChain shipped <a href="https://github.com/langchain-ai/langchain/releases">langchain-deepseek 1.1.1 (Sept 22)</a> mapping cache-hit tokens and routing strict mode to the beta endpoint. DeepSeek invites 2000-GPU+ self-deployments.</p>
+    <span class="field-label">Engineering implication</span><p>The self-hosted volume half of the two-tier stack is now production-validated: frontier-adjacent agentic coding at ~1/33rd of Astra/Fable input cost, with KV-cache economics that make 1M-context input-heavy agents defensible to self-host. <strong>Verdict: Adopt</strong> as the open-weight volume tier; pair with a frontier API for the hard ~10% of tasks. This is the concrete instantiation of the "two-tier model stack" thesis tracked since Sept 21.</p>
+  </div>
+</div>
+
+<div class="section-title">Agent Engineering &amp; AI SDLC</div>
+
+<div class="trend-card">
+  <div class="trend-title">1. Harness design as a research discipline (HarnessTax &amp; async tool calls)</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Harness design is now openly framed as "a research area in its own right." <a href="https://unreallabs.ai/blog/unreal-agent/">Unreal Agent (Sept 22)</a> ships an asynchronous-tool-call harness that logs tools as "in-progress" immediately and continues generation in the background, allowing user steering without waiting for tool calls and more tool-work per model turn. It cites the "HarnessTax" research line (Pan, Yang, Arabzadeh, Chiang, Stoica, Zaharia — "HarnessTax: How Much Does Harness Matter for Coding Agents?", 2026) and a KV-cache-preservation argument ("(KV) Cache Rules Everything Around Me"). This joins <a href="https://github.com/deepseek-ai/deepseek-harness">DeepSeek Harness (dsh)</a> (234k stars, developer preview, everything-is-a-plugin on Cordis), Artificial Analysis's open-source <a href="https://artificialanalysis.ai/articles/claude-opus-5-5">"Stirrup" reference harness</a> (used for AA-Briefcase evals), and OpenCode/Codex/Pi in a fast-forming harness-vs-harness benchmark ecosystem.</p>
+    <span class="field-label">Why it matters</span><p>The cost and pass-rate frontier is increasingly determined by the harness, not the model alone. Unreal Agent reports up to 40% cost savings vs Codex and ~20% vs Pi at equal pass rates on Terminal-Bench 4.0 (57.9% vs Codex 57.9%), SWE-Atlas-QnA (65.8% vs 63.3%), DeepSWE 1.1 (72.4% vs 69.0%), and Agents' Last Exam — purely from harness architecture (async tool calls, minimal footprint, no sub-agents, token-optimized tool results). DeepSeek publishes DSH Minimal/Standard/PTC vs Claude Code/Codex/OpenCode/Pi/mini-SWE harness-vs-harness numbers. Choosing or building a harness is now an explicit capability lever.</p>
+    <span class="field-label">Evidence from real teams</span><p>Unreal Labs (Sequoia/First-Round-backed, ex-CERN/Meta/Snap/Bloomberg/DeepMind) ships Unreal Agent on <a href="https://github.com/unreallabsai/unreal-agent">GitHub</a> with Harbor-reproducible benchmark runs. OpenCode (210k stars) integrated V4.1-Flash and Grok 4.7 as backends in its Sept 21 release. DeepSeek Harness is embedded in DeepSeek's API docs as the official agent tooling path with Claude Code/Copilot/OpenCode as compatible backends. Artificial Analysis's Stirrup standardizes agentic knowledge-work measurement.</p>
+    <span class="field-label">Engineering implication</span><p>Stop treating the harness as incidental. Async tool calling, cache-preserving tool-result formats, and minimal-footprint prompts are concrete, shippable cost levers. The Responses API's two-item tool-result pattern (in-progress + final) is currently underspecified and inconsistently supported across providers — a portability risk to flag. <strong>Verdict: Adopt</strong> the harness-vs-harness benchmarking mindset and <strong>Trial</strong> the specific async-tool-call pattern; benchmark your own harness against Codex/Pi/OpenCode on Harbor before committing.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. Jev: logprob-based calibrated decision models</div>
+  <div class="badges">
+    <span class="badge m-explosive"><span class="badge-label">Momentum</span>Explosive</span>
+    <span class="badge s-polarizing"><span class="badge-label">Sentiment</span>Polarizing</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-high"><span class="badge-label">Hype Risk</span>High</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>TypeSafe's <a href="https://arcturus-labs.com/blog/2026/09/21/will-openai-eat-jevs-lunch/">Jev model</a> trades text generation for instant calibrated decisions: given a state and questions, an LLM produces a single-token probability distribution whose logprobs are massaged into <code>noul</code> (true/false), <code>choice</code> (multi-way), and <code>score</code> outputs — sub-millisecond, no lengthy generation. <a href="https://vercel.com/blog/ai-gateway-jev-model-launch">Vercel reports it was "adopted faster than any other model in AI Gateway history."</a> A <a href="https://benchmarkheaven.com/jev-models">reproducible JevBench</a> surfaced on HN (Sept 22), and Latent Space reports 6+ clones already shipping.</p>
+    <span class="field-label">Why it matters</span><p>Jev reframes a class of LLM use — routing, moderation, triage, classification, safety scoring — from "generate an answer" to "read calibrated probabilities off the logits," which is faster, cheaper, and less hallucination-prone than asking a model to state confidence in prose. The deeper thesis (Arcturus, Sept 21): OpenAI has used single-token micro-classifiers internally for years (tool-call routing, end-of-message detection); the only real barrier to fast-following Jev is training-data/process for calibration, not architecture — so the capability may get folded into frontier models as an internal <code>&lt;prediction&gt;</code> tag, collapsing Jev from a standalone product into an architecture feature (self-answered safety checks, model routing, reasoning short-circuits).</p>
+    <span class="field-label">Evidence from real teams</span><p>Vercel (adoption-speed claim); TypeSafe's cofounder states 100% of training data is synthetic and the moat is calibration data + RL, not architecture. Independent practitioner (John Berryman, ex-GitHub Copilot) found <a href="https://arcturus-labs.com/blog/2026/09/16/typesafes-jev-trades-text-generation-for-instant-calibrated-decisions/">domains where Jev's probabilities "don't hold up"</a>, and TypeSafe itself publishes a <a href="https://docs.typesafe.ai/model-jaggedness/jev-1.13">"jagged edges" doc</a> warning Jev is for fast System-One judgments, not math or multi-hop reasoning. LangChain's experimental <a href="https://github.com/langchain-ai/langchain/releases">langchain-typesafe 0.0.1a3 (Sept 20)</a> ships AutoModeMiddleware and ModelRouterMiddleware — a guarded/routed-execution signal adjacent to the same idea.</p>
+    <span class="field-label">Engineering implication</span><p>High adoption velocity, high hype risk, real calibration caveats. Useful today for high-volume deterministic-ish decisions (routing, moderation, triage) where you can validate probabilities against ground truth; do <strong>not</strong> trust unvalidated Jev probabilities for high-stakes or multi-hop reasoning. Plan for frontier labs absorbing the pattern — build behind an abstraction so a future model-native <code>&lt;prediction&gt;</code> capability can replace the external call. <strong>Verdict: Trial</strong> for calibrated-decision workloads with ground-truth validation; <strong>Watch</strong> for frontier-lab absorption.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">3. Prompt caching as a first-class agent engineering surface</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p><a href="https://openai.com/index/better-prompt-caching-for-gpt-6/">OpenAI's "Better prompt caching for GPT-6" (Sept 22)</a> promotes caching from an implicit optimization to an instrumented surface: a Prompt Caching Dashboard, a cache-miss diagnostics tool (returns reasons like <code>tools_changed</code> with affected-token counts), explicit cache breakpoints, mid-conversation reasoning-effort changes that preserve cache, append-only tool-management guidance (use <code>allowed_tools</code>/<code>tool_choice</code> instead of removing definitions), and prewarming. Anthropic's Opus 5.5 simultaneously cut cache reads 60% to $0.20/M (95% discount vs uncached input).</p>
+    <span class="field-label">Why it matters</span><p>For persistent agents running hours-long tasks, cache-hit rate is now the dominant cost and latency lever. Concrete results: GitHub reports a &gt;50% reduction in freshly-processed prompt tokens across billions of requests; Manus went from ~85% to 90%+ cache hits in under a week and cut inference cost; a Wordsmith/Strawberry-Browser team hit 91% hit rate (up from 83%) with cache writes falling ~two-thirds and cost down 36%.</p>
+    <span class="field-label">Evidence from real teams</span><p>Named in the OpenAI post: GitHub (Mario Rodriguez, CPO), Manus (Bin Fan, Agent Team Lead), and two further teams (Strawberry Browser, Wordsmith) citing single-digit-percentage-point hit-rate gains translating to 20-36% cost cuts. Anthropic's cache-read pricing aligns with the same economics.</p>
+    <span class="field-label">Engineering implication</span><p>Cache architecture is now an explicit, instrumented part of agent design. Adopt the dashboard + diagnostics, switch to explicit breakpoints for stable context, use append-only tool updates to keep prefixes reusable, and prewarm shared instructions/tool defs at startup. Treat cache-miss root-causes (model/tool/setting/input changes) as a first-class observability signal. <strong>Verdict: Adopt.</strong> This is a low-hype, high-ROI operational upgrade with named production wins.</p>
+  </div>
+</div>
+
+<div class="section-title">Terminology Tracker</div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://arcturus-labs.com/blog/2026/09/21/will-openai-eat-jevs-lunch/">Jev (calibrated decision model)</a> &mdash; NEW</div><p><strong>Definition:</strong> TypeSafe's model class that trades text generation for instant calibrated decisions. Given a state and questions, a conventional LLM produces a single next-token probability distribution; the logprobs for candidate tokens (e.g. <code>true</code>/<code>false</code>, or a fixed option set) are normalized into a calibrated probability for <code>noul</code>, <code>choice</code>, and <code>score</code> primitives — sub-millisecond, no long-form output. Differs from a classifier (general-purpose, multi-primitive, calibrated across domains) and from chain-of-thought (no generation step; reads logits directly). Adopted "faster than any model in Vercel AI Gateway history"; practitioners report domains where probabilities fail to hold up, and a credible analysis argues OpenAI can fast-follow by folding a <code>&lt;prediction&gt;</code> tag into frontier models.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://unreallabs.ai/blog/unreal-agent/">Harness design as a research discipline / HarnessTax</a> &mdash; NEW</div><p><strong>Definition:</strong> The explicit framing that agent-harness design — prompt footprint, tool-result tokenization, tool-call lifecycle, KV-cache preservation — is a research area in its own right, not incidental plumbing. Named via the "HarnessTax: How Much Does Harness Matter for Coding Agents?" research line (Pan et al., 2026) and operationalized by Unreal Agent's async-tool-call architecture (up to 40% cost savings vs Codex at equal pass rates). Distinct from "model selection" (same model, different harness, different cost/accuracy) and from "prompt engineering" (harness governs tool-call mechanics and cache reuse, not just text). Differs from MCP (a tool protocol, not a full harness) and from closed harnesses like Claude Code/Codex (which are products, not research artifacts).</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://openai.com/index/better-prompt-caching-for-gpt-6/">Cache-aware agent engineering</a> &mdash; NEW</div><p><strong>Definition:</strong> The practice of designing persistent agents around prompt-cache hit rate as the primary cost/latency lever, using explicit breakpoints, append-only tool updates, mid-conversation reasoning-effort changes that preserve cache, prewarming, and cache-miss diagnostics/observability. Differs from generic "prompt optimization" because it targets prefix-reuse economics across multi-hour sessions rather than single-turn token count. Production-validated by GitHub (&gt;50% fresh-token reduction), Manus (85%&rarr;90%+ hit rate), and the Anthropic/OpenAI cache-read price war (95% discounts).</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.anthropic.com/claude-opus-5-5">Preserved thinking</a> &mdash; EVOLVING (first seen 2026-09-22)</div><p>Already tracked as a Qwen3.8 cross-turn reasoning feature; this run it surfaces as an <strong>anti-distillation safeguard</strong> in Opus 5.5 (and Fable 5.1), blocking API users from editing Claude's prior context to extract reasoning. It applies to API accounts created on/after Aug 31, 2026 and <a href="https://support.claude.com/en/articles/16761192">may require integration changes</a> — a notable operational constraint for teams that manipulate context programmatically.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash">Two-tier model stack</a> &mdash; EVOLVING (first seen 2026-09-21)</div><p>Strengthened again: V4.1-Flash's KV-cache economics and ~1/33rd input cost make the self-hosted-volume + frontier-API-hard-tasks split concrete and production-validated, with OpenCode and LangChain both wiring it as a backend this cycle. The frontier-API half is now contested by Sol/Luna (cheaper) and Opus 5.5 (cheaper + higher quality), sharpening the cost calculus for which tier handles the hard ~10%.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://blog.colinbreck.com/i-dont-want-to-read-what-you-didnt-write/">AI-authored writing backlash</a> &mdash; NEW</div><p><strong>Definition:</strong> An emerging practitioner stance (Colin Breck, Sept 20; citing Bryan Cantrill's "revolt of the reader" and Simon Sarris's "Resist Summary") that AI-generated design docs, PR summaries, tickets, and messages are "unreadable" because they lack author context and voice, and that readers increasingly bail on suspected AI text (78% stop reading per cited survey). Engineering-relevant because it reframes AI SDLC writing practices: use AI to verify/proof/complete-citations/diagram, but author the prose yourself; some teams (Oxide) now mandate Pangram AI-detection on public writing. Distinct from "AI can't write" (the claim is about reader trust and social contract, not capability).</p></div>
+
+<div class="section-title">Trend Deltas</div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Jev (calibrated decision model)</strong> — first seen today; entered tracking. Explosive adoption + reproducible JevBench + fast-follow thesis; high hype risk.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Harness design / HarnessTax</strong> — first seen today; entered tracking. Harness-as-research-area with named shipping harnesses and async-tool-call cost wins.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Cache-aware agent engineering</strong> — first seen today; entered tracking. Prompt caching promoted to an instrumented, dashboarded engineering surface.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>AI-authored writing backlash</strong> — first seen today; entered tracking. Practitioner pushback on AI-generated docs/PRs/messages; AI-SDLC writing-practice signal.</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>Two-tier model stack</strong> — accelerating vs. prior sightings (first seen 2026-09-21, 3 sightings). Open-weight volume half (V4.1-Flash) now production-validated; frontier half contested by cheaper Sol/Luna and Opus 5.5.</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>DeepSeek-V4.1-Flash</strong> — accelerating (first seen 2026-09-21, 3 sightings). 571k downloads, V4-Pro phased out, OpenCode/LangChain backends landed.</div></div>
+<div class="long-row"><div class="long-icon">&#8593;</div><div><strong>Claude Opus 5.5</strong> — up (first seen 2026-09-21 as a leak, 2 sightings). Leak confirmed by primary-source launch; now Adopt with integration-review caveats.</div></div>
+<div class="long-row"><div class="long-icon">&#8593;</div><div><strong>GPT-6 Astra family (Sol/Luna)</strong> — up (GPT-6 Astra first seen 2026-09-21, 2 sightings). Sol/Luna extend the family downward in cost; knowledge-work regressions flagged.</div></div>
+<div class="long-row"><div class="long-icon">&#8595;</div><div><strong>Gemini 4 Pro</strong> — down/going quiet (first seen 2026-09-21, 1 sighting). No fresh Google confirmation in the 48h window; DeepMind's September releases are Gemini 3.8 Flash/Live, not 4.x. Treat prior gray-test claims as still unconfirmed.</div></div>
+<div class="long-row"><div class="long-icon">&#8681;</div><div><strong>Pacing the frontier / safety-as-cartel</strong> — going quiet (first seen 2026-09-21, 1 sighting). The legal-action narrative is dormant this cycle; Opus 5.5 is Anthropic's first post-pace release and frames safety (safeguards, preserved thinking, behavioral audit) as the substance of pacing rather than the antitrust thread.</div></div>
+
+<div class="section-title">Strategic Implications</div>
+<div class="implication-block"><div class="implication-type">Adopt</div><p>Opus 5.5 as the default for long-horizon coding and agentic knowledge work (budget an integration-review pass for preserved-thinking + thinking-can't-be-disabled + transparent cyber/biology fallbacks). DeepSeek-V4.1-Flash as the self-hosted open-weight volume tier in a two-tier stack. Prompt-cache-aware agent engineering: dashboard, diagnostics, explicit breakpoints, append-only tool updates, prewarming — concrete named-team cost wins, low risk.</p></div>
+<div class="implication-block"><div class="implication-type">Trial</div><p>GPT-6 Sol/Luna for high-volume coding/computer-use where cost dominates and the refusal trade-off is acceptable — but validate against your own knowledge-work evals first; the headline "intelligence level" masks deliverable-quality regressions. Jev for calibrated-decision workloads (routing/moderation/triage) where you can validate probabilities against ground truth; build behind an abstraction anticipating frontier-lab absorption. Async-tool-call harness patterns (Unreal Agent) — benchmark your harness against Codex/Pi/OpenCode on Harbor.</p></div>
+<div class="implication-block"><div class="implication-type">Watch</div><p>Gemini 4 Pro (no fresh confirmation; DeepMind's September output is 3.8 Flash/Live). Grok 4.7 (independently benchmarked into the frontier coding-agent tier but token-hungry at ~81k output tokens/task; no fresh launch announcement). Qwen3.8-Flash-Next as the Qwen4-architecture preview (note its qwen-community-1.0 license is commercial-use restricted, unlike Qwen3.8-27B's Apache-2.0). Meta/Llama is conspicuously stale (no 2026 open-weight release); Mistral is in NVFP4-quantization maintenance, not new-model cadence.</p></div>
+<div class="implication-block"><div class="implication-type">30-90 Day Watchlist</div><p>Sonnet 5.5 and Haiku 5.5 (Anthropic signaled "coming weeks") — likely the new mid-tier cost/quality anchors and the real two-tier partner to Opus 5.5. DeepSeek-V4.1-Pro launch (V4-Pro is being phased out; Pro rates now apply to Flash). OpenAI absorption of the Jev pattern (a native <code>&lt;prediction&gt;</code> capability would collapse standalone decision-model adoption). Gemini 4 Pro GA confirmation or retraction. Terminal-Bench 4.0 becoming the standard — expect leaderboard reshuffles as models re-report on the harder version; stop comparing TB 2.1 vs TB 4.0 scores.</p></div>
+
+<div class="sources-section"><h2>Sources</h2><ol class="sources-list">
+  <li><span class="src-num">[1]</span><a href="https://www.anthropic.com/claude-opus-5-5">Anthropic — "Claude Opus 5.5"</a></li>
+  <li><span class="src-num">[2]</span><a href="https://artificialanalysis.ai/articles/claude-opus-5-5">Artificial Analysis — "Claude Opus 5.5 takes the top spot on the Intelligence Index"</a></li>
+  <li><span class="src-num">[3]</span><a href="https://openai.com/index/introducing-gpt-6-sol-and-luna/">OpenAI — "Introducing GPT-6 Sol and Luna"</a></li>
+  <li><span class="src-num">[4]</span><a href="https://artificialanalysis.ai/articles/gpt-6-sol-and-luna-push-the-cost-efficiency-frontier">Artificial Analysis — "GPT-6 Sol and Luna push the cost efficiency frontier"</a></li>
+  <li><span class="src-num">[5]</span><a href="https://openai.com/index/better-prompt-caching-for-gpt-6/">OpenAI — "Better prompt caching for GPT-6"</a></li>
+  <li><span class="src-num">[6]</span><a href="https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash">Hugging Face — DeepSeek-V4.1-Flash model card</a></li>
+  <li><span class="src-num">[7]</span><a href="https://api-docs.deepseek.com/news/news260910">DeepSeek API Docs — V4.1-Flash changelog</a></li>
+  <li><span class="src-num">[8]</span><a href="https://github.com/deepseek-ai/deepseek-harness">GitHub — DeepSeek Harness (dsh)</a></li>
+  <li><span class="src-num">[9]</span><a href="https://unreallabs.ai/blog/unreal-agent/">Unreal Labs — "Unreal Agent"</a></li>
+  <li><span class="src-num">[10]</span><a href="https://github.com/unreallabsai/unreal-agent">GitHub — unreal-agent</a></li>
+  <li><span class="src-num">[11]</span><a href="https://arcturus-labs.com/blog/2026/09/21/will-openai-eat-jevs-lunch/">Arcturus Labs — "Will OpenAI Eat Jev's Lunch?"</a></li>
+  <li><span class="src-num">[12]</span><a href="https://vercel.com/blog/ai-gateway-jev-model-launch">Vercel — AI Gateway Jev model launch</a></li>
+  <li><span class="src-num">[13]</span><a href="https://benchmarkheaven.com/jev-models">BenchmarkHeaven — "JevBench, a reproducible benchmark for typed decision models"</a></li>
+  <li><span class="src-num">[14]</span><a href="https://docs.typesafe.ai/model-jaggedness/jev-1.13">TypeSafe — Jev jagged-edges documentation</a></li>
+  <li><span class="src-num">[15]</span><a href="https://github.com/anomalyco/opencode/releases">GitHub — OpenCode releases (v1.18.32)</a></li>
+  <li><span class="src-num">[16]</span><a href="https://github.com/langchain-ai/langchain/releases">GitHub — LangChain releases (anthropic 1.7.3, deepseek 1.1.1, typesafe 0.0.1a3)</a></li>
+  <li><span class="src-num">[17]</span><a href="https://blog.colinbreck.com/i-dont-want-to-read-what-you-didnt-write/">Colin Breck — "I Don't Want to Read What You Didn't Write"</a></li>
+  <li><span class="src-num">[18]</span><a href="https://bcantrill.dtrace.org/2026/09/05/the-revolt-of-the-reader/">Bryan Cantrill — "The revolt of the reader"</a></li>
+  <li><span class="src-num">[19]</span><a href="https://support.claude.com/en/articles/16761192">Anthropic Help Center — preserved thinking integration changes</a></li>
+  <li><span class="src-num">[20]</span><a href="https://artificialanalysis.ai/articles/benchmarking-grok-4-7">Artificial Analysis — "Benchmarking Grok 4.7"</a></li>
+  <li><span class="src-num">[21]</span><a href="https://huggingface.co/Qwen/Qwen3.8-Flash-Next">Hugging Face — Qwen3.8-Flash-Next (qwen4_exp architecture preview)</a></li>
+  <li><span class="src-num">[22]</span><a href="https://news.ycombinator.com/front">Hacker News — front page, Sept 22 2026</a></li>
+</ol></div>
+<div class="footer">AI Engineering Intelligence &nbsp;&middot;&nbsp; 2026-09-23 &nbsp;&middot;&nbsp; Automated daily run &nbsp;&middot;&nbsp; Signal over noise</div>
+</body>
+</html>
