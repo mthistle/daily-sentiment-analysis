@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Engineering Intelligence — September 25, 2026</title>
+<style>
+  :root {
+    --bg: #0f1117; --surface: #1a1d27; --surface2: #222536; --border: #2e3148;
+    --accent: #6c63ff; --accent2: #00c2a8; --accent3: #f59e0b; --accent4: #ef4444;
+    --text: #e8eaf0; --text-muted: #8b8fa8; --text-dim: #5a5d75;
+    --green: #22c55e; --yellow: #eab308; --red: #ef4444; --orange: #f97316; --blue: #3b82f6; --purple: #a855f7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.7; max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+  a { color: var(--accent2); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+  a:hover { border-bottom-color: var(--accent2); }
+  .header { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 36px; }
+  .header-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; margin-bottom: 6px; }
+  .header-meta { color: var(--text-muted); font-size: 13px; }
+  .section-title { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 44px 0 18px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .exec-summary { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 24px 26px; margin-bottom: 8px; }
+  .exec-summary h2 { font-size: 15px; font-weight: 700; margin-bottom: 14px; color: var(--text); }
+  .signal-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+  .signal-num { background: var(--accent); color: white; font-size: 11px; font-weight: 700; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .signal-text { color: var(--text); line-height: 1.6; }
+  .sentiment-bar-container { margin-top: 18px; }
+  .sentiment-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+  .sentiment-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .sentiment-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #ef4444 0%, #eab308 40%, #22c55e 75%); width: 64%; }
+  .sentiment-caption { font-size: 11px; color: var(--text-muted); margin-top: 5px; }
+  .trend-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 22px 24px; margin-bottom: 18px; }
+  .trend-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .badge { display: inline-flex; align-items: center; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; white-space: nowrap; }
+  .badge-label { color: var(--text-muted); font-weight: 400; margin-right: 4px; font-size: 9px; }
+  .m-explosive { background: rgba(239,68,68,0.18); color: #f87171; }
+  .m-high { background: rgba(245,158,11,0.18); color: #fbbf24; }
+  .m-medium { background: rgba(59,130,246,0.18); color: #60a5fa; }
+  .m-low { background: rgba(139,143,168,0.18); color: #b6bad0; }
+  .s-positive { background: rgba(34,197,94,0.15); color: #4ade80; }
+  .s-mixed { background: rgba(234,179,8,0.15); color: #fde047; }
+  .s-polarizing { background: rgba(168,85,247,0.15); color: #c084fc; }
+  .s-negative { background: rgba(239,68,68,0.15); color: #f87171; }
+  .er-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .er-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .er-low { background: rgba(139,143,168,0.12); color: #b6bad0; }
+  .hr-high { background: rgba(239,68,68,0.12); color: #f87171; }
+  .hr-medium { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .hr-low { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .cl-low { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .trend-body p { margin-bottom: 10px; }
+  .trend-body strong { font-weight: 600; }
+  .field-label { color: var(--text-muted); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 14px; margin-bottom: 4px; display: block; }
+  .contrarian-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #a855f7; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .contrarian-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .declining-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #f97316; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .declining-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .watchlist-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 12px; }
+  .watchlist-name { font-size: 14px; font-weight: 700; color: var(--accent2); margin-bottom: 6px; }
+  .implication-block { border-left: 2px solid var(--accent3); padding: 10px 0 10px 16px; margin-bottom: 12px; }
+  .implication-type { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent3); font-weight: 700; margin-bottom: 4px; }
+  .long-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+  .long-icon { font-size: 13px; margin-top: 2px; width: 24px; flex-shrink: 0; color: var(--accent2); font-weight: 700; }
+  .sources-section { margin-top: 52px; border-top: 1px solid var(--border); padding-top: 24px; }
+  .sources-section h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 700; margin-bottom: 14px; }
+  .sources-list { list-style: none; }
+  .sources-list li { font-size: 12px; color: var(--text-muted); margin-bottom: 7px; display: flex; gap: 8px; }
+  .sources-list li .src-num { color: var(--text-dim); flex-shrink: 0; width: 24px; }
+  .sources-list li a { font-size: 12px; color: var(--text-muted); }
+  .sources-list li a:hover { color: var(--accent2); }
+  .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text-dim); text-align: center; }
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-label">Daily Intelligence Briefing</div>
+  <h1>AI Engineering Intelligence</h1>
+  <div class="header-meta">Friday, September 25, 2026 &middot; 5-minute read &middot; Signal over noise</div>
+</header>
+
+<div class="section-title">Executive Summary</div>
+<div class="exec-summary">
+  <h2>Top 5 Highest-Signal Developments</h2>
+  <div class="signal-row"><div class="signal-num">1</div><div class="signal-text"><strong><a href="https://www.docker.com/products/docker-sandboxes/">Docker Sandboxes GA'd as microVM agent isolation</a>.</strong> A first-party, same-model-on-laptop-and-cloud microVM runtime for Claude Code, Codex, Cursor, Devin, OpenCode and NanoClaw — makes "the sandbox is the safety, not the prompt" a deployable posture and reframes agent egress control as infrastructure rather than model judgment.</div></div>
+  <div class="signal-row"><div class="signal-num">2</div><div class="signal-text"><strong><a href="https://github.com/egma-ai/jev-code-reviewer">Jev reaches a real SDLC workload: priority-triaging agent-generated PRs</a>.</strong> egma-ai/jev-code-reviewer (HN front page) uses Jev's calibrated noul/choice outputs to P0/P1/P2-rank 230-file agent diffs, with a frontier LLM only writing the explanations — the first shipped example of a System-One model inside a review loop.</div></div>
+  <div class="signal-row"><div class="signal-num">3</div><div class="signal-text"><strong><a href="https://www.kartikpansuriya.com/blog/jev-system-one-model-calibrated-decisions">A production ML engineer stress-tests Jev's real claim: calibration, not speed</a>.</strong> Kartik Pansuriya (IEEE COMPSAC 2026) reframes Jev as "a very fast, very general tabular classifier that reads unstructured input," argues the only testable claim is Brier/ECE on your own distribution, and warns "zero hallucination" really means "zero schema errors."</div></div>
+  <div class="signal-row"><div class="signal-num">4</div><div class="signal-text"><strong><a href="https://cacm.acm.org/research/beyond-the-hype-the-efficiency-throughput-gap-with-github-copilot/">CACM publishes an Okta "efficiency-throughput gap" Copilot study</a>.</strong> No measurable gain in monthly PRs or LOC after Copilot rollout, but perceived value, motivation and skill rose — though HN reviewers flag the 2024 data, unnamed models (Sonnet 3.5-era), and autocomplete-only tooling as already obsolete for 2026 agent harnesses.</div></div>
+  <div class="signal-row"><div class="signal-num">5</div><div class="signal-text"><strong><a href="https://openai.com/index/introducing-mentalhealthbench/">OpenAI ships MentalHealthBench, an expert-rubric domain eval</a>.</strong> 80+ licensed clinicians across 22 countries wrote weighted (-10..+10) rubrics for synthetic mental-health conversations graded by GPT-5.6 Sol — a template for clinician/expert-grounded agentic evals that any vertical team can copy.</div></div>
+  <div class="sentiment-bar-container">
+    <div class="sentiment-label">Practitioner Sentiment — Cautiously Mixed</div>
+    <div class="sentiment-bar"><div class="sentiment-fill" style="width:52%"></div></div>
+    <div class="sentiment-caption">Agent-isolation infra and expert-rubric evals are maturing into real tooling, while Jev hype is meeting grounded skepticism and a flagship productivity study found zero throughput gain — capability is no longer the contested axis; trust, calibration and measurement are.</div>
+  </div>
+</div>
+
+<div class="section-title">Model Watch</div>
+
+<div class="trend-card">
+  <div class="trend-title">1. Claude Opus 5.5 — qualitative "taste" signal deepens</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Now three days post-launch, the practitioner signal on Opus 5.5 has moved from benchmark headlines to qualitative use. An <a href="https://news.ycombinator.com/item?id=49836374">HN explainer-video thread (278 pts)</a> surfaced a sharper observation: one engineer reports Opus 5.5 reviewing GPT-6 Sol's code and correctly flagging that "the split of responsibilities doesn't follow your established architectural layers" — an architectural-taste judgment, not a correctness check. Artificial Analysis's <a href="https://artificialanalysis.ai/?model=claude-opus-5-5">Intelligence Index v4.3</a> (now incorporating Terminal-Bench 4.0 and AutomationBench-AA) still ranks Opus 5.5 variants across the top of the leaderboard, evaluated Sept 22.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>AA Intelligence Index 58 (top, leading 6/10 index evals); 1M context; $4/$20 per M tokens; cache reads $0.20/M (95% discount). Named production adoption from the launch (GitHub, Clio, Stripe, Optiver, Deloitte, Box, Ramp) <a href="https://www.anthropic.com/claude-opus-5-5">remains the strongest real-team roster this cycle</a>. Anthropic's own caveat that benchmark margins are less reliable at these capability levels is borne out by the qualitative-not-quantitative nature of the new signal.</p>
+    <span class="field-label">Who is using it</span><p>Beyond the named launch partners, individual practitioners on HN report a "very different feel" vs Fable 5.1 — specifically that writing quality and architectural taste (not just correctness) have improved, with GPT-6 "moving in a similar direction."</p>
+    <span class="field-label">Engineering implication</span><p>The differentiator this cycle is not raw intelligence (margins are thin) but taste and architectural judgment in long-horizon agent runs — exactly the axis that resists benchmarking. Treat Opus 5.5 as the current default for code-review and multi-repo agentic tasks where "correct but ugly" carries downstream cost. <strong>Verdict: Adopt</strong> for hard agentic/coding tiers; budget for the preserved-thinking integration break for API accounts created on/after Aug 31.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. GLM-5.3 (Z AI) — independently benchmarked, expensive open weight</div>
+  <div class="badges">
+    <span class="badge m-medium"><span class="badge-label">Momentum</span>Medium</span>
+    <span class="badge s-mixed"><span class="badge-label">Sentiment</span>Mixed</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Artificial Analysis published its independent evaluation of <a href="https://artificialanalysis.ai/models/glm-5-3-low">GLM-5.3 (low)</a> on Sept 24 — the first third-party measurement of Z.ai/Zhipu's successor to the GLM-5.2 coding model that beat GPT-5.5 on SWE-bench Pro. AA Intelligence Index 34 (#11/115 in its class), 78 t/s output, 88M output tokens on the index (notably concise vs 140M median).</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>753B total / 40B active MoE; 1M context; reasoning model. Crucially, AA flags it as "particularly expensive when comparing to other open weight models of similar size": $1.40/$4.40 per M input/output (~$3.66 per Intelligence Index task). License is <a href="https://huggingface.co/zai-org/GLM-5.3/blob/main/LICENSE">GLM-5.3 License, commercial use restricted</a> — NOT the MIT of the earlier GLM-5.2 line, a material change for self-hosting teams.</p>
+    <span class="field-label">Who is using it</span><p>Available via Z AI's own API (1 provider on AA); weights on Hugging Face. No new named production teams surfaced this cycle; the story is independent measurement, not adoption.</p>
+    <span class="field-label">Engineering implication</span><p>GLM-5.3 is a credible frontier-tier open weight, but its restricted license and above-median price weaken the self-hosting cost thesis that made GLM-5.2 attractive. For the open-weight volume tier of a two-tier stack, <a href="https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash">DeepSeek V4.1-Flash (MIT, ~$0.30/M)</a> remains the better economic fit. <strong>Verdict: Watch</strong> — benchmark it, but do not migrate a self-hosted volume tier onto a restricted-license, premium-priced model without a domain-specific win.</p>
+  </div>
+</div>
+
+<div class="section-title">Agent Engineering &amp; AI SDLC</div>
+
+<div class="trend-card">
+  <div class="trend-title">1. microVM agent sandboxing (Docker Sandboxes)</div>
+  <div class="badges">
+    <span class="badge m-explosive"><span class="badge-label">Momentum</span>Explosive</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Docker released <a href="https://www.docker.com/products/docker-sandboxes/">Docker Sandboxes</a> — a standalone (no Docker Desktop required) microVM runtime for coding agents with its own kernel and private Docker Engine per sandbox, runnable locally or on Docker-managed cloud with <code>sbx move</code> carrying the filesystem between them. One CLI (<code>sbx run claude</code> / <code>codex</code>) targets Claude Code, Codex, Cursor, Devin, Copilot CLI, OpenCode and NanoClaw. Sandbox Kits (declarative YAML) ship a known-good tool/credential/network config per agent; <code>sbx mcp</code> scopes MCP servers per-sandbox with credentials held outside the VM.</p>
+    <span class="field-label">Why it matters</span><p>This is the first mass-distribution productization of the "infrastructure is the safety boundary" thesis. The explicit framing — "–dangerously-skip-permissions is the default; the sandbox is the safety, not the prompt" — directly answers the <a href="https://transluce.org/agent-activity">instrumental agent misbehavior</a> finding that model-layer refusal is insufficient and harness-level egress policy is required. It collapses the local/cloud isolation gap that E2B, Daytona, Modal and Cloudflare each solve only one side of, per Docker's own comparison table.</p>
+    <span class="field-label">Evidence from real teams</span><p>Docker names <a href="https://www.docker.com/products/docker-sandboxes/">Warp (engineering lead Ben Navetta) integrating Sandboxes</a> for "agents freely with a consistent environment, whether running locally or in the cloud," and NanoClaw's creator endorsing the infra-level-walls approach. Pricing is metered-by-second ($0.07–$1.12/hr by size) with a $250 launch-credit promo through Sept 26.</p>
+    <span class="field-label">Engineering implication</span><p>For any team running autonomous agents against real code, a per-agent microVM with scoped network/filesystem/MCP access is now a default-adoptable control — and removes the need to rely on agent-side permission prompts. Pair with Docker AI Governance for org-wide network/MCP policy. <strong>Verdict: Adopt</strong> for agent isolation; this is the production-ready answer to the egress-control gap the Australia/Medicare and Transluce incidents exposed.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. Jev in the SDLC — first shipped code-review workload, and a calibration reality check</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-polarizing"><span class="badge-label">Sentiment</span>Polarizing</span>
+    <span class="badge er-low"><span class="badge-label">Production Ready</span>Low</span>
+    <span class="badge hr-high"><span class="badge-label">Hype Risk</span>High</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Two days after CLM-8B challenged Jev on long-horizon verification, Jev landed its first concrete SDLC integration: <a href="https://github.com/egma-ai/jev-code-reviewer">egma-ai/jev-code-reviewer</a> (HN front page Sept 25) uses Jev to classify each diff hunk in an agent-generated PR as P0/P1/P2 (configurable policy), shows only P0 by default, and calls a frontier LLM (OpenAI) only to write the natural-language explanation. Meanwhile <a href="https://www.kartikpansuriya.com/blog/jev-system-one-model-calibrated-decisions">Kartik Pansuriya's engineering deep-read</a> cuts through the speed hype to the testable claim: calibrated probabilities (Brier/ECE) on your distribution.</p>
+    <span class="field-label">Why it matters</span><p>The code-review tool is the first shipped instance of Jev inside an actual review loop — not a demo. But the HN discussion is sharply polarized: top comment calls it "a generic classifier… like random forests and logistic regressions from 15 years ago," a practitioner who tried it for record-dedup and model routing found both "underwhelming / OK at best," and others correctly note its real edge is natural-language input to a calibrated classifier, not raw accuracy. Pansuriya's analysis is the most useful framing: the right baseline is a gradient-boosted tree (also sub-ms, free), not an LLM; "zero hallucination" is really "zero schema errors" (a valid output type, still possibly wrong); and calibration is a property of model-and-dataset, so the only trustworthy number is measured on your own data.</p>
+    <span class="field-label">Evidence from real teams</span><p>egma-ai (shipped tool, MIT, 46 stars); Pansuriya (production ML at a wholesale distributor, IEEE COMPSAC 2026 author) committing to publish Brier/ECE results on his PR-acceptance dataset; HN practitioners reporting mixed real-world results on dedup and routing.</p>
+    <span class="field-label">Engineering implication</span><p>The category is bifurcating (per yesterday's CLM-8B): use Jev for sub-millisecond classification/guardrails where you can validate calibration on your distribution, NOT for reasoning or code-review-quality judgment — HN reviewers explicitly warn "for reviewing/classifying code, I would strongly suggest not using Jev." Build behind an abstraction anticipating frontier-lab absorption (a <code>&lt;prediction&gt;</code> tag folded into GPT/Claude). <strong>Verdict: Trial</strong> only on cheap, high-volume, calibration-validatable decisions; <strong>Skip</strong> for any task where the downstream cost of a confidently-wrong-but-schema-valid answer is high.</p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">3. AI coding-productivity measurement — the "efficiency-throughput gap"</div>
+  <div class="badges">
+    <span class="badge m-medium"><span class="badge-label">Momentum</span>Medium</span>
+    <span class="badge s-polarizing"><span class="badge-label">Sentiment</span>Polarizing</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p><a href="https://cacm.acm.org/research/beyond-the-hype-the-efficiency-throughput-gap-with-github-copilot/">CACM published an Okta-authored study</a> (HN Sept 25) measuring 261 invited / 97 responding engineers across a baseline (Apr–Jun 2024) and post-Copilot window (Sep–Nov 2024), with monitoring extended to May 2025. Finding: <strong>no statistical improvement</strong> in monthly PRs or LOC, but a measurable rise in perceived engineer value, motivation, and perceived skill — an "efficiency-throughput gap" where felt productivity and shipped throughput diverge.</p>
+    <span class="field-label">Why it matters</span><p>This is the kind of rigorous, pre/post org study the field desperately needs, and its null throughput result is a useful counterweight to vendor productivity claims. But its methodology is now badly dated: data from 2024 (Sonnet 3.5-era autocomplete + chat, no agents, no MCP, no RAG over the codebase), models unnamed, and token counts absent. HN reviewers — including practitioners — argue the tooling studied is not what teams run in Sept 2026, making the headline not generalizable to current agent harnesses.</p>
+    <span class="field-label">Evidence from real teams</span><p>Okta engineers (the study authors); the extended Dec 2024–May 2025 monitoring still showed no PR/LOC improvement. Critically, the study itself flags that "the implications of more advanced capabilities, such as RAG over enterprise codebases or deeper workflow integrations, warrant separate investigation."</p>
+    <span class="field-label">Engineering implication</span><p>Treat the result as a real data point for autocomplete-era Copilot, not a verdict on agent-era tooling. The actionable pattern for staff leads: instrument your own throughput (PR cycle time, review burden, defect escape rate) before and after adopting an agent harness, and separate perceived-productivity surveys from shipped-throughput telemetry — the gap between them is itself the signal. <strong>Verdict: Watch</strong> the methodology; run the internal version with current harnesses and named models before quoting any external productivity number.</p>
+  </div>
+</div>
+
+<div class="section-title">Terminology Tracker</div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.docker.com/products/docker-sandboxes/">microVM agent sandboxing</a> — NEW</div><p><strong>Definition:</strong> A runtime pattern (productized by Docker Sandboxes, Sept 2026) where each coding agent runs inside its own microVM with a dedicated kernel and private container engine, with network/filesystem/MCP access scoped declaratively (Sandbox Kits) and credentials held outside the VM. "The sandbox is the safety, not the prompt" — permissive agent modes become safe because the boundary is infrastructure, not model judgment. Differs from plain containers (shared kernel, no real isolation for agent installs) and from cloud-only sandboxes (E2B/Daytona/Modal solve only the cloud side; Docker runs the same microVM model locally and moves it with <code>sbx move</code>). The deployable answer to the egress-control gap exposed by instrumental agent misbehavior.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://cacm.acm.org/research/beyond-the-hype-the-efficiency-throughput-gap-with-github-copilot/">efficiency-throughput gap</a> — NEW</div><p><strong>Definition:</strong> Coined by an Okta study (CACM, Sept 2026) for the observed divergence between engineers' perceived productivity/value/motivation gains after adopting an AI coding tool and the absence of any measurable gain in shipped-throughput metrics (monthly PRs, LOC). Distinct from "AI doesn't help" (the study found real perceived benefits) and from "AI boosts output" (no throughput rise). Engineering-relevant because it names a measurement failure mode: felt productivity and shipped throughput are different axes and must be instrumented separately.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://openai.com/index/introducing-mentalhealthbench/">expert-rubric domain benchmarks</a> — NEW</div><p><strong>Definition:</strong> A benchmark pattern (OpenAI MentalHealthBench, Sept 2026; lineage from HealthBench) where domain experts (80+ licensed clinicians across 22 countries) write weighted (-10..+10) rubric criteria per synthetic conversation, rubrics retained only on multi-expert consensus, and an LLM grader (GPT-5.6 Sol) scores model responses against the expert criteria. Differs from pass/fail agentic benchmarks (rubrics capture graded, clinically-weighted behavior) and from pure LLM-judge evals (the judge scores against human-expert criteria, not its own preference). A copyable template for any vertical team (legal, medical, finance) wanting expert-grounded agentic evals.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://github.com/egma-ai/jev-code-reviewer">Jev (calibrated decision model)</a> — EVOLVING (first seen 2026-09-23)</div><p>Two days after first tracking, Jev has its first shipped SDLC integration (egma-ai/jev-code-reviewer, priority-triaging agent PRs) and its first rigorous practitioner analysis (<a href="https://www.kartikpansuriya.com/blog/jev-system-one-model-calibrated-decisions">Pansuriya</a>: testable claim is calibration via Brier/ECE, not speed; right baseline is a gradient-boosted tree; "zero hallucination" = "zero schema errors"). HN sentiment is polarizing — real-world dedup/routing trials "underwhelming." Category bifurcating with CLM-8B (long-horizon verification). Build behind an abstraction; frontier-lab absorption risk remains.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://news.ycombinator.com/item?id=49836374">AI-authored writing backlash</a> — EVOLVING (first seen 2026-09-23)</div><p>The Opus 5.5 explainer-video thread (278 pts) reinforced the reader-trust erosion: top comments call AI-generated explainer videos "slop," "ads and spam," and note "looking like an AI did it is a sign of being un-professional." The thread also surfaced a forward variant — readers now distrust not just AI prose but AI-generated artifacts broadly, and "taste" (human intentionality) is framed as the durable premium. Consistent with the Colin Breck / Cantrill "revolt of the reader" line tracked since Sept 23.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://artificialanalysis.ai/models/glm-5-3-low">GLM-5.3</a> — EVOLVING (first seen 2026-09-21 as glm-5.2/5.3)</div><p>Now independently benchmarked by Artificial Analysis (Sept 24): Intelligence Index 34, 753B/40B-active MoE, 1M context, 78 t/s, notably concise (88M vs 140M median output tokens). Material change: <a href="https://huggingface.co/zai-org/GLM-5.3/blob/main/LICENSE">license shifted to GLM-5.3 License (commercial-use restricted)</a>, not the MIT of GLM-5.2, and AA prices it $1.40/$4.40 — expensive for an open weight, weakening the self-hosting cost thesis vs DeepSeek V4.1-Flash (MIT, ~$0.30/M).</p></div>
+
+<div class="section-title">Trend Deltas</div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>microVM agent sandboxing</strong> — first seen today; entered tracking (Docker Sandboxes GA, Warp integration).</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>efficiency-throughput gap</strong> — first seen today; entered tracking (Okta/CACM Copilot study).</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>expert-rubric domain benchmarks</strong> — first seen today; entered tracking (OpenAI MentalHealthBench).</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>Jev (calibrated decision model)</strong> — accelerating vs. prior sightings (first seen 2026-09-23, 3 sightings); first shipped SDLC integration + first rigorous practitioner analysis + open challenger (CLM-8B) all within 48h.</div></div>
+<div class="long-row"><div class="long-icon">&#8593;</div><div><strong>AI-authored writing backlash</strong> — up (first seen 2026-09-23, 2 sightings); Opus 5.5 explainer-video thread broadened distrust from prose to AI-generated artifacts.</div></div>
+<div class="long-row"><div class="long-icon">&#8681;</div><div><strong>Gemini 4 Pro</strong> — going quiet (first seen 2026-09-21, 3 sightings); third consecutive cycle with no Google confirmation of the Sep 18 gray-test leak. Treat prior claims (10M context, RSI-credited, October GA) as rumor-only; do not plan against it.</div></div>
+
+<div class="section-title">Strategic Implications</div>
+<div class="implication-block"><div class="implication-type">Adopt</div><p>Per-agent microVM isolation (Docker Sandboxes or equivalent) as the default execution boundary for any agent touching real code or network — this is the production-ready answer to the egress-control gap the Australia/Medicare and Transluce incidents exposed, and it lets you safely run agents in permissive/YOLO mode without relying on model judgment. Opus 5.5 as the hard-task tier in your two/three-tier stack, budgeting for the preserved-thinking integration break on post-Aug-31 API accounts.</p></div>
+<div class="implication-block"><div class="implication-type">Trial</div><p>Jev (and System-One models broadly) only on cheap, high-volume, calibration-validatable decisions — record classification, guardrails, routing — after measuring Brier/ECE on your own distribution with a gradient-boosted-tree baseline in the comparison. Build behind an abstraction so a frontier-lab <code>&lt;prediction&gt;</code>-tag absorption doesn't rewrite your stack.</p></div>
+<div class="implication-block"><div class="implication-type">Watch</div><p>GLM-5.3 — credible frontier open weight but restricted license and premium price weaken the self-hosting thesis; benchmark, don't migrate. Expert-rubric domain benchmarks (MentalHealthBench pattern) — copy the clinician-consensus-rubric template for your own vertical evals. AI coding-productivity measurement — run the internal pre/post study with current agent harnesses and named models before quoting any external productivity number.</p></div>
+<div class="implication-block"><div class="implication-type">30-90 Day Watchlist</div><p>Docker Sandbox Kits / AI Governance adoption curve and whether E2B/Daytona/Modal respond on local-and-cloud parity; CLM-35B (multimodal) release and whether long-horizon verification moves off generative LLMs; Pansuriya's promised Jev Brier/ECE results as the first independent calibration verdict; any Google confirmation or quiet retirement of the Gemini 4 Pro track; whether the efficiency-throughput gap replicates under agent-era (not autocomplete-era) tooling.</p></div>
+
+<div class="sources-section"><h2>Sources</h2><ol class="sources-list">
+  <li><span class="src-num">[1]</span><a href="https://www.docker.com/products/docker-sandboxes/">Docker — "Docker Sandboxes: Run agents safely, local to cloud"</a></li>
+  <li><span class="src-num">[2]</span><a href="https://www.docker.com/c/sbx-promo/">Docker — "$250 Cloud Sandbox Credit" promo (Sept 22–26, 2026)</a></li>
+  <li><span class="src-num">[3]</span><a href="https://github.com/egma-ai/jev-code-reviewer">egma-ai — "jev-code-reviewer: Review behavior, not just diffs"</a></li>
+  <li><span class="src-num">[4]</span><a href="https://news.ycombinator.com/item?id=49840300">Hacker News — "Jev Based Code Review" discussion (41 pts)</a></li>
+  <li><span class="src-num">[5]</span><a href="https://www.kartikpansuriya.com/blog/jev-system-one-model-calibrated-decisions">Kartik Pansuriya — "Jev and System One Models: Calibration Beats Accuracy"</a></li>
+  <li><span class="src-num">[6]</span><a href="https://cacm.acm.org/research/beyond-the-hype-the-efficiency-throughput-gap-with-github-copilot/">CACM — "Beyond the Hype: The Efficiency-Throughput Gap with GitHub Copilot"</a></li>
+  <li><span class="src-num">[7]</span><a href="https://news.ycombinator.com/item?id=49841103">Hacker News — "The Efficiency-Throughput Gap with GitHub Copilot" discussion</a></li>
+  <li><span class="src-num">[8]</span><a href="https://openai.com/index/introducing-mentalhealthbench/">OpenAI — "Introducing MentalHealthBench"</a></li>
+  <li><span class="src-num">[9]</span><a href="https://news.ycombinator.com/item?id=49837998">Hacker News — "MentalHealthBench" discussion</a></li>
+  <li><span class="src-num">[10]</span><a href="https://artificialanalysis.ai/models/glm-5-3-low">Artificial Analysis — "GLM-5.3 (low) Intelligence, Performance & Price Analysis"</a></li>
+  <li><span class="src-num">[11]</span><a href="https://huggingface.co/zai-org/GLM-5.3/blob/main/LICENSE">Hugging Face — GLM-5.3 License (commercial use restricted)</a></li>
+  <li><span class="src-num">[12]</span><a href="https://www.anthropic.com/claude-opus-5-5">Anthropic — "Claude Opus 5.5"</a></li>
+  <li><span class="src-num">[13]</span><a href="https://artificialanalysis.ai/?model=claude-opus-5-5">Artificial Analysis — Intelligence Index v4.3 (Opus 5.5 leaderboard)</a></li>
+  <li><span class="src-num">[14]</span><a href="https://news.ycombinator.com/item?id=49836374">Hacker News — "Opus 5.5 is good at explainer videos" discussion (278 pts)</a></li>
+  <li><span class="src-num">[15]</span><a href="https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash">Hugging Face — DeepSeek-V4.1-Flash (MIT, self-hosted volume tier reference)</a></li>
+  <li><span class="src-num">[16]</span><a href="https://transluce.org/agent-activity">Transluce — "Early rogue AI agent activity and attempts to hack"</a></li>
+  <li><span class="src-num">[17]</span><a href="https://news.ycombinator.com/front?day=2026-09-25">Hacker News — Front page, September 25, 2026</a></li>
+</ol></div>
+<div class="footer">AI Engineering Intelligence &nbsp;&middot;&nbsp; 2026-09-25 &nbsp;&middot;&nbsp; Automated daily run &nbsp;&middot;&nbsp; Signal over noise</div>
+</body>
+</html>
