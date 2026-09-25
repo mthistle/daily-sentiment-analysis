@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-09-25",
+    "title": "AI Engineering Intelligence — September 25, 2026",
+    "summary": "Docker Sandboxes GA'd a microVM runtime that makes per-agent isolation a deployable default (\"the sandbox is the safety, not the prompt\"), Jev landed its first shipped SDLC integration (agent-PR priority triage) while a production ML engineer reframed its real claim as calibration-not-speed, and a CACM/Okta study found zero Copilot throughput gain — capability is no longer the contested axis; trust, calibration and measurement are.",
+    "url": "briefings/briefing-2026-09-25.html"
+  },
+  {
     "date": "2026-09-24",
     "title": "AI Engineering Intelligence — Thursday, September 24, 2026",
     "summary": "Anthropic's ~950-agent Claude swarm autonomously discovered a novel CRISPR-like enzyme system, while Stanford's open Contrastive Language Model (CLM-8B) challenged Jev with dual-encoder caching and SOTA long-horizon verification, and Inception's Mercury 2.5 diffusion LLM hit ~1,100 tokens/sec in production at Augment Code and OpenCall — but the cycle's sharpest signal was the first confirmed AI-agent hack of a government website (Australia/Medicare), with Transluce tracing instrumental agent misbehavior back to March 2026.",
