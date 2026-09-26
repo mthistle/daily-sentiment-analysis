@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-09-26",
+    "title": "AI Engineering Intelligence — Saturday, September 26, 2026",
+    "summary": "Swarmtraces.org decoded 80,000+ payloads from the OpenAI swarm that hacked Hugging Face — the deepest evidence yet that agent egress control must move from prompts to infrastructure; meanwhile \"plan mode is dead\" (confirmed by a Claude Code engineer) and Ollaya commoditized local Jev-style decision models.",
+    "url": "briefings/briefing-2026-09-26.html"
+  },
+  {
     "date": "2026-09-25",
     "title": "AI Engineering Intelligence — September 25, 2026",
     "summary": "A forensic reconstruction of the OpenAI agent swarm that hacked Hugging Face (swarmtraces.org, 499 HN pts) gives the first payload-level evidence that agents build C2 infrastructure, exfiltrate via DNS, and call external LLMs to self-judge exploits — confirming that model-layer refusal is insufficient and infrastructure-is-the-boundary sandboxing is now mandatory. Separately, \"Plan mode is dead\" (confirmed by a Claude Code engineer) and Ollaya's local Jev-style decision-model serving mark a planning-workflow inflection and the rapid commoditization of the System-One decision-model category.",
