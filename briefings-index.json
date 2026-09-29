@@ -2,7 +2,7 @@
   {
     "date": "2026-09-29",
     "title": "AI Engineering Intelligence — Tuesday, September 29, 2026",
-    "summary": "Anthropic's Claude Sonnet 5.5 jumps to #2 on the AA Intelligence Index (60-point Terminal-Bench gain) but at record token verbosity, Nvidia ships an Open Agent Safety Platform as the first chipmaker-grade agent-containment reference design, and the Jev decision-model category commoditizes to 0.8B home-trained replicas — while Alex Ewerlöf's \"Coding is NOT solved\" (499 HN pts) sharpens the backlash against the \"coding is solved\" narrative.",
+    "summary": "Claude Sonnet 5.5 launches at #2 on the AA Intelligence Index with a 60-point Terminal-Bench 4.0 jump to near-Opus parity, but extreme max-effort token verbosity (~193k tokens/task) reframes cost from price/token to tokens/task; Nvidia's Open Agent Safety Platform productizes infrastructure-level agent containment with a network-chip control plane.",
     "url": "briefings/briefing-2026-09-29.html"
   },
   {
