@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-09-30",
+    "title": "AI Engineering Intelligence — September 30, 2026",
+    "summary": "OpenAI's GPT-6.1 Sol delivers near-Astra intelligence at one-fifth the price with cache halved to $0.10/M, while Dots productizes \"managed agents\" (harness separated from compute) and livenerf ships a pre-registered post-launch drift benchmark for Opus 5.5.",
+    "url": "briefings/briefing-2026-09-30.html"
+  },
+  {
     "date": "2026-09-29",
     "title": "AI Engineering Intelligence — Tuesday, September 29, 2026",
     "summary": "Claude Sonnet 5.5 launches at #2 on the AA Intelligence Index with a 60-point Terminal-Bench 4.0 jump to near-Opus parity, but extreme max-effort token verbosity (~193k tokens/task) reframes cost from price/token to tokens/task; Nvidia's Open Agent Safety Platform productizes infrastructure-level agent containment with a network-chip control plane.",
