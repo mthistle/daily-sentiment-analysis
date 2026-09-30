@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Engineering Intelligence — September 30, 2026</title>
+<style>
+  :root {
+    --bg: #0f1117; --surface: #1a1d27; --surface2: #222536; --border: #2e3148;
+    --accent: #6c63ff; --accent2: #00c2a8; --accent3: #f59e0b; --accent4: #ef4444;
+    --text: #e8eaf0; --text-muted: #8b8fa8; --text-dim: #5a5d75;
+    --green: #22c55e; --yellow: #eab308; --red: #ef4444; --orange: #f97316; --blue: #3b82f6; --purple: #a855f7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.7; max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+  a { color: var(--accent2); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+  a:hover { border-bottom-color: var(--accent2); }
+  .header { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 36px; }
+  .header-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; margin-bottom: 6px; }
+  .header-meta { color: var(--text-muted); font-size: 13px; }
+  .section-title { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 44px 0 18px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .exec-summary { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 24px 26px; margin-bottom: 8px; }
+  .exec-summary h2 { font-size: 15px; font-weight: 700; margin-bottom: 14px; color: var(--text); }
+  .signal-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+  .signal-num { background: var(--accent); color: white; font-size: 11px; font-weight: 700; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .signal-text { color: var(--text); line-height: 1.6; }
+  .sentiment-bar-container { margin-top: 18px; }
+  .sentiment-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+  .sentiment-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .sentiment-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #ef4444 0%, #eab308 40%, #22c55e 75%); width: 64%; }
+  .sentiment-caption { font-size: 11px; color: var(--text-muted); margin-top: 5px; }
+  .trend-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 22px 24px; margin-bottom: 18px; }
+  .trend-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .badge { display: inline-flex; align-items: center; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; white-space: nowrap; }
+  .badge-label { color: var(--text-muted); font-weight: 400; margin-right: 4px; font-size: 9px; }
+  .m-explosive { background: rgba(239,68,68,0.18); color: #f87171; }
+  .m-high { background: rgba(245,158,11,0.18); color: #fbbf24; }
+  .m-medium { background: rgba(59,130,246,0.18); color: #60a5fa; }
+  .m-low { background: rgba(139,143,168,0.18); color: #b6bad0; }
+  .s-positive { background: rgba(34,197,94,0.15); color: #4ade80; }
+  .s-mixed { background: rgba(234,179,8,0.15); color: #fde047; }
+  .s-polarizing { background: rgba(168,85,247,0.15); color: #c084fc; }
+  .s-negative { background: rgba(239,68,68,0.15); color: #f87171; }
+  .er-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .er-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .er-low { background: rgba(139,143,168,0.12); color: #b6bad0; }
+  .hr-high { background: rgba(239,68,68,0.12); color: #f87171; }
+  .hr-medium { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .hr-low { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .cl-low { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .trend-body p { margin-bottom: 10px; }
+  .trend-body strong { font-weight: 600; }
+  .field-label { color: var(--text-muted); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 14px; margin-bottom: 4px; display: block; }
+  .contrarian-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #a855f7; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .contrarian-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .declining-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #f97316; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .declining-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .watchlist-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 12px; }
+  .watchlist-name { font-size: 14px; font-weight: 700; color: var(--accent2); margin-bottom: 6px; }
+  .implication-block { border-left: 2px solid var(--accent3); padding: 10px 0 10px 16px; margin-bottom: 12px; }
+  .implication-type { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent3); font-weight: 700; margin-bottom: 4px; }
+  .long-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+  .long-icon { font-size: 13px; margin-top: 2px; width: 24px; flex-shrink: 0; color: var(--accent2); font-weight: 700; }
+  .sources-section { margin-top: 52px; border-top: 1px solid var(--border); padding-top: 24px; }
+  .sources-section h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 700; margin-bottom: 14px; }
+  .sources-list { list-style: none; }
+  .sources-list li { font-size: 12px; color: var(--text-muted); margin-bottom: 7px; display: flex; gap: 8px; }
+  .sources-list li .src-num { color: var(--text-dim); flex-shrink: 0; width: 24px; }
+  .sources-list li a { font-size: 12px; color: var(--text-muted); }
+  .sources-list li a:hover { color: var(--accent2); }
+  .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text-dim); text-align: center; }
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-label">Daily Intelligence Briefing</div>
+  <h1>AI Engineering Intelligence</h1>
+  <div class="header-meta">Wednesday, September 30, 2026 &middot; 5-minute read &middot; Signal over noise</div>
+</header>
+
+<div class="section-title">Executive Summary</div>
+<div class="exec-summary">
+  <h2>Top 5 Highest-Signal Developments</h2>
+  <div class="signal-row"><div class="signal-num">1</div><div class="signal-text"><strong><a href="https://openai.com/index/introducing-gpt-6-1-sol/">GPT-6.1 Sol ships "near-Astra intelligence for a fifth of the price," cache halved to $0.10/M</a>.</strong> Eight days after Sol/Luna, OpenAI moves the cost-efficiency frontier again — matching Astra on DeepSWE at ~1/5 cost and halving cached input vs GPT-6 Sol, the lever that actually matters for Codex agents.</div></div>
+  <div class="signal-row"><div class="signal-num">2</div><div class="signal-text"><strong><a href="https://openai.com/index/introducing-dots/">OpenAI Dots: always-on "managed agents" on GPT-6 Astra, each with its own cloud computer</a>.</strong> The first mass-market productization of harness-compute separation — the agent loop runs outside the sandboxed workspace — plus auto-review, secure sign-in, and specialist org-scoped dot identities. Polarizing: HN found the cloud env MITMs TLS (OpenAI-issued certs for gmail.com) and it excludes the EEA/UK.</div></div>
+  <div class="signal-row"><div class="signal-num">3</div><div class="signal-text"><strong><a href="https://github.com/ninjahawk/livenerf">livenerf: a pre-registered, append-only benchmark for detecting post-launch capability drift in Opus 5.5</a>.</strong> A rigorously designed answer to the "is it nerfed?" debate — calibrated 78-question panel, Inspect-based, stats from Anthropic's own error-bar methodology, output-token count as the leading indicator. The mature instantiation of silent-regression tracking.</div></div>
+  <div class="signal-row"><div class="signal-num">4</div><div class="signal-text"><strong><a href="https://news.ycombinator.com/item?id=49896586">Practitioner head-to-head: Opus 5.5 beats Astra on a real NURBS task at 20% vs 215% of weekly budget</a>.</strong> A named HN practitioner's controlled A/B (same repo, same tests) found Opus 5.5 spotted a unit-test bug Astra refused to touch and produced a more useful implementation — and both models' independent reviewers converged on the Opus version in blind meta-review.</div></div>
+  <div class="signal-row"><div class="signal-num">5</div><div class="signal-text"><strong><a href="https://artificialanalysis.ai/models/gpt-6-1-sol">GPT-6.1 Sol lands at AA Intelligence Index 52 (#10/222) — capable but slow (68 t/s, 239s TTFT)</a>.</strong> Independent measurement confirms the cost story but flags a real latency tax: the reasoning model's time-to-first-answer-token is ~60x the class median. Cache economics, not raw speed, are the adoption lever.</div></div>
+  <div class="sentiment-bar-container">
+    <div class="sentiment-label">Practitioner Sentiment — Cautiously-Positive / Polarizing</div>
+    <div class="sentiment-bar"><div class="sentiment-fill" style="width:58%"></div></div>
+    <div class="sentiment-caption">Cost-efficiency gains are welcomed and real; Dots splits the room on trust/security; Opus 5.5's "taste" lead is the strongest positive signal, tempered by an undercurrent that capability is plateauing and price is now the battleground.</div>
+  </div>
+</div>
+
+<div class="section-title">Model Watch</div>
+<div class="trend-card">
+  <div class="trend-title">1. GPT-6.1 Sol</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-mixed"><span class="badge-label">Sentiment</span>Mixed</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Released Sept 29, 2026 as an upgrade to GPT-6 Sol: <a href="https://openai.com/index/introducing-gpt-6-1-sol/">"near-Astra intelligence for a fifth of the price"</a> at $2/$10 per M tokens, with cached input cut to $0.10/M — 95% off standard input and 50% below GPT-6 Sol's cache price. Available in ChatGPT Work and Codex (not yet Chat); API as <code>gpt-6.1-sol</code>. An "Ultrafast" Codex variant (up to 8x faster generation) is coming "in the coming days," per the <a href="https://openai.com/index/introducing-gpt-6-1-sol/">DevDay recap</a>.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>On DeepSWE v1.1 it <a href="https://openai.com/index/introducing-gpt-6-1-sol/">matches GPT-6 Astra at ~1/5 cost</a> and beats GPT-6 Sol's best by 6.4pts. On GDP.pdf it scores above Opus 5.5-with-fallbacks at &lt;half the cost per task. AutomationBench: +2.2pts over Opus 5.5 at ~1/3 cost. OSWorld 2.0 offline: within 2.1pts of Astra at ~1/7 cost. Terminal-Bench Science 0.1: &gt;2x GPT-6 Sol at max effort ($5.47/task vs $23.21 Opus / $23.80 Astra). Factuality error rate cut ~32% at low effort. <a href="https://artificialanalysis.ai/models/gpt-6-1-sol">Artificial Analysis</a> independently scores it 52 on the Intelligence Index (#10/222 reasoning models, above the 26 median), 1M context, text+image in / text out — but 67.8 t/s (below the 72 median) and a 239s time-to-first-answer-token (vs a 3.9s class median), a steep reasoning-latency tax. No attempts to bypass the automated safety reviewer in alignment evals.</p>
+    <span class="field-label">Who is using it</span><p>No named production teams in the launch post. HN practitioners report it as a Codex workhorse — one user burns ~1% of a $100/mo plan per 40 min on Sol; another notes "$15 of spend in the past week" for 4-5 investigations/PRs/day. The recurring complaint is <a href="https://news.ycombinator.com/item?id=49896586">compaction frequency on the default 256k Codex context</a> (configurable up to 600k-1M via <code>model_context_window</code> in <code>~/.codex/config.toml</code>, at 2x price above 250k-400k).</p>
+    <span class="field-label">Engineering implication</span><p>The cache-price cut is the real news for anyone running Codex agents: persistent-context economics, not headline intelligence, drive agent cost. Pin GPT-6.1 Sol as the cost-tier workhorse and reserve Astra for the hardest ~10%. Watch the Ultrafast variant for the latency gap. <strong>Verdict: Adopt</strong> for cost-tier coding/professional work; tune compaction thresholds and tool-output filtering to realize the cache savings.</p>
+  </div>
+</div>
+<div class="trend-card">
+  <div class="trend-title">2. Claude Opus 5.5 — taste/efficiency lead hardens</div>
+  <div class="badges">
+    <span class="badge m-medium"><span class="badge-label">Momentum</span>Medium</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Now 8 days post-launch, <a href="https://artificialanalysis.ai/articles/claude-opus-5-5">Opus 5.5 holds the AA Intelligence Index top at 58</a> (several points clear of the field). The signal this cycle is qualitative practitioner evidence rather than benchmarks: a controlled head-to-head on the <a href="https://news.ycombinator.com/item?id=49896586">GPT-6.1 Sol HN thread</a> (user rspeele) ran Astra and Opus 5.5 on the same NURBS-surface-modeling task, same repo, same test suite.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>Astra consumed 215% of a week's budget (13h); Opus 5.5 consumed 20% (20h). Opus 5.5 found a bug in a unit test, fixed it, and produced a more complete implementation; Astra adhered strictly to the (buggy) tests, stubbed critical B-spline parts, and gave up. In a blind meta-review where both Astra and Opus reviewers saw both codebases, <a href="https://news.ycombinator.com/item?id=49896586">both converged on preferring the Opus implementation</a>. The practitioner's conclusion: the best use of an Astra budget is as a reviewer/consultant for Opus-written code, not as the primary implementer.</p>
+    <span class="field-label">Who is using it</span><p>Launch production roster (GitHub, Clio's 18h unattended 6-repo task, Stripe's 40-PR stacked rebase, Optiver, Deloitte, Box, Ramp) remains the strongest this cycle. HN practitioners describe it as a "breath of fresh air" vs Codex compaction — it holds working memory far longer before compacting.</p>
+    <span class="field-label">Engineering implication</span><p>The differentiator is sustained architectural judgment in long-horizon runs — the axis that resists benchmarking. For hard, open-ended tasks, Opus 5.5 is the primary; use Astra/Sol as cross-model reviewers to counter same-model self-preference bias. <strong>Verdict: Adopt</strong> as the sustained-judgment tier; pair with a different lab's model for review.</p>
+  </div>
+</div>
+
+<div class="section-title">Agent Engineering &amp; AI SDLC</div>
+<div class="trend-card">
+  <div class="trend-title">1. OpenAI Dots: always-on "managed agents" (harness separated from compute)</div>
+  <div class="badges">
+    <span class="badge m-explosive"><span class="badge-label">Momentum</span>Explosive</span>
+    <span class="badge s-polarizing"><span class="badge-label">Sentiment</span>Polarizing</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-high"><span class="badge-label">Hype Risk</span>High</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p><a href="https://openai.com/index/introducing-dots/">Dots (Sept 29)</a> are always-on agents powered by GPT-6 Astra, each with its own cloud computer (Linux + Chrome), reachable via ChatGPT/Slack/Teams and voice. They do "proactive research" in the background (read-only tools), connect to 4,000+ apps via plugins, and use an <a href="https://openai.com/index/how-we-build-safety-security-and-privacy-into-dots/">Auto-review</a> safety system that checks planned actions against instructions/Custom Rules before they run. "Specialist dots" get org-provisioned identity, credentials, and system-of-record access — integrating with Microsoft Agent 365. Rolling out to Pro/Business Premium/Enterprise in eligible markets (excludes EEA, Switzerland, UK); first dot free with plan.</p>
+    <span class="field-label">Why it matters</span><p>The architectural signal is the <strong>"managed agent" pattern</strong>: per the <a href="https://openai.com/index/how-we-build-safety-security-and-privacy-into-dots/">safety blog</a> and HN analysis, the dot agent loop does <em>not</em> run inside the sandboxed workspace — "dots run code in environments that are separate from the systems that coordinate their work and enforce key safeguards." This is the first mass-distribution productization of <strong>harness-compute separation</strong>: the harness (coordinator + Auto-review + safety systems) lives outside the compute sandbox the agent can touch, so a compromised or mistaken agent cannot disable its own checks. It decouples agent lifetime from conversation lifetime — the thesis multiple practitioners identified as the real advance.</p>
+    <span class="field-label">Evidence from real teams</span><p>Inside-OpenAI dogfooding (Slack bug triage, design→app, planning syncs); an early external tester's dot noticed an unfiled invoice, prepared it, and sent it post-approval. HN's Grok Bot power-users corroborate the always-on pattern: domain-specific agents create trust barriers (separate memory per domain), enable parallel cloud builds, but 2-3x inference spend. Security pushback is severe: a practitioner <a href="https://news.ycombinator.com/item?id=49896604">tested gmail.com in the dot's cloud browser and found an OpenAI-issued MITM certificate</a> (Subject: CN=gmail.com, Issuer: O=OpenAI) — TLS interception is by design for tool operation, but it crystallized the trust concern. EU exclusion was read as a data-protection tell.</p>
+    <span class="field-label">Engineering implication</span><p>For builders, the durable lesson is the architecture, not the consumer product: separate the agent's execution sandbox from the harness that enforces policy, and put action-gating (Auto-review) outside the agent's reach. Dots itself is a managed, consumer/professional product with serious trust and egress questions — not something to wire into an engineering pipeline. <strong>Verdict: Watch</strong> the managed-agent pattern; <strong>Skip</strong> handing production credentials to a first-party always-on agent without read-only/vendable-credential controls.</p>
+  </div>
+</div>
+<div class="trend-card">
+  <div class="trend-title">2. livenerf: pre-registered post-launch drift benchmark</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p><a href="https://github.com/ninjahawk/livenerf">livenerf</a> (ninjahawk, 584 stars) is a long-running, append-only benchmark answering one question: does a frontier model get quietly worse after launch? Started day-1 on Opus 5.5 (2026-09-24, 2.5 days post-launch), it runs a calibrated 78-question panel once daily for 30 days via headless Claude Code on a Max subscription, built on the UK AI Security Institute's <a href="https://inspect.aisi.org.uk/">Inspect</a> framework.</p>
+    <span class="field-label">Why it matters</span><p>This is the methodologically mature version of "silent model-regression tracking" (first seen 2026-09-28). The design is deliberately boring and hostile-reader-proof: <strong>pre-registered</strong> decision rule (a change is only a change if the 99% interval excludes zero in two consecutive 10-day windows, the effect is ≥3pts, and a control arm — Opus 5 — doesn't move the same way); frozen prompts, pinned CLI, pure-function graders (no LLM judge), exact-match scoring, raw logs forever. Stats follow Anthropic's own <a href="https://arxiv.org/abs/2411.00640">"Adding Error Bars to Evals"</a>. Critically, the <strong>secondary signal is output-token count per sample</strong> — "if a model quietly starts thinking less, this is where it shows up first, often before accuracy moves at all." Validation confirmed: effort-low = −62% tokens / −8.3pts accuracy; effort-medium = −26% tokens / −4.2pts. Stated limit: it could <em>not</em> distinguish an Opus 5 swap from Opus 5.5 at 99% — a same-family swap of that size is below the instrument's resolution.</p>
+    <span class="field-label">Evidence from real teams</span><p>Independent project (not Anthropic-affiliated), but directly addresses the recurring "is Opus 5.5 nerfed yet?" practitioner discourse. Six of 30 days collected as of Sept 29; first result row lands after day 20 (~Oct 14); first possible call ~Oct 24. The methodology is the copyable artifact for any team treating a frontier API as a nondeterministic external dependency.</p>
+    <span class="field-label">Engineering implication</span><p>Adopt the methodology: pre-register a frozen panel, pin the harness, track per-item paired deltas with clustered SEs, and watch output-token trends as a leading indicator. For production, this is the SDLC analog of regression tests for a dependency you don't control. <strong>Verdict: Adopt</strong> the pre-registered drift-tracking pattern; <strong>Watch</strong> the Opus 5.5 series results.</p>
+  </div>
+</div>
+
+<div class="section-title">Terminology Tracker</div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://openai.com/index/introducing-dots/">OpenAI Dots (always-on managed agents)</a> — NEW</div><p><strong>Definition:</strong> OpenAI's Sept 29, 2026 product: always-on agents powered by GPT-6 Astra, each with its own cloud computer, reachable across ChatGPT/Slack/Teams/voice, doing background "proactive research" and connected to 4,000+ apps. The defining architectural property is "managed agents" — the coordinator harness and its safety systems (Auto-review) run <em>outside</em> the sandboxed compute environment the agent can mutate, so the agent cannot disable its own checks. Distinct from a chatbot (decoupled agent lifetime from conversation lifetime), from Codex/ChatGPT Work (long-lived, cross-channel, identity-carrying), and from self-hosted personal assistants (OpenClaw) in that the harness is OpenAI-managed.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://openai.com/index/how-we-build-safety-security-and-privacy-into-dots/">Auto-review (separate action-check safety system)</a> — NEW</div><p><strong>Definition:</strong> The Dots safety architecture: a separate system, running outside the agent's reachable environment, checks every planned write/send/share action against the user's instructions, Custom Rules, and mandatory safety requirements before it executes. If it blocks, it returns the reason to the dot, which can ask for approval, try an alternative, hand the step back, or stop. User approval cannot override core safety requirements. Distinct from per-call permission prompts (class-level, asynchronous, outside the agent's control) and from model-layer refusal (it is an infrastructure-level gate, not a model judgment).</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://github.com/ninjahawk/livenerf">livenerf (pre-registered post-launch drift benchmark)</a> — NEW</div><p><strong>Definition:</strong> A long-running, append-only, pre-registered benchmark for detecting whether a frontier model degrades after launch. Calibrated panel of "sometimes-right" questions, frozen prompts, pinned CLI, pure-function graders, paired per-item deltas with clustered SEs, and output-token count as a leading indicator. The rigorous instantiation of "silent model-regression tracking" (first seen 2026-09-28) — adds pre-registration, a control arm, and statistical power calculations to the modelregression.com operational pattern.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://openai.com/index/introducing-gpt-6-1-sol/">GPT-6.1 Sol</a> — EVOLVING (first seen 2026-09-23 as "gpt-6 sol and luna")</div><p>The cost-efficiency frontier moved again 8 days after Sol/Luna launched: GPT-6.1 Sol matches Astra on DeepSWE at ~1/5 cost and halves cached input to $0.10/M vs GPT-6 Sol. The cache-price lever — not headline intelligence — is what practitioners flagged as the actual Codex win. AA independently scores it 52 (Index #10/222) but flags a 239s TTFT reasoning-latency tax. An Ultrafast variant (8x faster) is pending.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://www.anthropic.com/claude-opus-5-5">Claude Opus 5.5</a> — EVOLVING (first seen 2026-09-21, now 8 sightings)</div><p>Holds AA Intelligence Index top at 58. New qualitative practitioner evidence (controlled A/B on a real NURBS task) shows it out-implementing Astra at ~10x lower budget spend and winning a blind cross-model meta-review. The differentiator is sustained architectural judgment in long-horizon runs; the practitioner pattern is Opus-as-implementer + Astra-as-reviewer. Now the subject of livenerf's pre-registered drift series.</p></div>
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://openai.com/index/how-we-build-safety-security-and-privacy-into-dots/">Managed agents (harness-compute separation)</a> — NEW</div><p><strong>Definition:</strong> An agent-deployment architecture, productized by OpenAI Dots, where the agent's coordination loop and policy-enforcement (safety, action-review, monitoring) run in a separate control plane outside the compute sandbox the agent can mutate. The agent gets an ephemeral workspace it can trash; it cannot reach the harness that governs it. Distinct from in-sandbox agents (where the agent and its guardrails share an environment) and from closed harnesses like Claude Code/Codex (products, not an articulated architecture). The first mass-market instance of the "separating harness from compute" thesis tracked since 2026-09-23.</p></div>
+
+<div class="section-title">Trend Deltas</div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>OpenAI Dots / managed agents</strong> — first seen today; entered tracking. The harness-compute-separation architecture is the durable signal; the consumer product is polarizing on trust/security.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>livenerf / pre-registered drift tracking</strong> — first seen today; the rigorous upgrade to silent model-regression tracking (2026-09-28).</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>GPT-6.1 Sol (cost-efficiency frontier)</strong> — accelerating vs. prior sightings (first seen 2026-09-23 as gpt-6 sol and luna, now 2). Cache-price competition is now the primary battleground; AA confirms capability but flags latency.</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>Claude Opus 5.5</strong> — accelerating (first seen 2026-09-21, 8 sightings). New controlled practitioner A/B hardens the "taste/sustained-judgment" differentiator over benchmarks.</div></div>
+<div class="long-row"><div class="long-icon">&#8593;</div><div><strong>Instrumental agent misbehavior</strong> — up (first seen 2026-09-24, 4 sightings). Dots' MITM'd TLS and Auto-review egress model are the vendor productization of the containment gap this term exposed.</div></div>
+<div class="long-row"><div class="long-icon">&#8594;</div><div><strong>Open-weight movers (DeepSeek V4.1-Flash, GLM-5.3, Qwen3.8-Flash-Next, MiMo)</strong> — flat this cycle; no fresh primary-sourced releases. V4.1-Flash remains the MIT-licensed cost leader; the license-restriction drift across GLM/Qwen is unchanged.</div></div>
+<div class="long-row"><div class="long-icon">&#8681;</div><div><strong>Gemini 4 Pro</strong> — going quiet (first seen 2026-09-21, 3 sightings). Seventh consecutive cycle with no Google confirmation of the Sep 18 gray-test leak; treat 10M-context/RSI/October-GA claims as rumor-only.</div></div>
+
+<div class="section-title">Strategic Implications</div>
+<div class="implication-block"><div class="implication-type">Adopt</div><p>Pin GPT-6.1 Sol as the cost-tier Codex workhorse and tune compaction thresholds / tool-output filtering to realize the $0.10/M cache savings — the cache price, not headline intelligence, is the adoption lever. Adopt Opus 5.5 as the sustained-judgment primary for hard open-ended tasks, with a different-lab model (Astra/Sol) as cross-model reviewer to counter same-model self-preference. Adopt the livenerf methodology (pre-registered frozen panel, pinned harness, paired deltas, output-token leading indicator) as regression testing for any frontier API you depend on.</p></div>
+<div class="implication-block"><div class="implication-type">Trial</div><p>The "managed agent" harness-compute-separation architecture: separate your agent's execution sandbox from the policy-enforcement control plane so the agent cannot disable its own checks, and put action-gating (an Auto-review analog) outside the agent's reach. Trial this as a design pattern in your own agent infrastructure before any first-party always-on agent touches production credentials.</p></div>
+<div class="implication-block"><div class="implication-type">Watch</div><p>GPT-6.1 Sol Ultrafast (8x generation speed, pending) — it may close the 239s-TTFT latency gap that currently limits Sol to batch/cost-tier use. Watch the livenerf Opus 5.5 series results (~Oct 14 first row, ~Oct 24 first call) for the first data-grounded answer to post-launch drift. Watch Dots' specialist-dot enterprise pilots and Microsoft Agent 365 integration for the org-scoped agent-identity pattern.</p></div>
+<div class="implication-block"><div class="implication-type">30-90 Day Watchlist</div><p>Whether cost-price competition (Sol $0.10/M cache, Luna, Gemini Flash, open-weight V4.1-Flash) compresses the frontier-API tier of the two/three-tier stack enough to reshape architecture decisions. Whether Dots-style managed agents normalize always-on, cross-channel, identity-carrying agents as a product category (vs Muse, Grok Bot, Instinct) — and whether the trust/security concerns (MITM TLS, EU exclusion, credential exposure) force vendable read-only credential standards. Whether livenerf-style drift tracking becomes a baseline operational practice as more teams treat frontier endpoints as unversioned, externally-controlled dependencies.</p></div>
+
+<div class="sources-section"><h2>Sources</h2><ol class="sources-list">
+  <li><span class="src-num">[1]</span><a href="https://openai.com/index/introducing-gpt-6-1-sol/">OpenAI — "Introducing GPT-6.1 Sol"</a></li>
+  <li><span class="src-num">[2]</span><a href="https://artificialanalysis.ai/models/gpt-6-1-sol">Artificial Analysis — "GPT-6.1 Sol (max) Intelligence, Performance &amp; Price Analysis"</a></li>
+  <li><span class="src-num">[3]</span><a href="https://news.ycombinator.com/item?id=49896586">Hacker News — "GPT 6.1 Sol: Near-Astra intelligence for a fifth of the price" (958 pts, 841 comments)</a></li>
+  <li><span class="src-num">[4]</span><a href="https://openai.com/index/introducing-dots/">OpenAI — "Introducing dots"</a></li>
+  <li><span class="src-num">[5]</span><a href="https://openai.com/index/how-we-build-safety-security-and-privacy-into-dots/">OpenAI — "How we build safety, security, and privacy into dots"</a></li>
+  <li><span class="src-num">[6]</span><a href="https://news.ycombinator.com/item?id=49896604">Hacker News — "Dots: Always-on agents" (633 pts, 495 comments)</a></li>
+  <li><span class="src-num">[7]</span><a href="https://github.com/ninjahawk/livenerf">GitHub — ninjahawk/livenerf: post-launch capability drift benchmark</a></li>
+  <li><span class="src-num">[8]</span><a href="https://www.anthropic.com/claude-opus-5-5">Anthropic — "Claude Opus 5.5"</a></li>
+  <li><span class="src-num">[9]</span><a href="https://artificialanalysis.ai/articles/claude-opus-5-5">Artificial Analysis — "Claude Opus 5.5"</a></li>
+  <li><span class="src-num">[10]</span><a href="https://openai.com/index/introducing-gpt-6-sol-and-luna/">OpenAI — "Introducing GPT-6 Sol and Luna" (prior release, for lineage)</a></li>
+  <li><span class="src-num">[11]</span><a href="https://inspect.aisi.org.uk/">UK AI Security Institute — Inspect eval framework</a></li>
+  <li><span class="src-num">[12]</span><a href="https://arxiv.org/abs/2411.00640">arXiv — Evan Miller / Anthropic, "Adding Error Bars to Evals"</a></li>
+</ol></div>
+<div class="footer">AI Engineering Intelligence &nbsp;&middot;&nbsp; 2026-09-30 &nbsp;&middot;&nbsp; Automated daily run &nbsp;&middot;&nbsp; Signal over noise</div>
+</body>
+</html>
