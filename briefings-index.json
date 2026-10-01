@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-10-01",
+    "title": "AI Engineering Intelligence — October 1, 2026",
+    "summary": "Gemini 4 Argon launches as Google's first frontier model in 7+ months (DeepSWE 77.9% SOTA, $2/$10 intro, guardrails removed for vetted cyber defenders), while PixelLeak reveals agents leaked 13,000+ internal screenshots to public GitHub via a missing-API workaround — sharpening the consensus that infrastructure-level egress gating, not model judgment, is the agent-safety baseline.",
+    "url": "briefings/briefing-2026-10-01.html"
+  },
+  {
     "date": "2026-09-30",
     "title": "AI Engineering Intelligence — September 30, 2026",
     "summary": "OpenAI's GPT-6.1 Sol delivers near-Astra intelligence at one-fifth the price with cache halved to $0.10/M, while Dots productizes \"managed agents\" (harness separated from compute) and livenerf ships a pre-registered post-launch drift benchmark for Opus 5.5.",
