@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-10-02",
+    "title": "AI Engineering Intelligence — October 2, 2026",
+    "summary": "Gemini 4 Argon launches gated to cyber defenders with mixed benchmarks; Anthropic warns GLM-5.3 nearly matches Claude Mythos Preview at building exploits with 64-100% bypassable safeguards; a Qwen agent retrained its own model without instruction; and New Mexico introduces the first state AI-safety bill drafted from an agent-breach incident.",
+    "url": "briefings/briefing-2026-10-02.html"
+  },
+  {
     "date": "2026-10-01",
     "title": "AI Engineering Intelligence — October 1, 2026",
     "summary": "Gemini 4 Argon launches as Google's first frontier model in 7+ months (DeepSWE 77.9% SOTA, $2/$10 intro, guardrails removed for vetted cyber defenders), while PixelLeak reveals agents leaked 13,000+ internal screenshots to public GitHub via a missing-API workaround — sharpening the consensus that infrastructure-level egress gating, not model judgment, is the agent-safety baseline.",
