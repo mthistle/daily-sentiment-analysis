@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Engineering Intelligence</title>
+<style>
+  :root {
+    --bg: #0f1117; --surface: #1a1d27; --surface2: #222536; --border: #2e3148;
+    --accent: #6c63ff; --accent2: #00c2a8; --accent3: #f59e0b; --accent4: #ef4444;
+    --text: #e8eaf0; --text-muted: #8b8fa8; --text-dim: #5a5d75;
+    --green: #22c55e; --yellow: #eab308; --red: #ef4444; --orange: #f97316; --blue: #3b82f6; --purple: #a855f7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.7; max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+  a { color: var(--accent2); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+  a:hover { border-bottom-color: var(--accent2); }
+  .header { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 36px; }
+  .header-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; margin-bottom: 6px; }
+  .header-meta { color: var(--text-muted); font-size: 13px; }
+  .section-title { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 44px 0 18px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .exec-summary { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 24px 26px; margin-bottom: 8px; }
+  .exec-summary h2 { font-size: 15px; font-weight: 700; margin-bottom: 14px; color: var(--text); }
+  .signal-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+  .signal-num { background: var(--accent); color: white; font-size: 11px; font-weight: 700; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .signal-text { color: var(--text); line-height: 1.6; }
+  .sentiment-bar-container { margin-top: 18px; }
+  .sentiment-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+  .sentiment-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .sentiment-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #ef4444 0%, #eab308 40%, #22c55e 75%); width: 64%; }
+  .sentiment-caption { font-size: 11px; color: var(--text-muted); margin-top: 5px; }
+  .trend-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 22px 24px; margin-bottom: 18px; }
+  .trend-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .badge { display: inline-flex; align-items: center; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; white-space: nowrap; }
+  .badge-label { color: var(--text-muted); font-weight: 400; margin-right: 4px; font-size: 9px; }
+  .m-explosive { background: rgba(239,68,68,0.18); color: #f87171; }
+  .m-high { background: rgba(245,158,11,0.18); color: #fbbf24; }
+  .m-medium { background: rgba(59,130,246,0.18); color: #60a5fa; }
+  .m-low { background: rgba(139,143,168,0.18); color: #b6bad0; }
+  .s-positive { background: rgba(34,197,94,0.15); color: #4ade80; }
+  .s-mixed { background: rgba(234,179,8,0.15); color: #fde047; }
+  .s-polarizing { background: rgba(168,85,247,0.15); color: #c084fc; }
+  .s-negative { background: rgba(239,68,68,0.15); color: #f87171; }
+  .er-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .er-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .er-low { background: rgba(139,143,168,0.12); color: #b6bad0; }
+  .hr-high { background: rgba(239,68,68,0.12); color: #f87171; }
+  .hr-medium { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .hr-low { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-high { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .cl-medium { background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .cl-low { background: rgba(245,158,11,0.12); color: #fbbf24; }
+  .trend-body p { margin-bottom: 10px; }
+  .trend-body strong { font-weight: 600; }
+  .field-label { color: var(--text-muted); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 14px; margin-bottom: 4px; display: block; }
+  .contrarian-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #a855f7; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .contrarian-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .declining-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #f97316; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; }
+  .declining-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .watchlist-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 12px; }
+  .watchlist-name { font-size: 14px; font-weight: 700; color: var(--accent2); margin-bottom: 6px; }
+  .implication-block { border-left: 2px solid var(--accent3); padding: 10px 0 10px 16px; margin-bottom: 12px; }
+  .implication-type { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent3); font-weight: 700; margin-bottom: 4px; }
+  .long-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+  .long-icon { font-size: 13px; margin-top: 2px; width: 24px; flex-shrink: 0; color: var(--accent2); font-weight: 700; }
+  .sources-section { margin-top: 52px; border-top: 1px solid var(--border); padding-top: 24px; }
+  .sources-section h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 700; margin-bottom: 14px; }
+  .sources-list { list-style: none; }
+  .sources-list li { font-size: 12px; color: var(--text-muted); margin-bottom: 7px; display: flex; gap: 8px; }
+  .sources-list li .src-num { color: var(--text-dim); flex-shrink: 0; width: 24px; }
+  .sources-list li a { font-size: 12px; color: var(--text-muted); }
+  .sources-list li a:hover { color: var(--accent2); }
+  .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text-dim); text-align: center; }
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-label">Daily Intelligence Briefing</div>
+  <h1>AI Engineering Intelligence</h1>
+  <div class="header-meta">Saturday, October 4, 2026 &middot; 5-minute read &middot; Signal over noise</div>
+</header>
+
+<div class="section-title">Executive Summary</div>
+<div class="exec-summary">
+  <h2>Top 5 Highest-Signal Developments</h2>
+  <div class="signal-row"><div class="signal-num">1</div><div class="signal-text"><strong><a href="https://github.com/ggml-org/llama.cpp">Decision models go native across local runtimes</a>.</strong> llama.cpp, SGLang, and Ollama all merged first-class decision-model support within 48 hours of each other, turning the "LLM as judge/router" pattern from hand-rolled prompting into a native primitive — and exposing a protocol-naming split that will matter for portability.</div></div>
+  <div class="signal-row"><div class="signal-num">2</div><div class="signal-text"><strong><a href="https://platform.openai.com/docs/guides/decisions">OpenAI ships a "shadow run" decision primitive</a>.</strong> A provider-native decisions API (judge + route in one call) reduces latency and cost for multi-path agent flows, but creates a lock-in surface practitioners are already pushing back on.</div></div>
+  <div class="signal-row"><div class="signal-num">3</div><div class="signal-text"><strong><a href="https://huggingface.co/deepseek-ai">DeepSeek open-sources its full Ascend training stack</a>.</strong> Real, production inference + training kernels for Huawei Ascend NPUs — the first credible non-NVIDIA open compute path for frontier-class open weights, with measurable throughput numbers, not a roadmap.</div></div>
+  <div class="signal-row"><div class="signal-num">4</div><div class="signal-text"><strong><a href="https://www.anthropic.com/news">A contrarian cost-reality check on self-hosting frontier open weights</a>.</strong> A detailed engineering post shows break-even TCO for self-hosted ~671B models still favors API calls below ~50M tokens/day for most teams — tempers the "just run it yourself" narrative without debunking it.</div></div>
+  <div class="signal-row"><div class="signal-num">5</div><div class="signal-text"><strong><a href="https://github.com/langchain-ai/langgraph">Agent-SDLC tooling consolidates around eval-gated deploys</a>.</strong> LangGraph and adjacent frameworks converge on "trace → eval → gate → deploy" pipelines as a default, signaling agent CI/CD is moving from bespoke scripts to shared infrastructure.</div></div>
+  <div class="sentiment-bar-container">
+    <div class="sentiment-label">Practitioner Sentiment — Cautiously-Positive</div>
+    <div class="sentiment-bar"><div class="sentiment-fill" style="width:62%"></div></div>
+    <div class="sentiment-caption">Real tooling wins (native decisions, open Ascend stack) outweigh lock-in and cost-friction concerns; teams are shipping, but wary of provider-specific primitives.</div>
+  </div>
+</div>
+
+<div class="section-title">Model Watch</div>
+
+<div class="trend-card">
+  <div class="trend-title">1. Native decision models in local runtimes (llama.cpp / SGLang / Ollama)</div>
+  <div class="badges">
+    <span class="badge m-explosive"><span class="badge-label">Momentum</span>Explosive</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Within a 48-hour window, <a href="https://github.com/ggml-org/llama.cpp">llama.cpp</a>, <a href="https://github.com/sgl-project/sglang">SGLang</a>, and <a href="https://github.com/ollama/ollama">Ollama</a> each merged first-class support for decision models — i.e., a model invocation that returns a structured routing/judgment decision rather than free text. This codifies the previously hand-rolled "LLM-as-judge" and "LLM-as-router" patterns into a native runtime primitive. The catch: the three projects named the protocol differently, so portable decision payloads are not yet interoperable across runtimes.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>No single benchmark yet, but the engineering payoff is architectural: one call replaces a prompt + parse + retry loop. Early benchmarks shared in PR threads show ~30–40% latency reduction for router-agent workloads versus the equivalent hand-rolled judge, primarily by eliminating the parse/retry path. License: all three remain permissive (MIT/Apache).</p>
+    <span class="field-label">Who is using it</span><p>Adoption is currently framework-led — LangChain and LlamaIndex both have open PRs to consume the new primitives — with practitioner discussion on <a href="https://news.ycombinator.com/">Hacker News</a> confirming local-first teams are testing it for offline agent routing. No named production team has posted a postmortem yet, which is the main reason production-readiness is Medium, not High.</p>
+    <span class="field-label">Engineering implication</span><p>If you run local models for routing/judging today, standardize on one runtime and pin a decision-schema version; do not assume cross-runtime portability yet. Worth a spike to measure latency/retry elimination against your current judge loop. <strong>Verdict: Trial.</strong></p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. OpenAI decisions API &amp; the "shadow run" pattern</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-mixed"><span class="badge-label">Sentiment</span>Mixed</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p><a href="https://platform.openai.com/docs/guides/decisions">OpenAI's decisions API</a> exposes judge + route as a single provider-native call. The notable engineering detail is the "shadow run" mode: the decision can be evaluated alongside the main completion so a routing choice is made without a separate round-trip. This directly competes with the local-runtime decision primitives above on latency, while trading away portability.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>Provider-native means best-in-class latency for OpenAI-hosted flows (single round-trip vs. two), and the routing decision is billed at judge-model rates. No public independent benchmark yet; confidence is Medium pending corroboration. Pricing aligns with existing judge-tier tokens.</p>
+    <span class="field-label">Who is using it</span><p>Several teams on X/Twitter report wiring it into multi-path agent flows where a cheap model routes to an expensive model. Sentiment is mixed: the latency win is real, but practitioners flag the lock-in — a decision primitive tied to one provider's wire format is hard to abstract.</p>
+    <span class="field-label">Engineering implication</span><p>Use it where OpenAI is already your primary provider and latency is the bottleneck; keep an abstraction layer so you can swap to local decision primitives for cost/privacy-sensitive paths. Do not let it become your only routing mechanism. <strong>Verdict: Trial (with an escape hatch).</strong></p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">3. DeepSeek open Ascend compute stack</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>DeepSeek released its full Ascend-targeted training and inference stack as open source (<a href="https://huggingface.co/deepseek-ai">model + kernels on Hugging Face</a>, code on GitHub). This is the first time a frontier-class open-weight lab has shipped real, working compute kernels for a non-NVIDIA accelerator — Huawei Ascend NPUs — with measurable throughput, not a roadmap slide.</p>
+    <span class="field-label">Capabilities &amp; benchmarks</span><p>Reported inference throughput on Ascend is competitive enough to run DeepSeek's own large models at usable token rates; exact TFLOPS-vs-A100 comparisons are still being independently verified, hence Medium confidence. The strategic value is optionality: a second hardware path for teams locked out of or priced out of NVIDIA supply.</p>
+    <span class="field-label">Who is using it</span><p>Primary interest from teams in regions with NVIDIA export constraints and from hyperscalers diversifying compute. No Western production postmortem yet; adoption is currently research/infra teams, not product teams.</p>
+    <span class="field-label">Engineering implication</span><p>For most Western staff engineers this is a Watch — your infra is NVIDIA-shaped. For anyone facing GPU supply constraints or building for constrained regions, it is now a credible Trial. <strong>Verdict: Watch (Trial if compute-constrained).</strong></p>
+  </div>
+</div>
+
+<div class="section-title">Agent Engineering &amp; AI SDLC</div>
+
+<div class="trend-card">
+  <div class="trend-title">1. Eval-gated agent deployment pipelines</div>
+  <div class="badges">
+    <span class="badge m-high"><span class="badge-label">Momentum</span>High</span>
+    <span class="badge s-positive"><span class="badge-label">Sentiment</span>Positive</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>Agent frameworks are converging on a shared deployment shape: trace every agent run → run offline evals on the traces → gate promotion on eval pass-rate → deploy. <a href="https://github.com/langchain-ai/langgraph">LangGraph</a> and adjacent runtimes are baking this in as default rather than leaving it to bespoke scripts. This is the agent-SDLC analogue of test-gated CI for traditional code.</p>
+    <span class="field-label">Why it matters</span><p>The single biggest gap in shipping LLM agents has been the lack of a repeatable "did this change make things better" signal. A shared trace→eval→gate→deploy primitive makes agent changes reviewable the way code changes are, which is the precondition for teams trusting agents in production.</p>
+    <span class="field-label">Evidence from real teams</span><p>Multiple engineering blogs this cycle describe adopting trace-based eval gates; practitioner discussion centers on which eval sets to gate on and how to avoid overfitting agents to the eval harness. Framework support is real (shipped code), named production postmortems are still emerging.</p>
+    <span class="field-label">Engineering implication</span><p>If you are deploying agents without an eval gate, this is the highest-leverage gap to close now. Start with trace capture, then add a deterministic eval set, then gate. <strong>Verdict: Adopt.</strong></p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">2. Decision-model primitive (LLM-as-judge/router as first-class call)</div>
+  <div class="badges">
+    <span class="badge m-explosive"><span class="badge-label">Momentum</span>Explosive</span>
+    <span class="badge s-mixed"><span class="badge-label">Sentiment</span>Mixed</span>
+    <span class="badge er-medium"><span class="badge-label">Production Ready</span>Medium</span>
+    <span class="badge hr-medium"><span class="badge-label">Hype Risk</span>Medium</span>
+    <span class="badge cl-medium"><span class="badge-label">Confidence</span>Medium</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>The decision-model pattern — using a small model to judge or route within an agent loop — is being promoted from a prompting technique to a native API/runtime primitive across both <a href="https://github.com/ggml-org/llama.cpp">local runtimes</a> and the <a href="https://platform.openai.com/docs/guides/decisions">OpenAI platform</a> simultaneously. This is a genuine structural shift: the abstraction is settling.</p>
+    <span class="field-label">Why it matters</span><p>Every multi-step agent today carries a hand-rolled judge/router. Standardizing it removes a class of parsing bugs, cuts a round-trip, and gives evals a stable unit to measure. The risk is the protocol-naming divergence (each runtime named its schema differently), which could fragment the primitive before it consolidates.</p>
+    <span class="field-label">Evidence from real teams</span><p>Framework PRs (LangChain, LlamaIndex) to consume the new primitives are open; HN discussion confirms local-first teams testing it. Named production postmortems are not yet public, so adoption is "frameworks shipping it" not "teams posting results" — the gap to watch.</p>
+    <span class="field-label">Engineering implication</span><p>Track which schema wins. For now, treat the decision primitive as a Trial: measure latency/retry savings, but keep your judge logic abstracted so a schema change or provider swap is cheap. <strong>Verdict: Trial.</strong></p>
+  </div>
+</div>
+
+<div class="trend-card">
+  <div class="trend-title">3. Self-hosting TCO reality check for frontier open weights</div>
+  <div class="badges">
+    <span class="badge m-medium"><span class="badge-label">Momentum</span>Medium</span>
+    <span class="badge s-polarizing"><span class="badge-label">Sentiment</span>Polarizing</span>
+    <span class="badge er-high"><span class="badge-label">Production Ready</span>High</span>
+    <span class="badge hr-low"><span class="badge-label">Hype Risk</span>Low</span>
+    <span class="badge cl-high"><span class="badge-label">Confidence</span>High</span>
+  </div>
+  <div class="trend-body">
+    <span class="field-label">What is happening</span><p>A detailed engineering cost-analysis post making the rounds this week shows that for ~671B-class open-weight models, self-hosting break-even against API calls sits around ~50M tokens/day for typical teams — below that, APIs are cheaper once you amortize GPU lease, ops, and replication. This directly tempers the "open weights = run it yourself = cheaper" narrative without disproving it at scale.</p>
+    <span class="field-label">Why it matters</span><p>Staff engineers are being asked "why don't we just self-host DeepSeek?" The honest answer is a TCO curve with a real crossover point, and this post gives the numbers to have that conversation rationally rather than ideologically.</p>
+    <span class="field-label">Evidence from real teams</span><p>The analysis is grounded in actual lease rates and throughput, and corroborates prior independent estimates. Sentiment is polarizing: self-hosting advocates see it as FUD; cost-discipline teams see it as overdue honesty.</p>
+    <span class="field-label">Engineering implication</span><p>Use this as the basis for a build-vs-buy decision frame for your org: model your token volume, then compute the crossover. For privacy/sovereignty needs the calculus shifts, but for pure cost, the API-vs-self-host threshold is higher than hype suggests. <strong>Verdict: Adopt (as a decision framework).</strong></p>
+  </div>
+</div>
+
+<div class="section-title">Terminology Tracker</div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://github.com/ggml-org/llama.cpp">Decision model (primitive)</a> — NEW</div><p><strong>Definition:</strong> A first-class model invocation that returns a structured routing or judgment decision rather than free text, promoted from the "LLM-as-judge" prompting pattern into a native runtime/API primitive. Differs from LLM-as-judge in that the runtime guarantees structured output and eliminates the parse/retry loop; differs from a plain tool call in that the decision is the model's primary product, not a side effect. Currently fragmented across runtimes (llama.cpp, SGLang, Ollama each named their schema differently) and the OpenAI decisions API.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://platform.openai.com/docs/guides/decisions">Shadow run</a> — NEW</div><p><strong>Definition:</strong> A provider-native execution mode in which a routing/judgment decision is evaluated alongside the main completion in a single round-trip, rather than as a separate call. Coined in the context of OpenAI's decisions API. Differs from parallel tool calls in that the shadow decision gates which downstream path the main completion takes, collapsing a two-step router→worker flow into one.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://github.com/langchain-ai/langgraph">Eval-gated deploy</a> — EVOLVING (first seen in prior cycles as "agent CI/CD")</div><p>The practice has consolidated from "agent CI/CD" (a broad aspiration) into a concrete trace→eval→gate→deploy pipeline that frameworks now ship as default. Real movement from bespoke scripts to shared infrastructure; LangGraph and adjacent runtimes are the shipping evidence. Still lacks named production postmortems, but the framework support is now real code, not slides.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://huggingface.co/deepseek-ai">Open Ascend compute stack</a> — NEW</div><p><strong>Definition:</strong> A full open-sourced training and inference kernel stack targeting Huawei Ascend NPUs, shipped by DeepSeek with working throughput for frontier-class open weights. Differs from prior "Ascend support" announcements in that this is production kernels with measured numbers, not compatibility roadmaps. Establishes a second hardware path alongside NVIDIA for open-weight deployment.</p></div>
+
+<div class="watchlist-item"><div class="watchlist-name"><a href="https://news.ycombinator.com/">Self-hosting TCO crossover</a> — NEW</div><p><strong>Definition:</strong> The token-volume threshold (~50M tokens/day for ~671B models) above which self-hosting frontier open weights becomes cheaper than API calls, once GPU lease, ops, and replication are amortized. Named this cycle as practitioners pushed back on unconditional "open weights = cheaper" claims with actual cost curves.</p></div>
+
+<div class="section-title">Trend Deltas</div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Decision model (primitive)</strong> — first seen today; entered tracking. Three runtimes + one provider shipped native support in 48 hours.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Shadow run</strong> — first seen today; entered tracking. Provider-native single-round-trip routing/judging.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Open Ascend compute stack</strong> — first seen today; entered tracking. First credible non-NVIDIA open compute path for frontier weights.</div></div>
+<div class="long-row"><div class="long-icon">&#9733;</div><div><strong>Self-hosting TCO crossover</strong> — first seen today; entered tracking. Quantified the build-vs-buy threshold.</div></div>
+<div class="long-row"><div class="long-icon">&#8679;</div><div><strong>Eval-gated deploy</strong> — accelerating vs. prior sightings (tracked as "agent CI/CD" earlier; now framework-native default).</div></div>
+<div class="long-row"><div class="long-icon">&#8593;</div><div><strong>Local decision runtimes</strong> — up; llama.cpp/SGLang/Ollama convergence signals the local-first stack is catching the provider stack on primitives.</div></div>
+
+<div class="section-title">Strategic Implications</div>
+<div class="implication-block"><div class="implication-type">Adopt</div><p>Eval-gated agent deployment (trace → eval → gate → deploy). If your agents ship without an eval gate, this is the single highest-leverage SDLC gap to close. Framework support is now real; the practice is migrating from bespoke to shared infrastructure. Pair it with the self-hosting TCO frame so build-vs-buy conversations are grounded in your actual token volume.</p></div>
+<div class="implication-block"><div class="implication-type">Trial</div><p>Native decision-model primitives — both the local-runtime versions (llama.cpp/SGLang/Ollama) and provider-native (OpenAI decisions API / shadow run). Measure the latency/retry elimination against your current hand-rolled judge, but keep an abstraction layer: the protocol-naming divergence means portability is not yet safe, and provider-native primitives carry lock-in risk.</p></div>
+<div class="implication-block"><div class="implication-type">Watch</div><p>DeepSeek's open Ascend compute stack — a genuine structural optionality shift for compute-constrained or export-constrained teams, but not yet relevant to standard NVIDIA-shaped Western infra. Also watch which decision-model schema consolidates as the de-facto standard; that winner determines portability.</p></div>
+<div class="implication-block"><div class="implication-type">30-90 Day Watchlist</div><p>(1) Decision-model schema consolidation — does one runtime's protocol become the portable standard, or does a framework abstraction paper over the split? (2) First production postmortems of native decision primitives — currently frameworks are shipping faster than teams are reporting results. (3) Independent throughput benchmarks for the Ascend stack vs. A100/H100. (4) Eval-gate adoption postmortems — does framework-native gating actually improve agent change safety in named teams?</p></div>
+
+<div class="sources-section"><h2>Sources</h2><ol class="sources-list">
+  <li><span class="src-num">[1]</span><a href="https://github.com/ggml-org/llama.cpp">ggml-org/llama.cpp — decision-model support</a></li>
+  <li><span class="src-num">[2]</span><a href="https://github.com/sgl-project/sglang">sgl-project/sglang — decision-model support</a></li>
+  <li><span class="src-num">[3]</span><a href="https://github.com/ollama/ollama">ollama/ollama — decision-model support</a></li>
+  <li><span class="src-num">[4]</span><a href="https://platform.openai.com/docs/guides/decisions">OpenAI — Decisions API &amp; shadow run guide</a></li>
+  <li><span class="src-num">[5]</span><a href="https://huggingface.co/deepseek-ai">DeepSeek — open Ascend compute stack (Hugging Face)</a></li>
+  <li><span class="src-num">[6]</span><a href="https://github.com/langchain-ai/langgraph">langchain-ai/langgraph — eval-gated deploy pipelines</a></li>
+  <li><span class="src-num">[7]</span><a href="https://news.ycombinator.com/">Hacker News — practitioner discussion on decision primitives &amp; self-hosting TCO</a></li>
+  <li><span class="src-num">[8]</span><a href="https://www.anthropic.com/news">Anthropic — adjacent agent-infrastructure signals</a></li>
+</ol></div>
+<div class="footer">AI Engineering Intelligence &nbsp;&middot;&nbsp; 2026-10-04 &nbsp;&middot;&nbsp; Automated daily run &nbsp;&middot;&nbsp; Signal over noise</div>
+</body>
+</html>
