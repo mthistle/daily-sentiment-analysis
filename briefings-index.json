@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-10-04",
+    "title": "AI Engineering Intelligence",
+    "summary": "Decision models became a native runtime primitive across llama.cpp, SGLang, and Ollama within 48 hours, while OpenAI shipped a competing provider-native \"shadow run\" decisions API — the LLM-as-judge/router pattern is settling into first-class infrastructure, but with a portability-splitting protocol-naming divergence.",
+    "url": "briefings/briefing-2026-10-04.html"
+  },
+  {
     "date": "2026-10-03",
     "title": "AI Engineering Intelligence — October 3, 2026",
     "summary": "OpenAI shipped a Decisions API at DevDay, confirming in under two weeks the \"fast-follow absorbs Jev\" absorption risk — the System-One decision-model category now has a frontier default (OpenAI), a managed competitor (TypeSafe Jev), and two open-weight alternatives (Laya, Cloudflare Clef). Meanwhile Uber published the first Fortune 500 production MCP Gateway (800 servers, 5,000 tools), and Gemini 4 Argon landed #1 on the Vals Index but gated behind Fairwind and trailing Opus 5.5 where it counts.",
